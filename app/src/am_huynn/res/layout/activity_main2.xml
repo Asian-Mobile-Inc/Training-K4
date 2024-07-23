@@ -15,7 +15,7 @@
             android:id="@+id/tv_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/textview_number1"
+            android:text="@string/tv_number1"
             android:textStyle="bold" />
 
         <EditText
@@ -35,7 +35,7 @@
             android:id="@+id/tv_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/textview_number2"
+            android:text="@string/tv_number2"
             android:textStyle="bold" />
 
         <EditText
@@ -56,33 +56,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_addition" />
+            android:text="@string/btn_addition" />
 
         <Button
             android:id="@+id/btn_subtraction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_subtraction" />
+            android:text="@string/btn_subtraction" />
 
         <Button
             android:id="@+id/btn_multiplication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_multiplication" />
+            android:text="@string/btn_multiplication" />
 
         <Button
             android:id="@+id/btn_division"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_division" />
+            android:text="@string/btn_division" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/textview_result" />
+        android:text="@string/tv_result" />
 </LinearLayout>

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
     android:paddingHorizontal="20dp">
-
 
     <TextView
         android:id="@+id/tvTitle"
@@ -14,7 +12,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:text="@string/textview_facebook"
+        android:text="@string/tv_facebook"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -26,7 +24,7 @@
         android:layout_below="@id/tvTitle"
         android:layout_marginBottom="30dp"
         android:background="@color/white"
-        android:hint="@string/edittext_hint_email_or_phone"
+        android:hint="@string/edt_hint_email_or_phone"
         android:paddingVertical="10dp" />
 
     <EditText
@@ -36,7 +34,7 @@
         android:layout_below="@id/edtEmail"
         android:layout_marginBottom="30dp"
         android:background="@color/white"
-        android:hint="@string/edittext_hint_password"
+        android:hint="@string/edt_hint_password"
         android:inputType="textPassword"
         android:paddingVertical="10dp" />
 
@@ -46,6 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/edtPassword"
         android:background="@color/secondary"
-        android:text="@string/button_login"
+        android:text="@string/btn_login"
         android:textColor="@color/white" />
 </RelativeLayout>

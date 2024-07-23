@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/primaryContainer"
         android:gravity="center"
-        android:text="@string/textview_information"
+        android:text="@string/tv_information"
         android:textColor="@color/onPrimaryContainer"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,16 +22,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="bottom"
-        android:text="@string/textview_name"
-        app:layout_constraintBottom_toBottomOf="@+id/edt_name"
+        android:text="@string/tv_name"
+        app:layout_constraintBottom_toBottomOf="@+id/edtName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_1" />
 
     <EditText
-        android:id="@+id/edt_name"
+        android:id="@+id/edtName"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:hint="@string/edittext_hint_name_greater_than_3"
+        android:hint="@string/edt_hint_name_greater_than_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_1" />
 
@@ -41,18 +40,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="bottom"
-        android:text="@string/textview_card"
+        android:text="@string/tv_card"
         app:layout_constraintBottom_toBottomOf="@+id/edt_cmnd"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_name" />
+        app:layout_constraintTop_toBottomOf="@+id/edtName" />
 
     <EditText
         android:id="@+id/edt_cmnd"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:hint="@string/edittext_hint_enter_9_digits"
+        android:hint="@string/edt_hint_enter_9_digits"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_name" />
+        app:layout_constraintTop_toBottomOf="@+id/edtName" />
 
     <TextView
         android:id="@+id/tv_4"
@@ -60,7 +59,7 @@
         android:layout_height="wrap_content"
         android:background="@color/secondaryContainer"
         android:gravity="center"
-        android:text="@string/textview_degree"
+        android:text="@string/tv_degree"
         android:textColor="@color/onSecondaryContainer"
 
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,19 +79,19 @@
             android:id="@+id/radioButton3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/radio_high_school" />
+            android:text="@string/rb_high_school" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/radio_college" />
+            android:text="@string/rb_college" />
 
         <RadioButton
             android:id="@+id/radioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/radio_university" />
+            android:text="@string/rb_university" />
     </RadioGroup>
 
     <TextView
@@ -101,7 +100,7 @@
         android:layout_height="wrap_content"
         android:background="@color/secondaryContainer"
         android:gravity="center"
-        android:text="@string/textview_interest"
+        android:text="@string/tv_interest"
         android:textColor="@color/onSecondaryContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +110,7 @@
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/checkbox_read_paper"
+        android:text="@string/cb_read_paper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -119,7 +118,7 @@
         android:id="@+id/checkBox2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/checkbox_read_book"
+        android:text="@string/cb_read_book"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -127,7 +126,7 @@
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/checkbox_read_coding"
+        android:text="@string/cb_read_coding"
         app:layout_constraintStart_toEndOf="@+id/checkBox2"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -137,7 +136,7 @@
         android:layout_height="wrap_content"
         android:background="@color/secondaryContainer"
         android:gravity="center"
-        android:text="@string/textview_more_information"
+        android:text="@string/tv_more_information"
         android:textColor="@color/onSecondaryContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,19 +146,18 @@
         android:id="@+id/edt_more_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edittext_hint_more_information_hint"
+        android:hint="@string/edt_hint_more_information_hint"
         android:paddingVertical="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btn_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_send_information"
+        android:text="@string/btn_send_information"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_more_information" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
