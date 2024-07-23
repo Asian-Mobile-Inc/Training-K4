@@ -3,50 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3B5695"
-    android:paddingHorizontal="60px">
+    android:background="@color/primary"
+    android:paddingHorizontal="20dp">
 
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130px"
-        android:layout_marginBottom="80px"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:text="FACEBOOK"
-        android:textColor="#FFFFFF"
-        android:textSize="70px"
+        android:text="@string/textview_facebook"
+        android:textColor="@color/white"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/edt_email"
+        android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
-        android:layout_marginBottom="40px"
-        android:background="#FFFFFF"
-        android:hint="Email or Phone"
-        android:paddingVertical="30px" />
+        android:layout_below="@id/tvTitle"
+        android:layout_marginBottom="30dp"
+        android:background="@color/white"
+        android:hint="@string/edittext_hint_email_or_phone"
+        android:paddingVertical="10dp" />
 
     <EditText
-        android:id="@+id/edt_password"
+        android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edt_email"
-        android:layout_marginBottom="40px"
-        android:background="#FFFFFF"
-        android:hint="Password"
+        android:layout_below="@id/edtEmail"
+        android:layout_marginBottom="30dp"
+        android:background="@color/white"
+        android:hint="@string/edittext_hint_password"
         android:inputType="textPassword"
-        android:paddingVertical="30px" />
+        android:paddingVertical="10dp" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edt_password"
-        android:background="#1D2B4A"
-        android:text="Login"
-        android:textColor="#FFFFFF" />
-
+        android:layout_below="@id/edtPassword"
+        android:background="@color/secondary"
+        android:text="@string/button_login"
+        android:textColor="@color/white" />
 </RelativeLayout>

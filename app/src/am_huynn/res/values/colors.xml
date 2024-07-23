@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+    <color name="primary">#3B5695</color>
+    <color name="secondary">#1D2B4A</color>
+    <color name="primaryContainer">#407F80</color>
+    <color name="onPrimaryContainer">#ABC74C</color>
+    <color name="secondaryContainer">#107AFA</color>
+    <color name="onSecondaryContainer">#ABC74C</color>
     <color name="green">#008000</color>
     <color name="purpe">#800080</color>
     <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>
-

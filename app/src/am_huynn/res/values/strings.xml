@@ -1,6 +1,39 @@
 <resources>
     <string name="app_name" translatable="false">ExHuynn</string>
     <string name="title_activity_exercise_ui2">exercise_ui_2</string>
+    <!-- Strings related to exercise 1 -->
+    <string name="textview_facebook">FACEBOOK</string>
+    <string name="edittext_hint_email_or_phone">Email or phone</string>
+    <string name="edittext_hint_password">Password</string>
+    <string name="button_login">Login</string>
+
+    <!-- Strings related to exercise 2 -->
+    <string name="textview_number1">Số hạng 1</string>
+    <string name="textview_number2">Số hạng 2</string>
+    <string name="textview_result">Kết quả: </string>
+    <string name="button_addition">+</string>
+    <string name="button_subtraction">-</string>
+    <string name="button_multiplication">*</string>
+    <string name="button_division">/</string>
+
+    <!-- Strings related to exercise 3 -->
+    <string name="textview_information">Thông tin cá nhân</string>
+    <string name="textview_name">Họ tên: </string>
+    <string name="edittext_hint_name_greater_than_3">Tên phải >= 3 ký tự</string>
+    <string name="textview_card">CMND: </string>
+    <string name="edittext_hint_enter_9_digits">Nhập đúng 9 chữ số</string>
+    <string name="textview_degree">Bằng cấp</string>
+    <string name="radio_high_school">Trung học</string>
+    <string name="radio_college">Cao đẳng</string>
+    <string name="radio_university">Đại học</string>
+    <string name="textview_interest">Sở thích</string>
+    <string name="checkbox_read_paper">Đọc báo</string>
+    <string name="checkbox_read_book">Đọc sách</string>
+    <string name="checkbox_read_coding">Đọc coding</string>
+    <string name="textview_more_information">Thông tin bổ sung</string>
+    <string name="edittext_hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
+    <string name="button_send_information">Gửi thông tin</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
