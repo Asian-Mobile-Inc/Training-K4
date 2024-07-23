@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="@color/blue_3B5695"
     android:paddingHorizontal="20dp">
 
     <TextView
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edtPassword"
-        android:background="@color/secondary"
+        android:background="@color/blue_1D2B4A"
         android:text="@string/btn_login"
         android:textColor="@color/white" />
 </RelativeLayout>
