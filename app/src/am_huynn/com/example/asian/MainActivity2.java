@@ -31,7 +31,7 @@ public class MainActivity2 extends AppCompatActivity {
                 double number1 = Double.parseDouble(edtNumber1.getText().toString());
                 double number2 = Double.parseDouble(edtNumber2.getText().toString());
                 tv.setText("Ket qua: " + (number1 + number2));
-            }else {
+            } else {
                 tv.setText("Ket qua: Vui lòng nhập số");
             }
         });
@@ -41,7 +41,7 @@ public class MainActivity2 extends AppCompatActivity {
                 double number1 = Double.parseDouble(edtNumber1.getText().toString());
                 double number2 = Double.parseDouble(edtNumber2.getText().toString());
                 tv.setText("Ket qua: " + (number1 - number2));
-            }else {
+            } else {
                 tv.setText("Ket qua: Vui lòng nhập số");
             }
         });
@@ -51,7 +51,7 @@ public class MainActivity2 extends AppCompatActivity {
                 double number1 = Double.parseDouble(edtNumber1.getText().toString());
                 double number2 = Double.parseDouble(edtNumber2.getText().toString());
                 tv.setText("Ket qua: " + (number1 * number2));
-            }else {
+            } else {
                 tv.setText("Ket qua: Vui lòng nhập số");
             }
         });
@@ -62,7 +62,7 @@ public class MainActivity2 extends AppCompatActivity {
                 double number1 = Double.parseDouble(edtNumber1.getText().toString());
                 double number2 = Double.parseDouble(edtNumber2.getText().toString());
                 tv.setText("Ket qua: " + (number1 / number2));
-            }else {
+            } else {
                 tv.setText("Ket qua: Vui lòng nhập số và số hạng 2 lớn hơn 0");
             }
         });

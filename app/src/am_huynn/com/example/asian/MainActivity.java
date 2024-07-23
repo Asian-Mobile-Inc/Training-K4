@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         EditText edtPassword = findViewById(R.id.edtPassword);
 
         btnLogin.setEnabled(false);
-        validatorEmailAndPassword(edt_email, edtPassword,btnLogin);
+        validatorEmailAndPassword(edt_email, edtPassword, btnLogin);
 
         btnLogin.setOnClickListener(view -> {
             showSnackBar(view, "Đăng nhập thành công", 200);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         if (!Patterns.EMAIL_ADDRESS.matcher(edtEmail.getText().toString()).matches()) {
                             btn.setEnabled(false);
                             edtEmail.setError("Email không đúng định dạng");
-                        }else {
+                        } else {
                             btn.setEnabled(true);
                         }
                     }
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (!Pattern.compile(PASSWORD_PATTERN).matcher(PASSWORD_TEXT).matches()) {
                     edtPassword.setError("Mật khẩu có ít nhất 1 ký tự viết hoa và ký tự đặt biệt");
                     btn.setEnabled(false);
-                }else {
+                } else {
                     btn.setEnabled(true);
                 }
             }

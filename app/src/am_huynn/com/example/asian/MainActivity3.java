@@ -24,7 +24,7 @@ public class MainActivity3 extends AppCompatActivity {
 
         validatorEmpty(edtName, btnSend);
         validatorEmpty(edtCard, btnSend);
-        validatorMoreInformation(edtInformation,btnSend);
+        validatorMoreInformation(edtInformation, btnSend);
 
         btnSend.setOnClickListener(view -> {
             showSnackBar(view, "Gửi thành công", 200);
@@ -70,7 +70,7 @@ public class MainActivity3 extends AppCompatActivity {
                 } else if (edtInformation.getText().toString().length() < 100) {
                     edtInformation.setError("Thông tin nhiều hơn 100 ký tự");
                     btn.setEnabled(false);
-                }else {
+                } else {
                     btn.setEnabled(true);
                 }
             }
