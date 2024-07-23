@@ -1,28 +1,59 @@
 package com.example.asian;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 public class MainActivity extends AppCompatActivity {
 
-    Button exercise1, exercise2, exercise3;
+    private int mFragmentClickCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initUI();
+
+        Button mBtnFragmentOne = findViewById(R.id.btnFragmentOne);
+        Button mBtnFragmentTwo = findViewById(R.id.btnFragmentTwo);
+
+        mBtnFragmentOne.setOnClickListener(v -> replaceFragment(FragmentOne.newInstance("#4CAF50")));
+        mBtnFragmentTwo.setOnClickListener(v -> addFragment(FragmentTwo.newInstance("#9C27B0")));
+
+        getSupportFragmentManager().addOnBackStackChangedListener(this::updateTitle);
     }
 
-    private void initUI() {
-        exercise1 = findViewById(R.id.btn_exercise1);
-        exercise2 = findViewById(R.id.btn_exercise2);
-        exercise3 = findViewById(R.id.btn_exercise3);
+    private void replaceFragment(BaseFragment fragment) {
+        mFragmentClickCount++;
+        FragmentTransaction mTransaction = getSupportFragmentManager().beginTransaction();
+        mTransaction.replace(R.id.fragmentContainer, fragment);
+        if (mFragmentClickCount > 2) {
+            mTransaction.addToBackStack(null);
+        }
+        mTransaction.commit();
+        updateTitle();
+    }
 
-        exercise1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
-        exercise2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CalculateActivity.class)));
-        exercise3.setOnClickListener((view -> startActivity(new Intent(MainActivity.this, InforActivity.class))));
+    private void addFragment(BaseFragment fragment) {
+        mFragmentClickCount++;
+        FragmentTransaction mTransaction = getSupportFragmentManager().beginTransaction();
+        mTransaction.add(R.id.fragmentContainer, fragment);
+        if (mFragmentClickCount > 2) {
+            mTransaction.addToBackStack(null);
+        }
+        mTransaction.commit();
+        updateTitle();
+    }
+
+    private void updateTitle() {
+        Fragment mCurrentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        if (mCurrentFragment instanceof BaseFragment) {
+            setTitle(((BaseFragment) mCurrentFragment).getFragmentName());
+        } else {
+            setTitle("Android Fragment");
+        }
     }
 }
