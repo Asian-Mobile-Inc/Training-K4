@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name" translatable="false">ExSonhk</string>
+    <string name="linear_layout_manager" />
 </resources>
