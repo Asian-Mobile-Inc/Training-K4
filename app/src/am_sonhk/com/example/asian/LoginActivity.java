@@ -34,20 +34,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private boolean validate(String email,String password){
-        if (email.split("@").length != 2){
+    private boolean validate(String email, String password) {
+        if (email.split("@").length != 2) {
             edtEmail.setError("Email is invalid");
             return false;
         }
-        if (!email.split("@")[1].equals("gmail.com")){
+        if (!email.split("@")[1].equals("gmail.com")) {
             edtEmail.setError("Email is invalid");
             return false;
         }
-        if (password.length() < 8){
+        if (password.length() < 8) {
             edtPassword.setError("Password is invalid");
             return false;
         }
-        if (!(password.matches(".*[a-z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*"))){
+        if (!(password.matches(".*[a-z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*"))) {
             edtPassword.setError("Password is invalid");
             return false;
         }

@@ -11,32 +11,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CalculateActivity extends AppCompatActivity {
 
-    private EditText edSohang1, etSohang2;
-    private Button btnAdd, btnSubtract, btnMultiply, btnDivide;
-    private TextView tvResult;
+    private EditText mEdSohang1, mEtSohang2;
+    private Button mBtnAdd, mBtnSubtract, mBtnMultiply, mBtnDivide;
+    private TextView mTvResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);  // Ensure this matches your XML layout file name
 
-        edSohang1 = findViewById(R.id.edSohang1);
-        etSohang2 = findViewById(R.id.etSohang2);
-        btnAdd = findViewById(R.id.btnAdd);
-        btnSubtract = findViewById(R.id.btnSubtract);
-        btnMultiply = findViewById(R.id.btnMultiply);
-        btnDivide = findViewById(R.id.btnDivide);
-        tvResult = findViewById(R.id.tvResult);
-
-        btnAdd.setOnClickListener(this::performOperation);
-        btnSubtract.setOnClickListener(this::performOperation);
-        btnMultiply.setOnClickListener(this::performOperation);
-        btnDivide.setOnClickListener(this::performOperation);
+        mEdSohang1 = findViewById(R.id.edSohang1);
+        mEtSohang2 = findViewById(R.id.etSohang2);
+        mBtnAdd = findViewById(R.id.btnAdd);
+        mBtnSubtract = findViewById(R.id.btnSubtract);
+        mBtnMultiply = findViewById(R.id.btnMultiply);
+        mBtnDivide = findViewById(R.id.btnDivide);
+        mTvResult = findViewById(R.id.tvResult);
+        mBtnDivide.setOnClickListener(this::performOperation);
+        mBtnSubtract.setOnClickListener(this::performOperation);
+        mBtnMultiply.setOnClickListener(this::performOperation);
+        mBtnDivide.setOnClickListener(this::performOperation);
     }
 
     private void performOperation(View view) {
-        String sohang1Str = edSohang1.getText().toString();
-        String sohang2Str = etSohang2.getText().toString();
+        String sohang1Str = mEdSohang1.getText().toString();
+        String sohang2Str = mEtSohang2.getText().toString();
 
         if (sohang1Str.isEmpty() || sohang2Str.isEmpty()) {
             Toast.makeText(this, "Please enter both numbers", Toast.LENGTH_SHORT).show();
@@ -66,6 +65,6 @@ public class CalculateActivity extends AppCompatActivity {
                 break;
         }
 
-        tvResult.setText("Kết quả: " + result);
+        mTvResult.setText("Kết quả: " + result);
     }
 }
