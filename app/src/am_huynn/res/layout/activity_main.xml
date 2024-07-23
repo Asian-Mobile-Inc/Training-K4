@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3B5695"
-    android:paddingHorizontal="60px"
-    >
+    android:paddingHorizontal="60px">
 
 
     <TextView
@@ -15,41 +14,39 @@
         android:layout_marginTop="130px"
         android:layout_marginBottom="80px"
         android:gravity="center"
+        android:text="FACEBOOK"
         android:textColor="#FFFFFF"
         android:textSize="70px"
-        android:textStyle="bold"
-        android:text="FACEBOOK" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
         android:layout_below="@id/tv_title"
-        android:paddingVertical="30px"
         android:layout_marginBottom="40px"
+        android:background="#FFFFFF"
         android:hint="Email or Phone"
-        />
+        android:paddingVertical="30px" />
 
     <EditText
         android:id="@+id/edt_password"
         android:layout_width="match_parent"
-        android:background="#FFFFFF"
         android:layout_height="wrap_content"
         android:layout_below="@id/edt_email"
-        android:inputType="textPassword"
-        android:paddingVertical="30px"
         android:layout_marginBottom="40px"
+        android:background="#FFFFFF"
         android:hint="Password"
-        />
+        android:inputType="textPassword"
+        android:paddingVertical="30px" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1D2B4A"
         android:layout_below="@id/edt_password"
-        android:textColor="#FFFFFF"
-        android:text="Login" />
+        android:background="#1D2B4A"
+        android:text="Login"
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>
