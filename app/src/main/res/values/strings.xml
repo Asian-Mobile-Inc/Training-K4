@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Asian-Training</string>
+    <string name="email_or_phone" >Email or Phone</string>
+    <string name="password" >Password</string>
+    <string name="hobby" />
 </resources>

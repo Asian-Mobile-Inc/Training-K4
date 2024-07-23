@@ -1,3 +1,27 @@
 <resources>
   <string name="app_name" translatable="false">ExSonhk</string>
+  <string name="facebook" >FACEBOOK</string>
+  <string name="login" >Login</string>
+  <string name="so_hang_1" >Số hạng 1</string>
+  <string name="so_hang_2" >Số hạng 2</string>
+
+  <string name="btnAdd" >+</string>
+  <string name="btnSubtract" >-</string>
+  <string name="btnMultiply" >*</string>
+  <string name="btnDivide" >/</string>
+  <string name="thong_tin_ca_nhan" >Thông tin cá nhân</string>
+  <string name="ho_ten" >Họ Tên</string>
+  <string name="name_must_more_than_3_word" >Tên phải >=3 ký tự</string>
+  <string name="cmnd" >CMND</string>
+  <string name="input_correct_9_number" >Nhập đúng 9 chữ số</string>
+  <string name="degree" >Bằng Cấp</string>
+  <string name="intermediate_level" >Trung Cấp</string>
+  <string name="college_level" >Cao Đẳng</string>
+  <string name="university_level" >Đại Học</string>
+  <string name="hobby" >Sở Thích</string>
+  <string name="read_news" >Đọc báo</string>
+  <string name="read_book" >Đọc sách</string>
+  <string name="read_code" >Đọc Code</string>
+  <string name="input_additional_info_can_null" >"Nhập thông tin bổ sung - có thể để trống"</string>
+  <string name="send_data" >Gữi Thong Tin</string>
 </resources>
