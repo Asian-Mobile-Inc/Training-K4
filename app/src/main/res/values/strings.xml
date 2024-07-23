@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Asian-Training</string>
+    <string name="textview_text_facebook">FACEBOOK</string>
+    <string name="editText_hint_email">Email or Phone</string>
+    <string name="editText_hint_password">Password</string>
+    <string name="button_text_login">Login</string>
+    <string name="textview_text_name">Họ tên</string>
+    <string name="textview_text_cmnd">Cmnd</string>
+    <string name="textview_text_bang_cap">Bằng cấp</string>
+    <string name="textview_text_trung_cap">Trung cấp</string>
+    <string name="textview_text_cao_dang">Cao đẳng</string>
+    <string name="textview_text_dai_hoc">Đại học</string>
+    <string name="textview_text_so_thich">Sở thích</string>
+    <string name="textview_text_doc_bao">Đọc báo</string>
+    <string name="textview_text_doc_sach">Đọc sách</string>
+    <string name="textview_text_coding">coding</string>
+    <string name="textview_text_more_info">Thông tin bổ sung</string>
+    <string name="editText_hint_more_info">Nhập thông tin bổ sung - có thể để trống</string>
+    <string name="button_text_send_info">Gửi thông tin</string>
+    <string name="textview_text_ket_qua">Ket qua:</string>
+    <string name="textview_text_so_dau">Số hạng 1</string>
+    <string name="textview_text_so_sau">Số hạng 2</string>
+    <string name="button_text_exercise_login">View Login</string>
+    <string name="button_text_exercise_calculate">View Calculate</string>
+    <string name="button_text_exercise_update_info">View Update Info</string>
 </resources>

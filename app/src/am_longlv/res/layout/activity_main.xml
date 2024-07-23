@@ -10,20 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Exercise 1" />
+        android:text="@string/button_text_exercise_login" />
 
     <Button
         android:id="@+id/btn_exercise2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Exercise 2" />
+        android:text="@string/button_text_exercise_calculate" />
 
     <Button
         android:id="@+id/btn_exercise3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Exercise 3" />
+        android:text="@string/button_text_exercise_update_info" />
 
 </LinearLayout>

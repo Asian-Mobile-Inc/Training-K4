@@ -8,13 +8,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Exercise3Activity"
+            android:name=".ExerciseUpdateInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".Exercise2Activity"
+            android:name=".ExerciseCalculateActivity"
             android:exported="false" />
         <activity
-            android:name=".Exercise1Activity"
+            android:name=".ExerciseLoginActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

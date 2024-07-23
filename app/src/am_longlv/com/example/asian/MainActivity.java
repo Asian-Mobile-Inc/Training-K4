@@ -24,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initListener() {
         mBtnExercise1.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, Exercise1Activity.class));
+            startActivity(new Intent(MainActivity.this, ExerciseLoginActivity.class));
         });
         mBtnExercise2.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, Exercise2Activity.class));
+            startActivity(new Intent(MainActivity.this, ExerciseCalculateActivity.class));
         });
         mBtnExercise3.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, Exercise3Activity.class));
+            startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class));
         });
     }
 }
