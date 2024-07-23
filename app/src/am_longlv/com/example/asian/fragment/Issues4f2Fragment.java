@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,10 @@ import com.example.asian.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Issues4_2Fragment#newInstance} factory method to
+ * Use the {@link Issues4f2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Issues4_2Fragment extends Fragment {
+public class Issues4f2Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +28,7 @@ public class Issues4_2Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Issues4_2Fragment() {
+    public Issues4f2Fragment() {
         // Required empty public constructor
     }
 
@@ -42,8 +41,8 @@ public class Issues4_2Fragment extends Fragment {
      * @return A new instance of fragment Issues4_2Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Issues4_2Fragment newInstance(String param1, String param2) {
-        Issues4_2Fragment fragment = new Issues4_2Fragment();
+    public static Issues4f2Fragment newInstance(String param1, String param2) {
+        Issues4f2Fragment fragment = new Issues4f2Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -80,5 +79,4 @@ public class Issues4_2Fragment extends Fragment {
         }
         return view;
     }
-
 }

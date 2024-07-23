@@ -7,51 +7,55 @@
     android:layout_height="match_parent"
     android:background="@color/blue"
     tools:context=".Exercise1Activity">
+
     <TextView
         android:id="@+id/tv_fb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="FACEBOOK"
         android:layout_marginVertical="50dp"
+        android:text="FACEBOOK"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_fb"
         android:layout_marginHorizontal="20dp"
-        android:hint="Email or Phone"
         android:layout_marginBottom="30dp"
         android:background="@color/white"
+        android:hint="Email or Phone"
         android:paddingVertical="10dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
     <EditText
         android:id="@+id/edt_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edt_email"
         android:layout_marginHorizontal="20dp"
-        android:inputType="textPassword"
-        android:hint="Password"
-        android:background="@color/white"
-        android:paddingVertical="10dp"
         android:layout_marginBottom="30dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"/>
+        android:background="@color/white"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingVertical="10dp"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edt_password"
         android:layout_marginHorizontal="20dp"
-        android:text="LOGIN"
-        android:paddingVertical="10dp"
-        android:background="@color/colorPrimary"
         android:layout_marginBottom="30dp"
-        android:textSize="20sp"
-        android:textColor="@color/white"/>
+        android:background="@color/colorPrimary"
+        android:paddingVertical="10dp"
+        android:text="LOGIN"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 </RelativeLayout>

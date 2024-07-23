@@ -5,13 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.asian.fragment.Issues4_1Fragment;
+public class MainActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity{
+    Button exercise1, exercise2, exercise3, btn_issues4;
 
-    Button exercise1, exercise2, exercise3,btn_issues4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
