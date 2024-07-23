@@ -14,14 +14,12 @@ public class Exercise2Activity extends AppCompatActivity {
     Button btn_cong, btn_tru, btn_nhan, btn_chia;
     EditText edt_so1, edt_so2;
     TextView tv_ketqua;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise2);
         initUI();
     }
-
     private void initUI() {
         btn_cong = findViewById(R.id.btn_cong);
         btn_tru = findViewById(R.id.btn_tru);
@@ -48,7 +46,7 @@ public class Exercise2Activity extends AppCompatActivity {
         btn_chia.setOnClickListener(v -> {
             int so1 = Integer.parseInt(edt_so1.getText().toString().trim());
             int so2 = Integer.parseInt(edt_so2.getText().toString().trim());
-            if (so2==0){
+            if (so2 == 0) {
                 tv_ketqua.setError("Khong the chia cho 0");
                 return;
             }
