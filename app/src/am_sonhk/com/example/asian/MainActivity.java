@@ -23,6 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         exercise1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
         exercise2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CalculateActivity.class)));
-
+        exercise3.setOnClickListener((view -> startActivity(new Intent(MainActivity.this, InforActivity.class))));
     }
 }

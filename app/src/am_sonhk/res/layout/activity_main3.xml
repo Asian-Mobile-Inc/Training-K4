@@ -166,7 +166,6 @@
         android:textAlignment="center"
         android:hint="Nhập thông tin bổ sung - có thể để trống"
         android:inputType="textMultiLine"
-        android:textColor=
         app:layout_constraintTop_toBottomOf="@id/tvAdditionalInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
