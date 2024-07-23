@@ -14,12 +14,14 @@ import androidx.core.view.WindowInsetsCompat;
 public class Exercise1Activity extends AppCompatActivity {
     Button btn_Login;
     EditText edt_Email, edt_Password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise1);
         initUI();
     }
+
     private void initUI() {
         btn_Login = findViewById(R.id.btn_login);
         edt_Email = findViewById(R.id.edt_email);
@@ -30,8 +32,9 @@ public class Exercise1Activity extends AppCompatActivity {
             }
         });
     }
+
     private boolean validate(String email, String password) {
-        if (email.split("@").length != 2){
+        if (email.split("@").length != 2) {
             edt_Email.setError("Email is invalid");
             return false;
         }

@@ -14,12 +14,14 @@ public class Exercise2Activity extends AppCompatActivity {
     Button btn_cong, btn_tru, btn_nhan, btn_chia;
     EditText edt_so1, edt_so2;
     TextView tv_ketqua;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise2);
         initUI();
     }
+
     private void initUI() {
         btn_cong = findViewById(R.id.btn_cong);
         btn_tru = findViewById(R.id.btn_tru);
