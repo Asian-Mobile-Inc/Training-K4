@@ -12,14 +12,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_1"
+            android:id="@+id/tvNumberOne"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_number1"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/edt_number1"
+            android:id="@+id/edtNumberOne"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2" />
@@ -32,14 +32,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_2"
+            android:id="@+id/tvNumberTwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_number2"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/edt_number2"
+            android:id="@+id/edtNumberTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2" />
@@ -52,28 +52,28 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_addition"
+            android:id="@+id/btnAddition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_addition" />
 
         <Button
-            android:id="@+id/btn_subtraction"
+            android:id="@+id/btnSubtraction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_subtraction" />
 
         <Button
-            android:id="@+id/btn_multiplication"
+            android:id="@+id/btnMultiplication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_multiplication" />
 
         <Button
-            android:id="@+id/btn_division"
+            android:id="@+id/btnDivision"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -81,7 +81,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_3"
+        android:id="@+id/tvResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tv_result" />
