@@ -7,24 +7,24 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Exercise3Activity extends AppCompatActivity {
-    Button btn_send_info;
-    EditText edt_name, edt_cmnd, edt_more_info;
+public class ExerciseUpdateInfoActivity extends AppCompatActivity {
+    private Button mBtnSendInfo;
+    private EditText mEdtName, mEdtCmnd, mEdtMoreInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise3);
+        setContentView(R.layout.activity_exercise_update_info);
         initUI();
     }
 
     private void initUI() {
-        btn_send_info = findViewById(R.id.btn_send_info);
-        edt_name = findViewById(R.id.edt_name);
-        edt_cmnd = findViewById(R.id.edt_cmnd);
-        edt_more_info = findViewById(R.id.edt_more_info);
-        btn_send_info.setOnClickListener(v -> {
-            if (validate(edt_name.getText().toString().trim(), edt_cmnd.getText().toString().trim(), edt_more_info.getText().toString().trim())) {
+        mBtnSendInfo = findViewById(R.id.btn_send_info);
+        mEdtName = findViewById(R.id.edt_name);
+        mEdtCmnd = findViewById(R.id.edt_cmnd);
+        mEdtMoreInfo = findViewById(R.id.edt_more_info);
+        mBtnSendInfo.setOnClickListener(v -> {
+            if (validate(mEdtName.getText().toString().trim(), mEdtCmnd.getText().toString().trim(), mEdtMoreInfo.getText().toString().trim())) {
                 Toast.makeText(this, "Send info success", Toast.LENGTH_SHORT).show();
             }
         });
@@ -32,15 +32,15 @@ public class Exercise3Activity extends AppCompatActivity {
 
     private boolean validate(String name, String cmnd, String moreInfo) {
         if (name == null || name.isEmpty()) {
-            edt_name.setError("Name is invalid");
+            mEdtName.setError("Name is invalid");
             return false;
         }
         if (cmnd == null || cmnd.isEmpty()) {
-            edt_cmnd.setError("CMND is invalid");
+            mEdtCmnd.setError("CMND is invalid");
             return false;
         }
         if (moreInfo == null || moreInfo.isEmpty() || moreInfo.length() < 100) {
-            edt_more_info.setError("More info is invalid");
+            mEdtMoreInfo.setError("More info is invalid");
             return false;
         }
         return true;
