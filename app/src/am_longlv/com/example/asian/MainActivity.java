@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mBtnExercise1, mBtnExercise2, mBtnExercise3;
+    private Button mBtnExerciseLogin, mBtnExerciseCal, mBtnExerciseUpdateInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,18 +18,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUI() {
-        mBtnExercise1 = findViewById(R.id.btn_exercise1);
-        mBtnExercise2 = findViewById(R.id.btn_exercise2);
-        mBtnExercise3 = findViewById(R.id.btn_exercise3);
+        mBtnExerciseLogin = findViewById(R.id.btnExerciseLogin);
+        mBtnExerciseCal = findViewById(R.id.btnExerciseCal);
+        mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
     }
     private void initListener() {
-        mBtnExercise1.setOnClickListener(v -> {
+        mBtnExerciseLogin.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ExerciseLoginActivity.class));
         });
-        mBtnExercise2.setOnClickListener(v -> {
+        mBtnExerciseCal.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ExerciseCalculateActivity.class));
         });
-        mBtnExercise3.setOnClickListener(v -> {
+        mBtnExerciseUpdateInfo.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class));
         });
     }
