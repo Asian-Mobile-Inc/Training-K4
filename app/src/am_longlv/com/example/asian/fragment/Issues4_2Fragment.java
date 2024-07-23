@@ -1,12 +1,15 @@
 package com.example.asian.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.asian.R;
 
@@ -61,7 +64,21 @@ public class Issues4_2Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_issues4_2, container, false);
+        View view = inflater.inflate(R.layout.fragment_issues4_2, container, false);
+        RelativeLayout relativeLayout = view.findViewById(R.id.main_fr_2);
+        String colorCode = getArguments().getString("colorCode");
+        if (colorCode != null && !colorCode.isEmpty()) {
+            if (!colorCode.startsWith("#")) {
+                colorCode = "#" + colorCode;
+            }
+            try {
+                Color.parseColor(colorCode);
+            } catch (Exception e) {
+                colorCode = "#000000";
+            }
+            relativeLayout.setBackgroundColor(Color.parseColor(colorCode));
+        }
+        return view;
     }
 
 }

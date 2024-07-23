@@ -26,13 +26,6 @@ public class Issues4_1Fragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
-
-    public interface OnFragmentChangeListener {
-        void onFragmentChange(String tag);
-    }
-    OnFragmentChangeListener onFragmentChangeListener;
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -58,7 +51,6 @@ public class Issues4_1Fragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,37 +59,24 @@ public class Issues4_1Fragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_issues4_1, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.main_fr_1);
-        Bundle bundle = getArguments();
-        bundle.getString("colorCode");
-        try {
-            relativeLayout.setBackgroundColor(Color.parseColor("#"+bundle.getString("colorCode")));
-        }catch (Exception e){
-            Log.e("androidruntime", "onCreateView: " + e.getMessage());
+        String colorCode = getArguments().getString("colorCode");
+        if (colorCode != null && !colorCode.isEmpty()) {
+            if (!colorCode.startsWith("#")) {
+                colorCode = "#" + colorCode;
+            }
+            try {
+                Color.parseColor(colorCode);
+            } catch (Exception e) {
+                colorCode = "#000000";
+            }
+            relativeLayout.setBackgroundColor(Color.parseColor(colorCode));
         }
-
-        return inflater.inflate(R.layout.fragment_issues4_1, container, false);
+        return view;
     }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            onFragmentChangeListener = (OnFragmentChangeListener) context;
-        } catch (ClassCastException e) {
-            Log.e("androidruntime", "onAttach: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void onResume() {
-        onFragmentChangeListener.onFragmentChange("Fragment One");
-        super.onResume();
-    }
-
 }

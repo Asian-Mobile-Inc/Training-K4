@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.example.asian.fragment.Issues4_1Fragment;
 
-public class MainActivity extends AppCompatActivity implements Issues4_1Fragment.OnFragmentChangeListener {
+public class MainActivity extends AppCompatActivity{
 
     Button exercise1, exercise2, exercise3,btn_issues4;
     @Override
@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements Issues4_1Fragment
         exercise2 = findViewById(R.id.btn_exercise2);
         exercise3 = findViewById(R.id.btn_exercise3);
         btn_issues4 = findViewById(R.id.btn_issues4);
-
         exercise1.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, Exercise1Activity.class));
         });
@@ -37,9 +36,5 @@ public class MainActivity extends AppCompatActivity implements Issues4_1Fragment
         btn_issues4.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, Issues4Activity.class));
         });
-    }
-    @Override
-    public void onFragmentChange(String tag) {
-        Toast.makeText(this, "Fragment " + tag, Toast.LENGTH_SHORT).show();
     }
 }
