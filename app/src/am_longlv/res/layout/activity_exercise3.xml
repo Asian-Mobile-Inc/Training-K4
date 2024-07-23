@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/edt_name"
             android:layout_width="300dp"
             android:layout_height="30dp"
             android:textSize="16sp"
@@ -64,7 +64,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/edt_cmnd"
             android:layout_width="300dp"
             android:layout_height="30dp"
             android:textSize="16sp"
@@ -102,7 +102,6 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:buttonTint="@color/pink"
             android:text="Trung cấp" />
 
@@ -173,6 +172,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <EditText
+        android:id="@+id/edt_more_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="296dp"
@@ -184,6 +184,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/btn_send_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="392dp"

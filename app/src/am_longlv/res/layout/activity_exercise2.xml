@@ -22,6 +22,8 @@
             android:textSize="15sp"
             android:text="Số hạng 1"/>
         <EditText
+            android:id="@+id/edt_so1"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
@@ -41,6 +43,8 @@
             android:textSize="15sp"
             android:text="Số hạng 2"/>
         <EditText
+            android:id="@+id/edt_so2"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
@@ -52,6 +56,7 @@
         android:weightSum="4"
         android:layout_marginHorizontal="10dp">
         <Button
+            android:id="@+id/btn_cong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -60,6 +65,7 @@
             android:background="@color/gray"
             android:layout_margin="5dp"/>
         <Button
+            android:id="@+id/btn_tru"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -68,6 +74,7 @@
             android:background="@color/gray"
             android:layout_margin="5dp"/>
         <Button
+            android:id="@+id/btn_nhan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,6 +83,7 @@
             android:background="@color/gray"
             android:layout_margin="5dp"/>
         <Button
+            android:id="@+id/btn_chia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -85,6 +93,7 @@
             android:layout_margin="5dp"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/tv_ketqua"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ket qua:"

@@ -13,10 +13,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        InitUI();
+        initUI();
     }
 
-    private void InitUI() {
+    private void initUI() {
         exercise1 = findViewById(R.id.btn_exercise1);
         exercise2 = findViewById(R.id.btn_exercise2);
         exercise3 = findViewById(R.id.btn_exercise3);

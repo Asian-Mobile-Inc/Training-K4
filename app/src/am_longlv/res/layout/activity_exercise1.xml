@@ -28,7 +28,7 @@
         android:background="@color/white"
         android:paddingVertical="10dp"
         android:textSize="20sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
     <EditText
         android:id="@+id/edt_password"
         android:layout_width="match_parent"
@@ -41,8 +41,9 @@
         android:paddingVertical="10dp"
         android:layout_marginBottom="30dp"
         android:textSize="20sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
     <Button
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edt_password"
