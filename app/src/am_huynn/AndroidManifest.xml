@@ -9,8 +9,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity3"
+            android:name=".FragmentActivity"
             android:exported="true" />
+        <activity
+            android:name=".MainActivity3"
+            android:exported="false" />
         <activity
             android:name=".MainActivity2"
             android:exported="true" />
@@ -27,4 +30,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
