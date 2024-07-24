@@ -21,9 +21,9 @@
     <!-- Strings related to exercise 3 -->
     <string name="information">Thông tin cá nhân</string>
     <string name="name">Họ tên: </string>
-    <string name="hint_name_greater_than_3">Tên phải >= 3 ký tự</string>
+    <string name="hint_name_greater_than_three">Tên phải >= 3 ký tự</string>
     <string name="card">CMND: </string>
-    <string name="hint_enter_9_digits">Nhập đúng 9 chữ số</string>
+    <string name="hint_enter_nine_digits">Nhập đúng 9 chữ số</string>
     <string name="degree">Bằng cấp</string>
     <string name="high_school">Trung học</string>
     <string name="college">Cao đẳng</string>
