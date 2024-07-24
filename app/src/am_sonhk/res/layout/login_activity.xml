@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
@@ -20,12 +21,15 @@
         android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:layout_below="@id/tvTitle"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:layout_marginBottom="16dp"
         android:background="@color/white"
         android:hint="@string/email_or_phone"
-        android:padding="10dp" />
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/edtPassword"
@@ -35,8 +39,11 @@
         android:layout_marginBottom="16dp"
         android:background="@color/white"
         android:hint="@string/password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
-        android:padding="10dp" />
+        android:minHeight="48dp"
+        android:padding="10dp"
+        tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -46,6 +53,7 @@
         android:layout_marginTop="16dp"
         android:background="@color/btnLogin"
         android:text="@string/login"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        tools:ignore="VisualLintButtonSize" />
 
 </RelativeLayout>

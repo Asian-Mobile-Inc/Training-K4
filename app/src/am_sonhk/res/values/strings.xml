@@ -2,9 +2,10 @@
   <string name="app_name" translatable="false">ExSonhk</string>
   <string name="facebook" >FACEBOOK</string>
   <string name="login" >Login</string>
-  <string name="so_hang_1" >Số hạng 1</string>
-  <string name="so_hang_2" >Số hạng 2</string>
-
+  <string name="first_number" >Số hạng 1</string>
+  <string name="second_number" >Số hạng 2</string>
+  <string name="email_or_phone" >Email or Phone</string>
+  <string name="password" >Password</string>
   <string name="btnAdd" >+</string>
   <string name="btnSubtract" >-</string>
   <string name="btnMultiply" >*</string>
@@ -25,4 +26,5 @@
   <string name="input_additional_info_can_null" >"Nhập thông tin bổ sung - có thể để trống"</string>
   <string name="send_data" >Gữi Thong Tin</string>
   <string name="additional_info" >Thông tin bổ sung</string>
+  <string name="reuslt" >Kết quả:</string>
 </resources>

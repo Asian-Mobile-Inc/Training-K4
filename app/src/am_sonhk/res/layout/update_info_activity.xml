@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -8,15 +9,16 @@
         android:id="@+id/tvHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:background="@color/clHeader"
+        android:padding="8dp"
         android:text="@string/thong_tin_ca_nhan"
+        android:textAlignment="center"
         android:textColor="@color/text_FFD700"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/tvName"
@@ -32,12 +34,15 @@
         android:id="@+id/edtName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="@string/name_must_more_than_3_word"
+        android:importantForAutofill="no"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@id/tvHeader"
-        app:layout_constraintStart_toEndOf="@id/tvName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toEndOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <TextView
         android:id="@+id/tvID"
@@ -53,26 +58,30 @@
         android:id="@+id/edtID"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="@string/input_correct_9_number"
+        android:importantForAutofill="no"
         android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@id/edtName"
-        app:layout_constraintStart_toEndOf="@id/tvID"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toEndOf="@id/tvID"
+        app:layout_constraintTop_toBottomOf="@id/edtName"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <TextView
         android:id="@+id/tvDegree"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/degree"
-        android:textColor="@color/text_FFD700"
+        android:layout_marginTop="16dp"
         android:background="@android:color/holo_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/edtID"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:padding="8dp"
-        android:layout_marginTop="16dp" />
+        android:text="@string/degree"
+        android:textAlignment="center"
+        android:textColor="@color/text_FFD700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtID"
+        tools:ignore="TextContrastCheck" />
 
     <RadioGroup
         android:id="@+id/rgDegree"
@@ -87,34 +96,38 @@
             android:id="@+id/rbIntermediate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/intermediate_level" />
+            android:text="@string/intermediate_level"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <RadioButton
             android:id="@+id/rbCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/college_level" />
+            android:text="@string/college_level"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <RadioButton
             android:id="@+id/rbUniversity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/university_level" />
+            android:text="@string/university_level"
+            tools:ignore="TouchTargetSizeCheck" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/tvHobby"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="8dp"
         android:text="@string/hobby"
         android:textAlignment="center"
-        android:background="@android:color/holo_blue_dark"
         android:textColor="@color/text_FFD700"
-        app:layout_constraintTop_toBottomOf="@id/rgDegree"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgDegree"
+        tools:ignore="TextContrastCheck" />
 
     <LinearLayout
         android:id="@+id/llHobbies"
@@ -130,34 +143,38 @@
             android:id="@+id/cbReadingNews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/read_news" />
+            android:text="@string/read_news"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <CheckBox
             android:id="@+id/cbReadingBooks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/read_book" />
+            android:text="@string/read_book"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <CheckBox
             android:id="@+id/cbReadingCoding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/read_code" />
+            android:text="@string/read_code"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tvAdditionalInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/additional_info"
-        android:textColor="@color/text_FFD700"
+        android:layout_marginTop="16dp"
         android:background="@android:color/holo_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/llHobbies"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:padding="8dp"
-        android:layout_marginTop="16dp" />
+        android:text="@string/additional_info"
+        android:textAlignment="center"
+        android:textColor="@color/text_FFD700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llHobbies"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/edtAdditionalInfo"
@@ -170,7 +187,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
-        android:minHeight="100dp" />
+        android:importantForAutofill="no"
+        android:minHeight="100dp"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <Button
         android:id="@+id/btnSubmit"
