@@ -25,6 +25,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
         mEdtCmnd = findViewById(R.id.edtCmnd);
         mEdtMoreInfo = findViewById(R.id.edtMoreInfo);
     }
+
     private void initListener() {
         mBtnSendInfo.setOnClickListener(v -> {
             if (validate(mEdtName.getText().toString().trim(), mEdtCmnd.getText().toString().trim(), mEdtMoreInfo.getText().toString().trim())) {
@@ -32,6 +33,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
             }
         });
     }
+
     private boolean validate(String name, String cmnd, String moreInfo) {
         if (name == null || name.isEmpty()) {
             mEdtName.setError(getString(R.string.error_name_invalid));
