@@ -73,7 +73,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_add"
+            android:text="@string/plus"
             android:textColor="@color/black" />
 
         <Button
@@ -84,7 +84,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_sub"
+            android:text="@string/subtraction"
             android:textColor="@color/black" />
 
         <Button
@@ -95,7 +95,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_mul"
+            android:text="@string/multiplication"
             android:textColor="@color/black" />
 
         <Button
@@ -106,7 +106,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_div"
+            android:text="@string/divided"
             android:textColor="@color/black" />
 
     </LinearLayout>

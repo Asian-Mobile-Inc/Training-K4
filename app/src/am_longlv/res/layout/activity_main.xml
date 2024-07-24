@@ -9,20 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/button_text_exercise_login" />
+        android:text="@string/exercise_login" />
 
     <Button
         android:id="@+id/btnExerciseCal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/button_text_exercise_calculate" />
+        android:text="@string/exercise_calculate" />
 
     <Button
         android:id="@+id/btnExerciseUpdateInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/button_text_exercise_update_info" />
+        android:text="@string/exercise_update_info" />
 
 </LinearLayout>
