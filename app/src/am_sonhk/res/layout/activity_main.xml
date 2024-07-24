@@ -12,19 +12,22 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/btnTab1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TAB1" />
+            android:text="@string/tab1" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/btnTab2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TAB2" />
+            android:text="@string/tab2" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/btnTab3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TAB3" />
+            android:text="@string/tab3" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
