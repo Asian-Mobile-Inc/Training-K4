@@ -16,19 +16,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
+            android:labelFor="@+id/edtFirstNumber"
             android:text="@string/textview_text_first_number"
             android:textColor="@color/black"
-            android:textSize="15sp"
-            android:labelFor="@+id/edtFirstNumber"/>
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/edtFirstNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="20sp"
             android:autofillHints="@string/hint_edittext"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,19 +43,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
+            android:labelFor="@+id/edtSecondNumber"
             android:text="@string/textview_text_second_number"
             android:textColor="@color/black"
-            android:textSize="15sp"
-            android:labelFor="@+id/edtSecondNumber"/>
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/edtSecondNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="20sp"
             android:autofillHints="hint_editext"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout

@@ -130,8 +130,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="256dp"
-        android:textSize="20sp"
         android:text="@string/textview_text_read_book"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/cbDocBao"
         app:layout_constraintTop_toTopOf="parent" />
 
