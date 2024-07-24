@@ -9,13 +9,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".issues1.InformationActivity"
+            android:name=".issues_ui.InformationActivity"
             android:exported="true" />
         <activity
-            android:name=".issues1.MathActivity"
+            android:name=".issues_ui.MathActivity"
             android:exported="true" />
         <activity
-            android:name=".issues1.FacebookActivity"
+            android:name=".issues_ui.FacebookActivity"
             android:exported="true" />
         <activity
             android:name=".MainViewActivity"
