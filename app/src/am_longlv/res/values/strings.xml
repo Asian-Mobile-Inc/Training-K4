@@ -7,13 +7,13 @@
     <string name="textview_text_name">Họ tên</string>
     <string name="textview_text_cmnd">Cmnd</string>
     <string name="textview_text_degree">Bằng cấp</string>
-    <string name="textview_text_trung_cap">Trung cấp</string>
+    <string name="textview_text_intermediate">Trung cấp</string>
     <string name="textview_text_college">Cao đẳng</string>
     <string name="textview_text_university">Đại học</string>
     <string name="textview_text_interest">Sở thích</string>
     <string name="textview_text_read_news">Đọc báo</string>
     <string name="textview_text_read_book">Đọc sách</string>
-    <string name="textview_text_coding">coding</string>
+    <string name="textview_text_coding">Coding</string>
     <string name="textview_text_more_info">Thông tin bổ sung</string>
     <string name="hint_more_info">Nhập thông tin bổ sung - có thể để trống</string>
     <string name="button_text_send_info">Gửi thông tin</string>

@@ -70,8 +70,8 @@
 
 
     <RadioGroup
-        android:id="@+id/rgBangCap"
-        android:checkedButton="@id/rbTrungCap"
+        android:id="@+id/rgDegree"
+        android:checkedButton="@id/rbIntermediate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -81,21 +81,23 @@
         app:layout_constraintTop_toBottomOf="@+id/tvBangCap">
 
         <RadioButton
-            android:id="@+id/rbTrungCap"
+            android:id="@+id/rbIntermediate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
             android:layout_marginStart="8dp"
             android:checked="true"
-            android:text="@string/textview_text_trung_cap" />
+            android:text="@string/textview_text_intermediate" />
 
         <RadioButton
+            android:id="@+id/rb_college"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
             android:text="@string/textview_text_college" />
 
         <RadioButton
+            android:id="@+id/rb_university"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
@@ -103,7 +105,7 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/tvSoThich"
+        android:id="@+id/tvInterest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -113,10 +115,10 @@
         android:textColor="@color/yellow_FFFF00"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgBangCap" />
+        app:layout_constraintTop_toBottomOf="@+id/rgDegree" />
 
     <CheckBox
-        android:id="@+id/cbDocBao"
+        android:id="@+id/cbReadNews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -126,22 +128,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
-        android:id="@+id/cbDocSanh"
+        android:id="@+id/cbReadBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="256dp"
         android:text="@string/textview_text_read_book"
-        app:layout_constraintStart_toEndOf="@+id/cbDocBao"
+        app:layout_constraintStart_toEndOf="@+id/cbReadNews"
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
+        android:id="@+id/cbCoding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="256dp"
         android:text="@string/textview_text_coding"
-        app:layout_constraintStart_toEndOf="@+id/cbDocSanh"
+        app:layout_constraintStart_toEndOf="@+id/cbReadBook"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
