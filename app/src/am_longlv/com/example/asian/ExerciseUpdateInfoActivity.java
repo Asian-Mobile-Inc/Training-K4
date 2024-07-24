@@ -17,12 +17,11 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_update_info);
         initUI();
     }
-
     private void initUI() {
-        mBtnSendInfo = findViewById(R.id.btn_send_info);
-        mEdtName = findViewById(R.id.edt_name);
-        mEdtCmnd = findViewById(R.id.edt_cmnd);
-        mEdtMoreInfo = findViewById(R.id.edt_more_info);
+        mBtnSendInfo = findViewById(R.id.btnSendInfo);
+        mEdtName = findViewById(R.id.edtName);
+        mEdtCmnd = findViewById(R.id.edtCmnd);
+        mEdtMoreInfo = findViewById(R.id.edtMoreInfo);
         mBtnSendInfo.setOnClickListener(v -> {
             if (validate(mEdtName.getText().toString().trim(), mEdtCmnd.getText().toString().trim(), mEdtMoreInfo.getText().toString().trim())) {
                 Toast.makeText(this, "Send info success", Toast.LENGTH_SHORT).show();

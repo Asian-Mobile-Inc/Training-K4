@@ -6,21 +6,21 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_exercise1"
+        android:id="@+id/btnExerciseLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Exercise 1" />
 
     <Button
-        android:id="@+id/btn_exercise2"
+        android:id="@+id/btnExerciseCal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Exercise 2" />
 
     <Button
-        android:id="@+id/btn_exercise3"
+        android:id="@+id/btnExerciseUpdateInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

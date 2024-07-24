@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -20,16 +19,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:text="Số hạng 1"
+            android:text="@string/textview_text_so_dau"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
         <EditText
-            android:id="@+id/edt_so1"
+            android:id="@+id/edtSoDau"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="number" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,16 +42,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:text="Số hạng 2"
+            android:text="@string/textview_text_so_sau"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
         <EditText
-            android:id="@+id/edt_so2"
+            android:id="@+id/edtSoSau"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="number" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,51 +61,52 @@
         android:weightSum="4">
 
         <Button
-            android:id="@+id/btn_cong"
+            android:id="@+id/btnCong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/gray"
-            android:text="+"
+            android:background="@color/gray_BDBDBD"
+            android:text="@string/textview_text_cong"
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/btn_tru"
+            android:id="@+id/btnTru"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/gray"
-            android:text="-"
+            android:background="@color/gray_BDBDBD"
+            android:text="@string/textview_text_tru"
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/btn_nhan"
+            android:id="@+id/btnNhan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/gray"
-            android:text="*"
+            android:background="@color/gray_BDBDBD"
+            android:text="@string/textview_text_nhan"
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/btn_chia"
+            android:id="@+id/btnChia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/gray"
-            android:text="/"
+            android:background="@color/gray_BDBDBD"
+            android:text="@string/textview_text_chia"
             android:textColor="@color/black" />
+
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_ketqua"
+        android:id="@+id/tvKetQua"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:text="Ket qua:"
+        android:text="@string/textview_text_ket_qua"
         android:textSize="16sp" />
 </LinearLayout>

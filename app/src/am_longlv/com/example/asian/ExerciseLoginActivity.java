@@ -20,9 +20,9 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private void initUI() {
-        mBtnLogin = findViewById(R.id.btn_login);
-        mEdtEmail = findViewById(R.id.edt_email);
-        mEdtPassword = findViewById(R.id.edt_password);
+        mBtnLogin = findViewById(R.id.btnLogin);
+        mEdtEmail = findViewById(R.id.edtEmail);
+        mEdtPassword = findViewById(R.id.edtPassword);
     }
 
     private void initListener() {
