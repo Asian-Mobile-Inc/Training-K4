@@ -1,4 +1,4 @@
-package com.example.asian.issues_ui;
+package com.example.asian.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
