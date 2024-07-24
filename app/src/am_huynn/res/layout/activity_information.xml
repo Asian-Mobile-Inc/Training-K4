@@ -8,7 +8,7 @@
         android:id="@+id/tvInformation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/green_407F7F"
+        android:background="@color/green_405555"
         android:gravity="center"
         android:text="@string/information"
         android:textColor="@color/green_BDDD5E"
@@ -63,10 +63,10 @@
         android:id="@+id/tvDegree"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_107AFA"
+        android:background="@color/blue_1E5495"
         android:gravity="center"
         android:text="@string/degree"
-        android:textColor="@color/green_BDDD5E"
+        android:textColor="@color/green_D1E39C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtCard" />
@@ -74,8 +74,8 @@
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start"
+        android:layout_height="48dp"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDegree">
@@ -83,19 +83,19 @@
         <RadioButton
             android:id="@+id/rbHighSchool"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/rb_high_school" />
 
         <RadioButton
             android:id="@+id/rbCollege"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/rb_college" />
 
         <RadioButton
             android:id="@+id/rbUniversity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/rb_university" />
     </RadioGroup>
 
@@ -103,10 +103,10 @@
         android:id="@+id/tvInterest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_107AFA"
+        android:background="@color/blue_1E5495"
         android:gravity="center"
         android:text="@string/tv_interest"
-        android:textColor="@color/green_BDDD5E"
+        android:textColor="@color/green_D1E39C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
@@ -114,7 +114,7 @@
     <CheckBox
         android:id="@+id/cbReadPaper"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="@string/cb_read_paper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInterest" />
@@ -122,7 +122,7 @@
     <CheckBox
         android:id="@+id/cbReadBook"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="@string/cb_read_book"
         app:layout_constraintStart_toEndOf="@+id/cbReadPaper"
         app:layout_constraintTop_toBottomOf="@+id/tvInterest" />
@@ -130,7 +130,7 @@
     <CheckBox
         android:id="@+id/cbReadCoding"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="@string/cb_read_coding"
         app:layout_constraintStart_toEndOf="@+id/cbReadBook"
         app:layout_constraintTop_toBottomOf="@+id/tvInterest" />
@@ -139,10 +139,10 @@
         android:id="@+id/tvMoreInformation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_107AFA"
+        android:background="@color/blue_1E5495"
         android:gravity="center"
         android:text="@string/more_information"
-        android:textColor="@color/green_BDDD5E"
+        android:textColor="@color/green_D1E39C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cbReadCoding" />

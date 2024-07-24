@@ -10,6 +10,8 @@
     <!-- Strings related to exercise 2 -->
     <string name="number_one">Số hạng 1</string>
     <string name="number_two">Số hạng 2</string>
+    <string name="hint_number_one">Nhập vào số hạng 1</string>
+    <string name="hint_number_two">Nhập vào số hạng 2</string>
     <string name="result">Kết quả: </string>
     <string name="btn_addition">+</string>
     <string name="btn_subtraction">-</string>

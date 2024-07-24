@@ -23,6 +23,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:autofillHints="@string/hint_number_one"
+            android:hint="@string/hint_number_one"
             android:inputType="number"
             android:textSize="21sp" />
 
@@ -45,6 +47,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:autofillHints="@string/hint_number_two"
+            android:hint="@string/hint_number_two"
             android:inputType="number"
             android:textSize="21sp" />
 
@@ -57,6 +61,7 @@
 
         <Button
             android:id="@+id/btnAddition"
+            style="@style/ShapeAppearanceOverlay.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -64,6 +69,7 @@
 
         <Button
             android:id="@+id/btnSubtraction"
+            style="@style/ShapeAppearanceOverlay.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -71,6 +77,7 @@
 
         <Button
             android:id="@+id/btnMultiplication"
+            style="@style/ShapeAppearanceOverlay.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -78,6 +85,7 @@
 
         <Button
             android:id="@+id/btnDivision"
+            style="@style/ShapeAppearanceOverlay.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
