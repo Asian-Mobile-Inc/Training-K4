@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
+        android:labelFor="@+id/edtName"
         android:text="@string/textview_text_name"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -19,18 +18,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/edtName"
         android:layout_width="300dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:autofillHints="@string/hint_edittext"
         android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvCmnd"
@@ -38,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="80dp"
+        android:labelFor="@+id/edtCmnd"
         android:text="@string/textview_text_cmnd"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -47,15 +46,14 @@
     <EditText
         android:id="@+id/edtCmnd"
         android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="20dp"
         android:autofillHints="@string/hint_edittext"
         android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvBangCap"
@@ -65,7 +63,7 @@
         android:background="@color/blue_6D6DE6"
         android:text="@string/textview_text_degree"
         android:textAlignment="center"
-        android:textColor="@color/yellow_FFFF00"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -110,7 +108,7 @@
         android:background="@color/blue_6D6DE6"
         android:text="@string/textview_text_interest"
         android:textAlignment="center"
-        android:textColor="@color/yellow_FFFF00"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,6 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="256dp"
+        android:textSize="20sp"
         android:text="@string/textview_text_read_book"
         app:layout_constraintStart_toEndOf="@+id/cbDocBao"
         app:layout_constraintTop_toTopOf="parent" />
@@ -153,7 +152,7 @@
         android:background="@color/blue_6D6DE6"
         android:text="@string/textview_text_more_info"
         android:textAlignment="center"
-        android:textColor="@color/yellow_FFFF00"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
