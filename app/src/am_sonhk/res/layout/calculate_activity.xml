@@ -24,8 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:importantForAutofill="no"
-            android:inputType="number"
-            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
+            android:inputType="number" />
     </LinearLayout>
 
     <LinearLayout
@@ -67,7 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btnAdd"
+            android:text="@string/plus"
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
 
         <Button
@@ -75,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btnSubtract"
+            android:text="@string/subtract"
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
 
         <Button
@@ -83,7 +82,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btnMultiply"
+            android:text="@string/multiply"
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
 
         <Button
@@ -91,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btnDivide"
+            android:text="@string/divide"
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
     </LinearLayout>
 
