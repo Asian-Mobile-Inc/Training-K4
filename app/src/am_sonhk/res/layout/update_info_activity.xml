@@ -9,7 +9,7 @@
         android:id="@+id/tvHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/clHeader"
+        android:background="@color/color_header"
         android:padding="8dp"
         android:text="@string/thong_tin_ca_nhan"
         android:textAlignment="center"
