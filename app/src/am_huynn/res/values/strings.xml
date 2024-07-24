@@ -2,27 +2,27 @@
     <string name="app_name" translatable="false">ExHuynn</string>
     <string name="title_activity_exercise_ui2">exercise_ui_2</string>
     <!-- Strings related to exercise 1 -->
-    <string name="tv_facebook">FACEBOOK</string>
-    <string name="edt_hint_email_or_phone">Email or phone</string>
-    <string name="edt_hint_password">Password</string>
+    <string name="facebook">FACEBOOK</string>
+    <string name="hint_email_or_phone">Email or phone</string>
+    <string name="hint_password">Password</string>
     <string name="btn_login">Login</string>
 
     <!-- Strings related to exercise 2 -->
-    <string name="tv_number1">Số hạng 1</string>
-    <string name="tv_number2">Số hạng 2</string>
-    <string name="tv_result">Kết quả: </string>
+    <string name="number_one">Số hạng 1</string>
+    <string name="number_two">Số hạng 2</string>
+    <string name="result">Kết quả: </string>
     <string name="btn_addition">+</string>
     <string name="btn_subtraction">-</string>
     <string name="btn_multiplication">*</string>
     <string name="btn_division">/</string>
 
     <!-- Strings related to exercise 3 -->
-    <string name="tv_information">Thông tin cá nhân</string>
-    <string name="tv_name">Họ tên: </string>
-    <string name="edt_hint_name_greater_than_3">Tên phải >= 3 ký tự</string>
-    <string name="tv_card">CMND: </string>
-    <string name="edt_hint_enter_9_digits">Nhập đúng 9 chữ số</string>
-    <string name="tv_degree">Bằng cấp</string>
+    <string name="information">Thông tin cá nhân</string>
+    <string name="name">Họ tên: </string>
+    <string name="hint_name_greater_than_3">Tên phải >= 3 ký tự</string>
+    <string name="card">CMND: </string>
+    <string name="hint_enter_9_digits">Nhập đúng 9 chữ số</string>
+    <string name="degree">Bằng cấp</string>
     <string name="rb_high_school">Trung học</string>
     <string name="rb_college">Cao đẳng</string>
     <string name="rb_university">Đại học</string>
@@ -30,8 +30,8 @@
     <string name="cb_read_paper">Đọc báo</string>
     <string name="cb_read_book">Đọc sách</string>
     <string name="cb_read_coding">Đọc coding</string>
-    <string name="tv_more_information">Thông tin bổ sung</string>
-    <string name="edt_hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
+    <string name="more_information">Thông tin bổ sung</string>
+    <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
     <string name="btn_send_information">Gửi thông tin</string>
 
     <!-- Strings used for fragments for navigation -->

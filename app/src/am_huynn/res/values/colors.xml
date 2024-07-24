@@ -5,9 +5,11 @@
     <color name="blue_1D2B4A">#1D2B4A</color>
     <color name="blue_407F80">#407F80</color>
     <color name="blue_107AFA">#107AFA</color>
-    <color name="green_ABC74C">#ABC74C</color>
+    <color name="green_D8ED4D">#D8ED4D</color>
+    <color name="green_BDDD5E">#BDDD5E</color>
+    <color name="green_407F7F">#407F7F</color>
     <color name="green">#008000</color>
-    <color name="purpe">#800080</color>
+    <color name="purple">#800080</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 </resources>

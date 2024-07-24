@@ -12,7 +12,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:text="@string/tv_facebook"
+        android:text="@string/facebook"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -24,8 +24,10 @@
         android:layout_below="@id/tvTitle"
         android:layout_marginBottom="30dp"
         android:background="@color/white"
-        android:hint="@string/edt_hint_email_or_phone"
-        android:paddingVertical="10dp" />
+        android:hint="@string/hint_email_or_phone"
+        android:inputType="textEmailAddress"
+        android:paddingVertical="10dp"
+        android:textSize="21sp" />
 
     <EditText
         android:id="@+id/edtPassword"
@@ -33,10 +35,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/edtEmail"
         android:layout_marginBottom="30dp"
+        android:autofillHints="@string/hint_password"
         android:background="@color/white"
-        android:hint="@string/edt_hint_password"
+        android:hint="@string/hint_password"
         android:inputType="textPassword"
-        android:paddingVertical="10dp" />
+        android:paddingVertical="10dp"
+        android:textSize="21sp" />
 
     <Button
         android:id="@+id/btnLogin"
