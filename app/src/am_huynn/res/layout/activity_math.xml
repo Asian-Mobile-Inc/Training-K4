@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_addition" />
+            android:text="@string/addition" />
 
         <Button
             android:id="@+id/btnSubtraction"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_subtraction" />
+            android:text="@string/subtraction" />
 
         <Button
             android:id="@+id/btnMultiplication"
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_multiplication" />
+            android:text="@string/multiplication" />
 
         <Button
             android:id="@+id/btnDivision"
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_division" />
+            android:text="@string/division" />
     </LinearLayout>
 
     <TextView

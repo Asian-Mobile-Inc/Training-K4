@@ -13,10 +13,10 @@
     <string name="hint_number_one">Nhập vào số hạng 1</string>
     <string name="hint_number_two">Nhập vào số hạng 2</string>
     <string name="result">Kết quả: </string>
-    <string name="btn_addition">+</string>
-    <string name="btn_subtraction">-</string>
-    <string name="btn_multiplication">*</string>
-    <string name="btn_division">/</string>
+    <string name="addition">+</string>
+    <string name="subtraction">-</string>
+    <string name="multiplication">*</string>
+    <string name="division">/</string>
 
     <!-- Strings related to exercise 3 -->
     <string name="information">Thông tin cá nhân</string>
@@ -25,16 +25,16 @@
     <string name="card">CMND: </string>
     <string name="hint_enter_9_digits">Nhập đúng 9 chữ số</string>
     <string name="degree">Bằng cấp</string>
-    <string name="rb_high_school">Trung học</string>
-    <string name="rb_college">Cao đẳng</string>
-    <string name="rb_university">Đại học</string>
-    <string name="tv_interest">Sở thích</string>
-    <string name="cb_read_paper">Đọc báo</string>
-    <string name="cb_read_book">Đọc sách</string>
-    <string name="cb_read_coding">Đọc coding</string>
+    <string name="high_school">Trung học</string>
+    <string name="college">Cao đẳng</string>
+    <string name="university">Đại học</string>
+    <string name="interest">Sở thích</string>
+    <string name="read_paper">Đọc báo</string>
+    <string name="read_book">Đọc sách</string>
+    <string name="read_coding">Đọc coding</string>
     <string name="more_information">Thông tin bổ sung</string>
     <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
-    <string name="btn_send_information">Gửi thông tin</string>
+    <string name="send_information">Gửi thông tin</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
