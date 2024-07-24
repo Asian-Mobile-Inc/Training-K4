@@ -56,7 +56,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvBangCap"
+        android:id="@+id/tvDegree"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="152dp"
@@ -71,21 +71,21 @@
 
     <RadioGroup
         android:id="@+id/rgDegree"
-        android:checkedButton="@id/rbIntermediate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:checkedButton="@id/rbIntermediate"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBangCap">
+        app:layout_constraintTop_toBottomOf="@+id/tvDegree">
 
         <RadioButton
             android:id="@+id/rbIntermediate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/pink_FF5C78"
             android:layout_marginStart="8dp"
+            android:buttonTint="@color/pink_FF5C78"
             android:checked="true"
             android:text="@string/textview_text_intermediate" />
 
