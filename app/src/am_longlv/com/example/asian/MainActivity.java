@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseCal = findViewById(R.id.btnExerciseCal);
         mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
     }
+
     private void initListener() {
         mBtnExerciseLogin.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ExerciseLoginActivity.class));

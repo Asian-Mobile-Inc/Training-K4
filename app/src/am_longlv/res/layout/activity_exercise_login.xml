@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_6D6DE6"
-    tools:context=".ExerciseLoginActivity">
+    android:background="@color/blue_6D6DE6">
 
     <TextView
         android:id="@+id/tvFacebook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="50dp"
-        android:text="@string/textview_text_facebook"
+        android:text="@string/facebook"
         android:textAlignment="center"
+        android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -24,11 +23,13 @@
         android:layout_below="@id/tvFacebook"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="30dp"
+        android:autofillHints="@string/hint_email"
         android:background="@color/white"
-        android:hint="@string/editText_hint_email"
+        android:hint="@string/hint_email"
         android:paddingVertical="10dp"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/edtPassword"
@@ -37,8 +38,9 @@
         android:layout_below="@id/edtEmail"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="30dp"
+        android:autofillHints="@string/hint_password"
         android:background="@color/white"
-        android:hint="@string/editText_hint_password"
+        android:hint="@string/hint_password"
         android:inputType="textPassword"
         android:paddingVertical="10dp"
         android:textColor="@color/white"

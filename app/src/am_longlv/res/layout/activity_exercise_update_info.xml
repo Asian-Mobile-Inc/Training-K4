@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ExerciseUpdateInfoActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tvName"
@@ -22,13 +20,15 @@
     <EditText
         android:id="@+id/edtName"
         android:layout_width="300dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:autofillHints="@string/hint_edittext"
+        android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tvCmnd"
@@ -45,9 +45,11 @@
     <EditText
         android:id="@+id/edtCmnd"
         android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="20dp"
+        android:autofillHints="@string/hint_edittext"
+        android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="152dp"
         android:background="@color/blue_6D6DE6"
-        android:text="@string/textview_text_bang_cap"
+        android:text="@string/textview_text_degree"
         android:textAlignment="center"
         android:textColor="@color/yellow_FFFF00"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,13 +89,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
-            android:text="@string/textview_text_cao_dang" />
+            android:text="@string/textview_text_college" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
-            android:text="@string/textview_text_dai_hoc" />
+            android:text="@string/textview_text_university" />
     </RadioGroup>
 
 
@@ -103,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:background="@color/blue_6D6DE6"
-        android:text="@string/textview_text_so_thich"
+        android:text="@string/textview_text_interest"
         android:textAlignment="center"
         android:textColor="@color/yellow_FFFF00"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +119,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="256dp"
-        android:text="@string/textview_text_doc_bao"
+        android:text="@string/textview_text_read_news"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -127,7 +129,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="256dp"
-        android:text="@string/textview_text_doc_sach"
+        android:text="@string/textview_text_read_book"
         app:layout_constraintStart_toEndOf="@+id/cbDocBao"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -158,7 +160,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/editText_hint_more_info"
+        android:autofillHints="@string/hint_edittext"
+        android:hint="@string/hint_more_info"
+        android:inputType="text"
         android:padding="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

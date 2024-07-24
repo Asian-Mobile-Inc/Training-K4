@@ -28,26 +28,26 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     private void initListener() {
         mBtnLogin.setOnClickListener(v -> {
             if (validate(mEdtEmail.getText().toString().trim(), mEdtPassword.getText().toString().trim())) {
-                Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.notifi_login_success), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private boolean validate(String email, String password) {
         if (email.split("@").length != 2) {
-            mEdtEmail.setError("Email is invalid");
+            mEdtEmail.setError(getString(R.string.error_email_invalid));
             return false;
         }
         if (!email.split("@")[1].equals("gmail.com")) {
-            mEdtPassword.setError("Email is invalid");
+            mEdtPassword.setError(getString(R.string.error_email_invalid));
             return false;
         }
         if (password.length() < 8) {
-            mEdtPassword.setError("Password is invalid");
+            mEdtPassword.setError(getString(R.string.error_password_invalid));
             return false;
         }
         if (!(password.matches(".*[a-z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*"))) {
-            mEdtPassword.setError("Password is invalid");
+            mEdtPassword.setError(getString(R.string.error_password_invalid));
             return false;
         }
         return true;

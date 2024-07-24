@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ExerciseCalculateActivity">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,15 +17,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:text="@string/textview_text_so_dau"
+            android:text="@string/textview_text_first_number"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
         <EditText
-            android:id="@+id/edtSoDau"
+            android:id="@+id/edtFirstNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:autofillHints="@string/hint_edittext"
+            android:inputType="number"
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,15 +43,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:text="@string/textview_text_so_sau"
+            android:text="@string/textview_text_second_number"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
         <EditText
-            android:id="@+id/edtSoSau"
+            android:id="@+id/edtSecondNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:autofillHints="hint_editext"
+            android:inputType="number"
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,52 +65,56 @@
         android:weightSum="4">
 
         <Button
-            android:id="@+id/btnCong"
+            android:id="@+id/btnAdd"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_text_cong"
+            android:text="@string/textview_add"
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/btnTru"
+            android:id="@+id/btnSub"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_text_tru"
+            android:text="@string/textview_sub"
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/btnNhan"
+            android:id="@+id/btnMul"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_text_nhan"
+            android:text="@string/textview_mul"
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/btnChia"
+            android:id="@+id/btnDiv"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_text_chia"
+            android:text="@string/textview_div"
             android:textColor="@color/black" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvKetQua"
+        android:id="@+id/tvResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:text="@string/textview_text_ket_qua"
+        android:text="@string/textview_text_result"
         android:textSize="16sp" />
 </LinearLayout>
