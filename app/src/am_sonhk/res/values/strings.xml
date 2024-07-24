@@ -24,4 +24,5 @@
   <string name="read_code" >Đọc Code</string>
   <string name="input_additional_info_can_null" >"Nhập thông tin bổ sung - có thể để trống"</string>
   <string name="send_data" >Gữi Thong Tin</string>
+  <string name="additional_info" >Thông tin bổ sung</string>
 </resources>
