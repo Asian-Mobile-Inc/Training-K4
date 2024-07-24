@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:labelFor="@+id/edtFirstNumber"
-            android:text="@string/textview_text_first_number"
+            android:text="@string/first_number"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:labelFor="@+id/edtSecondNumber"
-            android:text="@string/textview_text_second_number"
+            android:text="@string/second_number"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -116,6 +116,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:text="@string/textview_text_result"
+        android:text="@string/result"
         android:textSize="16sp" />
 </LinearLayout>

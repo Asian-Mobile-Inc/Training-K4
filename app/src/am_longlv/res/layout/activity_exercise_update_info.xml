@@ -11,7 +11,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:labelFor="@+id/edtName"
-        android:text="@string/textview_text_name"
+        android:text="@string/name"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="152dp"
         android:background="@color/blue_6D6DE6"
-        android:text="@string/textview_text_degree"
+        android:text="@string/degree"
         android:textAlignment="center"
         android:textColor="@color/yellow_FFFF00"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,21 +87,21 @@
             android:layout_marginStart="8dp"
             android:buttonTint="@color/pink_FF5C78"
             android:checked="true"
-            android:text="@string/textview_text_intermediate" />
+            android:text="@string/intermediate" />
 
         <RadioButton
             android:id="@+id/rbCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
-            android:text="@string/textview_text_college" />
+            android:text="@string/college" />
 
         <RadioButton
             android:id="@+id/rbUniversity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
-            android:text="@string/textview_text_university" />
+            android:text="@string/university" />
     </RadioGroup>
 
     <TextView
@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:background="@color/blue_6D6DE6"
-        android:text="@string/textview_text_interest"
+        android:text="@string/interest"
         android:textAlignment="center"
         android:textColor="@color/yellow_FFFF00"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +123,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="256dp"
-        android:text="@string/textview_text_read_news"
+        android:text="@string/read_news"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -133,7 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="256dp"
-        android:text="@string/textview_text_read_book"
+        android:text="@string/read_book"
         app:layout_constraintStart_toEndOf="@+id/cbReadNews"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -143,7 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="256dp"
-        android:text="@string/textview_text_coding"
+        android:text="@string/coding"
         app:layout_constraintStart_toEndOf="@+id/cbReadBook"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -153,7 +153,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
         android:background="@color/blue_6D6DE6"
-        android:text="@string/textview_text_more_info"
+        android:text="@string/more_info"
         android:textAlignment="center"
         android:textColor="@color/yellow_FFFF00"
         app:layout_constraintEnd_toEndOf="parent"
@@ -178,7 +178,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/button_text_send_info"
+        android:text="@string/send_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtMoreInfo" />
