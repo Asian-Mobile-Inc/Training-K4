@@ -88,9 +88,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvDegree"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvDegree">
 
         <RadioButton
             android:id="@+id/rbIntermediate"
@@ -133,11 +133,11 @@
         android:id="@+id/llHobbies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvHobby"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHobby">
 
         <CheckBox
             android:id="@+id/cbReadingNews"
@@ -180,26 +180,25 @@
         android:id="@+id/edtAdditionalInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:hint="@string/input_additional_info_can_null"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@id/tvAdditionalInfo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
+        android:hint="@string/input_additional_info_can_null"
         android:importantForAutofill="no"
+        android:inputType="textMultiLine"
         android:minHeight="100dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAdditionalInfo"
         tools:ignore="VisualLintTextFieldSize" />
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/send_data"
-        app:layout_constraintTop_toBottomOf="@id/edtAdditionalInfo"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtAdditionalInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
