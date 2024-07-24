@@ -28,7 +28,7 @@
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
         android:paddingVertical="10dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="20sp" />
 
     <EditText
@@ -43,7 +43,7 @@
         android:hint="@string/hint_password"
         android:inputType="textPassword"
         android:paddingVertical="10dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="20sp" />
 
     <Button
