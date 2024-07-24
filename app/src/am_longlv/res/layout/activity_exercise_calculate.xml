@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:labelFor="@+id/edtFirstNumber"
-            android:text="@string/textview_text_first_number"
+            android:text="@string/first_number"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:labelFor="@+id/edtSecondNumber"
-            android:text="@string/textview_text_second_number"
+            android:text="@string/second_number"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -73,7 +73,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_add"
+            android:text="@string/plus"
             android:textColor="@color/black" />
 
         <Button
@@ -84,7 +84,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_sub"
+            android:text="@string/subtraction"
             android:textColor="@color/black" />
 
         <Button
@@ -95,7 +95,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_mul"
+            android:text="@string/multiplication"
             android:textColor="@color/black" />
 
         <Button
@@ -106,7 +106,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/gray_BDBDBD"
-            android:text="@string/textview_div"
+            android:text="@string/divided"
             android:textColor="@color/black" />
 
     </LinearLayout>
@@ -116,6 +116,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:text="@string/textview_text_result"
+        android:text="@string/result"
         android:textSize="16sp" />
 </LinearLayout>

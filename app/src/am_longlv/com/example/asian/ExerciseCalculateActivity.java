@@ -73,16 +73,16 @@ public class ExerciseCalculateActivity extends AppCompatActivity implements View
     private void calculate(int id, int soDau, int soSau) {
         switch (id) {
             case (R.id.btnAdd):
-                mTvResult.setText(getString(R.string.textview_text_result) + (soDau + soSau));
+                mTvResult.setText(getString(R.string.result) + (soDau + soSau));
                 break;
             case (R.id.btnSub):
-                mTvResult.setText(getString(R.string.textview_text_result) + (soDau - soSau));
+                mTvResult.setText(getString(R.string.result) + (soDau - soSau));
                 break;
             case (R.id.btnMul):
-                mTvResult.setText(getString(R.string.textview_text_result) + soDau * soSau);
+                mTvResult.setText(getString(R.string.result) + soDau * soSau);
                 break;
             case (R.id.btnDiv):
-                mTvResult.setText(getString(R.string.textview_text_result) + soDau / soSau);
+                mTvResult.setText(getString(R.string.result) + soDau / soSau);
                 break;
         }
     }
