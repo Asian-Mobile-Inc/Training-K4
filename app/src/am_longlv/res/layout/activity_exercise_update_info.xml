@@ -90,14 +90,14 @@
             android:text="@string/textview_text_intermediate" />
 
         <RadioButton
-            android:id="@+id/rb_college"
+            android:id="@+id/rbCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
             android:text="@string/textview_text_college" />
 
         <RadioButton
-            android:id="@+id/rb_university"
+            android:id="@+id/rbUniversity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/pink_FF5C78"
