@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
+    <style name="App.ToolbarMenuItem" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="android:color">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+    <style name="ExtendedFloatingActionButton" parent="ThemeOverlay.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/red_A8FF0000</item>
+        <item name="tint">@color/blue_6D6DE6</item>
+    </style>
 </resources>

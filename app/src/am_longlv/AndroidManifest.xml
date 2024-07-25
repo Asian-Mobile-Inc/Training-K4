@@ -17,6 +17,10 @@
             android:name=".ExerciseLoginActivity"
             android:exported="false" />
         <activity
+            android:name=".IssueSix.IssueSixActivity"
+            android:theme="@style/App.ToolbarMenuItem"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
