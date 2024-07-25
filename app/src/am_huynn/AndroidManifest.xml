@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DataActivity"
+            android:name=".ui.DataActivity"
             android:exported="false" />
         <activity
             android:name=".ui.FacebookActivity"
