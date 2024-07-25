@@ -12,6 +12,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     private EditText mEdtName, mEdtCmnd, mEdtMoreInfo;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_update_info);
