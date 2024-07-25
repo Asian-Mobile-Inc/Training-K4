@@ -34,22 +34,22 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private boolean validate(String email, String password) {
-        if (email.split("@").length != 2) {
+        if (!email.contains("@gmail.com")) {
             mEdtEmail.setError(getString(R.string.email_invalid));
-            return false;
-        }
-        if (!email.split("@")[1].equals("gmail.com")) {
-            mEdtPassword.setError(getString(R.string.email_invalid));
             return false;
         }
         if (password.length() < 8) {
             mEdtPassword.setError(getString(R.string.password_invalid));
             return false;
         }
-        if (!(password.matches(".*[a-z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*"))) {
+        if (!checkPassword(password)) {
             mEdtPassword.setError(getString(R.string.password_invalid));
             return false;
         }
         return true;
+    }
+
+    private boolean checkPassword(String password) {
+        return password.matches(".*[a-z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*");
     }
 }

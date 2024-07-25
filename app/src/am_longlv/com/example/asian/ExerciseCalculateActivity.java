@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-public class ExerciseCalculateActivity extends AppCompatActivity implements View.OnClickListener {
+public class ExerciseCalculateActivity extends AppCompatActivity {
     private Button mBtnPlus, mBtnSub, mBtnMul, mBtnDiv;
     private EditText mEdtFirstNumber, mEdtSecondNumber;
     private TextView mTvResult;
@@ -37,53 +37,51 @@ public class ExerciseCalculateActivity extends AppCompatActivity implements View
     }
 
     private void initListener() {
-        mBtnPlus.setOnClickListener(this);
-        mBtnSub.setOnClickListener(this);
-        mBtnMul.setOnClickListener(this);
-        mBtnDiv.setOnClickListener(this);
+        mBtnPlus.setOnClickListener(v -> {
+            if (!validateInput()) {
+                return;
+            }
+            int firstNumber = Integer.parseInt(Objects.requireNonNull(mEdtFirstNumber.getText()).toString().trim());
+            int secondNumber = Integer.parseInt(Objects.requireNonNull(mEdtSecondNumber.getText()).toString().trim());
+            mTvResult.setText(getString(R.string.result) + (firstNumber + secondNumber));
+        });
+        mBtnSub.setOnClickListener(v -> {
+            if (!validateInput()) {
+                return;
+            }
+            int firstNumber = Integer.parseInt(Objects.requireNonNull(mEdtFirstNumber.getText()).toString().trim());
+            int secondNumber = Integer.parseInt(Objects.requireNonNull(mEdtSecondNumber.getText()).toString().trim());
+            mTvResult.setText(getString(R.string.result) + (firstNumber - secondNumber));
+        });
+        mBtnMul.setOnClickListener(v -> {
+            if (!validateInput()) {
+                return;
+            }
+            int firstNumber = Integer.parseInt(Objects.requireNonNull(mEdtFirstNumber.getText()).toString().trim());
+            int secondNumber = Integer.parseInt(Objects.requireNonNull(mEdtSecondNumber.getText()).toString().trim());
+            mTvResult.setText(getString(R.string.result) + (firstNumber * secondNumber));
+        });
+        mBtnDiv.setOnClickListener(v -> {
+            if (!validateInput()) {
+                return;
+            }
+            int firstNumber = Integer.parseInt(Objects.requireNonNull(mEdtFirstNumber.getText()).toString().trim());
+            int secondNumber = Integer.parseInt(Objects.requireNonNull(mEdtSecondNumber.getText()).toString().trim());
+            if (secondNumber == 0) {
+                mTvResult.setError(getString(R.string.error_divided_zero));
+                return;
+            }
+            mTvResult.setText(getString(R.string.result) + (firstNumber / secondNumber));
+        });
     }
 
     private boolean validateInput() {
-        return !mEdtFirstNumber.getText().toString().trim().isEmpty() && !mEdtSecondNumber.getText().toString().trim().isEmpty();
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-        if (!validateInput()) {
-            return;
-        }
-        int firstNumber = 0, secondNumber = 0;
         try {
-            firstNumber = Integer.parseInt(mEdtFirstNumber.getText().toString().trim());
-            secondNumber = Integer.parseInt(mEdtSecondNumber.getText().toString().trim());
-            if (v.getId() == R.id.btnDiv) {
-                if (secondNumber == 0) {
-                    mTvResult.setError(getString(R.string.error_divided_zero));
-                    return;
-                }
-            }
-            calculate(v.getId(), firstNumber, secondNumber);
+            Integer.parseInt(mEdtFirstNumber.getText().toString().trim());
+            Integer.parseInt(mEdtSecondNumber.getText().toString().trim());
         } catch (Exception e) {
-            mTvResult.setError(getString(R.string.error_divided_zero));
+            return false;
         }
-    }
-
-    @SuppressLint({"SetTextI18n"})
-    private void calculate(int id, int firstNumber, int secondNumber) {
-        switch (id) {
-            case (R.id.btnAdd):
-                mTvResult.setText(getString(R.string.result) + (firstNumber + secondNumber));
-                break;
-            case (R.id.btnSub):
-                mTvResult.setText(getString(R.string.result) + (firstNumber - secondNumber));
-                break;
-            case (R.id.btnMul):
-                mTvResult.setText(getString(R.string.result) + firstNumber * secondNumber);
-                break;
-            case (R.id.btnDiv):
-                mTvResult.setText(getString(R.string.result) + firstNumber / secondNumber);
-                break;
-        }
+        return !mEdtFirstNumber.getText().toString().trim().isEmpty() && !mEdtSecondNumber.getText().toString().trim().isEmpty();
     }
 }
