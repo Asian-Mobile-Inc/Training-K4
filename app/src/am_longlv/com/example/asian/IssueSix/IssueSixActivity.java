@@ -19,7 +19,9 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.asian.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -28,6 +30,7 @@ public class IssueSixActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private NavigationView mNvIssueSix;
+    private FloatingActionButton mFabIssueSix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +46,15 @@ public class IssueSixActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.tbIssuesSix);
         mDrawerLayout = findViewById(R.id.dlIssueSix);
         mNvIssueSix = findViewById(R.id.nvIssueSix);
+        mFabIssueSix = findViewById(R.id.fabIssueSix);
     }
 
     private void initListener() {
+        mFabIssueSix.setOnClickListener(v -> {
+            Snackbar.make(v, getString(R.string.replace_with_your_own_action), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null)
+                    .show();
+        });
 
     }
 
@@ -80,22 +89,7 @@ public class IssueSixActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case (R.id.navHome):
-                Toast.makeText(this, getString(R.string.home), Toast.LENGTH_SHORT).show();
-                break;
-            case (R.id.navSetting):
-                Toast.makeText(this, getString(R.string.setting), Toast.LENGTH_SHORT).show();
-                break;
-            case (R.id.navShare):
-                Toast.makeText(this, getString(R.string.share), Toast.LENGTH_SHORT).show();
-                break;
-            case (R.id.navSend):
-                Toast.makeText(this, getString(R.string.send), Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
-        }
+        eventOnClickMenu(item.getItemId());
         if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -110,24 +104,28 @@ public class IssueSixActivity extends AppCompatActivity {
 
     private void setUpNavigationView() {
         mNvIssueSix.setNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case (R.id.navHome):
-                    Toast.makeText(this, getString(R.string.home), Toast.LENGTH_SHORT).show();
-                    break;
-                case (R.id.navSetting):
-                    Toast.makeText(this, getString(R.string.setting), Toast.LENGTH_SHORT).show();
-                    break;
-                case (R.id.navShare):
-                    Toast.makeText(this, getString(R.string.share), Toast.LENGTH_SHORT).show();
-                    break;
-                case (R.id.navSend):
-                    Toast.makeText(this, getString(R.string.send), Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
+            eventOnClickMenu(item.getItemId());
             mDrawerLayout.closeDrawers();
             return true;
         });
+    }
+
+    private void eventOnClickMenu(int id) {
+        switch (id) {
+            case (R.id.navHome):
+                mToolbar.setTitle(getString(R.string.home));
+                break;
+            case (R.id.navSetting):
+                mToolbar.setTitle(getString(R.string.setting));
+                break;
+            case (R.id.navShare):
+                mToolbar.setTitle(getString(R.string.share));
+                break;
+            case (R.id.navSend):
+                mToolbar.setTitle(getString(R.string.send));
+                break;
+            default:
+                break;
+        }
     }
 }

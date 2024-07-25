@@ -45,6 +45,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabIssueSix"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentEnd="true"
