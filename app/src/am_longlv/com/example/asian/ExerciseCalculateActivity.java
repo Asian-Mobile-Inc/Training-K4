@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 public class ExerciseCalculateActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button mBtnAdd, mBtnSub, mBtnMul, mBtnDiv;
+    private Button mBtnPlus, mBtnSub, mBtnMul, mBtnDiv;
     private EditText mEdtFirstNumber, mEdtSecondNumber;
     private TextView mTvResult;
 
@@ -27,7 +27,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity implements View
     }
 
     private void initUI() {
-        mBtnAdd = findViewById(R.id.btnAdd);
+        mBtnPlus = findViewById(R.id.btnAdd);
         mBtnSub = findViewById(R.id.btnSub);
         mBtnMul = findViewById(R.id.btnMul);
         mBtnDiv = findViewById(R.id.btnDiv);
@@ -37,7 +37,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity implements View
     }
 
     private void initListener() {
-        mBtnAdd.setOnClickListener(this);
+        mBtnPlus.setOnClickListener(this);
         mBtnSub.setOnClickListener(this);
         mBtnMul.setOnClickListener(this);
         mBtnDiv.setOnClickListener(this);
@@ -53,36 +53,36 @@ public class ExerciseCalculateActivity extends AppCompatActivity implements View
         if (!validateInput()) {
             return;
         }
-        int soDau = 0, soSau = 0;
+        int firstNumber = 0, secondNumber = 0;
         try {
-            soDau = Integer.parseInt(mEdtFirstNumber.getText().toString().trim());
-            soSau = Integer.parseInt(mEdtSecondNumber.getText().toString().trim());
+            firstNumber = Integer.parseInt(mEdtFirstNumber.getText().toString().trim());
+            secondNumber = Integer.parseInt(mEdtSecondNumber.getText().toString().trim());
             if (v.getId() == R.id.btnDiv) {
-                if (soSau == 0) {
+                if (secondNumber == 0) {
                     mTvResult.setError(getString(R.string.error_divided_zero));
                     return;
                 }
             }
-            calculate(v.getId(), soDau, soSau);
+            calculate(v.getId(), firstNumber, secondNumber);
         } catch (Exception e) {
             mTvResult.setError(getString(R.string.error_divided_zero));
         }
     }
 
     @SuppressLint({"SetTextI18n"})
-    private void calculate(int id, int soDau, int soSau) {
+    private void calculate(int id, int firstNumber, int secondNumber) {
         switch (id) {
             case (R.id.btnAdd):
-                mTvResult.setText(getString(R.string.result) + (soDau + soSau));
+                mTvResult.setText(getString(R.string.result) + (firstNumber + secondNumber));
                 break;
             case (R.id.btnSub):
-                mTvResult.setText(getString(R.string.result) + (soDau - soSau));
+                mTvResult.setText(getString(R.string.result) + (firstNumber - secondNumber));
                 break;
             case (R.id.btnMul):
-                mTvResult.setText(getString(R.string.result) + soDau * soSau);
+                mTvResult.setText(getString(R.string.result) + firstNumber * secondNumber);
                 break;
             case (R.id.btnDiv):
-                mTvResult.setText(getString(R.string.result) + soDau / soSau);
+                mTvResult.setText(getString(R.string.result) + firstNumber / secondNumber);
                 break;
         }
     }

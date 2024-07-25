@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     private Button mBtnSendInfo;
-    private EditText mEdtName, mEdtCmnd, mEdtMoreInfo;
+    private EditText mEdtName, mEdtIdCard, mEdtMoreInfo;
 
     @Override
 
@@ -23,13 +23,13 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     private void initUI() {
         mBtnSendInfo = findViewById(R.id.btnSendInfo);
         mEdtName = findViewById(R.id.edtName);
-        mEdtCmnd = findViewById(R.id.edtCmnd);
+        mEdtIdCard = findViewById(R.id.edtCmnd);
         mEdtMoreInfo = findViewById(R.id.edtMoreInfo);
     }
 
     private void initListener() {
         mBtnSendInfo.setOnClickListener(v -> {
-            if (validate(mEdtName.getText().toString().trim(), mEdtCmnd.getText().toString().trim(), mEdtMoreInfo.getText().toString().trim())) {
+            if (validate(mEdtName.getText().toString().trim(), mEdtIdCard.getText().toString().trim(), mEdtMoreInfo.getText().toString().trim())) {
                 Toast.makeText(this, getString(R.string.password_invalid), Toast.LENGTH_SHORT).show();
             }
         });
@@ -41,7 +41,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
             return false;
         }
         if (cmnd == null || cmnd.isEmpty()) {
-            mEdtCmnd.setError(getString(R.string.id_card_invalid));
+            mEdtIdCard.setError(getString(R.string.id_card_invalid));
             return false;
         }
         if (moreInfo == null || moreInfo.isEmpty() || moreInfo.length() < 100) {

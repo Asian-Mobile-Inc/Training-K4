@@ -27,6 +27,7 @@
     <string name="subtraction">-</string>
     <string name="multiplication">*</string>
     <string name="divided">/</string>
+    <!--  strings for issue 3-->
     <string name="hint_edittext">This is hint Edittext</string>
     <string name="error_divided_zero">Không thể chia cho 0</string>
     <string name="format_input_wrong">Nhập sai định dạng</string>
