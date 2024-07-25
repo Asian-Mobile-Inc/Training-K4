@@ -17,8 +17,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvName"
@@ -41,8 +40,7 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvName"
-        app:layout_constraintTop_toBottomOf="@id/tvHeader"
-        tools:ignore="VisualLintTextFieldSize" />
+        app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
     <TextView
         android:id="@+id/tvID"
@@ -65,8 +63,7 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvID"
-        app:layout_constraintTop_toBottomOf="@id/edtName"
-        tools:ignore="VisualLintTextFieldSize" />
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
 
     <TextView
         android:id="@+id/tvDegree"
@@ -80,8 +77,7 @@
         android:textColor="@color/text_FFD700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtID"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toBottomOf="@id/edtID" />
 
     <RadioGroup
         android:id="@+id/rgDegree"
@@ -96,22 +92,19 @@
             android:id="@+id/rbIntermediate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/intermediate_level"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:text="@string/intermediate_level" />
 
         <RadioButton
             android:id="@+id/rbCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/college_level"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:text="@string/college_level" />
 
         <RadioButton
             android:id="@+id/rbUniversity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/university_level"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:text="@string/university_level" />
     </RadioGroup>
 
     <TextView
@@ -126,8 +119,7 @@
         android:textColor="@color/text_FFD700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgDegree"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toBottomOf="@id/rgDegree" />
 
     <LinearLayout
         android:id="@+id/llHobbies"
@@ -143,22 +135,19 @@
             android:id="@+id/cbReadingNews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/read_news"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:text="@string/read_news" />
 
         <CheckBox
             android:id="@+id/cbReadingBooks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/read_book"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:text="@string/read_book" />
 
         <CheckBox
             android:id="@+id/cbReadingCoding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/read_code"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:text="@string/read_code" />
     </LinearLayout>
 
     <TextView
@@ -173,8 +162,7 @@
         android:textColor="@color/text_FFD700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llHobbies"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toBottomOf="@id/llHobbies" />
 
     <EditText
         android:id="@+id/edtAdditionalInfo"
@@ -188,8 +176,7 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAdditionalInfo"
-        tools:ignore="VisualLintTextFieldSize" />
+        app:layout_constraintTop_toBottomOf="@id/tvAdditionalInfo" />
 
     <Button
         android:id="@+id/btnSubmit"

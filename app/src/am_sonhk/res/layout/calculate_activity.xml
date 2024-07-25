@@ -49,8 +49,7 @@
             android:importantForAutofill="no"
             android:inputType="number"
             android:labelFor="@+id/edtNumberOne"
-            android:minHeight="48dp"
-            tools:ignore="VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+            android:minHeight="48dp" />
 
     </LinearLayout>
 
@@ -66,32 +65,28 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/plus"
-            tools:ignore="ButtonStyle,VisualLintButtonSize" />
+            android:text="@string/plus" />
 
         <Button
             android:id="@+id/btnSubtract"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/subtract"
-            tools:ignore="ButtonStyle,VisualLintButtonSize" />
+            android:text="@string/subtract" />
 
         <Button
             android:id="@+id/btnMultiply"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/multiply"
-            tools:ignore="ButtonStyle,VisualLintButtonSize" />
+            android:text="@string/multiply" />
 
         <Button
             android:id="@+id/btnDivide"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/divide"
-            tools:ignore="ButtonStyle,VisualLintButtonSize" />
+            android:text="@string/divide" />
     </LinearLayout>
 
     <TextView

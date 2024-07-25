@@ -27,4 +27,7 @@
   <string name="send_data">Gữi Thong Tin</string>
   <string name="additional_info">Thông tin bổ sung</string>
   <string name="reuslt">Kết quả:</string>
+  <string name="exercise_update_info">Update Infor Exercise\n</string>
+  <string name="exercise_calculate">Exercise Calculate\n</string>
+  <string name="exercise_login">Exercise Login</string>
 </resources>
