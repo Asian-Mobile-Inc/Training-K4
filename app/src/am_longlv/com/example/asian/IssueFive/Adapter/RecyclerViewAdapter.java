@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -80,20 +81,48 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @SuppressLint("NotifyDataSetChanged")
     private void setUpActionItemDialog(Dialog dialog, int position) {
-        EditText edtItem = dialog.findViewById(R.id.edtEditItemIssueFive);
-        TextView tvTitle = dialog.findViewById(R.id.tvTitleItemIssueFive);
-        TextView tvEdit = dialog.findViewById(R.id.tvSaveItemIssueFive);
-        TextView tvDelete = dialog.findViewById(R.id.tvDeleteItemIssueFive);
+        TextView tvTitle = dialog.findViewById(R.id.tvTitleItem);
+        TextView tvEdit = dialog.findViewById(R.id.tvRename);
+        TextView tvDelete = dialog.findViewById(R.id.tvDelete);
         tvTitle.setText(mLists.get(position));
         tvEdit.setOnClickListener(v -> {
-            mLists.set(position, edtItem.getText().toString().trim());
-            notifyDataSetChanged();
+            showDialogConfirmRename(position);
             dialog.dismiss();
         });
         tvDelete.setOnClickListener(v -> {
+            showDialogConfirmDelete(position);
+            dialog.dismiss();
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void showDialogConfirmDelete(int position) {
+        Dialog dialog = new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_confirm);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.findViewById(R.id.btnConfirmDelete).setOnClickListener(v -> {
             mLists.remove(position);
             notifyDataSetChanged();
             dialog.dismiss();
         });
+        dialog.findViewById(R.id.btnCancelDelete).setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void showDialogConfirmRename(int position) {
+        Dialog dialog = new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_edit_name);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.findViewById(R.id.btnConfirm).setOnClickListener(v -> {
+            EditText edtNewName = dialog.findViewById(R.id.edtNewName);
+            mLists.set(position, edtNewName.getText().toString());
+            notifyDataSetChanged();
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 }

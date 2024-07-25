@@ -74,21 +74,21 @@ public class IssueFiveActivity extends AppCompatActivity {
     }
 
     private void addItemFragment(int currentItem) {
-        switch (currentItem){
+        switch (currentItem) {
             case 0:
-                IssueFiveFirstFragment issueFiveFirstFragment = (IssueFiveFirstFragment) getSupportFragmentManager().findFragmentByTag("f"+currentItem);
-                if (issueFiveFirstFragment != null){
+                IssueFiveFirstFragment issueFiveFirstFragment = (IssueFiveFirstFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+                if (issueFiveFirstFragment != null) {
                     issueFiveFirstFragment.updateListItem();
                 }
                 break;
             case 1:
-                IssueFiveSecondFragment issueFiveSecondFragment = (IssueFiveSecondFragment) getSupportFragmentManager().findFragmentByTag("f"+currentItem);
-                if (issueFiveSecondFragment != null){
+                IssueFiveSecondFragment issueFiveSecondFragment = (IssueFiveSecondFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+                if (issueFiveSecondFragment != null) {
                     issueFiveSecondFragment.updateListItem();
                 }
                 break;
             case 2:
-                IssueFiveThirdFragment issueFiveThirdFragment = (IssueFiveThirdFragment) getSupportFragmentManager().findFragmentByTag("f"+currentItem);
+                IssueFiveThirdFragment issueFiveThirdFragment = (IssueFiveThirdFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
                 if (issueFiveThirdFragment != null) {
                     issueFiveThirdFragment.updateListItem();
                 }

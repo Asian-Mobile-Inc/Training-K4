@@ -3,6 +3,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="title">Title</string>
+    <string name="delete_file">Delete File</string>
+    <string name="rename_file">Rename File</string>
+    <string name="open_file">Open File</string>
+    <string name="share_file">Share File</string>
+    <string name="show_details">Show Details</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="delete_this_item">Delete this item</string>
