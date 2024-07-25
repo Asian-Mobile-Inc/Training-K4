@@ -49,4 +49,6 @@
     <string name="more_information">Thông tin bổ sung</string>
     <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
     <string name="send_information">Gửi thông tin</string>
+    <string name="please_not_empty">Vui lòng không để trống</string>
+    <string name="please_greater_hundred_character">Thông tin thêm lớn hơn 100 ký tự</string>
 </resources>
