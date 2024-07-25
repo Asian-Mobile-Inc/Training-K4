@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">ExHuynn</string>
-    <string name="title_activity_exercise_ui2">exercise_ui_2</string>
     <string name="exercise_facebook">Exercise Facebook</string>
     <string name="exercise_math">Exercise Math</string>
     <string name="exercise_information">Exercise Information</string>
@@ -40,13 +39,4 @@
     <string name="more_information">Thông tin bổ sung</string>
     <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
     <string name="send_information">Gửi thông tin</string>
-
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
