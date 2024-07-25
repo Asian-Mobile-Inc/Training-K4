@@ -1,3 +1,47 @@
 <resources>
-  <string name="app_name" translatable="false">ExLonglv</string>
+    <string name="app_name" translatable="false">ExLonglv</string>
+    <string name="facebook">Facebook</string>
+    <string name="hint_email">Email or Phone</string>
+    <string name="hint_password">Password</string>
+    <string name="login">Login</string>
+    <string name="name">Họ tên</string>
+    <string name="id_card">Cmnd</string>
+    <string name="degree">Bằng cấp</string>
+    <string name="intermediate">Trung cấp</string>
+    <string name="college">Cao đẳng</string>
+    <string name="university">Đại học</string>
+    <string name="interest">Sở thích</string>
+    <string name="read_news">Đọc báo</string>
+    <string name="read_book">Đọc sách</string>
+    <string name="coding">Coding</string>
+    <string name="more_info">Thông tin bổ sung</string>
+    <string name="hint_more_info">Nhập thông tin bổ sung - có thể để trống</string>
+    <string name="send_info">Gửi thông tin</string>
+    <string name="result">Ket qua:</string>
+    <string name="first_number">Số hạng 1</string>
+    <string name="second_number">Số hạng 2</string>
+    <string name="exercise_login">View Login</string>
+    <string name="exercise_calculate">View Calculate</string>
+    <string name="exercise_update_info">View Update Info</string>
+    <string name="plus">+</string>
+    <string name="subtraction">-</string>
+    <string name="multiplication">*</string>
+    <string name="divided">/</string>
+    <string name="hint_edittext">This is hint Edittext</string>
+    <string name="error_divided_zero">Không thể chia cho 0</string>
+    <string name="format_input_wrong">Nhập sai định dạng</string>
+    <string name="login_success">Login success</string>
+    <string name="send_success">Submitted successfully</string>
+    <string name="email_invalid">Email is invalid</string>
+    <string name="password_invalid">Password is invalid</string>
+    <string name="name_invalid">Name is invalid</string>
+    <string name="id_card_invalid">ID card is invalid</string>
+    <string name="more_info_invalid">Info is invalid</string>
+    <!--    Issues 4-->
+    <string name="fragment_one">Fragment One</string>
+    <string name="fragment_two">Fragment Two</string>
+    <string name="change_color">Change color</string>
+    <string name="view_issues_four">View Issues 4</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
