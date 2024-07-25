@@ -44,22 +44,16 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/ablIssuesSix">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="30dp"
-                android:backgroundTint="@color/red_A8FF0000"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_add"
-                android:tint="@color/blue_6D6DE6" />
-        </RelativeLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="30dp"
+            android:backgroundTint="@color/red_FF0000"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_add"
+            android:tint="@color/green_00FF00" />
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
