@@ -38,10 +38,6 @@ public class ExerciseLoginActivity extends AppCompatActivity {
             mEdtEmail.setError(getString(R.string.email_invalid));
             return false;
         }
-        if (password.length() < 8) {
-            mEdtPassword.setError(getString(R.string.password_invalid));
-            return false;
-        }
         if (!checkPassword(password)) {
             mEdtPassword.setError(getString(R.string.password_invalid));
             return false;
@@ -50,6 +46,6 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private boolean checkPassword(String password) {
-        return password.matches(".*[a-z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*");
+        return password.matches(".*[a-z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*") && password.length() >= 8;
     }
 }
