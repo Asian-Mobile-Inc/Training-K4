@@ -6,7 +6,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.asian.R;
 import com.example.asian.ui.FacebookActivity;
 import com.example.asian.ui.InformationActivity;
 import com.example.asian.ui.MathActivity;
