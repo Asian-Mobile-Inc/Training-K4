@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name" translatable="false">ExHuynn</string>
     <string name="title_activity_exercise_ui2">exercise_ui_2</string>
+    <string name="move_to_facebook">Chuyển đến facebook</string>
+    <string name="move_to_math">Chuyển đến bài toán</string>
+    <string name="move_to_information">Chuyển đến thông tin cá nhân</string>
+
+
     <!-- Strings related to exercise 1 -->
     <string name="facebook">FACEBOOK</string>
     <string name="hint_email_or_phone">Email or phone</string>
@@ -8,6 +13,7 @@
     <string name="btn_login">Login</string>
 
     <!-- Strings related to exercise 2 -->
+    <string name="math">bài toán</string>
     <string name="number_one">Số hạng 1</string>
     <string name="number_two">Số hạng 2</string>
     <string name="hint_number_one">Nhập vào số hạng 1</string>
