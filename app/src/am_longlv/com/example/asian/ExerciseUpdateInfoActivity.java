@@ -30,7 +30,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     private void initListener() {
         mBtnSendInfo.setOnClickListener(v -> {
             if (validate(mEdtName.getText().toString().trim(), mEdtIdCard.getText().toString().trim(), mEdtMoreInfo.getText().toString().trim())) {
-                Toast.makeText(this, getString(R.string.password_invalid), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.send_success), Toast.LENGTH_SHORT).show();
             }
         });
     }
