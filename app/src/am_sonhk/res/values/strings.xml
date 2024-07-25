@@ -10,8 +10,8 @@
   <string name="subtract">-</string>
   <string name="multiply">*</string>
   <string name="divide">/</string>
-  <string name="thong_tin_ca_nhan">Thông tin cá nhân</string>
-  <string name="ho_ten">Họ Tên</string>
+  <string name="personal_information">Thông tin cá nhân</string>
+  <string name="fullname">Họ Tên</string>
   <string name="name_must_more_than_3_word">Tên phải >=3 ký tự</string>
   <string name="id_card">CMND</string>
   <string name="input_correct_nine_number">Nhập đúng 9 chữ số</string>

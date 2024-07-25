@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:background="@color/color_header"
         android:padding="8dp"
-        android:text="@string/thong_tin_ca_nhan"
+        android:text="@string/personal_information"
         android:textAlignment="center"
-        android:textColor="@color/text_FFD700"
+        android:textColor="@color/yellow_FFD700"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="40dp"
-        android:text="@string/ho_ten"
+        android:text="@string/fullname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
@@ -74,7 +74,7 @@
         android:padding="8dp"
         android:text="@string/degree"
         android:textAlignment="center"
-        android:textColor="@color/text_FFD700"
+        android:textColor="@color/yellow_FFD700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edtID" />
@@ -116,7 +116,7 @@
         android:padding="8dp"
         android:text="@string/hobby"
         android:textAlignment="center"
-        android:textColor="@color/text_FFD700"
+        android:textColor="@color/yellow_FFD700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rgDegree" />
@@ -159,7 +159,7 @@
         android:padding="8dp"
         android:text="@string/additional_info"
         android:textAlignment="center"
-        android:textColor="@color/text_FFD700"
+        android:textColor="@color/yellow_FFD700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llHobbies" />

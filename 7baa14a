@@ -1,0 +1,153 @@
+[33mcommit d78fae6590aadb1683c41211bea673fee370cfae[m[33m ([m[1;36mHEAD -> [m[1;32mam_sonhk_is3[m[33m, [m[1;31morigin/am_sonhk_is3[m[33m)[m
+Merge: 7baa14a 54dc4b5
+Author: Kzon <sonhoang1432@gmail.com>
+Date:   Thu Jul 25 10:36:35 2024 +0700
+
+    Merge branch 'master' into am_sonhk_is3
+
+[33mcommit 54dc4b560e4bae835c444fd1bd487e6dbef33700[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: abaac7f 72b2026
+Author: duylt <97382987+Duylt19@users.noreply.github.com>
+Date:   Thu Jul 25 10:16:27 2024 +0700
+
+    Merge pull request #11 from Asian-Mobile-Inc/am_longlv_issua2_ui
+    
+    Am longlv issua2 ui
+
+[33mcommit 72b20264273675bf20fc3fc552777afdb452a7b0[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 15:02:25 2024 +0700
+
+    format code,update file strings
+
+[33mcommit 6cc7d8a7d1880732611089225d2a36a607d12ce9[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 14:43:39 2024 +0700
+
+    format code,update file strings
+
+[33mcommit 3b3fee01a8e4d8ff33bde50ac3a8a1c04544af9a[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 11:44:30 2024 +0700
+
+    update id name
+
+[33mcommit f049388e30db2ea185910b652252bf27a47451c1[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 11:21:38 2024 +0700
+
+    change id into english
+
+[33mcommit 114627b70183023a8be3173f9bf89b42a40eff8f[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 11:19:03 2024 +0700
+
+    change id into english
+
+[33mcommit f4150ca10fb6e877ebee852c8ca0a8adcf79b0ef[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 11:10:40 2024 +0700
+
+    update color
+
+[33mcommit 8e2bd7517db1f99c7a905822826a8bab45c72c4b[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 10:26:02 2024 +0700
+
+    format code
+
+[33mcommit 55e68cfeb422c2550ca9bbf8df0d8e9fe24cea6f[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 10:23:58 2024 +0700
+
+    fix warning file XML
+
+[33mcommit 8ce1b78c19c53d02c3b5576cdaaf27d132fb39a1[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Wed Jul 24 09:04:29 2024 +0700
+
+    fix review
+
+[33mcommit 265316c552978df8eea9c7e4db68015afb31b108[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Tue Jul 23 17:12:31 2024 +0700
+
+    fix ten bien chua so
+
+[33mcommit 5282672dcb706a06f33f95b3cc1a056b2936d90a[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Tue Jul 23 17:06:11 2024 +0700
+
+    fix review,format code
+
+[33mcommit e5610282ad4c6d0685a381c51c6d67e86992c230[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Tue Jul 23 15:45:55 2024 +0700
+
+    update access modifier
+
+[33mcommit 47b41d9b49c5c3717c2bc619b6e87534170e6759[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Tue Jul 23 11:58:21 2024 +0700
+
+    add break line
+
+[33mcommit dc42e0ffa8ef84d92668e494eb7e15cf4b450033[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Tue Jul 23 11:57:47 2024 +0700
+
+    add break line
+
+[33mcommit 7baa14acaf7f5c9ad6fef87f3850c11c1dc3410f[m
+Author: Kzonw <sonhoang1432@gmail.com>
+Date:   Tue Jul 23 11:31:10 2024 +0700
+
+    fix form check by bot 1
+
+[33mcommit 8c73160eb29bfecb2667b3ac5caaaf3322720c5f[m
+Author: Kzonw <sonhoang1432@gmail.com>
+Date:   Tue Jul 23 10:58:02 2024 +0700
+
+    issus3 complete
+
+[33mcommit e435b75229dfd6ef08bc92f08eb502c750f535ea[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Tue Jul 23 10:21:31 2024 +0700
+
+    fix bug review
+
+[33mcommit 6f5321c0e2c715f262ed1c9da7d2a7cb2a87a726[m
+Author: Kzonw <sonhoang1432@gmail.com>
+Date:   Tue Jul 23 10:17:59 2024 +0700
+
+    update a haft issus
+
+[33mcommit c6608690db171a4686e7bc58e4b9fde60f8bf36d[m
+Author: Kzonw <sonhoang1432@gmail.com>
+Date:   Mon Jul 22 17:42:39 2024 +0700
+
+    updateex3
+
+[33mcommit 9effb505f12ac64d5127969b4c8aef4f6ea6696e[m
+Author: Kzonw <sonhoang1432@gmail.com>
+Date:   Mon Jul 22 16:55:16 2024 +0700
+
+    Mobile_UI_Design_Xml
+
+[33mcommit 9f0170155aa8928912e6e46d2423c72aaa7353c2[m[33m ([m[1;31morigin/am_longlv_issua2_ui[m[33m)[m
+Author: longlv <longlevan296@gmail.com>
+Date:   Mon Jul 22 16:34:32 2024 +0700
+
+    finish issues 2
+
+[33mcommit abaac7fbf39d010da878fb2126165b574dc7c95d[m
+Author: DuyLT <fcsteay@gmail.com>
+Date:   Mon Jul 22 14:34:17 2024 +0700
+
+    setup variant
+
+[33mcommit 3bfb533e1faeb125bdde1f653118af02f47b3171[m
+Author: DuyLT <fcsteay@gmail.com>
+Date:   Mon Jul 22 14:18:47 2024 +0700
+
+    up base
