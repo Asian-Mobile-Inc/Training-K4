@@ -28,6 +28,7 @@
     <string name="multiplication">*</string>
     <string name="divided">/</string>
     <string name="hint_edittext">This is hint Edittext</string>
+    <!--    Issues 3-->
     <string name="error_divided_zero">Không thể chia cho 0</string>
     <string name="format_input_wrong">Nhập sai định dạng</string>
     <string name="login_success">Login success</string>
@@ -42,6 +43,5 @@
     <string name="fragment_two">Fragment Two</string>
     <string name="change_color">Change color</string>
     <string name="view_issues_four">View Issues 4</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

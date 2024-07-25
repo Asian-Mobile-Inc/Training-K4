@@ -31,5 +31,4 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/view_issues_four" />
-
 </LinearLayout>
