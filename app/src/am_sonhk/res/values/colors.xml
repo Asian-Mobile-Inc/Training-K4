@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#3b5998</color>
     <color name="colorPrimaryDark">#4CAF50</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="bluefacebook">#1E90FF</color>
+    <color name="color_btn_login">#2d4373</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#696969</color>
     <color name="holo_yellow_dark">#F6D600</color>
+    <color name="yellow_FFD700">#FFD700</color>
+    <color name="color_header">#00C853</color>
+    <color name="black">#000000</color>
 </resources>

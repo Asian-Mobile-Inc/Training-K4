@@ -1,28 +1,31 @@
 package com.example.asian;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
 
-    Button exercise1, exercise2, exercise3;
+public class MainActivity extends AppCompatActivity {
+    private Button mBtnExerciseLogin, mBtnExerciseCal, mBtnExerciseUpdateInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
         initUI();
+        initListener();
     }
 
     private void initUI() {
-        exercise1 = findViewById(R.id.btn_exercise1);
-        exercise2 = findViewById(R.id.btn_exercise2);
-        exercise3 = findViewById(R.id.btn_exercise3);
+        mBtnExerciseLogin = findViewById(R.id.btnExerciseLogin);
+        mBtnExerciseCal = findViewById(R.id.btnExerciseCal);
+        mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
+    }
 
-        exercise1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
-        exercise2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CalculateActivity.class)));
-        exercise3.setOnClickListener((view -> startActivity(new Intent(MainActivity.this, InforActivity.class))));
+    private void initListener() {
+        mBtnExerciseLogin.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
+        mBtnExerciseCal.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CalculateActivity.class)));
+        mBtnExerciseUpdateInfo.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, UpdateInfoActivity.class)));
     }
 }

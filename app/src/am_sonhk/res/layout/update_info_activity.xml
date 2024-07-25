@@ -8,15 +8,15 @@
         android:id="@+id/tvHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/color_header"
+        android:padding="8dp"
+        android:text="@string/personal_information"
         android:textAlignment="center"
-        android:text="Thông tin cá nhân"
+        android:textColor="@color/yellow_FFD700"
         android:textSize="16sp"
-        android:textColor="#FFD700"
-        android:background="#008000"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvName"
@@ -24,20 +24,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="40dp"
-        android:text="Họ tên:"
+        android:text="@string/fullname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
     <EditText
-        android:id="@+id/etName"
+        android:id="@+id/edtName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Tên phải >=3 ký tự"
+        android:layout_marginTop="16dp"
+        android:hint="@string/name_must_more_than_3_word"
+        android:importantForAutofill="no"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@id/tvHeader"
-        app:layout_constraintStart_toEndOf="@id/tvName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toEndOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
     <TextView
         android:id="@+id/tvID"
@@ -45,141 +47,144 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="40dp"
-        android:text="CMND:"
+        android:text="@string/id_card"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etName" />
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
 
     <EditText
-        android:id="@+id/etID"
+        android:id="@+id/edtID"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Nhập đúng 9 chữ số"
+        android:layout_marginTop="16dp"
+        android:hint="@string/input_correct_nine_number"
+        android:importantForAutofill="no"
         android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@id/etName"
-        app:layout_constraintStart_toEndOf="@id/tvID"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toEndOf="@id/tvID"
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
 
     <TextView
         android:id="@+id/tvDegree"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Bằng cấp"
-        android:textColor="#FFD700"
+        android:layout_marginTop="16dp"
         android:background="@android:color/holo_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/etID"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:padding="8dp"
-        android:layout_marginTop="16dp" />
+        android:text="@string/degree"
+        android:textAlignment="center"
+        android:textColor="@color/yellow_FFD700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtID" />
 
     <RadioGroup
         android:id="@+id/rgDegree"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvDegree"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvDegree">
 
         <RadioButton
             android:id="@+id/rbIntermediate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trung cấp" />
+            android:text="@string/intermediate_level" />
 
         <RadioButton
             android:id="@+id/rbCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cao đẳng" />
+            android:text="@string/college_level" />
 
         <RadioButton
             android:id="@+id/rbUniversity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đại học" />
+            android:text="@string/university_level" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/tvHobby"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sở thích"
-        android:textColor="#FFD700"
-        android:textAlignment="center"
+        android:layout_marginTop="16dp"
         android:background="@android:color/holo_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/rgDegree"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:padding="8dp"
-        android:layout_marginTop="16dp" />
+        android:text="@string/hobby"
+        android:textAlignment="center"
+        android:textColor="@color/yellow_FFD700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgDegree" />
 
     <LinearLayout
         android:id="@+id/llHobbies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvHobby"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHobby">
 
         <CheckBox
             android:id="@+id/cbReadingNews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đọc báo" />
+            android:text="@string/read_news" />
 
         <CheckBox
             android:id="@+id/cbReadingBooks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đọc sách" />
+            android:text="@string/read_book" />
 
         <CheckBox
             android:id="@+id/cbReadingCoding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đọc coding" />
+            android:text="@string/read_code" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tvAdditionalInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Thông tin bổ sung"
-        android:textColor="#FFD700"
+        android:layout_marginTop="16dp"
         android:background="@android:color/holo_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/llHobbies"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:padding="8dp"
-        android:layout_marginTop="16dp" />
+        android:text="@string/additional_info"
+        android:textAlignment="center"
+        android:textColor="@color/yellow_FFD700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llHobbies" />
 
     <EditText
-        android:id="@+id/etAdditionalInfo"
+        android:id="@+id/edtAdditionalInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:hint="Nhập thông tin bổ sung - có thể để trống"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@id/tvAdditionalInfo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
-        android:minHeight="100dp" />
+        android:hint="@string/input_additional_info_can_null"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:minHeight="100dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAdditionalInfo" />
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gửi thông tin"
-        app:layout_constraintTop_toBottomOf="@id/etAdditionalInfo"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/send_data"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtAdditionalInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

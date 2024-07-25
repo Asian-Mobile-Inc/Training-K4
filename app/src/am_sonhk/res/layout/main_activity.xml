@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_exercise1"
+        android:id="@+id/btnExerciseLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Exercise 1"/>
+        android:text="@string/exercise_login" />
+
     <Button
-        android:id="@+id/btn_exercise2"
+        android:id="@+id/btnExerciseCal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Exercise 2"/>
+        android:text="@string/exercise_calculate" />
+
     <Button
-        android:id="@+id/btn_exercise3"
+        android:id="@+id/btnExerciseUpdateInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Exercise 3"/>
+        android:text="@string/exercise_update_info" />
 
 </LinearLayout>
