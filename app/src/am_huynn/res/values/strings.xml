@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">ExHuynn</string>
     <string name="title_activity_exercise_ui2">exercise_ui_2</string>
-    <string name="move_to_facebook">Chuyển đến facebook</string>
-    <string name="move_to_math">Chuyển đến bài toán</string>
-    <string name="move_to_information">Chuyển đến thông tin cá nhân</string>
+    <string name="exercise_facebook">Exercise Facebook</string>
+    <string name="exercise_math">Exercise Math</string>
+    <string name="exercise_information">Exercise Information</string>
 
     <!-- Strings related to exercise 1 -->
     <string name="facebook">FACEBOOK</string>
