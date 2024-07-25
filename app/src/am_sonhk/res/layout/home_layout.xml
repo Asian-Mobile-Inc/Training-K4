@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/baseline_menu"
+        app:navigationIcon="@drawable/ic_menu"
         app:title="@string/toolbar_name"
         app:titleTextColor="@color/colorWhite" />
 
@@ -39,6 +39,6 @@
         android:contentDescription="@string/des"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_add"
+        app:srcCompat="@drawable/ic_add"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
