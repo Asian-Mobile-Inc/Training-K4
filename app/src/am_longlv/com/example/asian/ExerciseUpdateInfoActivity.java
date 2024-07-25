@@ -23,7 +23,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     private void initUI() {
         mBtnSendInfo = findViewById(R.id.btnSendInfo);
         mEdtName = findViewById(R.id.edtName);
-        mEdtIdCard = findViewById(R.id.edtCmnd);
+        mEdtIdCard = findViewById(R.id.edtIdCard);
         mEdtMoreInfo = findViewById(R.id.edtMoreInfo);
     }
 
@@ -35,12 +35,12 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validate(String name, String cmnd, String moreInfo) {
+    private boolean validate(String name, String idCard, String moreInfo) {
         if (name == null || name.isEmpty()) {
             mEdtName.setError(getString(R.string.name_invalid));
             return false;
         }
-        if (cmnd == null || cmnd.isEmpty()) {
+        if (idCard == null || idCard.isEmpty()) {
             mEdtIdCard.setError(getString(R.string.id_card_invalid));
             return false;
         }
