@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorRed"
+        android:minHeight="60sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/baseline_menu"
+        app:title="@string/toolbar_name"
+        app:titleTextColor="@color/colorWhite" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:defaultNavHost="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbApp"
+        app:navGraph="@navigation/nav_fragment" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="40sp"
+        android:backgroundTint="@color/colorRed"
+        android:contentDescription="@string/des"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_add"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
