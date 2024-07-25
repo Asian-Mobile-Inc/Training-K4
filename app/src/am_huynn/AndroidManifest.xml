@@ -9,20 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.InformationActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.MathActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.FacebookActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainViewActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
