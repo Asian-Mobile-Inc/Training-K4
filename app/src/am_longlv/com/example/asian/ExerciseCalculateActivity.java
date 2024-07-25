@@ -41,34 +41,35 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             if (!validateInput()) {
                 return;
             }
-            int firstNumber = Integer.parseInt(Objects.requireNonNull(mEdtFirstNumber.getText()).toString().trim());
-            int secondNumber = Integer.parseInt(Objects.requireNonNull(mEdtSecondNumber.getText()).toString().trim());
+            int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
+            int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
             mTvResult.setText(getString(R.string.result) + (firstNumber + secondNumber));
         });
         mBtnSub.setOnClickListener(v -> {
             if (!validateInput()) {
                 return;
             }
-            int firstNumber = Integer.parseInt(Objects.requireNonNull(mEdtFirstNumber.getText()).toString().trim());
-            int secondNumber = Integer.parseInt(Objects.requireNonNull(mEdtSecondNumber.getText()).toString().trim());
+            int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
+            int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
             mTvResult.setText(getString(R.string.result) + (firstNumber - secondNumber));
         });
         mBtnMul.setOnClickListener(v -> {
             if (!validateInput()) {
                 return;
             }
-            int firstNumber = Integer.parseInt(Objects.requireNonNull(mEdtFirstNumber.getText()).toString().trim());
-            int secondNumber = Integer.parseInt(Objects.requireNonNull(mEdtSecondNumber.getText()).toString().trim());
+            int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
+            int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
             mTvResult.setText(getString(R.string.result) + (firstNumber * secondNumber));
         });
         mBtnDiv.setOnClickListener(v -> {
             if (!validateInput()) {
                 return;
             }
-            int firstNumber = Integer.parseInt(Objects.requireNonNull(mEdtFirstNumber.getText()).toString().trim());
-            int secondNumber = Integer.parseInt(Objects.requireNonNull(mEdtSecondNumber.getText()).toString().trim());
+            int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
+            int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
             if (secondNumber == 0) {
-                mTvResult.setError(getString(R.string.error_divided_zero));
+                mEdtSecondNumber.setError(getString(R.string.error_divided_zero));
+                Toast.makeText(this, getString(R.string.error_divided_zero), Toast.LENGTH_SHORT).show();
                 return;
             }
             mTvResult.setText(getString(R.string.result) + (firstNumber / secondNumber));
