@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 
 import com.example.asian.R;
 
-public class ShareFragment extends Fragment {
+public class SendFragment extends Fragment {
 
-    public ShareFragment() {
+    public SendFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_share, container, false);
+        return inflater.inflate(R.layout.fragment_send, container, false);
     }
 }

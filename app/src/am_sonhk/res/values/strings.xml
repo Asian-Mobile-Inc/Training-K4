@@ -14,4 +14,7 @@
   <string name="title_item_favorite">Favorite</string>
   <string name="title_item_search">Search</string>
   <string name="des">Text</string>
+  <string name="option_delete">Delete Item</string>
+  <string name="option_edit">Edit Item</string>
+  <string name="option_add">Add Item</string>
 </resources>

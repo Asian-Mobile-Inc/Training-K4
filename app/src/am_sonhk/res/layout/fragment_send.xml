@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="30sp"
-        android:text="@string/nav_home"
+        android:text="@string/nav_send"
         android:textColor="@color/colorBlack"
         android:textSize="30sp" />
 </FrameLayout>
