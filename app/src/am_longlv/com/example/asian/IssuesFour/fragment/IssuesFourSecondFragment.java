@@ -23,6 +23,7 @@ public class IssuesFourSecondFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String KEY_COLOR_CODE = "colorCode", KEY_COLOR_DEFAULT = "#000000", START_CHAR_COLOR = "#";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,15 +66,15 @@ public class IssuesFourSecondFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_issues_four_second, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.rlMainFrTwo);
-        String colorCode = getArguments().getString("colorCode");
+        String colorCode = getArguments().getString(KEY_COLOR_CODE);
         if (colorCode != null && !colorCode.isEmpty()) {
-            if (!colorCode.startsWith("#")) {
-                colorCode = "#" + colorCode;
+            if (!colorCode.startsWith(START_CHAR_COLOR)) {
+                colorCode = START_CHAR_COLOR + colorCode;
             }
             try {
                 Color.parseColor(colorCode);
             } catch (Exception e) {
-                colorCode = "#000000";
+                colorCode = KEY_COLOR_DEFAULT;
             }
             relativeLayout.setBackgroundColor(Color.parseColor(colorCode));
         }
