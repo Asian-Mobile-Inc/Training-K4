@@ -45,8 +45,12 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
             mEdtIdCard.setError(getString(R.string.id_card_invalid));
             return false;
         }
-        if (moreInfo == null || moreInfo.isEmpty() || moreInfo.length() < MIN_LENGTH_MORE_INFO) {
+        if (moreInfo == null || moreInfo.isEmpty()) {
             mEdtMoreInfo.setError(getString(R.string.more_info_invalid));
+            return false;
+        }
+        if (moreInfo.length() < MIN_LENGTH_MORE_INFO) {
+            mEdtMoreInfo.setError(getString(R.string.more_info_too_short));
             return false;
         }
         return true;
