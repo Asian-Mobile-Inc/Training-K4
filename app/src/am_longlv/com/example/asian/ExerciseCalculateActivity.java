@@ -68,7 +68,8 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.error_divided_zero), Toast.LENGTH_SHORT).show();
                 return;
             }
-            mTvResult.setText(getString(R.string.result) + (firstNumber / secondNumber));
+            float result = (float) firstNumber / secondNumber;
+            mTvResult.setText(getString(R.string.result) + (result));
         });
     }
 
