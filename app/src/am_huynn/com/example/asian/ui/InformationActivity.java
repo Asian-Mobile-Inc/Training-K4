@@ -33,7 +33,7 @@ public class InformationActivity extends AppCompatActivity {
 
     public void initListener() {
         mBtnSend.setOnClickListener(view -> {
-            if (!validateEmpty(mEdtName) || !validateEmpty(mEdtCard) || !validateGreaterHundredChar(mEdtMoreInformation)) {
+            if (!validateName() || !validateCard() || !validateMoreInformation()) {
                 return;
             }
             String name = mEdtName.getText().toString();
@@ -48,29 +48,41 @@ public class InformationActivity extends AppCompatActivity {
         });
     }
 
-    public boolean validateEmpty(EditText edt) {
-        String value = edt.getText().toString();
+    public boolean validateName() {
+        String value = mEdtName.getText().toString();
 
         if (value.isEmpty()) {
-            edt.setError(getText(R.string.please_not_empty));
+            mEdtName.setError(getText(R.string.please_not_empty));
             return false;
         } else {
-            edt.setError(null);
+            mEdtName.setError(null);
             return true;
         }
     }
 
-    public boolean validateGreaterHundredChar(EditText edt) {
-        String value = edt.getText().toString();
+    public boolean validateCard() {
+        String value = mEdtCard.getText().toString();
 
         if (value.isEmpty()) {
-            edt.setError(getText(R.string.please_not_empty));
-            return false;
-        } else if (value.length() < Constants.MIN_LENGTH_MORE_INFORMATION) {
-            edt.setError(getText(R.string.please_greater_hundred_character));
+            mEdtCard.setError(getText(R.string.please_not_empty));
             return false;
         } else {
-            edt.setError(null);
+            mEdtCard.setError(null);
+            return true;
+        }
+    }
+
+    public boolean validateMoreInformation() {
+        String value = mEdtMoreInformation.getText().toString();
+
+        if (value.isEmpty()) {
+            mEdtMoreInformation.setError(getText(R.string.please_not_empty));
+            return false;
+        } else if (value.length() < Constants.MIN_LENGTH_MORE_INFORMATION) {
+            mEdtMoreInformation.setError(getText(R.string.please_greater_hundred_character));
+            return false;
+        } else {
+            mEdtMoreInformation.setError(null);
             return true;
         }
     }
