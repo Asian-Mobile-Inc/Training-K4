@@ -18,6 +18,7 @@ public class IssueFiveActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
     private FloatingActionButton mFabAddItem;
+    private static final String NAME_TAG_ONE = "Tab 1", NAME_TAG_TWO = "Tab 2", NAME_TAG_THREE = "Tab 3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +38,14 @@ public class IssueFiveActivity extends AppCompatActivity {
 
     private void initListener() {
         mFabAddItem.setOnClickListener(v -> {
-            Log.d("androidruntime", mViewPager.getCurrentItem() + "");
             addItemFragment(mViewPager.getCurrentItem());
         });
     }
 
     private void setUpTabLayout() {
-        mTabLayout.addTab(mTabLayout.newTab().setText("Tab 1"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Tab 2"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Tab 3"));
+        mTabLayout.addTab(mTabLayout.newTab().setText(NAME_TAG_ONE));
+        mTabLayout.addTab(mTabLayout.newTab().setText(NAME_TAG_TWO));
+        mTabLayout.addTab(mTabLayout.newTab().setText(NAME_TAG_THREE));
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

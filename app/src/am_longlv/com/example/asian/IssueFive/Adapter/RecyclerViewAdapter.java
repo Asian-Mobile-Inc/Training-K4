@@ -63,7 +63,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     public void updateData(List<String> mLists) {
         this.mLists = mLists;
         notifyDataSetChanged();
@@ -79,7 +78,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void setUpActionItemDialog(Dialog dialog, int position) {
         TextView tvTitle = dialog.findViewById(R.id.tvTitleItem);
         TextView tvEdit = dialog.findViewById(R.id.tvRename);
@@ -95,7 +93,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void showDialogConfirmDelete(int position) {
         Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -110,7 +107,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         dialog.show();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void showDialogConfirmRename(int position) {
         Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

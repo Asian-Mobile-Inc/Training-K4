@@ -31,6 +31,8 @@ public class IssueFiveSecondFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String FIRST_NAME_ITEM = "Item 2";
+    private static final char FIRST_CHAR = 'A', LAST_CHAR = 'Z';
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -74,26 +76,25 @@ public class IssueFiveSecondFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_issue_five_second, container, false);
         setUpListData();
         setUpRecyclerView(view);
-
         return view;
     }
 
     private void setUpListData() {
         mLists = new ArrayList<>();
-        for (char i = 'A'; i <= 'Z'; i++) {
-            mLists.add("Item 2" + i);
+        for (char i = FIRST_CHAR; i <= LAST_CHAR; i++) {
+            mLists.add(FIRST_NAME_ITEM + i);
         }
     }
 
     private void setUpRecyclerView(View view) {
-        mRecyclerView = view.findViewById(R.id.rvFragmentSecond);
+        mRecyclerView = view.findViewById(R.id.rvFragmentFirst);
         mAdapter = new RecyclerViewAdapter(mLists, getContext());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
     }
 
     public void updateListItem() {
-        this.mLists.add("New item 2" + (char) ('A' + mLists.size() % 26));
+        this.mLists.add(FIRST_NAME_ITEM + (char) (FIRST_CHAR + mLists.size() % 26));
         mRecyclerView.scrollToPosition(mLists.size() - 1);
         mAdapter.updateData(mLists);
     }

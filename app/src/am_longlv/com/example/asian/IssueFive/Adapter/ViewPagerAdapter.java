@@ -10,6 +10,7 @@ import com.example.asian.IssueFive.Fragment.IssueFiveSecondFragment;
 import com.example.asian.IssueFive.Fragment.IssueFiveThirdFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
+    private static final int NUM_PAGES = 3;
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -32,6 +33,6 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return NUM_PAGES;
     }
 }
