@@ -16,7 +16,7 @@ public class IssuesFourActivity extends AppCompatActivity {
     private EditText mEdtColorCode;
     private int mClickBtn = 0;
     private static final int ID_BTN_REPLACE_FRAGMENT = 1, ID_BTN_ADD_FRAGMENT = 2;
-    private static final String KEY_COLOR_CODE = "colorCode";
+    public static final String KEY_COLOR_CODE = "colorCode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
