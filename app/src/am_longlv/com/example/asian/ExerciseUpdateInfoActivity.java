@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     private Button mBtnSendInfo;
     private EditText mEdtName, mEdtIdCard, mEdtMoreInfo;
+    private static final int MIN_LENGTH_MORE_INFO = 100;
 
     @Override
 
@@ -44,7 +45,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
             mEdtIdCard.setError(getString(R.string.id_card_invalid));
             return false;
         }
-        if (moreInfo == null || moreInfo.isEmpty() || moreInfo.length() < 100) {
+        if (moreInfo == null || moreInfo.isEmpty() || moreInfo.length() < MIN_LENGTH_MORE_INFO) {
             mEdtMoreInfo.setError(getString(R.string.more_info_invalid));
             return false;
         }

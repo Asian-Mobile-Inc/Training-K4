@@ -1,9 +1,6 @@
 package com.example.asian;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Objects;
 
 public class ExerciseCalculateActivity extends AppCompatActivity {
     private Button mBtnPlus, mBtnSub, mBtnMul, mBtnDiv;
@@ -77,12 +73,6 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
     }
 
     private boolean validateInput() {
-        try {
-            Integer.parseInt(mEdtFirstNumber.getText().toString().trim());
-            Integer.parseInt(mEdtSecondNumber.getText().toString().trim());
-        } catch (Exception e) {
-            return false;
-        }
         return !mEdtFirstNumber.getText().toString().trim().isEmpty() && !mEdtSecondNumber.getText().toString().trim().isEmpty();
     }
 }

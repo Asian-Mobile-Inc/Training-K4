@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ExerciseLoginActivity extends AppCompatActivity {
     private Button mBtnLogin;
     private EditText mEdtEmail, mEdtPassword;
+    private static final String EMAIL_ADDRESS = "@gmail.com", REGEX_NUMBER = ".*\\d.*", REGEX_NORMAL_CHARACTER = ".*[a-z].*", REGEX_SPECIAL_CHARACTER = ".*[!@#$%^&*].*";
+    private static final int MIN_LENGTH_PASSWORD = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,6 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private boolean validate(String email, String password) {
-        final String EMAIL_ADDRESS = "@gmail.com";
         if (!email.contains(EMAIL_ADDRESS)) {
             mEdtEmail.setError(getString(R.string.email_invalid));
             return false;
@@ -47,9 +48,6 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private boolean checkPassword(String password) {
-        final String REGEX_NUMBER = ".*[0-9].*";
-        final String REGEX_NORMAL_CHARACTER = ".*[a-z].*";
-        final String REGEX_SPECIAL_CHARACTER = ".*[@#$%^&+=].*";
-        return password.matches(REGEX_NUMBER) && password.matches(REGEX_NORMAL_CHARACTER) && password.matches(REGEX_SPECIAL_CHARACTER) && password.length() >= 8;
+        return password.matches(REGEX_NUMBER) && password.matches(REGEX_NORMAL_CHARACTER) && password.matches(REGEX_SPECIAL_CHARACTER) && password.length() >= MIN_LENGTH_PASSWORD;
     }
 }
