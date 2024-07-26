@@ -1,6 +1,5 @@
 package com.example.asian;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CalculateActivity extends AppCompatActivity {
+
 
     private EditText mEdtNumberOne, mEdtNumberTwo;
     private Button mBtnAdd, mBtnSubtract, mBtnMultiply, mBtnDivide;
@@ -69,5 +69,6 @@ public class CalculateActivity extends AppCompatActivity {
         }
 
         mTvResult.setText("Kết quả: " + result);
+
     }
 }

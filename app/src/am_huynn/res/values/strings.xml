@@ -1,3 +1,42 @@
 <resources>
-  <string name="app_name" translatable="false">ExHuynn</string>
+    <string name="app_name" translatable="false">ExHuynn</string>
+    <string name="exercise_facebook">Exercise Facebook</string>
+    <string name="exercise_math">Exercise Math</string>
+    <string name="exercise_information">Exercise Information</string>
+
+    <!-- Strings related to exercise 1 -->
+    <string name="facebook">FACEBOOK</string>
+    <string name="hint_email_or_phone">Email or phone</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Login</string>
+
+    <!-- Strings related to exercise 2 -->
+    <string name="math">bài toán</string>
+    <string name="number_one">Số hạng 1</string>
+    <string name="number_two">Số hạng 2</string>
+    <string name="hint_number_one">Nhập vào số hạng 1</string>
+    <string name="hint_number_two">Nhập vào số hạng 2</string>
+    <string name="result">Kết quả: </string>
+    <string name="addition">+</string>
+    <string name="subtraction">-</string>
+    <string name="multiplication">*</string>
+    <string name="division">/</string>
+
+    <!-- Strings related to exercise 3 -->
+    <string name="information">Thông tin cá nhân</string>
+    <string name="name">Họ tên: </string>
+    <string name="hint_name_greater_than_three">Tên phải >= 3 ký tự</string>
+    <string name="card">CMND: </string>
+    <string name="hint_enter_nine_digits">Nhập đúng 9 chữ số</string>
+    <string name="degree">Bằng cấp</string>
+    <string name="high_school">Trung học</string>
+    <string name="college">Cao đẳng</string>
+    <string name="university">Đại học</string>
+    <string name="interest">Sở thích</string>
+    <string name="read_paper">Đọc báo</string>
+    <string name="read_book">Đọc sách</string>
+    <string name="read_coding">Đọc coding</string>
+    <string name="more_information">Thông tin bổ sung</string>
+    <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
+    <string name="send_information">Gửi thông tin</string>
 </resources>

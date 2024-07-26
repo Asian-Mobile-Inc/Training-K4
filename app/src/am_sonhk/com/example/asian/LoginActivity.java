@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     EditText edtEmail, edtPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,5 +48,6 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
         return true;
+
     }
 }
