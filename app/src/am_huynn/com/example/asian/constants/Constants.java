@@ -11,4 +11,6 @@ public class Constants {
     public static final String KEY_CARD = "keyCard";
     public static final String KEY_MORE_INFORMATION = "keyMoreInformation";
 
+    public static final int MIN_LENGTH_PASSWORD = 8;
+    public static final int MIN_LENGTH_MORE_INFORMATION = 100;
 }

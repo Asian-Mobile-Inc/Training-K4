@@ -62,12 +62,11 @@ public class InformationActivity extends AppCompatActivity {
 
     public boolean validateGreaterHundredChar(EditText edt) {
         String value = edt.getText().toString();
-        int minLength = 100;
 
         if (value.isEmpty()) {
             edt.setError(getText(R.string.please_not_empty));
             return false;
-        } else if (value.length() < minLength) {
+        } else if (value.length() < Constants.MIN_LENGTH_MORE_INFORMATION) {
             edt.setError(getText(R.string.please_greater_hundred_character));
             return false;
         } else {

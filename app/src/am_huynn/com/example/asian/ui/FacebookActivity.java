@@ -63,12 +63,11 @@ public class FacebookActivity extends AppCompatActivity {
 
     private boolean validatePassword() {
         String value = mEdtPassword.getText().toString();
-        int minLength = 8;
 
         if (value.isEmpty()) {
             mEdtPassword.setError(getString(R.string.field_can_not_empty));
             return false;
-        } else if (value.length() < minLength) {
+        } else if (value.length() < Constants.MIN_LENGTH_PASSWORD) {
             mEdtPassword.setError(getString(R.string.password_more_than_eight_characters));
             return false;
         } else if (!value.matches(Constants.REGEX_INCLUDE_NUMBER)) {
