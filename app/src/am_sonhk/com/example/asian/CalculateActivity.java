@@ -36,7 +36,6 @@ public class CalculateActivity extends AppCompatActivity {
     }
 
 
-    @SuppressLint("NonConstantResourceId")
     private void performOperation(View view) {
         String numberoneStr = mEdtNumberOne.getText().toString();
         String numbertwoStr = mEdtNumberTwo.getText().toString();
