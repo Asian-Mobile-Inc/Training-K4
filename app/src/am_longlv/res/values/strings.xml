@@ -28,4 +28,10 @@
     <string name="multiplication">*</string>
     <string name="divided">/</string>
     <string name="hint_edittext">This is hint Edittext</string>
+    <!--    Issue 7-->
+    <string name="issue_seven">Issue 7</string>
+    <string name="request_permission_location">Request Permission Location</string>
+    <string name="request_permission_notification">Request Permission Notification</string>
+    <string name="start_service">Start Service</string>
+    <string name="stop_service">Stop Service</string>
 </resources>

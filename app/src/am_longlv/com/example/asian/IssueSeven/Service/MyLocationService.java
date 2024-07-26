@@ -17,4 +17,9 @@ public class MyLocationService extends Service {
     public void onCreate() {
         super.onCreate();
     }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
 }
