@@ -34,7 +34,8 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private boolean validate(String email, String password) {
-        if (!email.contains("@gmail.com")) {
+        final String EMAIL_ADDRESS = "@gmail.com";
+        if (!email.contains(EMAIL_ADDRESS)) {
             mEdtEmail.setError(getString(R.string.email_invalid));
             return false;
         }
@@ -46,6 +47,9 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private boolean checkPassword(String password) {
-        return password.matches(".*[a-z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*") && password.length() >= 8;
+        final String REGEX_NUMBER = ".*[0-9].*";
+        final String REGEX_NORMAL_CHARACTER = ".*[a-z].*";
+        final String REGEX_SPECIAL_CHARACTER = ".*[@#$%^&+=].*";
+        return password.matches(REGEX_NUMBER) && password.matches(REGEX_NORMAL_CHARACTER) && password.matches(REGEX_SPECIAL_CHARACTER) && password.length() >= 8;
     }
 }
