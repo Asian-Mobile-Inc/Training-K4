@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     private Button mBtnSendInfo;
-    private EditText mEdtName, mEdtIdCard, mEdtMoreInfo;
+    private EditText mEdtName;
+    private EditText mEdtIdCard;
+    private EditText mEdtMoreInfo;
     private static final int MIN_LENGTH_MORE_INFO = 100;
 
     @Override

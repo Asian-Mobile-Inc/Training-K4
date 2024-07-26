@@ -9,8 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ExerciseLoginActivity extends AppCompatActivity {
     private Button mBtnLogin;
-    private EditText mEdtEmail, mEdtPassword;
-    private static final String EMAIL_ADDRESS = "@gmail.com", REGEX_NUMBER = ".*\\d.*", REGEX_NORMAL_CHARACTER = ".*[a-z].*", REGEX_SPECIAL_CHARACTER = ".*[!@#$%^&*].*";
+    private EditText mEdtEmail;
+    private EditText mEdtPassword;
+    private static final String EMAIL_ADDRESS = "@gmail.com";
+    private static final String REGEX_NUMBER = ".*\\d.*";
+    private static final String REGEX_NORMAL_CHARACTER = ".*[a-z].*";
+    private static final String REGEX_SPECIAL_CHARACTER = ".*[!@#$%^&*].*";
     private static final int MIN_LENGTH_PASSWORD = 8;
 
     @Override

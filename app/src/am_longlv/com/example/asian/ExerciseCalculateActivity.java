@@ -10,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class ExerciseCalculateActivity extends AppCompatActivity {
-    private Button mBtnPlus, mBtnSub, mBtnMul, mBtnDiv;
-    private EditText mEdtFirstNumber, mEdtSecondNumber;
+    private Button mBtnPlus;
+    private Button mBtnSub;
+    private Button mBtnMul;
+    private Button mBtnDiv;
+    private EditText mEdtFirstNumber;
+    private EditText mEdtSecondNumber;
     private TextView mTvResult;
 
     @Override
