@@ -12,7 +12,7 @@
         android:layout_height="100dp"
         android:layout_margin="20dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_coffee"
+        android:src="@drawable/ic_java"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />

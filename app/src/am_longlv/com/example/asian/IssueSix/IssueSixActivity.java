@@ -2,6 +2,7 @@ package com.example.asian.IssueSix;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -90,6 +91,7 @@ public class IssueSixActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         eventOnClickMenu(item.getItemId());
+        item.setChecked(true);
         if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -98,7 +100,7 @@ public class IssueSixActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main_drawer_issue_six, menu);
+        getMenuInflater().inflate(R.menu.menu_second_drawer_issue_six, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
