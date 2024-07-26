@@ -52,6 +52,9 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private boolean checkPassword(String password) {
-        return password.matches(REGEX_NUMBER) && password.matches(REGEX_NORMAL_CHARACTER) && password.matches(REGEX_SPECIAL_CHARACTER) && password.length() >= MIN_LENGTH_PASSWORD;
+        return password.matches(REGEX_NUMBER)
+                && password.matches(REGEX_NORMAL_CHARACTER)
+                && password.matches(REGEX_SPECIAL_CHARACTER)
+                && password.length() >= MIN_LENGTH_PASSWORD;
     }
 }
