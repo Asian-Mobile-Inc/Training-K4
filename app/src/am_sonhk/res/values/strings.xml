@@ -1,7 +1,8 @@
 <resources>
   <string name="app_name" translatable="false">ExSonhk</string>
-    <string name="linear_layout_manager" />
-  <string name="tab1" >TAB1</string>
-  <string name="tab2" >TAB2</string>
-  <string name="tab3" >TAB3</string>
+  <string name="fragment_tab1">Tab 1</string>
+  <string name="fragment_tab2">Tab 2</string>
+  <string name="fragment_tab3">Tab 3</string>
+  <string name="btnAdd">+\n</string>
 </resources>
+
