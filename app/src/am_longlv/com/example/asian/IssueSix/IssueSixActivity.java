@@ -91,7 +91,7 @@ public class IssueSixActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         eventOnClickMenu(item.getItemId());
-        item.setChecked(true);
+        mNvIssueSix.setCheckedItem(item.getItemId());
         if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -100,7 +100,12 @@ public class IssueSixActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_second_drawer_issue_six, menu);
+        getMenuInflater().inflate(R.menu.menu_main_drawer_issue_six, menu);
+        menu.removeItem(R.id.itCommnuicate);
+        for (int i= 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            item.setCheckable(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
