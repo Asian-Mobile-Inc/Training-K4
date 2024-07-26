@@ -11,8 +11,12 @@ import com.example.asian.R;
 
 public class MathActivity extends AppCompatActivity {
     private TextView mTvResult;
-    private EditText mEdtNumberOne, mEdtNumberTwo;
-    private Button mBtnAddition, mBtnSubtraction, mBtnMultiplication, mBtnDivision;
+    private EditText mEdtNumberOne;
+    private EditText mEdtNumberTwo;
+    private Button mBtnAddition;
+    private Button mBtnSubtraction;
+    private Button mBtnMultiplication;
+    private Button mBtnDivision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

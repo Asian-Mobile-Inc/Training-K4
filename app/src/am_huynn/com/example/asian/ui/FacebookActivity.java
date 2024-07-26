@@ -9,9 +9,11 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.R;
+import com.example.asian.constants.Constants;
 
 public class FacebookActivity extends AppCompatActivity {
-    private EditText mEdtEmail, mEdtPassword;
+    private EditText mEdtEmail;
+    private EditText mEdtPassword;
     private Button mBtnLogin;
 
     @Override
@@ -38,8 +40,8 @@ public class FacebookActivity extends AppCompatActivity {
             String password = mEdtPassword.getText().toString();
 
             Intent intent = new Intent(this, DataActivity.class);
-            intent.putExtra("keyEmail", email);
-            intent.putExtra("keyPassword", password);
+            intent.putExtra(Constants.KEY_EMAIL, email);
+            intent.putExtra(Constants.KEY_PASSWORD, password);
             startActivity(intent);
         });
     }
@@ -60,24 +62,22 @@ public class FacebookActivity extends AppCompatActivity {
     }
 
     private boolean validatePassword() {
-        final String REGEX_INCLUDE_NUMBER = "^.*\\d.*";
-        final String REGEX_NORMAL_CHARACTER = "^.*[a-z].*";
-        final String REGEX_SPECIAL_CHARACTER = "^.*[@#$%^&+=].*";
         String value = mEdtPassword.getText().toString();
+        int minLength = 8;
 
         if (value.isEmpty()) {
             mEdtPassword.setError(getString(R.string.field_can_not_empty));
             return false;
-        } else if (value.length() < 8) {
+        } else if (value.length() < minLength) {
             mEdtPassword.setError(getString(R.string.password_more_than_eight_characters));
             return false;
-        } else if (!value.matches(REGEX_INCLUDE_NUMBER)) {
+        } else if (!value.matches(Constants.REGEX_INCLUDE_NUMBER)) {
             mEdtPassword.setError(getString(R.string.password_must_include_number));
             return false;
-        } else if (!value.matches(REGEX_NORMAL_CHARACTER)) {
+        } else if (!value.matches(Constants.REGEX_NORMAL_CHARACTER)) {
             mEdtPassword.setError(getString(R.string.password_must_include_normal_characters));
             return false;
-        } else if (!value.matches(REGEX_SPECIAL_CHARACTER)) {
+        } else if (!value.matches(Constants.REGEX_SPECIAL_CHARACTER)) {
             mEdtPassword.setError(getString(R.string.password_must_include_special_characters));
             return false;
         } else {

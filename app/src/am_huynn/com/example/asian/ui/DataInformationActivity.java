@@ -6,9 +6,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.R;
+import com.example.asian.constants.Constants;
 
 public class DataInformationActivity extends AppCompatActivity {
-    private TextView mTvName, mTvCard, mTvMoreInformation;
+    private TextView mTvName;
+    private TextView mTvCard;
+    private TextView mTvMoreInformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +28,9 @@ public class DataInformationActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        String name = getIntent().getStringExtra("keyName");
-        String card = getIntent().getStringExtra("keyCard");
-        String moreInformation = getIntent().getStringExtra("keyMoreInformation");
+        String name = getIntent().getStringExtra(Constants.KEY_NAME);
+        String card = getIntent().getStringExtra(Constants.KEY_CARD);
+        String moreInformation = getIntent().getStringExtra(Constants.KEY_MORE_INFORMATION);
 
         mTvName.setText(name);
         mTvCard.setText(card);

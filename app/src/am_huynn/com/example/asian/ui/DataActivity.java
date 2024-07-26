@@ -6,9 +6,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.R;
+import com.example.asian.constants.Constants;
 
 public class DataActivity extends AppCompatActivity {
-    private TextView mTvEmail, mTvPassword;
+    private TextView mTvEmail;
+    private TextView mTvPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +21,8 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        String email = getString(R.string.email) + getIntent().getStringExtra("keyEmail");
-        String password = getString(R.string.password) + getIntent().getStringExtra("keyPassword");
+        String email = getString(R.string.email) + getIntent().getStringExtra(Constants.KEY_EMAIL);
+        String password = getString(R.string.password) + getIntent().getStringExtra(Constants.KEY_PASSWORD);
 
         mTvEmail.setText(email);
         mTvPassword.setText(password);

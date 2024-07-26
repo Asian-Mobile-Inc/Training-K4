@@ -8,9 +8,12 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.R;
+import com.example.asian.constants.Constants;
 
 public class InformationActivity extends AppCompatActivity {
-    private EditText mEdtName, mEdtCard, mEdtMoreInformation;
+    private EditText mEdtName;
+    private EditText mEdtCard;
+    private EditText mEdtMoreInformation;
     private Button mBtnSend;
 
     @Override
@@ -38,9 +41,9 @@ public class InformationActivity extends AppCompatActivity {
             String moreInformation = mEdtMoreInformation.getText().toString();
 
             Intent intent = new Intent(this, DataInformationActivity.class);
-            intent.putExtra("keyName", name);
-            intent.putExtra("keyCard", card);
-            intent.putExtra("keyMoreInformation", moreInformation);
+            intent.putExtra(Constants.KEY_NAME, name);
+            intent.putExtra(Constants.KEY_CARD, card);
+            intent.putExtra(Constants.KEY_MORE_INFORMATION, moreInformation);
             startActivity(intent);
         });
     }
@@ -59,11 +62,12 @@ public class InformationActivity extends AppCompatActivity {
 
     public boolean validateGreaterHundredChar(EditText edt) {
         String value = edt.getText().toString();
+        int minLength = 100;
 
         if (value.isEmpty()) {
             edt.setError(getText(R.string.please_not_empty));
             return false;
-        } else if (value.length() < 100) {
+        } else if (value.length() < minLength) {
             edt.setError(getText(R.string.please_greater_hundred_character));
             return false;
         } else {
