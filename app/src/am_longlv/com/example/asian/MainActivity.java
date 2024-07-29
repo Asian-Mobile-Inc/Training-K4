@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.asian.IssueSeven.IssueSevenActivity;
+import com.example.asian.issueseven.IssueSevenActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin, mBtnExerciseCal, mBtnExerciseUpdateInfo, mBtnIssueSeven;

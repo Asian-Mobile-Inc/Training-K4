@@ -27,7 +27,7 @@
             android:name=".ExerciseLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".IssueSeven.IssueSevenActivity"
+            android:name=".issueseven.IssueSevenActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -39,7 +39,7 @@
         </activity>
 
         <service
-            android:name=".IssueSeven.Service.MyLocationService"
+            android:name=".issueseven.service.MyLocationService"
             android:foregroundServiceType="location"
             android:exported="false" />
     </application>

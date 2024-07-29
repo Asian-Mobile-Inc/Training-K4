@@ -1,4 +1,4 @@
-package com.example.asian.IssueSeven;
+package com.example.asian.issueseven;
 
 import android.Manifest;
 import android.app.NotificationChannel;
@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.asian.IssueSeven.Service.MyLocationService;
+import com.example.asian.issueseven.service.MyLocationService;
 import com.example.asian.R;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
