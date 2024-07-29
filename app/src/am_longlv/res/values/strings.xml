@@ -27,21 +27,34 @@
     <string name="subtraction">-</string>
     <string name="multiplication">*</string>
     <string name="divided">/</string>
+    <!--  strings for issue 3-->
     <string name="hint_edittext">This is hint Edittext</string>
-    <!--    Issues 3-->
     <string name="error_divided_zero">Không thể chia cho 0</string>
     <string name="format_input_wrong">Nhập sai định dạng</string>
     <string name="login_success">Login success</string>
     <string name="send_success">Submitted successfully</string>
     <string name="email_invalid">Email is invalid</string>
-    <string name="password_invalid">Password is invalid</string>
+    <string name="password_invalid">Mật khẩu phải lớn hơn 8 ký tự gồm chữ thường, số, ký tự đặc biệt</string>
     <string name="name_invalid">Name is invalid</string>
-    <string name="id_card_invalid">ID card is invalid</string>
+    <string name="id_card_invalid">ID card phải gồm 9 chữ số</string>
     <string name="more_info_invalid">Info is invalid</string>
+    <string name="more_info_too_short">Nhập lớn hơn 100 ký tự</string>
+    <string name="data_from_login">This is data from login</string>
+    <string name="data_from_update_info">This is data from update information</string>
+    <string name="data_from_calculate">This is data from calculate</string>
+    <string name="email">Email: </string>
+    <string name="password">Password: </string>
+    <string name="operator">Operator: </string>
+    <string name="error">Error: </string>
+    <string name="error_empty_input">Vui lòng nhập đủ thông tin: </string>
     <!--    Issues 4-->
     <string name="fragment_one">Fragment One</string>
     <string name="fragment_two">Fragment Two</string>
     <string name="change_color">Change color</string>
     <string name="view_issues_four">View Issues 4</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="replace_fragment">Replace Fragment</string>
+    <string name="add_fragment">Add Fragment</string>
+    <string name="add_to_back_stack">Add To Back Stack</string>
+    <string name="no_add_to_back_stack">No Add To Back Stack</string>
 </resources>

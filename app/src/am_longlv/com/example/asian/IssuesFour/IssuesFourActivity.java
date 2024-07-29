@@ -3,20 +3,23 @@ package com.example.asian.IssuesFour;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.asian.Constant;
 import com.example.asian.IssuesFour.fragment.IssuesFourFirstFragment;
 import com.example.asian.IssuesFour.fragment.IssuesFourSecondFragment;
 import com.example.asian.R;
 
-public class IssuesFourActivity extends AppCompatActivity {
-
-    private Button mBtnReplaceFragment, mBtnAddFragment;
+public class IssuesFourActivity extends AppCompatActivity implements IssuesFourFirstFragment.OnFragmentFirstChange, IssuesFourSecondFragment.OnFragmentSecondChange {
+    private Button mBtnReplaceFragment;
+    private Button mBtnAddFragment;
     private EditText mEdtColorCode;
-    private int mClickBtn = 0;
-    private static final int ID_BTN_REPLACE_FRAGMENT = 1, ID_BTN_ADD_FRAGMENT = 2;
-    public static final String KEY_COLOR_CODE = "colorCode";
+    private TextView mTvStatusClick;
+    private int mClickBtnReplace = 0;
+    private int mClickBtnAdd = 0;
+    private static final int MAX_COUNT_CLICK = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class IssuesFourActivity extends AppCompatActivity {
         mBtnReplaceFragment = findViewById(R.id.btnReplaceFragment);
         mBtnAddFragment = findViewById(R.id.btnAddFragment);
         mEdtColorCode = findViewById(R.id.edtChangeColor);
+        mTvStatusClick = findViewById(R.id.tvStatusClick);
     }
 
     private void initListener() {
@@ -42,30 +46,44 @@ public class IssuesFourActivity extends AppCompatActivity {
     }
 
     private void replaceFragment() {
-        this.setTitle(getString(R.string.fragment_one));
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
+        bundle.putString(Constant.KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
         IssuesFourFirstFragment issuesFourFirstFragment = new IssuesFourFirstFragment();
         issuesFourFirstFragment.setArguments(bundle);
-        if (mClickBtn == ID_BTN_REPLACE_FRAGMENT) {
+        mClickBtnAdd = 0;
+        mClickBtnReplace++;
+        if (mClickBtnReplace > MAX_COUNT_CLICK) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issuesFourFirstFragment).commit();
+            mTvStatusClick.setText(getString(R.string.replace_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.no_add_to_back_stack));
         } else {
-            mClickBtn = ID_BTN_REPLACE_FRAGMENT;
+            mTvStatusClick.setText(getString(R.string.replace_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.add_to_back_stack));
             getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issuesFourFirstFragment).addToBackStack(null).commit();
         }
     }
 
     private void addFragment() {
-        this.setTitle(getString(R.string.fragment_two));
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
+        bundle.putString(Constant.KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
         IssuesFourSecondFragment issuesFourSecondFragment = new IssuesFourSecondFragment();
         issuesFourSecondFragment.setArguments(bundle);
-        if (mClickBtn == ID_BTN_ADD_FRAGMENT) {
+        mClickBtnReplace = 0;
+        mClickBtnAdd++;
+        if (mClickBtnAdd > MAX_COUNT_CLICK) {
+            mTvStatusClick.setText(getString(R.string.add_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.no_add_to_back_stack));
             getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issuesFourSecondFragment).commit();
         } else {
-            mClickBtn = ID_BTN_ADD_FRAGMENT;
+            mTvStatusClick.setText(getString(R.string.add_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.add_to_back_stack));
             getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issuesFourSecondFragment).addToBackStack(null).commit();
         }
+    }
+
+    @Override
+    public void onFragmentSecondChange(String colorCode) {
+        this.setTitle(getString(R.string.fragment_two) + " " + colorCode);
+    }
+
+    @Override
+    public void onFragmentFirstChange(String colorCode) {
+        this.setTitle(getString(R.string.fragment_one) + " " + colorCode);
     }
 }

@@ -9,7 +9,10 @@ import android.widget.Button;
 import com.example.asian.IssuesFour.IssuesFourActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mBtnExerciseLogin, mBtnExerciseCal, mBtnExerciseUpdateInfo,mBtnIssuesFour;
+    private Button mBtnExerciseLogin;
+    private Button mBtnExerciseCal;
+    private Button mBtnExerciseUpdateInfo;
+    private Button mBtnIssuesFour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
