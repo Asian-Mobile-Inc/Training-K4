@@ -39,8 +39,8 @@
     <string name="id_card_invalid">ID card phải gồm 9 chữ số</string>
     <string name="more_info_invalid">Info is invalid</string>
     <string name="more_info_too_short">Nhập lớn hơn 100 ký tự</string>
-    <string name="data_from_login">This is data from login</string>
-    <string name="data_from_update_info">This is data from update information</string>
+    <string name="data_from_login">Login</string>
+    <string name="data_from_update_info">Update infomation</string>
     <string name="data_from_calculate">This is data from calculate</string>
     <string name="email">Email: </string>
     <string name="password">Password: </string>
