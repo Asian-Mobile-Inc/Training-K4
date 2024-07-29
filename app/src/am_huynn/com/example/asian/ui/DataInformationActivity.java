@@ -11,6 +11,8 @@ import com.example.asian.constants.Constants;
 public class DataInformationActivity extends AppCompatActivity {
     private TextView mTvName;
     private TextView mTvCard;
+    private TextView mTvDegree;
+    private TextView mTvInterest;
     private TextView mTvMoreInformation;
 
     @Override
@@ -24,16 +26,23 @@ public class DataInformationActivity extends AppCompatActivity {
     private void initView() {
         mTvName = findViewById(R.id.tvDataName);
         mTvCard = findViewById(R.id.tvDataCard);
+        mTvDegree = findViewById(R.id.tvDataDegree);
+        mTvInterest = findViewById(R.id.tvDataInterest);
         mTvMoreInformation = findViewById(R.id.tvDataMoreInformation);
     }
 
     private void getData() {
-        String name = getIntent().getStringExtra(Constants.KEY_NAME);
-        String card = getIntent().getStringExtra(Constants.KEY_CARD);
-        String moreInformation = getIntent().getStringExtra(Constants.KEY_MORE_INFORMATION);
-
+        String name = getString(R.string.name) + getIntent().getStringExtra(Constants.KEY_NAME);
+        String card = getString(R.string.card) + getIntent().getStringExtra(Constants.KEY_CARD);
+        String moreInformation = getString(R.string.more_information_value) + getIntent().getStringExtra(Constants.KEY_MORE_INFORMATION);
+        String degree = getString(R.string.degree_value) + getIntent().getStringExtra(Constants.KEY_DEGREE);
+        if (getIntent().getStringExtra(Constants.KEY_INTEREST) != null) {
+            String interest = getString(R.string.interest_value) + getIntent().getStringExtra(Constants.KEY_INTEREST);
+            mTvInterest.setText(interest);
+        }
         mTvName.setText(name);
         mTvCard.setText(card);
+        mTvDegree.setText(degree);
         mTvMoreInformation.setText(moreInformation);
     }
 }
