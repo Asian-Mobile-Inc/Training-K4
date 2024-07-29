@@ -1,6 +1,7 @@
 package com.example.asian.issueseven.service;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -37,12 +38,25 @@ public class MyLocationService extends Service {
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private boolean mIsInternetAvailable = false;
+    private static MyLocationService INSTANCE = null;
+
+    public MyLocationService() {
+    }
+
+    public static synchronized MyLocationService getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new MyLocationService();
+        }
+        return (INSTANCE);
+    }
 
     public void setIsInternetChange(Context context, boolean internetStatus) {
         mIsInternetAvailable = internetStatus;
         if (mIsInternetAvailable) {
+            Log.d(TAG_LOG, "Internet connected");
             requestLocationUpdates(context);
         } else {
+            Log.d(TAG_LOG, "Internet disconnected");
             removeLocationUpdates(context);
         }
     }
@@ -51,12 +65,10 @@ public class MyLocationService extends Service {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
-            if (locationResult != null && locationResult.getLocations() != null) {
-                int locationIndex = locationResult.getLocations().size() - 1;
-                double latitude = locationResult.getLocations().get(locationIndex).getLatitude();
-                double longitude = locationResult.getLocations().get(locationIndex).getLongitude();
-                Log.d(TAG_LOG, latitude + " - " + longitude);
-            }
+            int locationIndex = locationResult.getLocations().size() - 1;
+            double latitude = locationResult.getLocations().get(locationIndex).getLatitude();
+            double longitude = locationResult.getLocations().get(locationIndex).getLongitude();
+            Log.d(TAG_LOG, latitude + " - " + longitude);
         }
     };
 
@@ -69,6 +81,7 @@ public class MyLocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        INSTANCE = this;
     }
 
     @Override
@@ -111,6 +124,7 @@ public class MyLocationService extends Service {
         IntentFilter intentFilter = new IntentFilter(ACTION_CONNECTIVITY_CHANGE);
         registerReceiver(boadcastInternet, intentFilter);
         setUpLocationRequest();
+        requestLocationUpdates(this);
         startForeground(NOTIFICATION_ID, createNotification());
     }
 
@@ -154,6 +168,7 @@ public class MyLocationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        INSTANCE = null;
         stopService();
     }
 }

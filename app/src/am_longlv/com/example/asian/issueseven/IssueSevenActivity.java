@@ -3,23 +3,18 @@ package com.example.asian.issueseven;
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.IntentSender;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.asian.issueseven.broadcast.BoadcastInternet;
 import com.example.asian.issueseven.service.MyLocationService;
 import com.example.asian.R;
 import com.google.android.gms.common.api.ApiException;
