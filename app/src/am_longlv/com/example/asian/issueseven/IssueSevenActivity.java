@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.asian.issueseven.broadcast.BoadcastInternet;
 import com.example.asian.issueseven.service.MyLocationService;
 import com.example.asian.R;
 import com.google.android.gms.common.api.ApiException;
@@ -31,26 +33,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class IssueSevenActivity extends AppCompatActivity {
-    private Button mBtnReqLocation, mBtnReqNotification, mBtnStartService, mBtnStopService;
-    private static final int REQUEST_CODE_LOCATION = 1, REQUEST_CODE_NOTIFICATION = 2;
-    public static final String CHANNEL_ID = "channel_service_location", CHANNEL_NAME = "channel_service_location";
+    private Button mBtnStartService;
+    private Button mBtnStopService;
+    private static final int REQUEST_CODE_LOCATION = 1;
+    private static final int REQUEST_CODE_NOTIFICATION = 2;
+    public static final String CHANNEL_ID = "channel_service_location";
+    public static final String CHANNEL_NAME = "channel_service_location";
     private LocationRequest mLocationRequest;
-    private MyLocationService mLocationService;
-    private boolean mIsLocationServiceBound = false;
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MyLocationService.LocalBinder binder = (MyLocationService.LocalBinder) service;
-            mLocationService = binder.getService();
-            mIsLocationServiceBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mLocationService = null;
-            mIsLocationServiceBound = false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,21 +47,30 @@ public class IssueSevenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_issue_seven);
         initUI();
         initListener();
+        askPermission();
         setupLocationRequest();
         createChannelNotification();
     }
 
     private void initUI() {
-        mBtnReqLocation = findViewById(R.id.btnReqLocation);
-        mBtnReqNotification = findViewById(R.id.btnReqNotification);
         mBtnStartService = findViewById(R.id.btnStartService);
         mBtnStopService = findViewById(R.id.btnStopService);
     }
 
     private void initListener() {
-        mBtnReqLocation.setOnClickListener(v -> requestRuntimePermission(Manifest.permission.ACCESS_FINE_LOCATION));
+        mBtnStartService.setOnClickListener(v -> {
+            startFgrService();
+        });
+        mBtnStopService.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MyLocationService.class);
+            stopService(intent);
+        });
+    }
+
+    private void askPermission() {
+        requestRuntimePermission(Manifest.permission.ACCESS_FINE_LOCATION);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            mBtnReqNotification.setOnClickListener(v -> requestRuntimePermission(Manifest.permission.POST_NOTIFICATIONS));
+            requestRuntimePermission(Manifest.permission.POST_NOTIFICATIONS);
         }
     }
 
@@ -93,8 +91,8 @@ public class IssueSevenActivity extends AppCompatActivity {
         }
     }
 
-    private void requestRuntimePermission(String accessFineLocation) {
-        switch (accessFineLocation) {
+    private void requestRuntimePermission(String idPermission) {
+        switch (idPermission) {
             case Manifest.permission.ACCESS_FINE_LOCATION:
                 if (!checkPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION) && !checkPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION)) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_LOCATION);
@@ -127,11 +125,6 @@ public class IssueSevenActivity extends AppCompatActivity {
         return ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void binderService() {
-        Intent intent = new Intent(this, MyLocationService.class);
-        bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
-    }
-
     private void turnOnGPS() {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(mLocationRequest);
@@ -162,33 +155,16 @@ public class IssueSevenActivity extends AppCompatActivity {
         });
     }
 
+    private void startFgrService() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, MyLocationService.class));
+        } else {
+            startService(new Intent(this, MyLocationService.class));
+        }
+    }
+
     @Override
     protected void onStart() {
-        if (checkPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION) || checkPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            binderService();
-        }
         super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        startFgrService();
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        startFgrService();
-        super.onDestroy();
-    }
-
-    private void startFgrService() {
-        if (mIsLocationServiceBound) {
-            unbindService(mServiceConnection);
-            mIsLocationServiceBound = false;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(new Intent(this, MyLocationService.class));
-            }
-        }
     }
 }

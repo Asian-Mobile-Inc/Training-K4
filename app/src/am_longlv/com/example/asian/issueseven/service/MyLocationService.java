@@ -4,9 +4,10 @@ import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -16,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.asian.issueseven.IssueSevenActivity;
 import com.example.asian.R;
+import com.example.asian.issueseven.broadcast.BoadcastInternet;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -23,14 +25,28 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 public class MyLocationService extends Service {
-    private static final String EXTRA_STARTED_FROM_NOTIFICATION = "started_from_notification",
-            TITLE_NOTIFICATION = "Location Service", CONTENT_NOTIFICATION = "Location Service is running...",
-            ACTION_START_ACTIVITY = "Start Activity", ACTION_STOP_SERVICE = "Stop Service";
+    private static final String EXTRA_STARTED_FROM_NOTIFICATION = "started_from_notification";
+    private static final String TITLE_NOTIFICATION = "Location Service";
+    private static final String CONTENT_NOTIFICATION = "Location Service is running...";
+    private static final String ACTION_STOP_SERVICE = "Stop Service";
+    private static final String ACTION_CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
     private static final int NOTIFICATION_ID = 111;
-    private static final int TIME_INTERVAL = 20000, FASTEST_INTERVAL = 10000;
+    private static final int TIME_INTERVAL = 2000;
+    private static final int FASTEST_INTERVAL = 1000;
     private static final String TAG_LOG = "androidruntime";
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private boolean mIsInternetAvailable = false;
+
+    public void setIsInternetChange(Context context, boolean internetStatus) {
+        mIsInternetAvailable = internetStatus;
+        if (mIsInternetAvailable) {
+            requestLocationUpdates(context);
+        } else {
+            removeLocationUpdates(context);
+        }
+    }
+
     private final LocationCallback mLocationCallBack = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -44,39 +60,14 @@ public class MyLocationService extends Service {
         }
     };
 
-    public class LocalBinder extends Binder {
-        public MyLocationService getService() {
-            return MyLocationService.this;
-        }
-    }
-
-    private final IBinder mLocalBinder = new LocalBinder();
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        stopForeground(true);
-        return mLocalBinder;
-    }
-
-    @Override
-    public void onRebind(Intent intent) {
-        stopForeground(true);
-        super.onRebind(intent);
-    }
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-        removeLocationUpdates();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            startService();
-        }
-        return super.onUnbind(intent);
+        return null;
     }
 
     @Override
     public void onCreate() {
-        sendInfoLocation();
         super.onCreate();
     }
 
@@ -88,23 +79,18 @@ public class MyLocationService extends Service {
         } else {
             startService();
         }
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
-    private Notification notification() {
+    private Notification createNotification() {
         Intent intent = new Intent(this, MyLocationService.class);
         intent.putExtra(EXTRA_STARTED_FROM_NOTIFICATION, true);
         PendingIntent servicePendingIntent;
-        PendingIntent activityPendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activityPendingIntent = PendingIntent.getActivity(this,
-                    0, new Intent(this, IssueSevenActivity.class), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             servicePendingIntent = PendingIntent.getService(this,
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         } else {
-            activityPendingIntent = PendingIntent.getActivity(this,
-                    0, new Intent(this, IssueSevenActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
             servicePendingIntent = PendingIntent.getService(this,
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
@@ -121,31 +107,53 @@ public class MyLocationService extends Service {
     }
 
     private void startService() {
-        startForeground(NOTIFICATION_ID, notification());
+        BoadcastInternet boadcastInternet = new BoadcastInternet();
+        IntentFilter intentFilter = new IntentFilter(ACTION_CONNECTIVITY_CHANGE);
+        registerReceiver(boadcastInternet, intentFilter);
+        setUpLocationRequest();
+        startForeground(NOTIFICATION_ID, createNotification());
     }
 
     private void stopService() {
-        removeLocationUpdates();
+        removeLocationUpdates(this);
         stopForeground(true);
+        if (mFusedLocationProviderClient != null) {
+            mFusedLocationProviderClient = null;
+        }
         stopSelf();
     }
-    private void sendInfoLocation(){
-        if (mFusedLocationProviderClient == null) {
-            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        }
+
+    private void setUpLocationRequest() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(TIME_INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (mFusedLocationProviderClient == null) {
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        }
+    }
+
+    private void requestLocationUpdates(Context context) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
+        }
+        if (mFusedLocationProviderClient == null) {
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         }
         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallBack, null);
     }
-    private void removeLocationUpdates() {
+
+    private void removeLocationUpdates(Context context) {
         if (mFusedLocationProviderClient == null) {
-            return;
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         }
         mFusedLocationProviderClient.removeLocationUpdates(mLocationCallBack);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopService();
     }
 }
