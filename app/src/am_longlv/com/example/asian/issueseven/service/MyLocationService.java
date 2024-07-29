@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -24,21 +26,30 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-public class MyLocationService extends Service implements BroadcastInternet.OnInternetChange {
+public class MyLocationService extends Service {
     private static final String EXTRA_STARTED_FROM_NOTIFICATION = "started_from_notification";
     private static final String TITLE_NOTIFICATION = "Location Service";
     private static final String CONTENT_NOTIFICATION = "Location Service is running...";
     private static final String ACTION_STOP_SERVICE = "Stop Service";
     private static final String ACTION_CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
     private static final int NOTIFICATION_ID = 111;
-    private static final int TIME_INTERVAL = 20000;
+    private static final int TIME_INTERVAL = 2000;
     private static final String TAG_LOG = "androidruntime";
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private boolean mIsInternetAvailable = false;
-
-    public MyLocationService() {
-    }
+    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BroadcastInternet.ACTION_INTERNET_CHANGE)) {
+                if (intent.getBooleanExtra(BroadcastInternet.KEY_INTERNET_CHANGE, false)) {
+                    setIsInternetChange(context, true);
+                } else {
+                    setIsInternetChange(context, false);
+                }
+            }
+        }
+    };
 
     public void setIsInternetChange(Context context, boolean internetStatus) {
         mIsInternetAvailable = internetStatus;
@@ -59,6 +70,7 @@ public class MyLocationService extends Service implements BroadcastInternet.OnIn
             double latitude = locationResult.getLocations().get(locationIndex).getLatitude();
             double longitude = locationResult.getLocations().get(locationIndex).getLongitude();
             Log.d(TAG_LOG, latitude + " - " + longitude);
+            Toast.makeText(MyLocationService.this, latitude + " - " + longitude, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -70,9 +82,10 @@ public class MyLocationService extends Service implements BroadcastInternet.OnIn
 
     @Override
     public void onCreate() {
-        BroadcastInternet boadcastInternet = new BroadcastInternet();
+        BroadcastInternet broadcastInternet = new BroadcastInternet();
         IntentFilter intentFilter = new IntentFilter(ACTION_CONNECTIVITY_CHANGE);
-        registerReceiver(boadcastInternet, intentFilter);
+        registerReceiver(broadcastInternet, intentFilter);
+        registerReceiver(mBroadcastReceiver, new IntentFilter(BroadcastInternet.ACTION_INTERNET_CHANGE));
         super.onCreate();
     }
 
@@ -120,9 +133,6 @@ public class MyLocationService extends Service implements BroadcastInternet.OnIn
     private void stopService() {
         removeLocationUpdates(this);
         stopForeground(true);
-        if (mFusedLocationProviderClient != null) {
-            mFusedLocationProviderClient = null;
-        }
         stopSelf();
     }
 
@@ -147,19 +157,15 @@ public class MyLocationService extends Service implements BroadcastInternet.OnIn
 
     private void removeLocationUpdates(Context context) {
         if (mFusedLocationProviderClient == null) {
-            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+            return;
         }
         mFusedLocationProviderClient.removeLocationUpdates(mLocationCallBack);
+        mFusedLocationProviderClient = null;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         stopService();
-    }
-
-    @Override
-    public void onInternetChange(boolean isInternetAvailable) {
-        setIsInternetChange(this, isInternetAvailable);
     }
 }
