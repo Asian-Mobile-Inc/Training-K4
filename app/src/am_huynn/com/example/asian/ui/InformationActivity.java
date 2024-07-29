@@ -56,8 +56,6 @@ public class InformationActivity extends AppCompatActivity {
             String moreInformation = mEdtMoreInformation.getText().toString();
             String degree = rbCheck.getText().toString();
             String interest = valueCheckBox();
-
-
             Intent intent = new Intent(this, DataInformationActivity.class);
             intent.putExtra(Constants.KEY_NAME, name);
             intent.putExtra(Constants.KEY_CARD, card);
@@ -115,9 +113,17 @@ public class InformationActivity extends AppCompatActivity {
     private String valueCheckBox() {
         ArrayList<String> values = new ArrayList<>();
         StringBuilder value = new StringBuilder();
-        if (mCbReadPaper.isChecked()) values.add(mCbReadPaper.getText().toString());
-        if (mCbReadBook.isChecked()) values.add(mCbReadBook.getText().toString());
-        if (mCbReadCoding.isChecked()) values.add(mCbReadCoding.getText().toString());
+        if (mCbReadPaper.isChecked()) {
+            values.add(mCbReadPaper.getText().toString());
+        }
+
+        if (mCbReadBook.isChecked()) {
+            values.add(mCbReadBook.getText().toString());
+        }
+
+        if (mCbReadCoding.isChecked()) {
+            values.add(mCbReadCoding.getText().toString());
+        }
 
         for (int i = 0; i < values.size(); i++) {
             if (i != values.size() - 1) {
