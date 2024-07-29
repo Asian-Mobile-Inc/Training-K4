@@ -1,9 +1,8 @@
-package com.example.asian.IssueFive.Fragment;
+package com.example.asian.issuefive.fragment;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.asian.IssueFive.Adapter.RecyclerViewAdapter;
+import com.example.asian.issuefive.adapter.RecyclerViewAdapter;
 import com.example.asian.R;
 
 import java.util.ArrayList;
@@ -19,10 +18,11 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link IssueFiveSecondFragment#newInstance} factory method to
+ * Use the {@link IssueFiveFirstFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IssueFiveSecondFragment extends Fragment {
+public class IssueFiveFirstFragment extends Fragment {
+
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private List<String> mLists;
@@ -31,14 +31,14 @@ public class IssueFiveSecondFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String FIRST_NAME_ITEM = "Item 2";
+    private static final String FIRST_NAME_ITEM = "Item 1";
     private static final char FIRST_CHAR = 'A', LAST_CHAR = 'Z';
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public IssueFiveSecondFragment() {
+    public IssueFiveFirstFragment() {
         // Required empty public constructor
     }
 
@@ -48,11 +48,11 @@ public class IssueFiveSecondFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment IssueFiveSecondFragment.
+     * @return A new instance of fragment IssueFiveFirstFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static IssueFiveSecondFragment newInstance(String param1, String param2) {
-        IssueFiveSecondFragment fragment = new IssueFiveSecondFragment();
+    public static IssueFiveFirstFragment newInstance(String param1, String param2) {
+        IssueFiveFirstFragment fragment = new IssueFiveFirstFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -73,7 +73,7 @@ public class IssueFiveSecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_issue_five_second, container, false);
+        View view = inflater.inflate(R.layout.fragment_issue_five_first, container, false);
         setUpListData();
         setUpRecyclerView(view);
         return view;

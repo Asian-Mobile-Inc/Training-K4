@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.asian.IssueFive.IssueFiveActivity;
+import com.example.asian.issuefive.IssueFiveActivity;
 
 public class MainActivity extends AppCompatActivity {
 

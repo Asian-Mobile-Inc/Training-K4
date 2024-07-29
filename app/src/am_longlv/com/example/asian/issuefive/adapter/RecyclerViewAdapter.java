@@ -1,13 +1,11 @@
-package com.example.asian.IssueFive.Adapter;
+package com.example.asian.issuefive.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 

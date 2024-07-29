@@ -1,15 +1,14 @@
-package com.example.asian.IssueFive;
+package com.example.asian.issuefive;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.asian.IssueFive.Adapter.ViewPagerAdapter;
-import com.example.asian.IssueFive.Fragment.IssueFiveFirstFragment;
-import com.example.asian.IssueFive.Fragment.IssueFiveSecondFragment;
-import com.example.asian.IssueFive.Fragment.IssueFiveThirdFragment;
+import com.example.asian.issuefive.adapter.ViewPagerAdapter;
+import com.example.asian.issuefive.fragment.IssueFiveFirstFragment;
+import com.example.asian.issuefive.fragment.IssueFiveSecondFragment;
+import com.example.asian.issuefive.fragment.IssueFiveThirdFragment;
 import com.example.asian.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
