@@ -37,8 +37,7 @@ public class MyLocationService extends Service {
     private static final String TAG_LOG = "androidruntime";
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private boolean mIsInternetAvailable = false;
-    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BroadcastInternet.ACTION_INTERNET_CHANGE)) {
@@ -52,8 +51,7 @@ public class MyLocationService extends Service {
     };
 
     public void setIsInternetChange(Context context, boolean internetStatus) {
-        mIsInternetAvailable = internetStatus;
-        if (mIsInternetAvailable) {
+        if (internetStatus) {
             Log.d(TAG_LOG, "Internet connected");
             requestLocationUpdates(context);
         } else {
