@@ -86,7 +86,7 @@ public class IssueFiveSecondFragment extends Fragment {
     }
 
     private void setUpRecyclerView(View view) {
-        mRecyclerView = view.findViewById(R.id.rvFragmentFirst);
+        mRecyclerView = view.findViewById(R.id.rvFragmentSecond);
         mAdapter = new RecyclerViewAdapter(mLists, getContext());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
