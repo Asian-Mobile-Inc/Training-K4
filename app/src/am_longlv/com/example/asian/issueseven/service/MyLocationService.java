@@ -17,14 +17,14 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.asian.issueseven.IssueSevenActivity;
 import com.example.asian.R;
-import com.example.asian.issueseven.broadcast.BoadcastInternet;
+import com.example.asian.issueseven.broadcast.BroadcastInternet;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-public class MyLocationService extends Service {
+public class MyLocationService extends Service implements BroadcastInternet.OnInternetChange {
     private static final String EXTRA_STARTED_FROM_NOTIFICATION = "started_from_notification";
     private static final String TITLE_NOTIFICATION = "Location Service";
     private static final String CONTENT_NOTIFICATION = "Location Service is running...";
@@ -36,16 +36,8 @@ public class MyLocationService extends Service {
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private boolean mIsInternetAvailable = false;
-    private static MyLocationService INSTANCE = null;
 
     public MyLocationService() {
-    }
-
-    public static synchronized MyLocationService getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MyLocationService();
-        }
-        return (INSTANCE);
     }
 
     public void setIsInternetChange(Context context, boolean internetStatus) {
@@ -78,8 +70,10 @@ public class MyLocationService extends Service {
 
     @Override
     public void onCreate() {
+        BroadcastInternet boadcastInternet = new BroadcastInternet();
+        IntentFilter intentFilter = new IntentFilter(ACTION_CONNECTIVITY_CHANGE);
+        registerReceiver(boadcastInternet, intentFilter);
         super.onCreate();
-        INSTANCE = this;
     }
 
     @Override
@@ -118,9 +112,6 @@ public class MyLocationService extends Service {
     }
 
     private void startService() {
-        BoadcastInternet boadcastInternet = new BoadcastInternet();
-        IntentFilter intentFilter = new IntentFilter(ACTION_CONNECTIVITY_CHANGE);
-        registerReceiver(boadcastInternet, intentFilter);
         setUpLocationRequest();
         requestLocationUpdates(this);
         startForeground(NOTIFICATION_ID, createNotification());
@@ -164,7 +155,11 @@ public class MyLocationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        INSTANCE = null;
         stopService();
+    }
+
+    @Override
+    public void onInternetChange(boolean isInternetAvailable) {
+        setIsInternetChange(this, isInternetAvailable);
     }
 }

@@ -44,8 +44,9 @@
             android:foregroundServiceType="location"
             android:exported="false"
             android:enabled="true"/>
-        <receiver android:name=".issueseven.broadcast.BoadcastInternet"
-            android:exported="false">
+        <receiver android:name=".issueseven.broadcast.BroadcastInternet"
+            android:exported="false"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

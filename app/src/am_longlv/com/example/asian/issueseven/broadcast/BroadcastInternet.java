@@ -4,17 +4,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.os.Build;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.example.asian.issueseven.service.MyLocationService;
 
 import java.util.Objects;
 
-public class BoadcastInternet extends BroadcastReceiver {
+public class BroadcastInternet extends BroadcastReceiver {
+    private OnInternetChange mOnInternetChange;
+
+    public interface OnInternetChange {
+        void onInternetChange(boolean isInternetAvailable);
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        mOnInternetChange = (OnInternetChange) context;
         if (Objects.equals(intent.getAction(), ConnectivityManager.CONNECTIVITY_ACTION)) {
             checkInternet(context);
         }
@@ -29,9 +31,9 @@ public class BoadcastInternet extends BroadcastReceiver {
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (wifi != null && mobile != null) {
             if (wifi.isConnectedOrConnecting() || mobile.isConnectedOrConnecting()) {
-                MyLocationService.getInstance().setIsInternetChange(context, true);
+                mOnInternetChange.onInternetChange(true);
             } else {
-                MyLocationService.getInstance().setIsInternetChange(context, false);
+                mOnInternetChange.onInternetChange(false);
             }
         }
     }
