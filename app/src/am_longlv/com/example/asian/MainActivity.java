@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.asian.IssuesFour.IssuesFourActivity;
+import com.example.asian.issuefour.IssueFourActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class));
         });
         mBtnIssuesFour.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, IssuesFourActivity.class));
+            startActivity(new Intent(MainActivity.this, IssueFourActivity.class));
         });
     }
 }

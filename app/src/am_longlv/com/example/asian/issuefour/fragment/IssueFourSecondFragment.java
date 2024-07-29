@@ -1,4 +1,4 @@
-package com.example.asian.IssuesFour.fragment;
+package com.example.asian.issuefour.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,19 +13,18 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.asian.Constant;
-import com.example.asian.IssuesFour.IssuesFourActivity;
 import com.example.asian.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link IssuesFourFirstFragment#newInstance} factory method to
+ * Use the {@link IssueFourSecondFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IssuesFourFirstFragment extends Fragment {
-    private OnFragmentFirstChange mListener;
+public class IssueFourSecondFragment extends Fragment {
+    private OnFragmentSecondChange mListener;
 
-    public interface OnFragmentFirstChange {
-        void onFragmentFirstChange(String colorCode);
+    public interface OnFragmentSecondChange {
+        void onFragmentSecondChange(String colorCode);
     }
 
     // TODO: Rename parameter arguments, choose names that match
@@ -37,7 +36,7 @@ public class IssuesFourFirstFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public IssuesFourFirstFragment() {
+    public IssueFourSecondFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +46,11 @@ public class IssuesFourFirstFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment IssuesFourFirstFragment.
+     * @return A new instance of fragment IssuesFourSecondFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static IssuesFourFirstFragment newInstance(String param1, String param2) {
-        IssuesFourFirstFragment fragment = new IssuesFourFirstFragment();
+    public static IssueFourSecondFragment newInstance(String param1, String param2) {
+        IssueFourSecondFragment fragment = new IssueFourSecondFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,8 +70,8 @@ public class IssuesFourFirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_issues_four_first, container, false);
-        RelativeLayout relativeLayout = view.findViewById(R.id.rlMainFrOne);
+        View view = inflater.inflate(R.layout.fragment_issue_four_second, container, false);
+        RelativeLayout relativeLayout = view.findViewById(R.id.rlMainFrTwo);
         String colorCode = getArguments().getString(Constant.KEY_COLOR_CODE);
         if (colorCode != null && !colorCode.isEmpty()) {
             if (!colorCode.startsWith(Constant.START_CHAR_COLOR)) {
@@ -85,14 +84,14 @@ public class IssuesFourFirstFragment extends Fragment {
             }
             relativeLayout.setBackgroundColor(Color.parseColor(colorCode));
         }
-        mListener.onFragmentFirstChange(colorCode);
+        mListener.onFragmentSecondChange(colorCode);
         return view;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mListener = (OnFragmentFirstChange) context;
+        mListener = (OnFragmentSecondChange) context;
     }
 
     @Override

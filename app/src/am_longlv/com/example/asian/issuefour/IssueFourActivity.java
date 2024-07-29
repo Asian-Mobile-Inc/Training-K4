@@ -1,4 +1,4 @@
-package com.example.asian.IssuesFour;
+package com.example.asian.issuefour;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,11 +8,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.Constant;
-import com.example.asian.IssuesFour.fragment.IssuesFourFirstFragment;
-import com.example.asian.IssuesFour.fragment.IssuesFourSecondFragment;
+import com.example.asian.issuefour.fragment.IssueFourFirstFragment;
+import com.example.asian.issuefour.fragment.IssueFourSecondFragment;
 import com.example.asian.R;
 
-public class IssuesFourActivity extends AppCompatActivity implements IssuesFourFirstFragment.OnFragmentFirstChange, IssuesFourSecondFragment.OnFragmentSecondChange {
+public class IssueFourActivity extends AppCompatActivity implements IssueFourFirstFragment.OnFragmentFirstChange, IssueFourSecondFragment.OnFragmentSecondChange {
     private Button mBtnReplaceFragment;
     private Button mBtnAddFragment;
     private EditText mEdtColorCode;
@@ -24,7 +24,7 @@ public class IssuesFourActivity extends AppCompatActivity implements IssuesFourF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_issues_four);
+        setContentView(R.layout.activity_issue_four);
         initUI();
         initListener();
     }
@@ -48,32 +48,32 @@ public class IssuesFourActivity extends AppCompatActivity implements IssuesFourF
     private void replaceFragment() {
         Bundle bundle = new Bundle();
         bundle.putString(Constant.KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
-        IssuesFourFirstFragment issuesFourFirstFragment = new IssuesFourFirstFragment();
-        issuesFourFirstFragment.setArguments(bundle);
+        IssueFourFirstFragment issueFourFirstFragment = new IssueFourFirstFragment();
+        issueFourFirstFragment.setArguments(bundle);
         mClickBtnAdd = 0;
         mClickBtnReplace++;
         if (mClickBtnReplace > MAX_COUNT_CLICK) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issuesFourFirstFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issueFourFirstFragment).commit();
             mTvStatusClick.setText(getString(R.string.replace_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.no_add_to_back_stack));
         } else {
             mTvStatusClick.setText(getString(R.string.replace_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.add_to_back_stack));
-            getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issuesFourFirstFragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issueFourFirstFragment).addToBackStack(null).commit();
         }
     }
 
     private void addFragment() {
         Bundle bundle = new Bundle();
         bundle.putString(Constant.KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
-        IssuesFourSecondFragment issuesFourSecondFragment = new IssuesFourSecondFragment();
-        issuesFourSecondFragment.setArguments(bundle);
+        IssueFourSecondFragment issueFourSecondFragment = new IssueFourSecondFragment();
+        issueFourSecondFragment.setArguments(bundle);
         mClickBtnReplace = 0;
         mClickBtnAdd++;
         if (mClickBtnAdd > MAX_COUNT_CLICK) {
             mTvStatusClick.setText(getString(R.string.add_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.no_add_to_back_stack));
-            getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issuesFourSecondFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issueFourSecondFragment).commit();
         } else {
             mTvStatusClick.setText(getString(R.string.add_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.add_to_back_stack));
-            getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issuesFourSecondFragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issueFourSecondFragment).addToBackStack(null).commit();
         }
     }
 

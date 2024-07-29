@@ -1,18 +1,12 @@
-package com.example.asian.IssuesThree;
+package com.example.asian.issuethree;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.Constant;
-import com.example.asian.ExerciseCalculateActivity;
-import com.example.asian.ExerciseLoginActivity;
-import com.example.asian.ExerciseUpdateInfoActivity;
-import com.example.asian.IssuesFour.IssuesFourActivity;
 import com.example.asian.R;
 
 public class IssueThreeActivity extends AppCompatActivity {
@@ -29,7 +23,7 @@ public class IssueThreeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_issues_three);
+        setContentView(R.layout.activity_issue_three);
         initUI();
         initListener();
         initData();

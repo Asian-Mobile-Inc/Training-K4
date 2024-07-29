@@ -18,10 +18,10 @@
             android:name=".ExerciseLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".IssuesThree.IssueThreeActivity"
+            android:name=".issuethree.IssueThreeActivity"
             android:exported="false" />
         <activity
-            android:name=".IssuesFour.IssuesFourActivity"
+            android:name=".issuefour.IssueFourActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

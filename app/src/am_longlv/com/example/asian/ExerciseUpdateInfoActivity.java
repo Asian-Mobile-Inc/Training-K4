@@ -11,7 +11,7 @@ import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.asian.IssuesThree.IssueThreeActivity;
+import com.example.asian.issuethree.IssueThreeActivity;
 
 public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     private Button mBtnSendInfo;
