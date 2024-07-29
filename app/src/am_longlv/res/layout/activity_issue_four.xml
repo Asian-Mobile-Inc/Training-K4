@@ -38,20 +38,11 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvStatusClick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llTwoButton"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
-
     <EditText
         android:id="@+id/edtChangeColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvStatusClick"
+        android:layout_below="@+id/llTwoButton"
         android:layout_marginTop="10dp"
         android:autofillHints="@string/hint_edittext"
         android:hint="@string/change_color"

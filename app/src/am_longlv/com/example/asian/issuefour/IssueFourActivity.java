@@ -16,7 +16,6 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
     private Button mBtnReplaceFragment;
     private Button mBtnAddFragment;
     private EditText mEdtColorCode;
-    private TextView mTvStatusClick;
     private int mClickBtnReplace = 0;
     private int mClickBtnAdd = 0;
     private static final int MAX_COUNT_CLICK = 2;
@@ -33,7 +32,6 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         mBtnReplaceFragment = findViewById(R.id.btnReplaceFragment);
         mBtnAddFragment = findViewById(R.id.btnAddFragment);
         mEdtColorCode = findViewById(R.id.edtChangeColor);
-        mTvStatusClick = findViewById(R.id.tvStatusClick);
     }
 
     private void initListener() {
@@ -54,9 +52,7 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         mClickBtnReplace++;
         if (mClickBtnReplace > MAX_COUNT_CLICK) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issueFourFirstFragment).commit();
-            mTvStatusClick.setText(getString(R.string.replace_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.no_add_to_back_stack));
         } else {
-            mTvStatusClick.setText(getString(R.string.replace_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.add_to_back_stack));
             getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issueFourFirstFragment).addToBackStack(null).commit();
         }
     }
@@ -69,10 +65,8 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         mClickBtnReplace = 0;
         mClickBtnAdd++;
         if (mClickBtnAdd > MAX_COUNT_CLICK) {
-            mTvStatusClick.setText(getString(R.string.add_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.no_add_to_back_stack));
             getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issueFourSecondFragment).commit();
         } else {
-            mTvStatusClick.setText(getString(R.string.add_fragment) + Constant.CHARACTER_SPLIT + getString(R.string.add_to_back_stack));
             getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issueFourSecondFragment).addToBackStack(null).commit();
         }
     }
