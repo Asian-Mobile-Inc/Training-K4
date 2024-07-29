@@ -1,7 +1,6 @@
 package com.example.asian.issueseven.service;
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -32,8 +31,7 @@ public class MyLocationService extends Service {
     private static final String ACTION_STOP_SERVICE = "Stop Service";
     private static final String ACTION_CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
     private static final int NOTIFICATION_ID = 111;
-    private static final int TIME_INTERVAL = 2000;
-    private static final int FASTEST_INTERVAL = 1000;
+    private static final int TIME_INTERVAL = 20000;
     private static final String TAG_LOG = "androidruntime";
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -138,10 +136,8 @@ public class MyLocationService extends Service {
     }
 
     private void setUpLocationRequest() {
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(TIME_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest = new LocationRequest.Builder(TIME_INTERVAL)
+                .build();
         if (mFusedLocationProviderClient == null) {
             mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         }

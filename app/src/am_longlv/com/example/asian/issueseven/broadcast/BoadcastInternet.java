@@ -13,11 +13,6 @@ import com.example.asian.issueseven.service.MyLocationService;
 import java.util.Objects;
 
 public class BoadcastInternet extends BroadcastReceiver {
-    private static final String INTERNET_DISCONNECTED = "Internet disconnected";
-    private static final String INTERNET_CONNECTED = "Internet connected";
-    public static final String ACTION_INTERNET = "internet-broadcastintent";
-    public static final String KEY_INTERNET_CONNECTED = "internet-connected";
-
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Objects.equals(intent.getAction(), ConnectivityManager.CONNECTIVITY_ACTION)) {
@@ -38,17 +33,6 @@ public class BoadcastInternet extends BroadcastReceiver {
             } else {
                 MyLocationService.getInstance().setIsInternetChange(context, false);
             }
-        }
-    }
-
-    private void startFgrService(Context context, boolean isInternetConnected) {
-        Toast.makeText(context, INTERNET_DISCONNECTED, Toast.LENGTH_SHORT).show();
-        Intent broadcastIntent = new Intent(context, MyLocationService.class);
-        broadcastIntent.putExtra(ACTION_INTERNET, false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(broadcastIntent);
-        } else {
-            context.startService(broadcastIntent);
         }
     }
 }
