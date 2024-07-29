@@ -92,20 +92,12 @@ public class MathActivity extends AppCompatActivity {
     }
 
     private boolean isNumber(String value) {
-        if (value.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !value.isEmpty();
     }
 
     private boolean isNumberOtherZero(String value) {
         if (value.isEmpty()) {
             return false;
-        } else if (Double.parseDouble(value) == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        } else return Double.parseDouble(value) != 0;
     }
 }
