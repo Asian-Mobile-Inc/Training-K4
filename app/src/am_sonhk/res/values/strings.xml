@@ -1,8 +1,13 @@
 <resources>
-  <string name="app_name" translatable="false">ExSonhk</string>
-  <string name="fragment_tab1">Tab 1</string>
-  <string name="fragment_tab2">Tab 2</string>
-  <string name="fragment_tab3">Tab 3</string>
-  <string name="btnAdd">+\n</string>
-</resources>
+    <string name="app_name" translatable="false">ExSonhk</string>
+    <string name="fbtn_des">Floating btn</string>
+    <string name="tablayout_des">TabLayout</string>
+    <string name="viewpager_des">ViewPager</string>
+    <string name="option_delete">Delete Item</string>
+    <string name="option_edit">Edit Item</string>
+    <string name="option_add">Add Item</string>
+    <string name="title_handle_data">Home Action</string>
+    <string name="hint_edt_new_text">Enter new text</string>
+    <string name="hint_edt_position">Enter position</string>
+  </resources>
 

@@ -8,7 +8,7 @@
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_text_line"
+        android:background="@drawable/ic_text"
         android:padding="14sp"
         android:textColor="@android:color/black" />
 </RelativeLayout>
