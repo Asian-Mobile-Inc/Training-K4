@@ -31,14 +31,12 @@ public class FacebookActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        String email = mEdtEmail.getText().toString();
-        String password = mEdtPassword.getText().toString();
-
         mBtnLogin.setOnClickListener(view -> {
+            String email = mEdtEmail.getText().toString();
+            String password = mEdtPassword.getText().toString();
             if (!validateEmail(email) || !validatePassword(password)) {
                 return;
             }
-
 
             Intent intent = new Intent(this, DataActivity.class);
             intent.putExtra(Constants.KEY_EMAIL, email);
@@ -49,7 +47,6 @@ public class FacebookActivity extends AppCompatActivity {
 
     private boolean validateEmail(String value) {
         boolean isValidEmail;
-
         if (value.isEmpty()) {
             mEdtEmail.setError(getString(R.string.field_can_not_empty));
             isValidEmail = false;
@@ -65,7 +62,6 @@ public class FacebookActivity extends AppCompatActivity {
 
     private boolean validatePassword(String value) {
         boolean isValidPassword;
-
         if (value.isEmpty()) {
             mEdtPassword.setError(getString(R.string.field_can_not_empty));
             isValidPassword = false;
