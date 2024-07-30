@@ -17,4 +17,7 @@
   <string name="option_delete">Delete Item</string>
   <string name="option_edit">Edit Item</string>
   <string name="option_add">Add Item</string>
+  <string name="nav_communicate">Communicate</string>
+  <string name="navigation_drawer_open">Open Navigation Drawer</string>
+  <string name="navigation_drawer_close">Close Navigation Drawer</string>
 </resources>
