@@ -48,4 +48,5 @@
   <string name="pls_enter_the_first_number">Please enter the first number</string>
   <string name="pls_enter_the_second_number">Please enter the second number</string>
     <string name="submit_succes">Submit Success</string>
+  <string name="btn_Request">Request\n</string>
 </resources>
