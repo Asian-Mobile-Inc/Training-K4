@@ -30,4 +30,9 @@
   <string name="exercise_update_info">Update Infor Exercise\n</string>
   <string name="exercise_calculate">Exercise Calculate\n</string>
   <string name="exercise_login">Exercise Login</string>
+    <string name="thread">Thread\n</string>
+  <string name="asynctask">AsyncTask</string>
+    <string name="enter_url">Enter URL</string>
+  <string name="download">Download</string>
+  <string name="todo">todo</string>
 </resources>

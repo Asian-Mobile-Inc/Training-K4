@@ -5,24 +5,17 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btnExerciseLogin"
+        android:id="@+id/btnThread"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/exercise_login" />
+        android:text="@string/thread" />
 
     <Button
-        android:id="@+id/btnExerciseCal"
+        android:id="@+id/btnAsyncTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/exercise_calculate" />
-
-    <Button
-        android:id="@+id/btnExerciseUpdateInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/exercise_update_info" />
+        android:text="@string/asynctask" />
 
 </LinearLayout>
