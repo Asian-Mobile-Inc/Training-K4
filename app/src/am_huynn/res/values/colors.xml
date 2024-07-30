@@ -9,8 +9,11 @@
     <color name="green_BDDD5E">#BDDD5E</color>
     <color name="green_D1E39C">#D1E39C</color>
     <color name="green_405555">#405555</color>
+    <color name="red_D50000">#D50000</color>
+    <color name="red_820000">#820000</color>
     <color name="green">#008000</color>
     <color name="purple">#800080</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="grey">#A8A8A8</color>
 </resources>

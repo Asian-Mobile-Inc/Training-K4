@@ -3,6 +3,7 @@
     <string name="exercise_facebook">Exercise Facebook</string>
     <string name="exercise_math">Exercise Math</string>
     <string name="exercise_information">Exercise Information</string>
+    <string name="exercise_drawer_navigation">Exercise Drawer Navigation</string>
 
     <!-- Strings related to exercise 1 -->
     <string name="facebook">FACEBOOK</string>
@@ -39,4 +40,17 @@
     <string name="more_information">Thông tin bổ sung</string>
     <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
     <string name="send_information">Gửi thông tin</string>
+
+    <string name="java_help">Java Helps</string>
+    <string name="java_subtitle">admin@javahelps.com</string>
+    <string name="home">Home</string>
+    <string name="setting">Settings</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+
+    <string name="home_fragment">Home</string>
+    <string name="setting_fragment">Setting</string>
 </resources>
