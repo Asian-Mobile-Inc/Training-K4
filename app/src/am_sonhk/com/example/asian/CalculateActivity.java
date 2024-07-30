@@ -1,11 +1,11 @@
 package com.example.asian;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CalculateActivity extends AppCompatActivity {
@@ -36,8 +36,6 @@ public class CalculateActivity extends AppCompatActivity {
         mTvResult = findViewById(R.id.tvResult);
     }
 
-
-    @SuppressLint("SetTextI18n")
     private void initListener() {
         mBtnAdd.setOnClickListener(v -> {
             if (!validateInput()) {

@@ -35,7 +35,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
     private void initListener() {
         mBtnSubmit.setOnClickListener(v -> {
             if (validate()) {
-                Toast.makeText(this, "Submit Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getString(R.string.submit_succes), Toast.LENGTH_SHORT).show();
             }
         });
     }

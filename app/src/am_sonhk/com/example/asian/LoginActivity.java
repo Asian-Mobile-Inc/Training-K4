@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -24,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         initUI();
         initListener();
-
     }
 
     private void initUI() {

@@ -47,4 +47,5 @@
   <string name="cant_divide_by_zero">Cannot divide by zero\n</string>
   <string name="pls_enter_the_first_number">Please enter the first number</string>
   <string name="pls_enter_the_second_number">Please enter the second number</string>
+    <string name="submit_succes">Submit Success</string>
 </resources>
