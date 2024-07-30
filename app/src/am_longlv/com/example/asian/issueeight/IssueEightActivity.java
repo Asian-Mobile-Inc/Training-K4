@@ -86,6 +86,7 @@ public class IssueEightActivity extends AppCompatActivity {
                     total += count;
                     publishProgress((int) (total));
                 }
+                publishProgress(100);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 outputStream.flush();
                 outputStream.close();
