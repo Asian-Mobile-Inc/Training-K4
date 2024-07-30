@@ -56,24 +56,28 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     }
 
     private boolean validate(String name, String idCard, String moreInfo) {
+        return validateName(name) && validateIdCard(idCard) && validateMoreInfo(moreInfo);
+    }
+
+    private boolean validateName(String name) {
         if (name == null || name.isEmpty()) {
             mEdtName.setError(getString(R.string.name_invalid));
             return false;
         }
-        if (idCard == null || idCard.isEmpty()) {
+        return true;
+    }
+
+    private boolean validateIdCard(String idCard) {
+        if (idCard == null || idCard.isEmpty() || idCard.trim().toString().length() != Constant.LENGTH_ID_CARD) {
             mEdtIdCard.setError(getString(R.string.id_card_invalid));
             return false;
         }
-        if (idCard.trim().toString().length() != Constant.LENGTH_ID_CARD) {
-            mEdtIdCard.setError(getString(R.string.id_card_invalid));
-            return false;
-        }
-        if (moreInfo == null || moreInfo.isEmpty()) {
+        return true;
+    }
+
+    private boolean validateMoreInfo(String moreInfo) {
+        if (moreInfo == null || moreInfo.isEmpty() || moreInfo.length() < MIN_LENGTH_MORE_INFO) {
             mEdtMoreInfo.setError(getString(R.string.more_info_invalid));
-            return false;
-        }
-        if (moreInfo.length() < MIN_LENGTH_MORE_INFO) {
-            mEdtMoreInfo.setError(getString(R.string.more_info_too_short));
             return false;
         }
         return true;

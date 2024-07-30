@@ -57,16 +57,10 @@ public class ExerciseLoginActivity extends AppCompatActivity {
     }
 
     private boolean checkEmailAdress(String email) {
-        if (email == null || email.isEmpty()) {
-            return false;
-        }
-        if (email.split(Constant.CHAR_SPLIT_EMAIL).length != Constant.COUNT_EMAIL_SENTENCES) {
-            return false;
-        }
-        if (email.split(Constant.CHAR_SPLIT_EMAIL)[0].trim().isEmpty()) {
-            return false;
-        }
-        return email.split(Constant.CHAR_SPLIT_EMAIL)[1].equals(Constant.EMAIL_ADDRESS);
+        String[] emailArray = email.split(Constant.CHAR_SPLIT_EMAIL);
+        return emailArray.length == Constant.COUNT_EMAIL_SENTENCES
+                && !emailArray[0].trim().isEmpty()
+                && emailArray[1].equals(Constant.EMAIL_ADDRESS);
     }
 
     private void putDataToIssueThreeActivity() {
