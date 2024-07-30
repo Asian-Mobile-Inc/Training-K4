@@ -1,10 +1,11 @@
 package com.example.asian.issueeight;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -13,7 +14,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,11 +27,17 @@ import androidx.core.content.ContextCompat;
 import com.example.asian.R;
 
 import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class IssueEightActivity extends AppCompatActivity {
     private static final String IMAGE_URL = "https://haycafe.vn/wp-content/uploads/2022/01/hinh-anh-galaxy-vu-tru-dep.jpg";
@@ -40,7 +47,8 @@ public class IssueEightActivity extends AppCompatActivity {
     private String mNameFile;
     private DownloadManager mDownloadManager;
     private long mDownloadId;
-    HttpURLConnection mHttpURLConnection;
+    private ProgressDialog mProgressDialog;
+    URLConnection mUrlConnection;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 11;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -50,24 +58,47 @@ public class IssueEightActivity extends AppCompatActivity {
         }
     };
 
-    private class DownloadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadImageAsyncTask extends AsyncTask<String, Integer, Bitmap> {
         @Override
         protected Bitmap doInBackground(String... strings) {
             try {
-                URL url = new URL(IMAGE_URL);
-                mHttpURLConnection = (HttpURLConnection) url.openConnection();
-                InputStream inputStream = new BufferedInputStream(mHttpURLConnection.getInputStream());
+                URL url = new URL(strings[0]);
+                mUrlConnection = url.openConnection();
+                mUrlConnection.connect();
+                int fileLength = mUrlConnection.getContentLength();
+                String filepath =
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                                .getAbsolutePath();
+                InputStream inputStream = new BufferedInputStream(url.openStream());
+                OutputStream outputStream = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    outputStream = Files.newOutputStream(Paths.get(filepath + "/"
+                            + System.currentTimeMillis() + ".jpg"));
+                } else {
+                    outputStream = new FileOutputStream(new File(filepath + "/"
+                            + System.currentTimeMillis() + ".jpg"));
+                }
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                byte[] data = new byte[1024];
+                long total = 0;
+                int count;
+                while ((count = inputStream.read(data)) != -1) {
+                    total += count;
+                    publishProgress((int) (total));
+                }
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                outputStream.flush();
+                outputStream.close();
+                inputStream.close();
                 return bitmap;
             } catch (IOException e) {
-                throw new RuntimeException(e);
-            } finally {
-                mHttpURLConnection.disconnect();
+                return null;
             }
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
+            mProgressDialog.dismiss();
             if (bitmap != null) {
                 mImgDownload.setImageBitmap(bitmap);
                 Toast.makeText(IssueEightActivity.this, getString(R.string.download_finished), Toast.LENGTH_SHORT).show();
@@ -77,8 +108,19 @@ public class IssueEightActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
+        protected void onProgressUpdate(Integer... values) {
+            mProgressDialog.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(IssueEightActivity.this);
+            mProgressDialog.setTitle("Downloading");
+            mProgressDialog.setMessage("Downloading, Please Wait!");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.show();
         }
     }
 
@@ -88,6 +130,7 @@ public class IssueEightActivity extends AppCompatActivity {
         setContentView(R.layout.activity_issue_eight);
         initUI();
         initListener();
+        askPermisson();
         registerBroadcastReceiver();
     }
 
@@ -99,37 +142,25 @@ public class IssueEightActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnDownloadThread.setOnClickListener(v -> {
-            if (checkPermission()) {
-                downloadUsingThread();
-            }
+            downloadUsingThread();
         });
         mBtnDownloadAsyncTask.setOnClickListener(v -> {
-            if (checkPermission()) {
-                downloadUsingAsyncTask();
-            }
+            downloadUsingAsyncTask();
         });
     }
 
-    private boolean checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            return true;
-        } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
+    private void askPermisson() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_WRITE_EXTERNAL_STORAGE);
-            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        REQUEST_WRITE_EXTERNAL_STORAGE);
-            } else {
-                return true;
             }
-
         }
-        return false;
     }
 
     private void downloadUsingThread() {
@@ -139,7 +170,7 @@ public class IssueEightActivity extends AppCompatActivity {
     }
 
     private void downloadUsingAsyncTask() {
-        new DownloadImageAsyncTask().execute();
+        new DownloadImageAsyncTask().execute(IMAGE_URL);
     }
 
     private long downloadImage() {
@@ -175,7 +206,6 @@ public class IssueEightActivity extends AppCompatActivity {
     private void viewImage() {
         String path = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/" + this.mNameFile;
         android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeFile(path);
-        Log.d("androidruntime", "bitmap: " + path);
         mImgDownload.setImageBitmap(bitmap);
     }
 
