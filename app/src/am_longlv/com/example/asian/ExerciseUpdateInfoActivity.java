@@ -70,7 +70,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     }
 
     private boolean validateIdCard(String idCard) {
-        if (idCard== null || idCard.isEmpty() || idCard.trim().length() != Constant.LENGTH_ID_CARD){
+        if (idCard == null || idCard.isEmpty() || idCard.trim().length() != Constant.LENGTH_ID_CARD) {
             mEdtIdCard.setError(getString(R.string.id_card_invalid));
             return false;
         }
