@@ -46,21 +46,17 @@ public class UpdateInfoActivity extends AppCompatActivity {
         String id = mEdtID.getText().toString().trim();
         String additionalInfo = mEdtAdditionalInfo.getText().toString().trim();
         boolean isValid = true;
+
         if (name.isEmpty() || name.length() < MIN_NAME_LENGTH) {
             mEdtName.setError(getString(R.string.length_name_must_more_than_3_character));
             isValid = false;
-        }
-
-        if (id.length() != ID_LENGTH) {
+        } else if (id.length() != ID_LENGTH) {
             mEdtID.setError(getString(R.string.length_id_must_be_9_character));
             isValid = false;
-        }
-
-        if (additionalInfo.isEmpty() || additionalInfo.length() < MIN_ADDITIONAL_INFO_LENGTH) {
+        } else if (additionalInfo.isEmpty() || additionalInfo.length() < MIN_ADDITIONAL_INFO_LENGTH) {
             mEdtAdditionalInfo.setError(getString(R.string.info_must_more_than_100_character));
             isValid = false;
         }
-
         return isValid;
     }
 }

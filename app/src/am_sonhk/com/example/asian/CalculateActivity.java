@@ -85,8 +85,7 @@ public class CalculateActivity extends AppCompatActivity {
         if (mEdtNumberOne.getText().toString().trim().isEmpty()) {
             mEdtNumberOne.setError(getString(R.string.pls_enter_the_first_number));
             isValid = false;
-        }
-        if (mEdtNumberTwo.getText().toString().trim().isEmpty()) {
+        } else if (mEdtNumberTwo.getText().toString().trim().isEmpty()) {
             mEdtNumberTwo.setError(getString(R.string.pls_enter_the_second_number));
             isValid = false;
         }

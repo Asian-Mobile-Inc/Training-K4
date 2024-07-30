@@ -47,11 +47,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email) {
         boolean isValid = true;
+
         if (email.isEmpty()) {
             mEdtEmail.setError(getString(R.string.this_field_cant_empty));
             isValid = false;
-        }
-        if (!email.contains(VALID_EMAIL_DOMAIN)) {
+        } else if (!email.contains(VALID_EMAIL_DOMAIN)) {
             mEdtEmail.setError(getString(R.string.email_invalid));
             isValid = false;
         }
@@ -60,23 +60,20 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isValidPassword(String password) {
         boolean isValid = true;
+
         if (password.isEmpty()) {
             mEdtPassword.setError(getString(R.string.this_field_cant_empty));
             isValid = false;
-        }
-        if (password.length() <= MIN_PASSWORD_LENGTH) {
+        } else if (password.length() <= MIN_PASSWORD_LENGTH) {
             mEdtPassword.setError(getString(R.string.password_must_more_than_8));
             isValid = false;
-        }
-        if (!password.matches(REGEX_NORMAL_CHARACTER)) {
+        } else if (!password.matches(REGEX_NORMAL_CHARACTER)) {
             mEdtPassword.setError(getString(R.string.password_missing_normal_character));
             isValid = false;
-        }
-        if (!password.matches(REGEX_SPECIAL_CHARACTER)) {
+        } else if (!password.matches(REGEX_SPECIAL_CHARACTER)) {
             mEdtPassword.setError(getString(R.string.password_missing_special_character));
             isValid = false;
-        }
-        if (!password.matches(REGEX_NUMBER)) {
+        } else if (!password.matches(REGEX_NUMBER)) {
             mEdtPassword.setError(getString(R.string.password_missing_number));
             isValid = false;
         }
