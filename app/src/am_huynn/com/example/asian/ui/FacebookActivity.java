@@ -31,13 +31,14 @@ public class FacebookActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+        String email = mEdtEmail.getText().toString();
+        String password = mEdtPassword.getText().toString();
+
         mBtnLogin.setOnClickListener(view -> {
-            if (!validateEmail() || !validatePassword()) {
+            if (!validateEmail(email) || !validatePassword(password)) {
                 return;
             }
 
-            String email = mEdtEmail.getText().toString();
-            String password = mEdtPassword.getText().toString();
 
             Intent intent = new Intent(this, DataActivity.class);
             intent.putExtra(Constants.KEY_EMAIL, email);
@@ -46,42 +47,44 @@ public class FacebookActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validateEmail() {
-        String value = mEdtEmail.getText().toString();
+    private boolean validateEmail(String value) {
+        boolean isValidEmail;
 
         if (value.isEmpty()) {
             mEdtEmail.setError(getString(R.string.field_can_not_empty));
-            return false;
+            isValidEmail = false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
             mEdtEmail.setError(getString(R.string.invalid_email));
-            return false;
+            isValidEmail = false;
         } else {
             mEdtEmail.setError(null);
-            return true;
+            isValidEmail = true;
         }
+        return isValidEmail;
     }
 
-    private boolean validatePassword() {
-        String value = mEdtPassword.getText().toString();
+    private boolean validatePassword(String value) {
+        boolean isValidPassword;
 
         if (value.isEmpty()) {
             mEdtPassword.setError(getString(R.string.field_can_not_empty));
-            return false;
+            isValidPassword = false;
         } else if (value.length() < Constants.MIN_LENGTH_PASSWORD) {
             mEdtPassword.setError(getString(R.string.password_more_than_eight_characters));
-            return false;
+            isValidPassword = false;
         } else if (!value.matches(Constants.REGEX_INCLUDE_NUMBER)) {
             mEdtPassword.setError(getString(R.string.password_must_include_number));
-            return false;
+            isValidPassword = false;
         } else if (!value.matches(Constants.REGEX_NORMAL_CHARACTER)) {
             mEdtPassword.setError(getString(R.string.password_must_include_normal_characters));
-            return false;
+            isValidPassword = false;
         } else if (!value.matches(Constants.REGEX_SPECIAL_CHARACTER)) {
             mEdtPassword.setError(getString(R.string.password_must_include_special_characters));
-            return false;
+            isValidPassword = false;
         } else {
             mEdtPassword.setError(null);
-            return true;
+            isValidPassword = true;
         }
+        return isValidPassword;
     }
 }

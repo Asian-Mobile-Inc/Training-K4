@@ -96,10 +96,12 @@ public class MathActivity extends AppCompatActivity {
     }
 
     private boolean isNumberOtherZero(String value) {
+        boolean isValid;
         if (value.isEmpty()) {
-            return false;
+            isValid = false;
         } else {
-            return Double.parseDouble(value) != 0;
+            isValid = Double.parseDouble(value) != 0;
         }
+        return isValid;
     }
 }

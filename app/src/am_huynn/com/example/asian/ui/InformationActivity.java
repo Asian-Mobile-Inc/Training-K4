@@ -46,14 +46,14 @@ public class InformationActivity extends AppCompatActivity {
 
     public void initListener() {
         mBtnSend.setOnClickListener(view -> {
-            if (!validateName() || !validateCard() || !validateMoreInformation()) {
+            String name = mEdtName.getText().toString();
+            String card = mEdtCard.getText().toString();
+            String moreInformation = mEdtMoreInformation.getText().toString();
+            if (!validateName(name) || !validateCard(card) || !validateMoreInformation(moreInformation)) {
                 return;
             }
             int idRadioCheck = mRgDegree.getCheckedRadioButtonId();
             RadioButton rbCheck = findViewById(idRadioCheck);
-            String name = mEdtName.getText().toString();
-            String card = mEdtCard.getText().toString();
-            String moreInformation = mEdtMoreInformation.getText().toString();
             String degree = rbCheck.getText().toString();
             String interest = valueCheckBox();
             Intent intent = new Intent(this, DataInformationActivity.class);
@@ -71,21 +71,19 @@ public class InformationActivity extends AppCompatActivity {
         mRgDegree.check(R.id.rbHighSchool);
     }
 
-    public boolean validateName() {
-        String value = mEdtName.getText().toString();
-
+    public boolean validateName(String value) {
+        boolean isValid;
         if (value.isEmpty()) {
             mEdtName.setError(getText(R.string.please_not_empty));
-            return false;
+            isValid = false;
         } else {
             mEdtName.setError(null);
-            return true;
+            isValid = true;
         }
+        return isValid;
     }
 
-    public boolean validateCard() {
-        String value = mEdtCard.getText().toString();
-
+    public boolean validateCard(String value) {
         if (value.isEmpty()) {
             mEdtCard.setError(getText(R.string.please_not_empty));
             return false;
@@ -95,19 +93,19 @@ public class InformationActivity extends AppCompatActivity {
         }
     }
 
-    public boolean validateMoreInformation() {
-        String value = mEdtMoreInformation.getText().toString();
-
+    public boolean validateMoreInformation(String value) {
+        boolean isValid;
         if (value.isEmpty()) {
             mEdtMoreInformation.setError(getText(R.string.please_not_empty));
-            return false;
+            isValid = false;
         } else if (value.length() < Constants.MIN_LENGTH_MORE_INFORMATION) {
             mEdtMoreInformation.setError(getText(R.string.please_greater_hundred_character));
-            return false;
+            isValid = false;
         } else {
             mEdtMoreInformation.setError(null);
-            return true;
+            isValid = true;
         }
+        return isValid;
     }
 
     private String valueCheckBox() {
