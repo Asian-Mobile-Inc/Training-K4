@@ -35,6 +35,11 @@
     <string name="send_success">Submitted successfully</string>
     <string name="email_invalid">Email is invalid</string>
     <string name="password_invalid">Mật khẩu phải lớn hơn 8 ký tự gồm chữ thường, số, ký tự đặc biệt</string>
+    <string name="password_match_normal">Mật khẩu phải chứa ít nhất 1 chữ cái thường</string>
+    <string name="password_match_uppercase">Mật khẩu phải chứa ít nhất 1 chữ cái viết hoa</string>
+    <string name="password_match_number">Mật khẩu phải chứa ít nhất 1 số</string>
+    <string name="password_match_special">Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt</string>
+    <string name="password_match_length">Mật khẩu phải lớn hơn 8 ký tự</string>
     <string name="name_invalid">Name is invalid</string>
     <string name="id_card_invalid">ID card phải gồm 9 chữ số</string>
     <string name="more_info_invalid">Info is invalid</string>

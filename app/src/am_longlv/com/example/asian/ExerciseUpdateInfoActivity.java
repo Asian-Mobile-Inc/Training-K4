@@ -49,7 +49,9 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnSendInfo.setOnClickListener(v -> {
-            if (validate(mEdtName.getText().toString().trim(), mEdtIdCard.getText().toString().trim(), mEdtMoreInfo.getText().toString().trim())) {
+            if (validate(mEdtName.getText().toString().trim(),
+                    mEdtIdCard.getText().toString().trim(),
+                    mEdtMoreInfo.getText().toString().trim())) {
                 putDataToIssueThreeActivity();
             }
         });
@@ -68,7 +70,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
     }
 
     private boolean validateIdCard(String idCard) {
-        if (idCard == null || idCard.isEmpty() || idCard.trim().toString().length() != Constant.LENGTH_ID_CARD) {
+        if (idCard== null || idCard.isEmpty() || idCard.trim().length() != Constant.LENGTH_ID_CARD){
             mEdtIdCard.setError(getString(R.string.id_card_invalid));
             return false;
         }

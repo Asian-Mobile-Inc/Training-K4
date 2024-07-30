@@ -31,32 +31,37 @@ public class ExerciseLoginActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnLogin.setOnClickListener(v -> {
-            if (validate(mEdtEmail.getText().toString().trim(), mEdtPassword.getText().toString().trim())) {
+            if (validate(mEdtEmail.getText().toString().trim(),
+                    mEdtPassword.getText().toString().trim())) {
                 putDataToIssueThreeActivity();
             }
         });
     }
 
     private boolean validate(String email, String password) {
-        if (!checkEmailAdress(email)) {
+        if (!checkEmailAddress(email)) {
             mEdtEmail.setError(getString(R.string.email_invalid));
-            return false;
         }
-        if (!checkPassword(password)) {
-            mEdtPassword.setError(getString(R.string.password_invalid));
-            return false;
-        }
-        return true;
+        return checkEmailAddress(email) && checkPassword(password);
     }
 
     private boolean checkPassword(String password) {
+        if (password.length() < Constant.MIN_LENGTH_PASSWORD) {
+            mEdtPassword.setError(getString(R.string.password_invalid));
+        } else if (!password.matches(Constant.REGEX_NORMAL_CHARACTER)) {
+            mEdtPassword.setError(getString(R.string.password_match_normal));
+        } else if (!password.matches(Constant.REGEX_NUMBER)) {
+            mEdtPassword.setError(getString(R.string.password_match_number));
+        } else if (!password.matches(Constant.REGEX_SPECIAL_CHARACTER)) {
+            mEdtPassword.setError(getString(R.string.password_match_special));
+        }
         return password.matches(Constant.REGEX_NUMBER)
                 && password.matches(Constant.REGEX_NORMAL_CHARACTER)
                 && password.matches(Constant.REGEX_SPECIAL_CHARACTER)
                 && password.length() >= Constant.MIN_LENGTH_PASSWORD;
     }
 
-    private boolean checkEmailAdress(String email) {
+    private boolean checkEmailAddress(String email) {
         String[] emailArray = email.split(Constant.CHAR_SPLIT_EMAIL);
         return emailArray.length == Constant.COUNT_EMAIL_SENTENCES
                 && !emailArray[0].trim().isEmpty()

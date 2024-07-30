@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,7 +37,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnPlus.setOnClickListener(v -> {
-            if (!validateInput()) {
+            if (validate()) {
                 return;
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
@@ -46,7 +45,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             mTvResult.setText(getString(R.string.result) + (firstNumber + secondNumber));
         });
         mBtnSub.setOnClickListener(v -> {
-            if (!validateInput()) {
+            if (validate()) {
                 return;
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
@@ -54,7 +53,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             mTvResult.setText(getString(R.string.result) + (firstNumber - secondNumber));
         });
         mBtnMul.setOnClickListener(v -> {
-            if (!validateInput()) {
+            if (validate()) {
                 return;
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
@@ -62,7 +61,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             mTvResult.setText(getString(R.string.result) + (firstNumber * secondNumber));
         });
         mBtnDiv.setOnClickListener(v -> {
-            if (!validateInput()) {
+            if (validate()) {
                 return;
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
@@ -76,13 +75,14 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validateInput() {
+    private boolean validate() {
         if (mEdtFirstNumber.getText().toString().trim().isEmpty()) {
             mEdtFirstNumber.setError(getString(R.string.error_empty_input));
         }
         if (mEdtSecondNumber.getText().toString().trim().isEmpty()) {
             mEdtSecondNumber.setError(getString(R.string.error_empty_input));
         }
-        return !mEdtFirstNumber.getText().toString().trim().isEmpty() && !mEdtSecondNumber.getText().toString().trim().isEmpty();
+        return mEdtFirstNumber.getText().toString().trim().isEmpty()
+                || mEdtSecondNumber.getText().toString().trim().isEmpty();
     }
 }
