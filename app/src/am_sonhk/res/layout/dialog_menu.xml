@@ -17,14 +17,14 @@
 
     <Button
         android:id="@+id/btnAdd"
-        android:layout_width="300sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/option_add"
         android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/btnDel"
-        android:layout_width="300sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/option_delete"
         android:textColor="@android:color/black" />

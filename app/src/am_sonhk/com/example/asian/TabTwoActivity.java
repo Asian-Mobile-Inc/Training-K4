@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asian.R;
 import com.example.asian.adapter.CustomAdapter;
 
 import java.util.ArrayList;
@@ -46,6 +45,7 @@ public class TabTwoActivity extends Fragment {
     }
 
     public void addDataToRecyclerView(String newData) {
+
         mCustomAdapter.addItem(newData);
     }
 

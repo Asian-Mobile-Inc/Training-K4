@@ -4,14 +4,15 @@ import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ON
 import static com.example.asian.ActionMenu.ACT_ADD;
 import static com.example.asian.ActionMenu.ACT_DEL;
 
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.asian.adapter.ViewPagerAdapter;
-import com.example.asian.TabOneActivity;
-import com.example.asian.TabTwoActivity;
-import com.example.asian.TabThreeActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -104,10 +102,11 @@ public class MainActivity extends AppCompatActivity {
         edtInfoItem.setHint(hintText);
         builder.setView(edtInfoItem);
         builder.setPositiveButton("Save", (dialog, which) -> {
-            if (caseAction == ACT_ADD) {
-                handleAction(edtInfoItem.getText().toString(), ACT_DEL);
-            } else if (caseAction == ACT_ADD) {
-                handleAction(edtInfoItem.getText().toString(), ACT_ADD);
+            try {
+                handleAction(edtInfoItem.getText().toString(), caseAction);
+            } catch (Exception e) {
+                Log.e("MainActivity", "Error handling action: " + e.getMessage());
+                Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -140,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         private void handleClick() {
             mButtonAdd.setOnClickListener(view -> showTextDialog("Add Item", "Enter data", ACT_ADD));
-            mButtonDel.setOnClickListener(view -> showTextDialog("Delete Item", "Enter position delete", ACT_DEL));
+            mButtonDel.setOnClickListener(view -> showTextDialog("Delete Item", "Enter data", ACT_DEL));
         }
     }
 }
