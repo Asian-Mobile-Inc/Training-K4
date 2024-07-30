@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class UpdateInfoActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
     private void initListener() {
         mBtnSubmit.setOnClickListener(v -> {
             if (validate()) {
-                Toast.makeText(this,getString(R.string.submit_succes), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.submit_succes), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -44,22 +45,22 @@ public class UpdateInfoActivity extends AppCompatActivity {
         String name = mEdtName.getText().toString().trim();
         String id = mEdtID.getText().toString().trim();
         String additionalInfo = mEdtAdditionalInfo.getText().toString().trim();
-
+        boolean isValid = true;
         if (name.isEmpty() || name.length() < MIN_NAME_LENGTH) {
             mEdtName.setError(getString(R.string.length_name_must_more_than_3_character));
-            return false;
+            isValid = false;
         }
 
         if (id.length() != ID_LENGTH) {
             mEdtID.setError(getString(R.string.length_id_must_be_9_character));
-            return false;
+            isValid = false;
         }
 
         if (additionalInfo.isEmpty() || additionalInfo.length() < MIN_ADDITIONAL_INFO_LENGTH) {
             mEdtAdditionalInfo.setError(getString(R.string.info_must_more_than_100_character));
-            return false;
+            isValid = false;
         }
 
-        return true;
+        return isValid;
     }
 }

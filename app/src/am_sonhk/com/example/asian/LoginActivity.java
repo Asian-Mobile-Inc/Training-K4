@@ -1,6 +1,5 @@
 package com.example.asian;
 
-
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String REGEX_NUMBER = ".*\\d.*";
     private static final String REGEX_NORMAL_CHARACTER = ".*[a-z].*";
     private static final String REGEX_SPECIAL_CHARACTER = ".*[!@#$%^&*].*";
+
     private Button mBtnLogin;
     private EditText mEdtEmail;
     private EditText mEdtPassword;
@@ -42,34 +42,44 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validate(String email, String password) {
+        return isValidEmail(email) && isValidPassword(password);
+    }
+
+    private boolean isValidEmail(String email) {
+        boolean isValid = true;
         if (email.isEmpty()) {
             mEdtEmail.setError(getString(R.string.this_field_cant_empty));
-            return false;
+            isValid = false;
         }
         if (!email.contains(VALID_EMAIL_DOMAIN)) {
             mEdtEmail.setError(getString(R.string.email_invalid));
-            return false;
+            isValid = false;
         }
+        return isValid;
+    }
+
+    private boolean isValidPassword(String password) {
+        boolean isValid = true;
         if (password.isEmpty()) {
             mEdtPassword.setError(getString(R.string.this_field_cant_empty));
-            return false;
+            isValid = false;
+        }
+        if (password.length() <= MIN_PASSWORD_LENGTH) {
+            mEdtPassword.setError(getString(R.string.password_must_more_than_8));
+            isValid = false;
         }
         if (!password.matches(REGEX_NORMAL_CHARACTER)) {
             mEdtPassword.setError(getString(R.string.password_missing_normal_character));
-            return false;
+            isValid = false;
         }
         if (!password.matches(REGEX_SPECIAL_CHARACTER)) {
             mEdtPassword.setError(getString(R.string.password_missing_special_character));
-            return false;
+            isValid = false;
         }
         if (!password.matches(REGEX_NUMBER)) {
             mEdtPassword.setError(getString(R.string.password_missing_number));
-            return false;
+            isValid = false;
         }
-        if (!(password.length() > MIN_PASSWORD_LENGTH)) {
-            mEdtPassword.setError(getString(R.string.password_must_more_than_8));
-            return false;
-        }
-        return true;
+        return isValid;
     }
 }
