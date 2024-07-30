@@ -6,12 +6,13 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.asian.ui.DrawerNavigationActivity;
 import com.example.asian.ui.FacebookActivity;
 import com.example.asian.ui.InformationActivity;
 import com.example.asian.ui.MathActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mBtnToFacebook, mBtnToMath, mBtnToInformation;
+    private Button mBtnToFacebook, mBtnToMath, mBtnToInformation, mBtnDrawerNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnToFacebook = findViewById(R.id.btnFacebook);
         mBtnToMath = findViewById(R.id.btnMath);
         mBtnToInformation = findViewById(R.id.btnInformation);
+        mBtnDrawerNavigation = findViewById(R.id.btnDrawerNavigation);
     }
 
     private void initListener() {
@@ -40,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
         mBtnToInformation.setOnClickListener(view -> {
             Intent intent = new Intent(this, InformationActivity.class);
+            startActivity(intent);
+        });
+
+        mBtnDrawerNavigation.setOnClickListener(view -> {
+            Intent intent = new Intent(this, DrawerNavigationActivity.class);
             startActivity(intent);
         });
     }
