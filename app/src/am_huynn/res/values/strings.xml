@@ -39,4 +39,9 @@
     <string name="more_information">Thông tin bổ sung</string>
     <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
     <string name="send_information">Gửi thông tin</string>
+
+    <string name="request_permission">Yêu cầu quyền vị trí</string>
+    <string name="open_app_setting">Mở setting app</string>
+    <string name="open_app_gps">Mở setting GPS</string>
+    <string name="start">Bắt đầu</string>
 </resources>
