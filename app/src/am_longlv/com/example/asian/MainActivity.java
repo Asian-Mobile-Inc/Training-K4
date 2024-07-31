@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.asian.issuenine.IssueNineActivity;
+
 public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin;
     private Button mBtnExerciseCal;
     private Button mBtnExerciseUpdateInfo;
+    private Button mBtnIssueNine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseLogin = findViewById(R.id.btnExerciseLogin);
         mBtnExerciseCal = findViewById(R.id.btnExerciseCal);
         mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
+        mBtnIssueNine = findViewById(R.id.btnIssueNine);
     }
 
     private void initListener() {
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         });
         mBtnExerciseUpdateInfo.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class));
+        });
+        mBtnIssueNine.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, IssueNineActivity.class));
         });
     }
 }
