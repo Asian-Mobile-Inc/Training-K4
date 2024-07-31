@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MyChartView">
+        <attr name="mcv_sales" format="color" />
+        <attr name="mcv_expenses" format="color" />
+    </declare-styleable>
+</resources>
