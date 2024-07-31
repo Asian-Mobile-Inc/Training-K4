@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="app_name" translatable="false">ExSonhk</string>
   <string name="facebook">FACEBOOK</string>
   <string name="login">Login</string>
@@ -30,9 +30,24 @@
   <string name="exercise_update_info">Update Infor Exercise\n</string>
   <string name="exercise_calculate">Exercise Calculate\n</string>
   <string name="exercise_login">Exercise Login</string>
-    <string name="thread">Thread\n</string>
+  <string name="thread">Thread\n</string>
   <string name="asynctask">AsyncTask</string>
-    <string name="enter_url">Enter URL</string>
+  <string name="enter_url">Enter URL</string>
   <string name="download">Download</string>
   <string name="todo">todo</string>
+  <string name="database_sqlite">SQLite and Database Ex</string>
+  <string name="sqlite_toturial_user_managerment">sqlite toturial user managerment\n</string>
+  <string name="pls_enter">abcxyz</string>
+  <string name="abcas">h</string>
+  <string name="pls_enter_the_data">"Please input name and age "</string>
+  <string name="username">User Name</string>
+  <string name="age">Age</string>
+  <string name="add">ADD</string>
+  <string name="delete_all">DELETE ALL</string>
+  <string name="show_all">SHOW ALL</string>
+  <string name="user_id">User ID</string>
+  <string name="user_name">User Name</string>
+  <string name="delete">DELETE</string>
+  <string name="user_age">User Age</string>
+  <string name="user_deleted">User deleted</string>
 </resources>

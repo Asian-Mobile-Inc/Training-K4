@@ -7,8 +7,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mBtnThread;
-    private Button mBtnAsyncTask;
+    private Button mBtnDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +19,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUI() {
-        mBtnThread = findViewById(R.id.btnThread);
-        mBtnAsyncTask = findViewById(R.id.btnAsyncTaskMain);
+        mBtnDatabase = findViewById(R.id.btnDatabase);
     }
 
     private void initListener() {
-        mBtnThread.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ThreadTask.class)));
-        mBtnAsyncTask.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AsyncTask.class)));
+        mBtnDatabase.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DatabaseEx.class)));
     }
 }

@@ -16,10 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".AsyncTask"
-            android:exported="false" />
-        <activity
-            android:name=".ThreadTask"
+            android:name=".DatabaseEx"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -5,17 +5,9 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btnThread"
+        android:id="@+id/btnDatabase"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/thread" />
-
-    <Button
-        android:id="@+id/btnAsyncTaskMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/asynctask" />
-
+        android:text="@string/database_sqlite" />
 </LinearLayout>
