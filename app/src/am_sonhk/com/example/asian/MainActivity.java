@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI() {
         mBtnThread = findViewById(R.id.btnThread);
-        mBtnAsyncTask = findViewById(R.id.btnAsyncTask);
+        mBtnAsyncTask = findViewById(R.id.btnAsyncTaskMain);
     }
 
     private void initListener() {

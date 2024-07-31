@@ -39,7 +39,6 @@ public class ThreadTask extends AppCompatActivity {
 
         mImageView = findViewById(R.id.imageView);
 
-
         btnDownload.setOnClickListener(view -> {
             String imageUrl = edtURL.getText().toString();
             downloadAndDisplayImage(imageUrl);
