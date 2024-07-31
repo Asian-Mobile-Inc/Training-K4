@@ -27,12 +27,14 @@ import androidx.core.content.ContextCompat;
 import com.example.asian.R;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -48,7 +50,7 @@ public class IssueEightActivity extends AppCompatActivity {
     private DownloadManager mDownloadManager;
     private long mDownloadId;
     private ProgressDialog mProgressDialog;
-    URLConnection mUrlConnection;
+    private HttpURLConnection mHttpURLConnection;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 11;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -63,35 +65,26 @@ public class IssueEightActivity extends AppCompatActivity {
         protected Bitmap doInBackground(String... strings) {
             try {
                 URL url = new URL(strings[0]);
-                mUrlConnection = url.openConnection();
-                mUrlConnection.connect();
-                int fileLength = mUrlConnection.getContentLength();
-                String filepath =
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                                .getAbsolutePath();
-                InputStream inputStream = new BufferedInputStream(url.openStream());
-                OutputStream outputStream = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    outputStream = Files.newOutputStream(Paths.get(filepath + "/"
-                            + System.currentTimeMillis() + ".jpg"));
-                } else {
-                    outputStream = new FileOutputStream(new File(filepath + "/"
-                            + System.currentTimeMillis() + ".jpg"));
-                }
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                mHttpURLConnection = (HttpURLConnection) url.openConnection();
+                mHttpURLConnection.connect();
+                int fileLength = mHttpURLConnection.getContentLength();
+                InputStream inputStream = new BufferedInputStream(url.openStream(), 8192);
+                String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                        .getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg";
+                File file = new File(path);
+                FileOutputStream outputStream = new FileOutputStream(file);
                 byte[] data = new byte[1024];
                 long total = 0;
                 int count;
                 while ((count = inputStream.read(data)) != -1) {
                     total += count;
-                    publishProgress((int) (total));
+                    publishProgress((int) (total * 100 / fileLength));
+                    outputStream.write(data, 0, count);
                 }
-                publishProgress(100);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 outputStream.flush();
                 outputStream.close();
                 inputStream.close();
-                return bitmap;
+                return BitmapFactory.decodeFile(path);
             } catch (IOException e) {
                 return null;
             }
