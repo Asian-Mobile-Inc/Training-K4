@@ -3,18 +3,23 @@ package com.example.asian.issueseven;
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.asian.MainActivity;
 import com.example.asian.issueseven.service.MyLocationService;
 import com.example.asian.R;
 import com.google.android.gms.common.api.ApiException;
@@ -30,7 +35,7 @@ import com.google.android.gms.tasks.Task;
 public class IssueSevenActivity extends AppCompatActivity {
     private Button mBtnStartService;
     private Button mBtnStopService;
-    private static final int REQUEST_CODE_LOCATION = 1;
+    private static final int REQUEST_CODE_PERMISSION = 1;
     private static final int REQUEST_CODE_NOTIFICATION = 2;
     public static final String CHANNEL_ID = "channel_service_location";
     public static final String CHANNEL_NAME = "channel_service_location";
@@ -63,9 +68,21 @@ public class IssueSevenActivity extends AppCompatActivity {
     }
 
     private void askPermission() {
-        requestRuntimePermission(Manifest.permission.ACCESS_FINE_LOCATION);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestRuntimePermission(Manifest.permission.POST_NOTIFICATIONS);
+        String[] PERMISSIONS = new String[0];
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            PERMISSIONS = new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.POST_NOTIFICATIONS
+            };
+        } else {
+            PERMISSIONS = new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            };
+        }
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE_PERMISSION);
         }
     }
 
@@ -86,68 +103,15 @@ public class IssueSevenActivity extends AppCompatActivity {
         }
     }
 
-    private void requestRuntimePermission(String idPermission) {
-        switch (idPermission) {
-            case Manifest.permission.ACCESS_FINE_LOCATION:
-                if (!checkPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION) && !checkPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_LOCATION);
-                } else {
-                    if (!isGPSEnabled()) {
-                        turnOnGPS();
-                    }
-                }
-                break;
-            case Manifest.permission.POST_NOTIFICATIONS:
-                if (!(checkPermissionGranted(Manifest.permission.POST_NOTIFICATIONS)) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION);
-                } else {
-                }
-                break;
-        }
-    }
-
-    private boolean isGPSEnabled() {
-        LocationManager locationManager = null;
-        boolean isEnable;
-        if (locationManager == null) {
-            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        }
-        isEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        return isEnable;
-    }
-
-    private boolean checkPermissionGranted(String permission) {
-        return ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void turnOnGPS() {
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
-        builder.setAlwaysShow(true);
-        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
-                .checkLocationSettings(builder.build());
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-                try {
-                    LocationSettingsResponse response = task.getResult(ApiException.class);
-                } catch (ApiException e) {
-
-                    switch (e.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                                resolvableApiException.startResolutionForResult(IssueSevenActivity.this, 2);
-                            } catch (IntentSender.SendIntentException ex) {
-                                ex.printStackTrace();
-                            }
-                            break;
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            break;
-                    }
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
                 }
             }
-        });
+        }
+        return true;
     }
 
     private void startFgrService() {
@@ -161,5 +125,26 @@ public class IssueSevenActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean isGranted = true;
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            for (int i = 0; i < permissions.length; i++) {
+                Log.d("androidruntime", "onRequestPermissionsResult: " + permissions[i] + " " + grantResults[i]);
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    isGranted = false;
+                    break;
+                }
+            }
+        }
+        if (!isGranted) {
+            Toast.makeText(this, getString(R.string.please_agree_permission), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

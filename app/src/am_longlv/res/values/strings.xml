@@ -34,4 +34,5 @@
     <string name="request_permission_notification">Request Permission Notification</string>
     <string name="start_service">Start Service</string>
     <string name="stop_service">Stop Service</string>
+    <string name="please_agree_permission">Agree Permission</string>
 </resources>
