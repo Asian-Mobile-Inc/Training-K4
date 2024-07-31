@@ -46,9 +46,9 @@ public class InformationActivity extends AppCompatActivity {
 
     public void initListener() {
         mBtnSend.setOnClickListener(view -> {
-            String name = mEdtName.getText().toString();
-            String card = mEdtCard.getText().toString();
-            String moreInformation = mEdtMoreInformation.getText().toString();
+            String name = mEdtName.getText().toString().trim();
+            String card = mEdtCard.getText().toString().trim();
+            String moreInformation = mEdtMoreInformation.getText().toString().trim();
             if (!validateName(name) || !validateCard(card) || !validateMoreInformation(moreInformation)) {
                 return;
             }

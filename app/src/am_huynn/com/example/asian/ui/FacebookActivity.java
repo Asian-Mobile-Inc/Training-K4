@@ -32,8 +32,8 @@ public class FacebookActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnLogin.setOnClickListener(view -> {
-            String email = mEdtEmail.getText().toString();
-            String password = mEdtPassword.getText().toString();
+            String email = mEdtEmail.getText().toString().trim();
+            String password = mEdtPassword.getText().toString().trim();
             if (!validateEmail(email) || !validatePassword(password)) {
                 return;
             }
