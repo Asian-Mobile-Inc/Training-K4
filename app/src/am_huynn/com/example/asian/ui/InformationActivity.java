@@ -57,14 +57,15 @@ public class InformationActivity extends AppCompatActivity {
             String degree = rbCheck.getText().toString();
             String interest = valueCheckBox();
             Intent intent = new Intent(this, DataInformationActivity.class);
-            intent.putExtra(Constants.KEY_NAME, name);
-            intent.putExtra(Constants.KEY_CARD, card);
-            intent.putExtra(Constants.KEY_MORE_INFORMATION, moreInformation);
-            intent.putExtra(Constants.KEY_DEGREE, degree);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.KEY_NAME, name);
+            bundle.putString(Constants.KEY_CARD, card);
+            bundle.putString(Constants.KEY_MORE_INFORMATION, moreInformation);
+            bundle.putString(Constants.KEY_DEGREE, degree);
             if (!interest.isEmpty()) {
-                intent.putExtra(Constants.KEY_INTEREST, interest);
+                bundle.putString(Constants.KEY_INTEREST, interest);
             }
-
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 
