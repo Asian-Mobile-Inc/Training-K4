@@ -9,9 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.asian.ui.FacebookActivity;
 import com.example.asian.ui.InformationActivity;
 import com.example.asian.ui.MathActivity;
+import com.example.asian.ui.RequestPermissionActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mBtnToFacebook, mBtnToMath, mBtnToInformation;
+    private Button mBtnToFacebook, mBtnToMath, mBtnToInformation, mBtnPermission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnToFacebook = findViewById(R.id.btnFacebook);
         mBtnToMath = findViewById(R.id.btnMath);
         mBtnToInformation = findViewById(R.id.btnInformation);
+        mBtnPermission = findViewById(R.id.btnPermission);
     }
 
     private void initListener() {
@@ -40,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
         mBtnToInformation.setOnClickListener(view -> {
             Intent intent = new Intent(this, InformationActivity.class);
+            startActivity(intent);
+        });
+
+        mBtnPermission.setOnClickListener(view -> {
+            Intent intent = new Intent(this, RequestPermissionActivity.class);
             startActivity(intent);
         });
     }
