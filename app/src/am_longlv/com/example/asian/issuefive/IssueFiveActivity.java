@@ -1,6 +1,10 @@
 package com.example.asian.issuefive;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -37,7 +41,7 @@ public class IssueFiveActivity extends AppCompatActivity {
 
     private void initListener() {
         mFabAddItem.setOnClickListener(v -> {
-            addItemFragment(mViewPager.getCurrentItem());
+            showDialogAddItem(mViewPager.getCurrentItem());
         });
     }
 
@@ -72,28 +76,41 @@ public class IssueFiveActivity extends AppCompatActivity {
         });
     }
 
-    private void addItemFragment(int currentItem) {
+    private void addItemFragment(int currentItem, String name) {
         switch (currentItem) {
             case 0:
                 IssueFiveFirstFragment issueFiveFirstFragment = (IssueFiveFirstFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
                 if (issueFiveFirstFragment != null) {
-                    issueFiveFirstFragment.updateListItem();
+                    issueFiveFirstFragment.updateListItem(name);
                 }
                 break;
             case 1:
                 IssueFiveSecondFragment issueFiveSecondFragment = (IssueFiveSecondFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
                 if (issueFiveSecondFragment != null) {
-                    issueFiveSecondFragment.updateListItem();
+                    issueFiveSecondFragment.updateListItem(name);
                 }
                 break;
             case 2:
                 IssueFiveThirdFragment issueFiveThirdFragment = (IssueFiveThirdFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
                 if (issueFiveThirdFragment != null) {
-                    issueFiveThirdFragment.updateListItem();
+                    issueFiveThirdFragment.updateListItem(name);
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    private void showDialogAddItem(int currentItem) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_edit_name);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.findViewById(R.id.btnConfirm).setOnClickListener(v -> {
+            addItemFragment(currentItem, ((EditText) dialog.findViewById(R.id.edtNewName)).getText().toString());
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 }

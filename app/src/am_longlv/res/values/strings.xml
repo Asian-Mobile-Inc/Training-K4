@@ -13,4 +13,7 @@
     <string name="ok">OK</string>
     <string name="delete_this_item">Delete this item</string>
     <string name="enter_your_text">Enter your text here</string>
+    <!--    Issue 5-->
+    <string name="enter_item_name">Nhập tên</string>
+
 </resources>

@@ -97,4 +97,9 @@ public class IssueFiveThirdFragment extends Fragment {
         mRecyclerView.scrollToPosition(mLists.size() - 1);
         mAdapter.updateData(mLists);
     }
+    public void updateListItem(String name) {
+        this.mLists.add(name);
+        mRecyclerView.scrollToPosition(mLists.size() - 1);
+        mAdapter.updateData(mLists);
+    }
 }
