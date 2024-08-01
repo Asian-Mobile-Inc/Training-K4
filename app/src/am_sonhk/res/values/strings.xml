@@ -15,7 +15,7 @@
   <string name="name_must_more_than_3_word">Tên phải >=3 ký tự</string>
   <string name="id_card">CMND</string>
   <string name="input_correct_nine_number">Nhập đúng 9 chữ số</string>
-  <string name="degree">Bằng Cấp</string>
+  <string name="degree">Degree</string>
   <string name="intermediate_level">Trung Cấp</string>
   <string name="college_level">Cao Đẳng</string>
   <string name="university_level">Đại Học</string>
@@ -41,6 +41,7 @@
   <string name="password_must_more_than_8">Password must more than 8 character\n</string>
   <string name="this_field_cant_empty">This field cant empty\n</string>
   <string name="result">"Kết quả: "</string>
+  <string name="result_float_param">Ket qua: %f</string>
   <string name="length_name_must_more_than_3_character">Length name must more than 3 character</string>
   <string name="length_id_must_be_9_character">Length id must be 9 character</string>
   <string name="info_must_more_than_100_character">Infor must more than 100 character </string>
@@ -48,4 +49,17 @@
   <string name="pls_enter_the_first_number">Please enter the first number</string>
   <string name="pls_enter_the_second_number">Please enter the second number</string>
     <string name="submit_succes">Submit Success</string>
+  <string name="email">Email</string>
+    <string name="data_from_login">Data from login</string>
+  <string name="data_from_update_info">Data from update info\n</string>
+  <string name="name">Name</string>
+  <string name="interest">Interest\n</string>
+  <string name="more_info">More information\n</string>
+  <string name="email_string_param">Email: %s\n</string>
+  <string name="password_string_param">Password: %s</string>
+    <string name="name_string_param">Name: %s\n</string>
+  <string name="degree_string_param">Degree: %s</string>
+  <string name="interest_string_param">Interst: %s</string>
+  <string name="additional_info_string_param">Addtional Info : %s</string>
+  <string name="id_string_param">ID: %s\n</string>
 </resources>

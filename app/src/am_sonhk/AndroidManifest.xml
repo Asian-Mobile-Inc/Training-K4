@@ -18,6 +18,9 @@
             android:name="CalculateActivity"
             android:exported="false" />
         <activity
+            android:name=".SendDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

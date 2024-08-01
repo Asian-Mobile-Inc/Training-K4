@@ -1,5 +1,6 @@
 package com.example.asian;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final String REGEX_NUMBER = ".*\\d.*";
     private static final String REGEX_NORMAL_CHARACTER = ".*[a-z].*";
     private static final String REGEX_SPECIAL_CHARACTER = ".*[!@#$%^&*].*";
+    public static final String KEY_EMAIL = "keyEmail";
+    public static final String KEY_PASSWORD = "keyPassword";
+    public static final String KEY_FROM_LOGIN = "fromLogin";
 
     private Button mBtnLogin;
     private EditText mEdtEmail;
@@ -35,10 +39,22 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnLogin.setOnClickListener(v -> {
-            if (validate(mEdtEmail.getText().toString().trim(), mEdtPassword.getText().toString().trim())) {
+            String email = mEdtEmail.getText().toString().trim();
+            String password = mEdtPassword.getText().toString().trim();
+            if (validate(email, password)) {
                 Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
+                sendDataToSendDataActivity();
             }
         });
+    }
+
+    private void sendDataToSendDataActivity() {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_EMAIL, mEdtEmail.getText().toString().trim());
+        bundle.putString(KEY_PASSWORD,mEdtPassword.getText().toString().trim());
+        Intent intent = new Intent(this, SendDataActivity.class);
+        intent.putExtra(KEY_FROM_LOGIN, bundle);
+        startActivity(intent);
     }
 
     private boolean validate(String email, String password) {

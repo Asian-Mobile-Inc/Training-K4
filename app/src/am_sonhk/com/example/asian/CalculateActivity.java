@@ -43,7 +43,7 @@ public class CalculateActivity extends AppCompatActivity {
             }
             int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
             int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
-            mTvResult.setText(getString(R.string.result) + (numberOne + numberTwo));
+            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne + numberTwo)));
         });
 
         mBtnSubtract.setOnClickListener(v -> {
@@ -52,7 +52,7 @@ public class CalculateActivity extends AppCompatActivity {
             }
             int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
             int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
-            mTvResult.setText(getString(R.string.result) + (numberOne - numberTwo));
+            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne - numberTwo)));
         });
 
         mBtnMultiply.setOnClickListener(v -> {
@@ -61,7 +61,7 @@ public class CalculateActivity extends AppCompatActivity {
             }
             int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
             int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
-            mTvResult.setText(getString(R.string.result) + (numberOne * numberTwo));
+            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne * numberTwo)));
         });
 
         mBtnDivide.setOnClickListener(v -> {
@@ -76,19 +76,27 @@ public class CalculateActivity extends AppCompatActivity {
                 return;
             }
             float result = (float) numberOne / numberTwo;
-            mTvResult.setText(getString(R.string.result) + result);
+            mTvResult.setText(getString(R.string.result_float_param, result));
         });
     }
 
+
     private boolean validateInput() {
         boolean isValid = true;
-        if (mEdtNumberOne.getText().toString().trim().isEmpty()) {
+
+        String numberOne = mEdtNumberOne.getText().toString().trim();
+        String numberTwo = mEdtNumberTwo.getText().toString().trim();
+
+        if (numberOne.isEmpty()) {
             mEdtNumberOne.setError(getString(R.string.pls_enter_the_first_number));
             isValid = false;
-        } else if (mEdtNumberTwo.getText().toString().trim().isEmpty()) {
+        }
+        if (numberTwo.isEmpty()) {
             mEdtNumberTwo.setError(getString(R.string.pls_enter_the_second_number));
             isValid = false;
         }
+
         return isValid;
     }
+
 }
