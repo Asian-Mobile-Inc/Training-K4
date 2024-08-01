@@ -50,10 +50,9 @@ public class IssueSixActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mFabIssueSix.setOnClickListener(v -> {
-            Snackbar.make(v, getString(R.string.replace_with_your_own_action), Snackbar.LENGTH_LONG)
-                    .show();
-        });
+        mFabIssueSix.setOnClickListener(v ->
+                Snackbar.make(v, getString(R.string.replace_with_your_own_action), Snackbar.LENGTH_LONG)
+                        .show());
 
     }
 
@@ -64,10 +63,10 @@ public class IssueSixActivity extends AppCompatActivity {
         mActionBarDrawerToggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        setStatusbarColor();
+        setStatusBarColor();
     }
 
-    private void setStatusbarColor() {
+    private void setStatusBarColor() {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
