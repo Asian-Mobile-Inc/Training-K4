@@ -35,6 +35,8 @@ public class MyChartView extends View {
     private static final int WIDTH_HINT_COLOR = 300;
     private int mColorSales;
     private int mColorExpense;
+    private float xo = 0;
+    private float yo = 0;
     private float mScale = 1;
     private float mMoveX = 0;
     private float mMoveY = 0;
@@ -48,6 +50,7 @@ public class MyChartView extends View {
     public MyChartView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setUpAttribute(context, attrs);
+        setUpChart();
         mContext = context;
     }
 
@@ -95,16 +98,19 @@ public class MyChartView extends View {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
-        Log.d("androidRuntime", "onDraw");
         mCanvas = canvas;
-        setUpChart();
         initPaint();
         paintAxis(canvas);
         paintChart(canvas);
+        paintWall(canvas);
     }
 
     private void paintAxis(Canvas canvas) {
         Paint paint = new Paint();
+        Paint paint1 = new Paint();
+        paint1.setColor(ContextCompat.getColor(mContext, R.color.white));
+        paint1.setStrokeWidth(getWidth());
+        canvas.drawLine((float) getWidth() / 2, 0, (float) getWidth() / 2, getHeight(), paint1);
         mHeight = getHeight();
         mWidth = getWidth() * 2;
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
@@ -114,21 +120,21 @@ public class MyChartView extends View {
         int originX = getWidth() / COUNT_RATIO;
         int originY = mHeight - startY;
         int axisY = mHeight - startY;
-        canvas.drawLine(originX - 20, originY, mWidth, originY, paint);
+        canvas.drawLine(originX - 20, originY, getWidth(), originY, paint);
         canvas.drawLine(originX, originY + 20, originX, startY, paint);
 
         canvas.drawText("$0", 0, axisY, paint);
         for (int i = 1; i <= COUNT_LINE_Y_AXIS; i++) {
             canvas.drawLine(originX - 20, axisY - (float) (i * (mHeight - 2 * startY)) / 8,
-                    mWidth, mHeight - startY - (float) (i * (mHeight - 2 * startY)) / 8, paint);
-            canvas.drawText("$" + i * maxValue / 8, 0,
-                    axisY - (float) (i * (mHeight - 2 * startY)) / 8, paint);
+                    getWidth(), mHeight - startY - (float) (i * (mHeight - 2 * startY)) / 8, paint);
+//            canvas.drawText("$" + i * maxValue / 8, 0,
+//                    axisY - (float) (i * (mHeight - 2 * startY)) / 8, paint);
         }
-        for (int i = 1; i <= COUNT_MONTH; i++) {
-            int space = (int) (mWidth - 2 * originX) / COUNT_MONTH;
-            int x = (int) (i * space + originX);
-            canvas.drawLine(x, mHeight - startY, x, mHeight - startY + 20, paint);
-        }
+//        for (int i = 1; i <= COUNT_MONTH; i++) {
+//            int space = (int) (mWidth - 2 * originX) / COUNT_MONTH;
+//            int x = (int) (i * space + originX);
+//            canvas.drawLine(x, mHeight - startY, x, mHeight - startY + 20, paint);
+//        }
     }
 
     private void paintChart(Canvas canvas) {
@@ -136,15 +142,16 @@ public class MyChartView extends View {
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
         paint.setTextSize(TEXT_SIZE);
         for (int i = 0; i < mSellExpenses.size(); i++) {
+            Log.d("androidRuntime", "paintChart: " + mSellExpenses.size());
             long maxValue = getMaxValue();
             int startX = getWidth() / COUNT_RATIO;
             int startY = getHeight() / COUNT_RATIO;
             int axisY = mHeight - 2 * startY;
 
             SellExpense sellExpense = mSellExpenses.get(i);
-            int space = (int) (mWidth - 2 * startX) / COUNT_MONTH;
-            int x = (int) (i * space + startX + mMoveX);
-            int xNext = (int) ((i + 1) * space + startX + mMoveX);
+            int space = (mWidth - 2 * startX) / COUNT_MONTH;
+            int x = (int) (i * space + startX + mMoveX / 5);
+            int xNext = (int) ((i + 1) * space + startX + mMoveX / 5);
             int xDraw = x + Math.abs(x - xNext) / 2 - WIDTH_CHART / 2;
             float ySales = (float) (mHeight - startY
                     - (sellExpense.getmSales() * axisY / maxValue));
@@ -154,14 +161,48 @@ public class MyChartView extends View {
             canvas.drawLine(xDraw + WIDTH_CHART, mHeight - startY, xDraw + WIDTH_CHART,
                     yExpense, mPaintExpense);
             canvas.drawText(convertMonthToString(i + 1), xDraw, axisY + (int) (startY * 1.5), paint);
+            canvas.drawLine(x, mHeight - startY, x, mHeight - startY + 20, paint);
         }
+    }
+
+    private void paintWall(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(ContextCompat.getColor(mContext, R.color.white));
+        paint.setStrokeWidth(((float) getWidth() / COUNT_RATIO) * 2);
+        canvas.drawLine(getWidth() - (float) (getWidth() / COUNT_RATIO), 0, getWidth() - (float) (getWidth() / COUNT_RATIO), getHeight(), paint);
+        paint.setStrokeWidth(((float) getWidth() / COUNT_RATIO * 2));
+        canvas.drawLine(0, 0, 0, getHeight(), paint);
+        long maxValue = getMaxValue();
+        int startY = getHeight() / COUNT_RATIO;
+        int originX = getWidth() / COUNT_RATIO;
+        int originY = mHeight - startY;
+        int axisY = mHeight - startY;
+        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
+        paint.setTextSize(TEXT_SIZE);
+        canvas.drawText("$0", 0, axisY, paint);
+        paint.setStrokeWidth(1);
+        for (int i = 0; i <= COUNT_LINE_Y_AXIS; i++) {
+            canvas.drawLine(originX - 20, axisY - (float) (i * (mHeight - 2 * startY)) / 8,
+                    originX, mHeight - startY - (float) (i * (mHeight - 2 * startY)) / 8, paint);
+            if (i != 0) {
+                canvas.drawText("$" + i * maxValue / 8, 0,
+                        axisY - (float) (i * (mHeight - 2 * startY)) / 8, paint);;
+            }
+
+        }
+        paintHintColor(canvas);
     }
 
     private void paintHintColor(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(ContextCompat.getColor(mContext, R.color.white));
-        paint.setStrokeWidth(WIDTH_HINT_COLOR);
-        canvas.drawLine(getWidth() - (float) WIDTH_HINT_COLOR / 2, 0, getWidth() - (float) WIDTH_HINT_COLOR / 2, getHeight(), paint);
+        paint.setStrokeWidth(30);
+        paint.setTextSize(30);
+        paint.setColor(mColorSales | ContextCompat.getColor(mContext, R.color.colorPrimary));
+        canvas.drawLine(getWidth() - (float) (getWidth() * 2 / COUNT_RATIO) + 50, (float) getHeight() / 2 - 30, getWidth() - (float) (getWidth() * 2 / COUNT_RATIO) + 80, (float) getHeight() / 2 - 30, paint);
+        canvas.drawText("Sales", getWidth() - (float) (getWidth() * 2 / COUNT_RATIO) + 100, (float) getHeight() / 2 - 30, paint);
+        paint.setColor(mColorExpense | ContextCompat.getColor(mContext, R.color.colorAccent));
+        canvas.drawLine(getWidth() - (float) (getWidth() * 2 / COUNT_RATIO) + 50, (float) getHeight() / 2 + 30, getWidth() - (float) (getWidth() * 2 / COUNT_RATIO) + 80, (float) getHeight() / 2 + 30, paint);
+        canvas.drawText("Expense", getWidth() - (float) (getWidth() * 2 / COUNT_RATIO) + 100, (float) getHeight() / 2 + 30, paint);
     }
 
     private long getMaxValue() {
@@ -234,9 +275,6 @@ public class MyChartView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float xo=0;
-        float yo=0;
-        Log.d("androidRuntime", event.getPointerCount() + "");
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 xo = event.getX();
@@ -245,11 +283,17 @@ public class MyChartView extends View {
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
                 float moveY = event.getY();
-                mMoveX += moveX - xo;
+                if (mMoveX + moveX - xo < -(getWidth() * 5.5)) {
+                    mMoveX = (float) -(getWidth() * 5.5);
+                } else if (mMoveX + moveX - xo > 0) {
+                    mMoveX = 0;
+                } else {
+                    mMoveX += moveX - xo;
+                }
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                Log.d("androidRuntime", (event.getX()-xo)+"");
+                Log.d("androidRuntime", (event.getX() - xo) + "");
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
