@@ -41,5 +41,7 @@
     <string name="send_information">Gửi thông tin</string>
 
     <string name="exercise_threads">Exercise Threads</string>
+    <string name="exercise_async_task">Exercise AsyncTask</string>
     <string name="download_image_thread">Download image with thread</string>
+    <string name="download_image_async_task">Download image with async task</string>
 </resources>

@@ -7,12 +7,13 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.ui.DownloadImageActivity;
+import com.example.asian.ui.DownloadImageAsyncTaskActivity;
 import com.example.asian.ui.FacebookActivity;
 import com.example.asian.ui.InformationActivity;
 import com.example.asian.ui.MathActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mBtnToFacebook, mBtnToMath, mBtnToInformation, mBtnToThreads;
+    private Button mBtnToFacebook, mBtnToMath, mBtnToInformation, mBtnToThreads, mBtnToAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnToMath = findViewById(R.id.btnMath);
         mBtnToInformation = findViewById(R.id.btnInformation);
         mBtnToThreads = findViewById(R.id.btnToThreads);
+        mBtnToAsyncTask = findViewById(R.id.btnToDownloadAsyncTask);
     }
 
     private void initListener() {
@@ -47,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
         mBtnToThreads.setOnClickListener(view -> {
             Intent intent = new Intent(this, DownloadImageActivity.class);
+            startActivity(intent);
+        });
+
+        mBtnToAsyncTask.setOnClickListener(view -> {
+            Intent intent = new Intent(this, DownloadImageAsyncTaskActivity.class);
             startActivity(intent);
         });
     }
