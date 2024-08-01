@@ -22,8 +22,8 @@ public class DataActivity extends AppCompatActivity {
 
     private void getData() {
         Bundle bundle = getIntent().getExtras();
-        String email = getString(R.string.email) + bundle.getString(Constants.KEY_EMAIL);
-        String password = getString(R.string.password) + bundle.getString(Constants.KEY_PASSWORD);
+        String email = getString(R.string.email).concat(bundle.getString(Constants.KEY_EMAIL));
+        String password = getString(R.string.password).concat(bundle.getString(Constants.KEY_PASSWORD));
 
         mTvEmail.setText(email);
         mTvPassword.setText(password);
