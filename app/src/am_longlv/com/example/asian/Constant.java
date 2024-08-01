@@ -9,10 +9,7 @@ public class Constant {
     public static final String REGEX_SPECIAL_CHARACTER = ".*[!@#$%^&*].*";
     public static final int MIN_LENGTH_PASSWORD = 8;
     public static final int MIN_LENGTH_MORE_INFO = 100;
-    public static final int SIZE_DATA_FROM_LOGIN = 2;
-    public static final int SIZE_DATA_FROM_UPDATE_INFO = 5;
     public static final int LENGTH_ID_CARD = 9;
-    public static final String CHARACTER_SPACE = " ";
     public static final String CHARACTER_SPLIT = " | ";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
@@ -23,9 +20,7 @@ public class Constant {
     public static final String KEY_INTEREST = "interest";
     public static final String KEY_FROM_LOGIN = "fromLogin";
     public static final String KEY_FROM_UPDATE_INFO = "fromUpdateInfo";
-    public static final String KEY_RESULT = "result";
     public static final String KEY_COLOR_CODE = "colorCode";
     public static final String COLOR_DEFAULT = "#000000";
     public static final String START_CHAR_COLOR = "#";
-    public static int NUMBER_ZERO = 0;
 }

@@ -3,7 +3,6 @@ package com.example.asian.issuefour;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,12 +34,8 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
     }
 
     private void initListener() {
-        mBtnAddFragment.setOnClickListener(v -> {
-            addFragment();
-        });
-        mBtnReplaceFragment.setOnClickListener(v -> {
-            replaceFragment();
-        });
+        mBtnAddFragment.setOnClickListener(v -> addFragment());
+        mBtnReplaceFragment.setOnClickListener(v -> replaceFragment());
     }
 
     private void replaceFragment() {

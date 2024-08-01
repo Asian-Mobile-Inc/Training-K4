@@ -30,17 +30,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnExerciseLogin.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, ExerciseLoginActivity.class));
-        });
-        mBtnExerciseCal.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, ExerciseCalculateActivity.class));
-        });
-        mBtnExerciseUpdateInfo.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class));
-        });
-        mBtnIssuesFour.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, IssueFourActivity.class));
-        });
+        mBtnExerciseLogin.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, ExerciseLoginActivity.class)));
+        mBtnExerciseCal.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, ExerciseCalculateActivity.class)));
+        mBtnExerciseUpdateInfo.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class)));
+        mBtnIssuesFour.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, IssueFourActivity.class)));
     }
 }
