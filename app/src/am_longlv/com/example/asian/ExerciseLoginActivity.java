@@ -73,7 +73,7 @@ public class ExerciseLoginActivity extends AppCompatActivity {
         bundle.putString(Constant.KEY_EMAIL, mEdtEmail.getText().toString().trim());
         bundle.putString(Constant.KEY_PASSWORD, mEdtPassword.getText().toString().trim());
         Intent intent = new Intent(this, IssueThreeActivity.class);
-        intent.putExtra(Constant.KEY_FROM_LOGIN,bundle);
+        intent.putExtra(Constant.KEY_FROM_LOGIN, bundle);
         startActivity(intent);
         Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
     }

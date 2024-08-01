@@ -36,7 +36,7 @@ public class IssueFourSecondFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_issue_four_second, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.rlMainFrTwo);
         String colorCode = null;
-        if (getArguments()!=null){
+        if (getArguments() != null) {
             colorCode = getArguments().getString(Constant.KEY_COLOR_CODE);
             if (colorCode != null && !colorCode.isEmpty()) {
                 if (!colorCode.startsWith(Constant.START_CHAR_COLOR)) {
