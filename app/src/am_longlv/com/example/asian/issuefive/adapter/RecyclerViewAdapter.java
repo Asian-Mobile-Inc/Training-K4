@@ -58,13 +58,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public void updateAllData(List<String> mLists) {
-        this.mLists = mLists;
-        for (int i = 0; i < mLists.size(); i++) {
-            notifyItemChanged(i);
-        }
-    }
-
     public void updateDataPosition(List<String> mLists, int position) {
         this.mLists = mLists;
         notifyItemChanged(position);
