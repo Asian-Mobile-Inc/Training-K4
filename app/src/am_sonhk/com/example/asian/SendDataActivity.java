@@ -85,6 +85,3 @@ public class SendDataActivity extends AppCompatActivity {
         }
     }
 }
-
-
-

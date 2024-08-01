@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     private void sendDataToSendDataActivity() {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_EMAIL, mEdtEmail.getText().toString().trim());
-        bundle.putString(KEY_PASSWORD,mEdtPassword.getText().toString().trim());
+        bundle.putString(KEY_PASSWORD, mEdtPassword.getText().toString().trim());
         Intent intent = new Intent(this, SendDataActivity.class);
         intent.putExtra(KEY_FROM_LOGIN, bundle);
         startActivity(intent);
