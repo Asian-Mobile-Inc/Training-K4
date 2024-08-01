@@ -35,17 +35,20 @@ public class IssueFourSecondFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_issue_four_second, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.rlMainFrTwo);
-        String colorCode = getArguments().getString(Constant.KEY_COLOR_CODE);
-        if (colorCode != null && !colorCode.isEmpty()) {
-            if (!colorCode.startsWith(Constant.START_CHAR_COLOR)) {
-                colorCode = Constant.START_CHAR_COLOR + colorCode;
+        String colorCode = null;
+        if (getArguments()!=null){
+            colorCode = getArguments().getString(Constant.KEY_COLOR_CODE);
+            if (colorCode != null && !colorCode.isEmpty()) {
+                if (!colorCode.startsWith(Constant.START_CHAR_COLOR)) {
+                    colorCode = Constant.START_CHAR_COLOR + colorCode;
+                }
+                try {
+                    Color.parseColor(colorCode);
+                } catch (Exception e) {
+                    colorCode = Constant.COLOR_DEFAULT;
+                }
+                relativeLayout.setBackgroundColor(Color.parseColor(colorCode));
             }
-            try {
-                Color.parseColor(colorCode);
-            } catch (Exception e) {
-                colorCode = Constant.COLOR_DEFAULT;
-            }
-            relativeLayout.setBackgroundColor(Color.parseColor(colorCode));
         }
         mListener.onFragmentSecondChange(colorCode);
         return view;

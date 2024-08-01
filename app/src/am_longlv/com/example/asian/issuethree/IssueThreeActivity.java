@@ -1,6 +1,8 @@
 package com.example.asian.issuethree;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,21 +49,20 @@ public class IssueThreeActivity extends AppCompatActivity {
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
-        if (bundle.size() == Constant.SIZE_DATA_FROM_LOGIN) {
-            mTvEmail.setText(getString(R.string.email) + bundle.get(Constant.KEY_EMAIL).toString());
-            mTvPassword.setText(getString(R.string.password) + bundle.get(Constant.KEY_PASSWORD).toString());
-            mLlDataFromLogin.setVisibility(LinearLayout.VISIBLE);
-            mLlDataFromUpdateInfo.setVisibility(LinearLayout.GONE);
-
+        if (bundle != null && bundle.size() == Constant.SIZE_DATA_FROM_LOGIN) {
+            mTvEmail.setText(getString(R.string.email_str_param,bundle.get(Constant.KEY_EMAIL)));
+            mTvPassword.setText(getString(R.string.password_str_param,bundle.get(Constant.KEY_PASSWORD)));
+            mLlDataFromLogin.setVisibility(View.VISIBLE);
+            mLlDataFromUpdateInfo.setVisibility(View.GONE);
         }
-        if (bundle.size() == Constant.SIZE_DATA_FROM_UPDATE_INFO) {
-            mTvName.setText(getString(R.string.name) + Constant.CHARACTER_SPACE + bundle.get(Constant.KEY_NAME).toString());
-            mTvIdCard.setText(getString(R.string.id_card) + Constant.CHARACTER_SPACE + bundle.get(Constant.KEY_ID_CARD).toString());
-            mTvDegree.setText(getString(R.string.degree) + Constant.CHARACTER_SPACE + bundle.get(Constant.KEY_DEGREE).toString());
-            mTvInterest.setText(getString(R.string.interest) + Constant.CHARACTER_SPACE + bundle.get(Constant.KEY_INTEREST).toString());
-            mTvMoreInfo.setText(getString(R.string.more_info) + Constant.CHARACTER_SPACE + bundle.get(Constant.KEY_MORE_INFO).toString());
-            mLlDataFromLogin.setVisibility(LinearLayout.GONE);
-            mLlDataFromUpdateInfo.setVisibility(LinearLayout.VISIBLE);
+        if (bundle != null && bundle.size() == Constant.SIZE_DATA_FROM_UPDATE_INFO) {
+            mTvName.setText(getString(R.string.name_str_param,bundle.get(Constant.KEY_NAME)));
+            mTvIdCard.setText(getString(R.string.id_card_str_param,bundle.get(Constant.KEY_ID_CARD)));
+            mTvDegree.setText(getString(R.string.degree_str_param,bundle.get(Constant.KEY_DEGREE)));
+            mTvInterest.setText(getString(R.string.interest_str_param,bundle.get(Constant.KEY_INTEREST)));
+            mTvMoreInfo.setText((getString(R.string.more_info_str_param,bundle.get(Constant.KEY_MORE_INFO))));
+            mLlDataFromLogin.setVisibility(View.GONE);
+            mLlDataFromUpdateInfo.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -17,7 +17,7 @@
     <string name="more_info">Thông tin bổ sung</string>
     <string name="hint_more_info">Nhập thông tin bổ sung - có thể để trống</string>
     <string name="send_info">Gửi thông tin</string>
-    <string name="result">Ket qua:</string>
+    <string name="result">Kết quả</string>
     <string name="first_number">Số hạng 1</string>
     <string name="second_number">Số hạng 2</string>
     <string name="exercise_login">View Login</string>
@@ -27,6 +27,15 @@
     <string name="subtraction">-</string>
     <string name="multiplication">*</string>
     <string name="divided">/</string>
+    <string name="result_float_param">Ket qua: %f</string>
+    <string name="result_int_param">Ket qua: %d</string>
+    <string name="more_info_str_param">Thông tin bổ sung: %s</string>
+    <string name="interest_str_param">Sở thích: %s</string>
+    <string name="name_str_param">Họ tên: %s</string>
+    <string name="id_card_str_param">Cmnd: %s</string>
+    <string name="degree_str_param">Bằng cấp: %s</string>
+    <string name="email_str_param">Email: %s</string>
+    <string name="password_str_param">Password: %s</string>
     <!--  strings for issue 3-->
     <string name="hint_edittext">This is hint Edittext</string>
     <string name="error_divided_zero">Không thể chia cho 0</string>
@@ -53,8 +62,8 @@
     <string name="error">Error: </string>
     <string name="error_empty_input">Vui lòng nhập đủ thông tin: </string>
     <!--    Issues 4-->
-    <string name="fragment_one">Fragment One</string>
-    <string name="fragment_two">Fragment Two</string>
+    <string name="fragment_one">Fragment One %s</string>
+    <string name="fragment_two">Fragment Two %s</string>
     <string name="change_color">Change color</string>
     <string name="view_issues_four">View Issues 4</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

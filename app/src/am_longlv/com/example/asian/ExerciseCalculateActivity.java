@@ -42,7 +42,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result) + (firstNumber + secondNumber));
+            mTvResult.setText(getString(R.string.result_float_param,(float)(firstNumber + secondNumber)));
         });
         mBtnSub.setOnClickListener(v -> {
             if (validate()) {
@@ -50,7 +50,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result) + (firstNumber - secondNumber));
+            mTvResult.setText(getString(R.string.result_float_param,(float)(firstNumber - secondNumber)));
         });
         mBtnMul.setOnClickListener(v -> {
             if (validate()) {
@@ -58,7 +58,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result) + (firstNumber * secondNumber));
+            mTvResult.setText(getString(R.string.result_float_param,(float)(firstNumber * secondNumber)));
         });
         mBtnDiv.setOnClickListener(v -> {
             if (validate()) {
@@ -71,7 +71,7 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
                 return;
             }
             float result = (float) firstNumber / secondNumber;
-            mTvResult.setText(getString(R.string.result) + (result));
+            mTvResult.setText(getString(R.string.result_float_param,result));
         });
     }
 
