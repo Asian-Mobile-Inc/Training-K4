@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -74,11 +73,11 @@ public class MyChartView extends View {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public List<SellExpense> getmSellExpenses() {
+    public List<SellExpense> getSellExpenses() {
         return mSellExpenses;
     }
 
-    public void setmSellExpenses(List<SellExpense> mSellExpenses) {
+    public void setSellExpenses(List<SellExpense> mSellExpenses) {
         this.mSellExpenses = mSellExpenses;
     }
 
@@ -96,7 +95,7 @@ public class MyChartView extends View {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
-        Log.d("androidruntime", "onDraw");
+        Log.d("androidRuntime", "onDraw");
         mCanvas = canvas;
         setUpChart();
         initPaint();
@@ -144,10 +143,9 @@ public class MyChartView extends View {
 
             SellExpense sellExpense = mSellExpenses.get(i);
             int space = (int) (mWidth - 2 * startX) / COUNT_MONTH;
-            int x = (int) (i * space + startX);
-            int xNext = (int) ((i + 1) * space + startX);
+            int x = (int) (i * space + startX + mMoveX);
+            int xNext = (int) ((i + 1) * space + startX + mMoveX);
             int xDraw = x + Math.abs(x - xNext) / 2 - WIDTH_CHART / 2;
-
             float ySales = (float) (mHeight - startY
                     - (sellExpense.getmSales() * axisY / maxValue));
             float yExpense = (float) (mHeight - startY
@@ -186,8 +184,6 @@ public class MyChartView extends View {
         mPaintExpense = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintExpense.setStrokeWidth(WIDTH_CHART);
         mPaintExpense.setColor(mColorExpense | ContextCompat.getColor(mContext, R.color.colorAccent));
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(
-                R.styleable.MyChartView);
     }
 
     public void setUpChart() {
@@ -238,25 +234,31 @@ public class MyChartView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float xo = event.getX();
-        float yo = event.getY();
-        Log.d("androidruntime", event.getPointerCount() + "");
+        float xo=0;
+        float yo=0;
+        Log.d("androidRuntime", event.getPointerCount() + "");
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mHeight = 2 * mHeight;
-                invalidate();
+                xo = event.getX();
+                yo = event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                float moveX = event.getX();
+                float moveY = event.getY();
+                mMoveX += moveX - xo;
+                invalidate();
                 break;
             case MotionEvent.ACTION_UP:
+                Log.d("androidRuntime", (event.getX()-xo)+"");
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
         }
         return true;
     }
-    private double getDistance(int x1,int y1,int x2,int y2){
-        double distance = Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
+
+    private double getDistance(int x1, int y1, int x2, int y2) {
+        double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         return distance;
     }
 }
