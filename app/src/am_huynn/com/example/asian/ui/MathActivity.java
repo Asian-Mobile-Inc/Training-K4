@@ -40,7 +40,7 @@ public class MathActivity extends AppCompatActivity {
         mBtnAddition.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne) && validateNumberEmpty(textNumberTwo)) {
+            if (validateNumberEmpty(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 String result = getString(R.string.result) + (numberOne + numberTwo);
@@ -53,7 +53,7 @@ public class MathActivity extends AppCompatActivity {
         mBtnSubtraction.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne) && validateNumberEmpty(textNumberTwo)) {
+            if (validateNumberEmpty(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 String result = getString(R.string.result) + (numberOne - numberTwo);
@@ -66,7 +66,7 @@ public class MathActivity extends AppCompatActivity {
         mBtnMultiplication.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne) && validateNumberEmpty(textNumberTwo)) {
+            if (validateNumberEmpty(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 String result = getString(R.string.result) + (numberOne * numberTwo);
@@ -80,7 +80,7 @@ public class MathActivity extends AppCompatActivity {
         mBtnDivision.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne) && validateNumberOtherZero(textNumberTwo)) {
+            if (validateNumberEmpty(textNumberOne, textNumberTwo) && validateNumberOtherZero(textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 String result = getString(R.string.result) + (numberOne / numberTwo);
@@ -91,17 +91,15 @@ public class MathActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validateNumberEmpty(String value) {
-        return !value.isEmpty();
+    private boolean validateNumberEmpty(String numberOne, String numberTwo) {
+        return !numberOne.isEmpty() && !numberTwo.isEmpty();
     }
 
     private boolean validateNumberOtherZero(String value) {
         boolean isValid;
         if (value.isEmpty()) {
             isValid = false;
-        } else {
-            isValid = Double.parseDouble(value) != 0;
-        }
+        } else isValid = Double.parseDouble(value) != 0;
         return isValid;
     }
 }

@@ -32,7 +32,7 @@ public class DataInformationActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getBundleExtra(Constants.KEY_BUNDLE_MORE_INFORMATION);
         String name = getString(R.string.name).concat(bundle.getString(Constants.KEY_NAME));
         String card = getString(R.string.card).concat(bundle.getString(Constants.KEY_CARD));
         String moreInformation = getString(R.string.more_information_value).concat(bundle.getString(Constants.KEY_MORE_INFORMATION));

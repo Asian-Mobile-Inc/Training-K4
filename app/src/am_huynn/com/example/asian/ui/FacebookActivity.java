@@ -42,7 +42,7 @@ public class FacebookActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putString(Constants.KEY_EMAIL, email);
             bundle.putString(Constants.KEY_PASSWORD, password);
-            intent.putExtras(bundle);
+            intent.putExtra(Constants.KEY_BUNDLE_LOGIN, bundle);
             startActivity(intent);
         });
     }

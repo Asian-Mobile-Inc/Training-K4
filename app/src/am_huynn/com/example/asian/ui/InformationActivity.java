@@ -65,7 +65,7 @@ public class InformationActivity extends AppCompatActivity {
             if (!interest.isEmpty()) {
                 bundle.putString(Constants.KEY_INTEREST, interest);
             }
-            intent.putExtras(bundle);
+            intent.putExtra(Constants.KEY_BUNDLE_MORE_INFORMATION, bundle);
             startActivity(intent);
         });
 

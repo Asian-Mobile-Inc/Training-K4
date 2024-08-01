@@ -21,7 +21,7 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getBundleExtra(Constants.KEY_BUNDLE_LOGIN);
         String email = getString(R.string.email).concat(bundle.getString(Constants.KEY_EMAIL));
         String password = getString(R.string.password).concat(bundle.getString(Constants.KEY_PASSWORD));
 
