@@ -2,19 +2,16 @@ package com.example.asian.IssueSix;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -32,6 +29,7 @@ public class IssueSixActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private NavigationView mNvIssueSix;
     private FloatingActionButton mFabIssueSix;
+    private TextView mTvShowTitleMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +46,12 @@ public class IssueSixActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.dlIssueSix);
         mNvIssueSix = findViewById(R.id.nvIssueSix);
         mFabIssueSix = findViewById(R.id.fabIssueSix);
+        mTvShowTitleMenu = findViewById(R.id.tvShowItemMenu);
     }
 
     private void initListener() {
         mFabIssueSix.setOnClickListener(v -> {
             Snackbar.make(v, getString(R.string.replace_with_your_own_action), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null)
                     .show();
         });
 
@@ -120,16 +118,16 @@ public class IssueSixActivity extends AppCompatActivity {
     private void eventOnClickMenu(int id) {
         switch (id) {
             case (R.id.navHome):
-                mToolbar.setTitle(getString(R.string.home));
+                mTvShowTitleMenu.setText(getString(R.string.home));
                 break;
             case (R.id.navSetting):
-                mToolbar.setTitle(getString(R.string.setting));
+                mTvShowTitleMenu.setText(getString(R.string.setting));
                 break;
             case (R.id.navShare):
-                mToolbar.setTitle(getString(R.string.share));
+                mTvShowTitleMenu.setText(getString(R.string.share));
                 break;
             case (R.id.navSend):
-                mToolbar.setTitle(getString(R.string.send));
+                mTvShowTitleMenu.setText(getString(R.string.send));
                 break;
             default:
                 break;

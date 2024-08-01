@@ -44,6 +44,16 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
+        <TextView
+            android:id="@+id/tvShowItemMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ablIssuesSix"
+            android:layout_margin="30dp"
+            android:text="@string/home"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabIssueSix"
             android:layout_width="70dp"
@@ -62,8 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:itemTextColor="@color/color_menu_issue_six"
-        app:itemIconTint="@color/color_menu_issue_six"
         app:headerLayout="@layout/nav_header_issue_six"
+        app:itemIconTint="@color/color_menu_issue_six"
+        app:itemTextColor="@color/color_menu_issue_six"
         app:menu="@menu/menu_main_drawer_issue_six" />
 </androidx.drawerlayout.widget.DrawerLayout>
