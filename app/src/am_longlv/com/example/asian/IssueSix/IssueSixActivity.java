@@ -100,7 +100,7 @@ public class IssueSixActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_drawer_issue_six, menu);
         menu.removeItem(R.id.itCommnuicate);
-        for (int i= 0; i < menu.size(); i++) {
+        for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
             item.setCheckable(false);
         }
