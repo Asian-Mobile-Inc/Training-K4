@@ -5,7 +5,6 @@ import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -15,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,19 +25,12 @@ import androidx.core.content.ContextCompat;
 import com.example.asian.R;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class IssueEightActivity extends AppCompatActivity {
     private static final String IMAGE_URL = "https://haycafe.vn/wp-content/uploads/2022/01/hinh-anh-galaxy-vu-tru-dep.jpg";
@@ -48,11 +39,9 @@ public class IssueEightActivity extends AppCompatActivity {
     private ImageView mImgDownload;
     private String mNameFile;
     private DownloadManager mDownloadManager;
-    private long mDownloadId;
     private ProgressDialog mProgressDialog;
-    private HttpURLConnection mHttpURLConnection;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 11;
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, android.content.Intent intent) {
             long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
@@ -65,7 +54,7 @@ public class IssueEightActivity extends AppCompatActivity {
         protected Bitmap doInBackground(String... strings) {
             try {
                 URL url = new URL(strings[0]);
-                mHttpURLConnection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection mHttpURLConnection = (HttpURLConnection) url.openConnection();
                 mHttpURLConnection.connect();
                 int fileLength = mHttpURLConnection.getContentLength();
                 InputStream inputStream = new BufferedInputStream(url.openStream(), 8192);
@@ -124,7 +113,7 @@ public class IssueEightActivity extends AppCompatActivity {
         setContentView(R.layout.activity_issue_eight);
         initUI();
         initListener();
-        askPermisson();
+        askPermission();
         registerBroadcastReceiver();
     }
 
@@ -135,15 +124,11 @@ public class IssueEightActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnDownloadThread.setOnClickListener(v -> {
-            downloadUsingThread();
-        });
-        mBtnDownloadAsyncTask.setOnClickListener(v -> {
-            downloadUsingAsyncTask();
-        });
+        mBtnDownloadThread.setOnClickListener(v -> downloadUsingThread());
+        mBtnDownloadAsyncTask.setOnClickListener(v -> downloadUsingAsyncTask());
     }
 
-    private void askPermisson() {
+    private void askPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -158,16 +143,14 @@ public class IssueEightActivity extends AppCompatActivity {
     }
 
     private void downloadUsingThread() {
-        new Thread(() -> {
-            downloadImage();
-        }).start();
+        new Thread(() -> downloadImage()).start();
     }
 
     private void downloadUsingAsyncTask() {
         new DownloadImageAsyncTask().execute(IMAGE_URL);
     }
 
-    private long downloadImage() {
+    private void downloadImage() {
         mNameFile = String.valueOf(System.currentTimeMillis()) + ".jpg";
         mDownloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(android.net.Uri.parse(IMAGE_URL));
@@ -176,8 +159,7 @@ public class IssueEightActivity extends AppCompatActivity {
         request.setDescription("Downloading");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(android.os.Environment.DIRECTORY_DOWNLOADS, mNameFile);
-        mDownloadId = mDownloadManager.enqueue(request);
-        return mDownloadId;
+        mDownloadManager.enqueue(request);
     }
 
     private void handleStatusDownload(long referenceId, Context context) {
