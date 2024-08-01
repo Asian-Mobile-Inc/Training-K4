@@ -29,8 +29,8 @@
     <string name="subtraction">-</string>
     <string name="multiplication">*</string>
     <string name="division">/</string>
-    <string name="please_input_number">Ket qua: Vui lòng nhập số</string>
-    <string name="please_input_number_other_zero">Ket qua: Vui lòng nhập số và số hạng 2 khác 0</string>
+    <string name="please_input_number">Kết quả: Vui lòng nhập số</string>
+    <string name="please_input_number_other_zero">Kết quả: Vui lòng nhập số hạng 2 khác 0</string>
 
     <!-- Strings related to exercise 3 -->
     <string name="information">Thông tin cá nhân</string>
