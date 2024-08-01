@@ -68,11 +68,15 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
 
     @Override
     public void onFragmentSecondChange(String colorCode) {
-        this.setTitle(getString(R.string.fragment_two, colorCode));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.fragment_two).concat(" ").concat(colorCode));
+        }
     }
 
     @Override
     public void onFragmentFirstChange(String colorCode) {
-        this.setTitle(getString(R.string.fragment_one, colorCode));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.fragment_one).concat(" ").concat(colorCode));
+        }
     }
 }
