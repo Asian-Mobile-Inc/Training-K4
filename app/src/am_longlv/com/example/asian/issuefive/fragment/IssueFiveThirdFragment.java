@@ -92,14 +92,9 @@ public class IssueFiveThirdFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void updateListItem() {
-        this.mLists.add(FIRST_NAME_ITEM + (char) (FIRST_CHAR + mLists.size() % 26));
-        mRecyclerView.scrollToPosition(mLists.size() - 1);
-        mAdapter.updateData(mLists);
-    }
     public void updateListItem(String name) {
         this.mLists.add(name);
         mRecyclerView.scrollToPosition(mLists.size() - 1);
-        mAdapter.updateData(mLists);
+        mAdapter.updateDataPosition(mLists, mLists.size() - 1);
     }
 }

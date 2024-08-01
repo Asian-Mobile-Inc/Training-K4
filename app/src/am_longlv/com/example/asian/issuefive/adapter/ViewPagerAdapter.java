@@ -11,6 +11,7 @@ import com.example.asian.issuefive.fragment.IssueFiveThirdFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
     private static final int NUM_PAGES = 3;
+
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -23,11 +24,8 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
                 return new IssueFiveFirstFragment();
             case 1:
                 return new IssueFiveSecondFragment();
-
-            case 2:
-                return new IssueFiveThirdFragment();
             default:
-                return new IssueFiveFirstFragment();
+                return new IssueFiveThirdFragment();
         }
     }
 

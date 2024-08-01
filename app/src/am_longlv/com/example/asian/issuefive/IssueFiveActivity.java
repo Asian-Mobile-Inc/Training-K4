@@ -105,7 +105,9 @@ public class IssueFiveActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_edit_name);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
         dialog.findViewById(R.id.btnConfirm).setOnClickListener(v -> {
             addItemFragment(currentItem, ((EditText) dialog.findViewById(R.id.edtNewName)).getText().toString());
             dialog.dismiss();

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private List<String> mLists;
-    private Context mContext;
+    private final Context mContext;
 
     public RecyclerViewAdapter(List<String> mLists, Context mContext) {
         this.mLists = mLists;
@@ -36,9 +36,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.mTvItemIssue5.setText(mLists.get(position));
         holder.mTvItemIssue5.setOnClickListener(v -> {
-            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction(() -> {
-                v.animate().scaleX(1).scaleY(1).setDuration(100).start();
-            }).start();
             showDialogActionItem(position);
         });
     }
@@ -52,8 +49,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTvItemIssue5;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView mTvItemIssue5;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,16 +58,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public void updateData(List<String> mLists) {
+    public void updateAllData(List<String> mLists) {
         this.mLists = mLists;
-        notifyDataSetChanged();
+        for (int i = 0; i < mLists.size(); i++) {
+            notifyItemChanged(i);
+        }
+    }
+
+    public void updateDataPosition(List<String> mLists, int position) {
+        this.mLists = mLists;
+        notifyItemChanged(position);
     }
 
     private void showDialogActionItem(int position) {
         Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_action_item_issue_five);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
         setUpActionItemDialog(dialog, position);
         dialog.show();
 
@@ -95,10 +101,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_confirm);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
         dialog.findViewById(R.id.btnConfirmDelete).setOnClickListener(v -> {
             mLists.remove(position);
-            notifyDataSetChanged();
+            notifyItemChanged(position);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.btnCancelDelete).setOnClickListener(v -> dialog.dismiss());
@@ -109,11 +117,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_edit_name);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
         dialog.findViewById(R.id.btnConfirm).setOnClickListener(v -> {
             EditText edtNewName = dialog.findViewById(R.id.edtNewName);
             mLists.set(position, edtNewName.getText().toString());
-            notifyDataSetChanged();
+            notifyItemChanged(position);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
