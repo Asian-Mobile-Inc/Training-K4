@@ -18,7 +18,7 @@ import com.example.asian.issuenine.model.UserInfo;
 import java.util.List;
 
 public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHolder> {
-    private List<UserInfo> mUserInfoLists;
+    private final List<UserInfo> mUserInfoLists;
     private final Context mContext;
 
     public UserInfoAdapter(List<UserInfo> mUserInfoLists, Context mContext) {
@@ -86,13 +86,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
             }
         }catch (Exception e){
             Toast.makeText(mContext, mContext.getString(R.string.err_load_data), Toast.LENGTH_SHORT).show();
-        }
-    }
-    public void updateData(List<UserInfo> userInfoList){
-        mUserInfoLists.clear();
-        mUserInfoLists.addAll(userInfoList);
-        for (UserInfo userInfo : userInfoList){
-            notifyItemChanged(mUserInfoLists.indexOf(userInfo));
         }
     }
 }
