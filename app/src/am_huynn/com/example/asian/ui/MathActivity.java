@@ -80,26 +80,22 @@ public class MathActivity extends AppCompatActivity {
         mBtnDivision.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne, textNumberTwo) && validateNumberOtherZero(textNumberTwo)) {
+            if (validateNumberEmpty(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
-                String result = getString(R.string.result) + (numberOne / numberTwo);
-                mTvResult.setText(result);
+                if (numberTwo != 0) {
+                    String result = getString(R.string.result) + (numberOne / numberTwo);
+                    mTvResult.setText(result);
+                } else {
+                    mTvResult.setText(getString(R.string.please_input_number_other_zero));
+                }
             } else {
-                mTvResult.setText(getString(R.string.please_input_number_other_zero));
+                mTvResult.setText(getString(R.string.please_input_number));
             }
         });
     }
 
     private boolean validateNumberEmpty(String numberOne, String numberTwo) {
         return !numberOne.isEmpty() && !numberTwo.isEmpty();
-    }
-
-    private boolean validateNumberOtherZero(String value) {
-        boolean isValid;
-        if (value.isEmpty()) {
-            isValid = false;
-        } else isValid = Double.parseDouble(value) != 0;
-        return isValid;
     }
 }
