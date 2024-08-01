@@ -40,9 +40,7 @@ public class IssueFiveActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mFabAddItem.setOnClickListener(v -> {
-            showDialogAddItem(mViewPager.getCurrentItem());
-        });
+        mFabAddItem.setOnClickListener(v -> showDialogAddItem(mViewPager.getCurrentItem()));
     }
 
     private void setUpTabLayout() {

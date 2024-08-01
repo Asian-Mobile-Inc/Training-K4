@@ -35,9 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.mTvItemIssue5.setText(mLists.get(position));
-        holder.mTvItemIssue5.setOnClickListener(v -> {
-            showDialogActionItem(position);
-        });
+        holder.mTvItemIssue5.setOnClickListener(v -> showDialogActionItem(position));
     }
 
     @Override
@@ -60,7 +58,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void updateDataPosition(List<String> mLists, int position) {
         this.mLists = mLists;
-        notifyItemChanged(position);
+        notifyItemInserted(position);
     }
 
     private void showDialogActionItem(int position) {
@@ -99,7 +97,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         dialog.findViewById(R.id.btnConfirmDelete).setOnClickListener(v -> {
             mLists.remove(position);
-            notifyItemChanged(position);
+            for (int i = position; i <= mLists.size(); i++) {
+                notifyItemChanged(i);
+            }
             dialog.dismiss();
         });
         dialog.findViewById(R.id.btnCancelDelete).setOnClickListener(v -> dialog.dismiss());
