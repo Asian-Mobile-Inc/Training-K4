@@ -42,9 +42,7 @@ public class IssueSevenActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnStartService.setOnClickListener(v -> {
-            startFgrService();
-        });
+        mBtnStartService.setOnClickListener(v -> startFgrService());
         mBtnStopService.setOnClickListener(v -> {
             Intent intent = new Intent(this, MyLocationService.class);
             stopService(intent);

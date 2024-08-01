@@ -37,8 +37,8 @@ public class MyLocationService extends Service {
     private static final String LOG_INTERNET_CONNECTED = "Internet connected";
     private static final String LOG_INTERNET_DISCONNECTED = "Internet disconnected";
     private static final int NOTIFICATION_ID = 111;
-    private static final int TIME_INTERVAL = 2000;
-    private static final String TAG_LOG = "androidruntime";
+    private static final int TIME_INTERVAL = 20000;
+    private static final String TAG_LOG = "androidRuntime";
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -56,7 +56,7 @@ public class MyLocationService extends Service {
             requestLocationUpdates(context);
         } else {
             Log.d(TAG_LOG, LOG_INTERNET_DISCONNECTED);
-            removeLocationUpdates(context);
+            removeLocationUpdates();
         }
     }
 
@@ -113,12 +113,13 @@ public class MyLocationService extends Service {
             servicePendingIntent = PendingIntent.getService(this,
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
+        Notification.Action action = new Notification.Action.Builder(R.mipmap.ic_launcher, ACTION_STOP_SERVICE, servicePendingIntent).build();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return new Notification.Builder(this, IssueSevenActivity.CHANNEL_ID)
                     .setContentTitle(TITLE_NOTIFICATION)
                     .setContentText(CONTENT_NOTIFICATION)
                     .setSmallIcon(android.R.drawable.ic_menu_mylocation)
-                    .addAction(R.mipmap.ic_launcher, ACTION_STOP_SERVICE, servicePendingIntent)
+                    .addAction(action)
                     .setOngoing(true)
                     .build();
         }
@@ -132,7 +133,7 @@ public class MyLocationService extends Service {
     }
 
     private void stopService() {
-        removeLocationUpdates(this);
+        removeLocationUpdates();
         stopForeground(true);
         stopSelf();
     }
@@ -156,7 +157,7 @@ public class MyLocationService extends Service {
         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallBack, null);
     }
 
-    private void removeLocationUpdates(Context context) {
+    private void removeLocationUpdates() {
         if (mFusedLocationProviderClient == null) {
             return;
         }
