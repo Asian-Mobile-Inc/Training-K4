@@ -1,6 +1,7 @@
 package com.example.asian.issueeight;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -46,10 +48,11 @@ public class IssueEightActivity extends AppCompatActivity {
         public void onReceive(Context context, android.content.Intent intent) {
             long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             handleStatusDownload(referenceId, context);
+            mProgressDialog.show();
         }
     };
 
-    private class DownloadImageAsyncTask extends AsyncTask<String, Integer, Bitmap> {
+    private class DownloadAsyncTask extends AsyncTask<String, Integer, Bitmap> {
         @Override
         protected Bitmap doInBackground(String... strings) {
             try {
@@ -81,13 +84,13 @@ public class IssueEightActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            mProgressDialog.dismiss();
             if (bitmap != null) {
                 mImgDownload.setImageBitmap(bitmap);
                 Toast.makeText(IssueEightActivity.this, getString(R.string.download_finished), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(IssueEightActivity.this, getString(R.string.download_failed), Toast.LENGTH_SHORT).show();
             }
+            mProgressDialog.dismiss();
         }
 
         @Override
@@ -98,15 +101,11 @@ public class IssueEightActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressDialog = new ProgressDialog(IssueEightActivity.this);
-            mProgressDialog.setTitle("Downloading");
-            mProgressDialog.setMessage("Downloading, Please Wait!");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             mProgressDialog.show();
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +114,7 @@ public class IssueEightActivity extends AppCompatActivity {
         initListener();
         askPermission();
         registerBroadcastReceiver();
+        setupProgressDialog();
     }
 
     private void initUI() {
@@ -142,16 +142,27 @@ public class IssueEightActivity extends AppCompatActivity {
         }
     }
 
+    private void setupProgressDialog() {
+        mProgressDialog = new ProgressDialog(IssueEightActivity.this);
+        mProgressDialog.setTitle("Downloading");
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+    }
+
     private void downloadUsingThread() {
-        new Thread(() -> downloadImage()).start();
+        new Thread(() -> {
+            runOnUiThread(() -> Toast.makeText(IssueEightActivity.this,
+                    getString(R.string.download_started), Toast.LENGTH_SHORT).show());
+            downloadImage();
+        }).start();
     }
 
     private void downloadUsingAsyncTask() {
-        new DownloadImageAsyncTask().execute(IMAGE_URL);
+        new DownloadAsyncTask().execute(IMAGE_URL);
     }
 
     private void downloadImage() {
-        mNameFile = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        mNameFile = System.currentTimeMillis() + ".jpg";
         mDownloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(android.net.Uri.parse(IMAGE_URL));
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
@@ -185,9 +196,10 @@ public class IssueEightActivity extends AppCompatActivity {
         mImgDownload.setImageBitmap(bitmap);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void registerBroadcastReceiver() {
         IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-        registerReceiver(mReceiver, intentFilter);
+        registerReceiver(mReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
     }
 
     @Override
