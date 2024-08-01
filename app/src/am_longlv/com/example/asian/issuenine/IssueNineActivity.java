@@ -1,7 +1,5 @@
 package com.example.asian.issuenine;
 
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,9 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asian.ExerciseCalculateActivity;
-import com.example.asian.ExerciseLoginActivity;
-import com.example.asian.ExerciseUpdateInfoActivity;
 import com.example.asian.R;
 import com.example.asian.issuenine.adapter.UserInfoAdapter;
 import com.example.asian.issuenine.database.DBHelper;
@@ -28,9 +23,10 @@ public class IssueNineActivity extends AppCompatActivity {
     private Button mBtnShowAll;
     private Button mBtnDeleteAll;
     private RecyclerView mRvUserInfo;
-    private DBHelper mDBHelper = new DBHelper(this, "User.db", 1);
+    private final DBHelper mDBHelper = new DBHelper(this, "User.db", 1);
     private UserInfoAdapter mUserInfoAdapter;
-    private List<UserInfo> mUserInfoLists = new ArrayList<>();
+    private List<UserInfo> mUserInfoLists;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,17 +54,19 @@ public class IssueNineActivity extends AppCompatActivity {
             mDBHelper.deleteAllUser();
             getAllUser();
         });
+        mBtnShowAll.setOnClickListener(v -> getAllUser());
     }
 
     private void setUpRecyclerView() {
+        mUserInfoLists = new ArrayList<>();
         mUserInfoAdapter = new UserInfoAdapter(mUserInfoLists, this);
         getAllUser();
         mRvUserInfo.setAdapter(mUserInfoAdapter);
         mRvUserInfo.setLayoutManager(new LinearLayoutManager(this));
     }
+
     private void getAllUser() {
         mUserInfoLists.clear();
-        mUserInfoLists.add(0,null);
         mUserInfoLists.addAll(mDBHelper.getAllUser());
         mUserInfoAdapter.notifyDataSetChanged();
     }

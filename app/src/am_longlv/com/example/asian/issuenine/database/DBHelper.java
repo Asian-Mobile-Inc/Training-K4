@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.example.asian.issuenine.model.UserInfo;
 
@@ -39,18 +38,22 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_TABLE);
         onCreate(db);
     }
+
     public void addUser(UserInfo userInfo) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(SQL_INSERT, new String[]{userInfo.getmUsername(), userInfo.getmAge()});
+        db.execSQL(SQL_INSERT, new String[]{userInfo.getUsername(), userInfo.getAge()});
     }
+
     public void deleteUser(UserInfo userInfo) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(SQL_DELETE, new String[]{String.valueOf(userInfo.getmUserId())});
+        db.execSQL(SQL_DELETE, new String[]{String.valueOf(userInfo.getUserId())});
     }
+
     public void deleteAllUser() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(SQL_DELETE_ALL);
     }
+
     public List<UserInfo> getAllUser() {
         List<UserInfo> userInfoList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -59,7 +62,6 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 UserInfo userInfo = new UserInfo(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
                 userInfoList.add(userInfo);
-                Log.d("androidruntime",cursor.getLong(0)+" "+cursor.getString(1)+" "+cursor.getString(2));
             } while (cursor.moveToNext());
         }
         cursor.close();

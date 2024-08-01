@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHolder> {
     private List<UserInfo> mUserInfoLists;
-    private Context mContext;
+    private final Context mContext;
 
     public UserInfoAdapter(List<UserInfo> mUserInfoLists, Context mContext) {
         this.mUserInfoLists = mUserInfoLists;
@@ -66,22 +67,32 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
     }
     private void initData(UserInfo userInfo, ViewHolder holder){
         if (userInfo!=null){
-            holder.mTvUserId.setText(String.valueOf(userInfo.getmUserId()));
-            holder.mTvUsername.setText(userInfo.getmUsername());
-            holder.mTvAge.setText(userInfo.getmAge());
+            holder.mTvUserId.setText(String.valueOf(userInfo.getUserId()));
+            holder.mTvUsername.setText(userInfo.getUsername());
+            holder.mTvAge.setText(userInfo.getAge());
         }else{
             holder.mBtnDelete.setVisibility(View.GONE);
         }
     }
     private void initListener(UserInfo userInfo, ViewHolder holder){
-        holder.mBtnDelete.setOnClickListener(v -> {
-            deleteUser(userInfo);
-        });
+        holder.mBtnDelete.setOnClickListener(v -> deleteUser(userInfo));
     }
     public void deleteUser(UserInfo userInfo){
-        DBHelper dbHelper = new DBHelper(mContext, "User.db", 1);
-        dbHelper.deleteUser(userInfo);
-        mUserInfoLists.remove(userInfo);
-        notifyDataSetChanged();
+        try (DBHelper mDBHelper = new DBHelper(this.mContext, "User.db", 1)) {
+            mDBHelper.deleteUser(userInfo);
+            mUserInfoLists.remove(userInfo);
+            for (UserInfo userInfo1 : mUserInfoLists){
+                notifyItemChanged(mUserInfoLists.indexOf(userInfo1));
+            }
+        }catch (Exception e){
+            Toast.makeText(mContext, mContext.getString(R.string.err_load_data), Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void updateData(List<UserInfo> userInfoList){
+        mUserInfoLists.clear();
+        mUserInfoLists.addAll(userInfoList);
+        for (UserInfo userInfo : userInfoList){
+            notifyItemChanged(mUserInfoLists.indexOf(userInfo));
+        }
     }
 }
