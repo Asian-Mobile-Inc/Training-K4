@@ -109,7 +109,7 @@ public class ExerciseUpdateInfoActivity extends AppCompatActivity {
         }
         bundle.putString(Constant.KEY_INTEREST, interest.toString());
         Intent intent = new Intent(ExerciseUpdateInfoActivity.this, IssueThreeActivity.class);
-        intent.putExtras(bundle);
+        intent.putExtra(Constant.KEY_FROM_UPDATE_INFO, bundle);
         startActivity(intent);
     }
 }

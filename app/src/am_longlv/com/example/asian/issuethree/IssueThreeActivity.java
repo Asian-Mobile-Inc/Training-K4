@@ -27,7 +27,6 @@ public class IssueThreeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_three);
         initUI();
-        initListener();
         initData();
     }
 
@@ -43,24 +42,20 @@ public class IssueThreeActivity extends AppCompatActivity {
         mLlDataFromUpdateInfo = findViewById(R.id.llDataFromUpdateInfo);
     }
 
-    private void initListener() {
-
-    }
-
     private void initData() {
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.size() == Constant.SIZE_DATA_FROM_LOGIN) {
-            mTvEmail.setText(getString(R.string.email_str_param,bundle.get(Constant.KEY_EMAIL)));
-            mTvPassword.setText(getString(R.string.password_str_param,bundle.get(Constant.KEY_PASSWORD)));
+        Bundle bundleFromLogin = getIntent().getBundleExtra(Constant.KEY_FROM_LOGIN);
+        Bundle bundleFromUpdateInfo = getIntent().getBundleExtra(Constant.KEY_FROM_UPDATE_INFO);
+        if (bundleFromLogin != null) {
+            mTvEmail.setText(getString(R.string.email_str_param, bundleFromLogin.get(Constant.KEY_EMAIL)));
+            mTvPassword.setText(getString(R.string.password_str_param, bundleFromLogin.get(Constant.KEY_PASSWORD)));
             mLlDataFromLogin.setVisibility(View.VISIBLE);
             mLlDataFromUpdateInfo.setVisibility(View.GONE);
-        }
-        if (bundle != null && bundle.size() == Constant.SIZE_DATA_FROM_UPDATE_INFO) {
-            mTvName.setText(getString(R.string.name_str_param,bundle.get(Constant.KEY_NAME)));
-            mTvIdCard.setText(getString(R.string.id_card_str_param,bundle.get(Constant.KEY_ID_CARD)));
-            mTvDegree.setText(getString(R.string.degree_str_param,bundle.get(Constant.KEY_DEGREE)));
-            mTvInterest.setText(getString(R.string.interest_str_param,bundle.get(Constant.KEY_INTEREST)));
-            mTvMoreInfo.setText((getString(R.string.more_info_str_param,bundle.get(Constant.KEY_MORE_INFO))));
+        } else if (bundleFromUpdateInfo != null) {
+            mTvName.setText(getString(R.string.name_str_param, bundleFromUpdateInfo.get(Constant.KEY_NAME)));
+            mTvIdCard.setText(getString(R.string.id_card_str_param, bundleFromUpdateInfo.get(Constant.KEY_ID_CARD)));
+            mTvDegree.setText(getString(R.string.degree_str_param, bundleFromUpdateInfo.get(Constant.KEY_DEGREE)));
+            mTvInterest.setText(getString(R.string.interest_str_param, bundleFromUpdateInfo.get(Constant.KEY_INTEREST)));
+            mTvMoreInfo.setText((getString(R.string.more_info_str_param, bundleFromUpdateInfo.get(Constant.KEY_MORE_INFO))));
             mLlDataFromLogin.setVisibility(View.GONE);
             mLlDataFromUpdateInfo.setVisibility(View.VISIBLE);
         }

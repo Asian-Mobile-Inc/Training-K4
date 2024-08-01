@@ -21,6 +21,8 @@ public class Constant {
     public static final String KEY_MORE_INFO = "moreInfo";
     public static final String KEY_DEGREE = "degree";
     public static final String KEY_INTEREST = "interest";
+    public static final String KEY_FROM_LOGIN = "fromLogin";
+    public static final String KEY_FROM_UPDATE_INFO = "fromUpdateInfo";
     public static final String KEY_RESULT = "result";
     public static final String KEY_COLOR_CODE = "colorCode";
     public static final String COLOR_DEFAULT = "#000000";
