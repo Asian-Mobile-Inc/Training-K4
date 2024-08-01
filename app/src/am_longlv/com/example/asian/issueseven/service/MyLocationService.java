@@ -14,7 +14,9 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
 import com.example.asian.issueseven.IssueSevenActivity;
@@ -32,6 +34,8 @@ public class MyLocationService extends Service {
     private static final String CONTENT_NOTIFICATION = "Location Service is running...";
     private static final String ACTION_STOP_SERVICE = "Stop Service";
     private static final String ACTION_CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
+    private static final String LOG_INTERNET_CONNECTED = "Internet connected";
+    private static final String LOG_INTERNET_DISCONNECTED = "Internet disconnected";
     private static final int NOTIFICATION_ID = 111;
     private static final int TIME_INTERVAL = 2000;
     private static final String TAG_LOG = "androidruntime";
@@ -40,29 +44,25 @@ public class MyLocationService extends Service {
     private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(BroadcastInternet.ACTION_INTERNET_CHANGE)) {
-                if (intent.getBooleanExtra(BroadcastInternet.KEY_INTERNET_CHANGE, false)) {
-                    setIsInternetChange(context, true);
-                } else {
-                    setIsInternetChange(context, false);
-                }
+            if (intent.getAction() != null && intent.getAction().equals(BroadcastInternet.ACTION_INTERNET_CHANGE)) {
+                setIsInternetChange(context, intent.getBooleanExtra(BroadcastInternet.KEY_INTERNET_CHANGE, false));
             }
         }
     };
 
     public void setIsInternetChange(Context context, boolean internetStatus) {
         if (internetStatus) {
-            Log.d(TAG_LOG, "Internet connected");
+            Log.d(TAG_LOG, LOG_INTERNET_CONNECTED);
             requestLocationUpdates(context);
         } else {
-            Log.d(TAG_LOG, "Internet disconnected");
+            Log.d(TAG_LOG, LOG_INTERNET_DISCONNECTED);
             removeLocationUpdates(context);
         }
     }
 
     private final LocationCallback mLocationCallBack = new LocationCallback() {
         @Override
-        public void onLocationResult(LocationResult locationResult) {
+        public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
             int locationIndex = locationResult.getLocations().size() - 1;
             double latitude = locationResult.getLocations().get(locationIndex).getLatitude();
@@ -78,12 +78,15 @@ public class MyLocationService extends Service {
         return null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     public void onCreate() {
         BroadcastInternet broadcastInternet = new BroadcastInternet();
         IntentFilter intentFilter = new IntentFilter(ACTION_CONNECTIVITY_CHANGE);
         registerReceiver(broadcastInternet, intentFilter);
-        registerReceiver(mBroadcastReceiver, new IntentFilter(BroadcastInternet.ACTION_INTERNET_CHANGE));
+        IntentFilter iFActionInternet = new IntentFilter(BroadcastInternet.ACTION_INTERNET_CHANGE);
+        registerReceiver(mBroadcastReceiver, iFActionInternet, Context.RECEIVER_NOT_EXPORTED);
+
         super.onCreate();
     }
 

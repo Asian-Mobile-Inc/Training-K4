@@ -32,11 +32,7 @@ public class BroadcastInternet extends BroadcastReceiver {
         final android.net.NetworkInfo mobile = connMgr
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (wifi != null && mobile != null) {
-            if (wifi.isConnectedOrConnecting() || mobile.isConnectedOrConnecting()) {
-                putData(context, true);
-            } else {
-                putData(context, false);
-            }
+            putData(context, wifi.isConnectedOrConnecting() || mobile.isConnectedOrConnecting());
         }
     }
 }
