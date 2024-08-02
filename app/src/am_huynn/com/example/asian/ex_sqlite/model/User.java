@@ -1,11 +1,16 @@
 package com.example.asian.ex_sqlite.model;
 
 public class User {
-    private long userId;
+    private int userId;
     private String userName;
     private int age;
 
-    public User(long userId, String userName, int age) {
+    public User(String userName, int age) {
+        this.userName = userName;
+        this.age = age;
+    }
+
+    public User(int userId, String userName, int age) {
         this.userId = userId;
         this.userName = userName;
         this.age = age;
@@ -15,7 +20,7 @@ public class User {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
