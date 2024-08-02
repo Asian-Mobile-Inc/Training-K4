@@ -43,7 +43,7 @@ public class MathActivity extends AppCompatActivity {
             if (validateInputNumber(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
-                String result = getString(R.string.result) + (numberOne + numberTwo);
+                String result = getString(R.string.result_float_param, (numberOne + numberTwo));
                 mTvResult.setText(result);
             } else {
                 mTvResult.setText(getString(R.string.please_input_number));
@@ -56,7 +56,7 @@ public class MathActivity extends AppCompatActivity {
             if (validateInputNumber(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
-                String result = getString(R.string.result) + (numberOne - numberTwo);
+                String result = getString(R.string.result_float_param, (numberOne - numberTwo));
                 mTvResult.setText(result);
             } else {
                 mTvResult.setText(getString(R.string.please_input_number));
@@ -69,7 +69,7 @@ public class MathActivity extends AppCompatActivity {
             if (validateInputNumber(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
-                String result = getString(R.string.result) + (numberOne * numberTwo);
+                String result = getString(R.string.result_float_param, (numberOne * numberTwo));
                 mTvResult.setText(result);
             } else {
                 mTvResult.setText(getString(R.string.please_input_number));
@@ -84,7 +84,7 @@ public class MathActivity extends AppCompatActivity {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 if (numberTwo != 0) {
-                    String result = getString(R.string.result) + (numberOne / numberTwo);
+                    String result = getString(R.string.result_float_param, (numberOne / numberTwo));
                     mTvResult.setText(result);
                 } else {
                     mTvResult.setText(getString(R.string.please_input_number_other_zero));

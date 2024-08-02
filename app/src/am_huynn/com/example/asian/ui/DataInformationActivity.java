@@ -33,12 +33,12 @@ public class DataInformationActivity extends AppCompatActivity {
 
     private void getData() {
         Bundle bundle = getIntent().getBundleExtra(Constants.KEY_BUNDLE_MORE_INFORMATION);
-        String name = getString(R.string.name).concat(bundle.getString(Constants.KEY_NAME));
-        String card = getString(R.string.card).concat(bundle.getString(Constants.KEY_CARD));
-        String moreInformation = getString(R.string.more_information_value).concat(bundle.getString(Constants.KEY_MORE_INFORMATION));
-        String degree = getString(R.string.degree_value).concat(bundle.getString(Constants.KEY_DEGREE));
+        String name = getString(R.string.name_string_param, bundle.getString(Constants.KEY_NAME));
+        String card = getString(R.string.card_string_param, bundle.getString(Constants.KEY_CARD));
+        String moreInformation = getString(R.string.more_information_string_param, bundle.getString(Constants.KEY_MORE_INFORMATION));
+        String degree = getString(R.string.degree_string_param, bundle.getString(Constants.KEY_DEGREE));
         if (bundle.getString(Constants.KEY_INTEREST) != null) {
-            String interest = getString(R.string.interest_value).concat(bundle.getString(Constants.KEY_INTEREST));
+            String interest = getString(R.string.interest_string_param, bundle.getString(Constants.KEY_INTEREST));
             mTvInterest.setText(interest);
         }
         mTvName.setText(name);
