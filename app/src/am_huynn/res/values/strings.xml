@@ -39,4 +39,15 @@
     <string name="more_information">Thông tin bổ sung</string>
     <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
     <string name="send_information">Gửi thông tin</string>
+
+    <string name="sqlite_tutorial">SQLITE TUTORIAL - USER MANAGEMENT</string>
+    <string name="hint_name">Name: </string>
+    <string name="hint_age">Age: </string>
+    <string name="add">ADD</string>
+    <string name="delete_all">DELETE ALL</string>
+    <string name="show_all">SHOW ALL</string>
+    <string name="user_id">User ID</string>
+    <string name="user_name">User Name</string>
+    <string name="age">Age</string>
+    <string name="delete">DELETE</string>
 </resources>
