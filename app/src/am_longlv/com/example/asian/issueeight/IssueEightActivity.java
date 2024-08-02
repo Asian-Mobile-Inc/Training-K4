@@ -1,9 +1,7 @@
 package com.example.asian.issueeight;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.DownloadManager;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -15,8 +13,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -41,18 +42,23 @@ public class IssueEightActivity extends AppCompatActivity {
     private ImageView mImgDownload;
     private String mNameFile;
     private DownloadManager mDownloadManager;
-    private ProgressDialog mProgressDialog;
+    private ProgressBar mPbDownloadAsync;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 11;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, android.content.Intent intent) {
             long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             handleStatusDownload(referenceId, context);
-            mProgressDialog.show();
         }
     };
 
-    private class DownloadAsyncTask extends AsyncTask<String, Integer, Bitmap> {
+    private static class DownloadAsyncTask extends AsyncTask<String, Integer, Bitmap> {
+        public WeakReference<IssueEightActivity> mWeakReference;
+
+        private DownloadAsyncTask(IssueEightActivity mWeakReference) {
+            this.mWeakReference = new WeakReference<>(mWeakReference);
+        }
+
         @Override
         protected Bitmap doInBackground(String... strings) {
             try {
@@ -84,24 +90,31 @@ public class IssueEightActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
+            IssueEightActivity activity = mWeakReference.get();
             if (bitmap != null) {
-                mImgDownload.setImageBitmap(bitmap);
-                Toast.makeText(IssueEightActivity.this, getString(R.string.download_finished), Toast.LENGTH_SHORT).show();
+                activity.mImgDownload.setImageBitmap(bitmap);
+                Toast.makeText(activity, activity.getString(R.string.download_finished), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(IssueEightActivity.this, getString(R.string.download_failed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getString(R.string.download_failed), Toast.LENGTH_SHORT).show();
             }
-            mProgressDialog.dismiss();
+            activity.mPbDownloadAsync.setVisibility(View.GONE);
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            mProgressDialog.setProgress(values[0]);
+            IssueEightActivity activity = mWeakReference.get();
+            activity.mPbDownloadAsync.setProgress(values[0]);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressDialog.show();
+            IssueEightActivity activity = mWeakReference.get();
+            activity.mPbDownloadAsync.setIndeterminate(false);
+            activity.mPbDownloadAsync.setMax(100);
+            activity.mPbDownloadAsync.setProgress(0);
+            activity.mPbDownloadAsync.setVisibility(View.VISIBLE);
+            Toast.makeText(activity, activity.getString(R.string.download_started), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -114,13 +127,13 @@ public class IssueEightActivity extends AppCompatActivity {
         initListener();
         askPermission();
         registerBroadcastReceiver();
-        setupProgressDialog();
     }
 
     private void initUI() {
         mBtnDownloadThread = findViewById(R.id.btnDownloadThread);
         mBtnDownloadAsyncTask = findViewById(R.id.btnDownloadAsyncTask);
         mImgDownload = findViewById(R.id.imgDownload);
+        mPbDownloadAsync = findViewById(R.id.pbDownloadAsync);
     }
 
     private void initListener() {
@@ -142,13 +155,6 @@ public class IssueEightActivity extends AppCompatActivity {
         }
     }
 
-    private void setupProgressDialog() {
-        mProgressDialog = new ProgressDialog(IssueEightActivity.this);
-        mProgressDialog.setTitle("Downloading");
-        mProgressDialog.setIndeterminate(false);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-    }
-
     private void downloadUsingThread() {
         new Thread(() -> {
             runOnUiThread(() -> Toast.makeText(IssueEightActivity.this,
@@ -158,7 +164,7 @@ public class IssueEightActivity extends AppCompatActivity {
     }
 
     private void downloadUsingAsyncTask() {
-        new DownloadAsyncTask().execute(IMAGE_URL);
+        new DownloadAsyncTask(IssueEightActivity.this).execute(IMAGE_URL);
     }
 
     private void downloadImage() {
