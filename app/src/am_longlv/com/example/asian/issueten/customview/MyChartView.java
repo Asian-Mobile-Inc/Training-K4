@@ -32,11 +32,12 @@ public class MyChartView extends View {
     private static final int WIDTH_CHART = 50;
     private static final int TEXT_SIZE = 35;
     private static final int COUNT_LINE_Y_AXIS = 8;
-    private static final int WIDTH_HINT_COLOR = 300;
     private int mColorSales;
     private int mColorExpense;
-    private float xo = 0;
-    private float yo = 0;
+    private float mXFingerFirst = 0;
+    private float mYFingerFirst = 0;
+    private float mXFingerSecond = 0;
+    private float mYFingerSecond = 0;
     private float mScale = 1;
     private float mMoveX = 0;
     private float mMoveY = 0;
@@ -99,6 +100,7 @@ public class MyChartView extends View {
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         mCanvas = canvas;
+//        canvas.scale(mScale, mScale);
         initPaint();
         paintAxis(canvas);
         paintChart(canvas);
@@ -146,21 +148,29 @@ public class MyChartView extends View {
             int startX = getWidth() / COUNT_RATIO;
             int startY = getHeight() / COUNT_RATIO;
             int axisY = mHeight - 2 * startY;
-
             SellExpense sellExpense = mSellExpenses.get(i);
             int space = (mWidth - 2 * startX) / COUNT_MONTH;
             int x = (int) (i * space + startX + mMoveX);
             int xNext = (int) ((i + 1) * space + startX + mMoveX);
-            int xDraw = x + Math.abs(x - xNext) / 2 - WIDTH_CHART / 2;
+
+
+            axisY = (int) (axisY * mScale);
+            x = (int) (x * mScale);
+            xNext = (int) (xNext * mScale);
+            int widthChart = (int) (WIDTH_CHART * mScale);
+            mPaintExpense.setStrokeWidth(widthChart);
+            mPaintSales.setStrokeWidth(widthChart);
+            int xDraw = x + Math.abs(x - xNext) / 2 - widthChart / 2;
+
             float ySales = (float) (mHeight - startY
                     - (sellExpense.getmSales() * axisY / maxValue));
             float yExpense = (float) (mHeight - startY
                     - (sellExpense.getmExpense() * axisY / maxValue));
-            canvas.drawLine(xDraw, mHeight - startY, xDraw, ySales, mPaintSales);
-            canvas.drawLine(xDraw + WIDTH_CHART, mHeight - startY, xDraw + WIDTH_CHART,
+            canvas.drawLine(xDraw - startX * (mScale - 1), mHeight - startY, xDraw - startX * (mScale - 1), ySales, mPaintSales);
+            canvas.drawLine(xDraw - startX * (mScale - 1) + widthChart, mHeight - startY, xDraw - startX * (mScale - 1) + widthChart,
                     yExpense, mPaintExpense);
-            canvas.drawText(convertMonthToString(i + 1), xDraw, axisY + (int) (startY * 1.5), paint);
-            canvas.drawLine(x, mHeight - startY, x, mHeight - startY + 20, paint);
+            canvas.drawText(convertMonthToString(i + 1), xDraw - startX * (mScale - 1), axisY / mScale + (int) (startY * 1.5), paint);
+            canvas.drawLine(x - startX * (mScale - 1), mHeight - startY, x - startX * (mScale - 1), mHeight - startY + 20, paint);
         }
     }
 
@@ -169,6 +179,7 @@ public class MyChartView extends View {
         paint.setColor(ContextCompat.getColor(mContext, R.color.white));
         paint.setStrokeWidth(((float) getWidth() / COUNT_RATIO) * 2);
         canvas.drawLine(getWidth() - (float) (getWidth() / COUNT_RATIO), 0, getWidth() - (float) (getWidth() / COUNT_RATIO), getHeight(), paint);
+
         paint.setStrokeWidth(((float) getWidth() / COUNT_RATIO * 2));
         canvas.drawLine(0, 0, 0, getHeight(), paint);
         long maxValue = getMaxValue();
@@ -186,9 +197,7 @@ public class MyChartView extends View {
             if (i != 0) {
                 canvas.drawText("$" + i * maxValue / 8, 0,
                         axisY - (float) (i * (mHeight - 2 * startY)) / 8, paint);
-                ;
             }
-
         }
         paintHintColor(canvas);
     }
@@ -277,24 +286,21 @@ public class MyChartView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                xo = event.getX();
-                yo = event.getY();
+                mXFingerFirst = event.getX();
+                mYFingerFirst = event.getY();
+                if (event.getPointerCount() > 1) {
+                    mXFingerSecond = event.getX(1);
+                    mYFingerSecond = event.getY(1);
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
-                float moveX = event.getX();
-                float moveY = event.getY();
-                if (mMoveX + moveX - xo < -(getWidth() * 1.1)) {
-                    mMoveX = (float) -(getWidth() * 1.1);
-                } else if (mMoveX + moveX - xo > 0) {
-                    mMoveX = 0;
-                } else {
-                    mMoveX += (moveX - xo);
-                    xo=moveX;
+                calculateMove(event);
+                if (event.getPointerCount() > 1) {
+                    calculateScale(event);
                 }
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                Log.d("androidRuntime", (event.getX() - xo) + "");
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
@@ -302,8 +308,43 @@ public class MyChartView extends View {
         return true;
     }
 
+    private void calculateScale(MotionEvent event) {
+        double distanceBefore = getDistance((int) mXFingerFirst, (int) mYFingerFirst,
+                (int) mXFingerSecond, (int) mYFingerSecond);
+        double distanceAfter = getDistance((int) event.getX(), (int) event.getY(),
+                (int) event.getX(1), (int) event.getY(1));
+        if (distanceAfter > distanceBefore && (mScale + ((distanceAfter / distanceBefore) - 1)) < 2) {
+            Log.d("androidRuntime", distanceAfter + " " + distanceBefore + " " + (distanceAfter / distanceBefore) + " " + mScale);
+            mScale += (float) (distanceAfter / distanceBefore) - 1;
+        } else {
+            mScale -= (float) (distanceBefore / distanceAfter) - 1;
+        }
+        if (mScale > 2) {
+            mScale = 2;
+        } else if (mScale < 1) {
+            mScale = 1;
+        } else {
+            mXFingerSecond = event.getX(1);
+            mYFingerSecond = event.getY(1);
+            mXFingerFirst = event.getX();
+            mYFingerFirst = event.getY();
+        }
+    }
+
+    private void calculateMove(MotionEvent event) {
+        float moveX = event.getX();
+        float moveY = event.getY();
+        if (mMoveX + moveX - mXFingerFirst < -(getWidth() * 1.1)) {
+            mMoveX = (float) -(getWidth() * 1.1);
+        } else if (mMoveX + moveX - mXFingerFirst > 0) {
+            mMoveX = 0;
+        } else {
+            mMoveX += (moveX - mXFingerFirst);
+            mXFingerFirst = moveX;
+        }
+    }
+
     private double getDistance(int x1, int y1, int x2, int y2) {
-        double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        return distance;
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 }
