@@ -17,11 +17,13 @@ import com.example.asian.ex_sqlite.model.User;
 import java.util.ArrayList;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private Context mContext;
+    private final Context mContext;
+    private final UserSQLiteHelper mUserSQLiteHelper;
     private ArrayList<User> mUsers;
 
-    public UserAdapter(Context context, ArrayList<User> users) {
+    public UserAdapter(Context context, UserSQLiteHelper userSQLiteHelper, ArrayList<User> users) {
         this.mContext = context;
+        this.mUserSQLiteHelper = userSQLiteHelper;
         this.mUsers = users;
     }
 
@@ -30,8 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View userView = inflater.inflate(R.layout.item_user, parent, false);
-        ViewHolder viewHolder = new ViewHolder(userView);
-        return viewHolder;
+        return new ViewHolder(userView);
     }
 
     @Override
@@ -41,8 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.mTvUserName.setText(user.getUserName());
         holder.mTvAge.setText(String.valueOf(user.getAge()));
         holder.mBtnDelete.setOnClickListener(view -> {
-            UserSQLiteHelper userSQLiteHelper = new UserSQLiteHelper(mContext);
-            userSQLiteHelper.deleteUser(user.getUserId());
+            mUserSQLiteHelper.deleteUser(user.getUserId());
             deleteUser(user.getUserId(), position);
         });
     }
@@ -52,7 +52,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return mUsers.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static public class ViewHolder extends RecyclerView.ViewHolder {
         final private TextView mTvUserId;
         final private TextView mTvUserName;
         final private TextView mTvAge;

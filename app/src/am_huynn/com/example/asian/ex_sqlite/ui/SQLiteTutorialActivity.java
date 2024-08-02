@@ -62,7 +62,7 @@ public class SQLiteTutorialActivity extends AppCompatActivity {
 
 
     private void initAdapter() {
-        mUserAdapter = new UserAdapter(this, mUsers);
+        mUserAdapter = new UserAdapter(this, mSqLiteOpenHelper, mUsers);
         mRvUsers.setAdapter(mUserAdapter);
         mRvUsers.setLayoutManager(new LinearLayoutManager(this));
     }

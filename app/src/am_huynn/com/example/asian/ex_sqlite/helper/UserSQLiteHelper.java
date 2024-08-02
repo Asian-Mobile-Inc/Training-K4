@@ -72,7 +72,6 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
     }
 
     private User cursorToPerson(Cursor cursor) {
-        User user = new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
-        return user;
+        return new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
     }
 }
