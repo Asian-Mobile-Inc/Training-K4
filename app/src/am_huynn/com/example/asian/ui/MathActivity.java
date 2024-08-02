@@ -40,7 +40,7 @@ public class MathActivity extends AppCompatActivity {
         mBtnAddition.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne, textNumberTwo)) {
+            if (validateInputNumber(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 String result = getString(R.string.result) + (numberOne + numberTwo);
@@ -53,7 +53,7 @@ public class MathActivity extends AppCompatActivity {
         mBtnSubtraction.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne, textNumberTwo)) {
+            if (validateInputNumber(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 String result = getString(R.string.result) + (numberOne - numberTwo);
@@ -66,7 +66,7 @@ public class MathActivity extends AppCompatActivity {
         mBtnMultiplication.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne, textNumberTwo)) {
+            if (validateInputNumber(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 String result = getString(R.string.result) + (numberOne * numberTwo);
@@ -80,7 +80,7 @@ public class MathActivity extends AppCompatActivity {
         mBtnDivision.setOnClickListener(view -> {
             String textNumberOne = mEdtNumberOne.getText().toString().trim();
             String textNumberTwo = mEdtNumberTwo.getText().toString().trim();
-            if (validateNumberEmpty(textNumberOne, textNumberTwo)) {
+            if (validateInputNumber(textNumberOne, textNumberTwo)) {
                 double numberOne = Double.parseDouble(textNumberOne);
                 double numberTwo = Double.parseDouble(textNumberTwo);
                 if (numberTwo != 0) {
@@ -95,7 +95,7 @@ public class MathActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validateNumberEmpty(String numberOne, String numberTwo) {
+    private boolean validateInputNumber(String numberOne, String numberTwo) {
         return !numberOne.isEmpty() && !numberTwo.isEmpty();
     }
 }
