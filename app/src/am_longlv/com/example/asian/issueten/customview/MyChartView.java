@@ -142,7 +142,6 @@ public class MyChartView extends View {
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
         paint.setTextSize(TEXT_SIZE);
         for (int i = 0; i < mSellExpenses.size(); i++) {
-            Log.d("androidRuntime", "paintChart: " + mSellExpenses.size());
             long maxValue = getMaxValue();
             int startX = getWidth() / COUNT_RATIO;
             int startY = getHeight() / COUNT_RATIO;
@@ -150,8 +149,8 @@ public class MyChartView extends View {
 
             SellExpense sellExpense = mSellExpenses.get(i);
             int space = (mWidth - 2 * startX) / COUNT_MONTH;
-            int x = (int) (i * space + startX + mMoveX / 5);
-            int xNext = (int) ((i + 1) * space + startX + mMoveX / 5);
+            int x = (int) (i * space + startX + mMoveX);
+            int xNext = (int) ((i + 1) * space + startX + mMoveX);
             int xDraw = x + Math.abs(x - xNext) / 2 - WIDTH_CHART / 2;
             float ySales = (float) (mHeight - startY
                     - (sellExpense.getmSales() * axisY / maxValue));
@@ -186,7 +185,8 @@ public class MyChartView extends View {
                     originX, mHeight - startY - (float) (i * (mHeight - 2 * startY)) / 8, paint);
             if (i != 0) {
                 canvas.drawText("$" + i * maxValue / 8, 0,
-                        axisY - (float) (i * (mHeight - 2 * startY)) / 8, paint);;
+                        axisY - (float) (i * (mHeight - 2 * startY)) / 8, paint);
+                ;
             }
 
         }
@@ -283,12 +283,13 @@ public class MyChartView extends View {
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
                 float moveY = event.getY();
-                if (mMoveX + moveX - xo < -(getWidth() * 5.5)) {
-                    mMoveX = (float) -(getWidth() * 5.5);
+                if (mMoveX + moveX - xo < -(getWidth() * 1.1)) {
+                    mMoveX = (float) -(getWidth() * 1.1);
                 } else if (mMoveX + moveX - xo > 0) {
                     mMoveX = 0;
                 } else {
-                    mMoveX += moveX - xo;
+                    mMoveX += (moveX - xo);
+                    xo=moveX;
                 }
                 invalidate();
                 break;
