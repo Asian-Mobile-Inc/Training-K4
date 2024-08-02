@@ -57,55 +57,51 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            initUI(this,itemView);
+            initUI(this, itemView);
         }
     }
-    private void initUI(ViewHolder holder,  View itemView){
+
+    private void initUI(ViewHolder holder, View itemView) {
         holder.mTvUserId = itemView.findViewById(R.id.tvUserId);
         holder.mTvUsername = itemView.findViewById(R.id.tvUserName);
         holder.mTvAge = itemView.findViewById(R.id.tvUserAge);
         holder.mBtnDelete = itemView.findViewById(R.id.btnDelete);
     }
-    private void initData(UserInfo userInfo, ViewHolder holder){
-        if (userInfo!=null && userInfo.getUserId()!=-1){
+
+    private void initData(UserInfo userInfo, ViewHolder holder) {
+        if (userInfo != null && userInfo.getUserId() != -1) {
             holder.mTvUserId.setText(String.valueOf(userInfo.getUserId()));
             holder.mTvUsername.setText(userInfo.getUsername());
             holder.mTvAge.setText(userInfo.getAge());
-        }else{
+        } else {
             holder.mBtnDelete.setVisibility(View.GONE);
         }
     }
-    private void initListener(UserInfo userInfo, ViewHolder holder){
+
+    private void initListener(UserInfo userInfo, ViewHolder holder) {
         holder.mBtnDelete.setOnClickListener(v -> deleteUser(userInfo));
     }
-    public void deleteUser(UserInfo userInfo){
+
+    public void deleteUser(UserInfo userInfo) {
         try (DBHelper mDBHelper = new DBHelper(this.mContext, "User.db", 1)) {
             mDBHelper.deleteUser(userInfo);
             mUserInfoLists.remove(userInfo);
-            int position = mUserInfoLists.indexOf(userInfo);
-            for (int i= position; i < mUserInfoLists.size(); i++) {
-                notifyItemChanged(i);
-            }
-        }catch (Exception e){
+            notifyItemRangeRemoved(1, mUserInfoLists.size());
+        } catch (Exception e) {
             Toast.makeText(mContext, mContext.getString(R.string.err_load_data), Toast.LENGTH_SHORT).show();
         }
     }
-    public void getAllUser(DBHelper mDBHelper){
-        mUserInfoLists.clear();
-        mUserInfoLists.add(0,new UserInfo(-1,"",""));
-        mUserInfoLists.addAll(mDBHelper.getAllUser());
-        for (int i = 0; i < mUserInfoLists.size(); i++) {
-            notifyItemChanged(i);
-        }
-    }
-    public void addUser(UserInfo userInfo){
-        mUserInfoLists.add(userInfo);
-        for (int i = 0; i < mUserInfoLists.size(); i++) {
-            if (mUserInfoLists.get(i)!=null){
-                Log.d("androidRuntime", "addUser: "+mUserInfoLists.get(i).getUserId());
-            }
 
-        }
-        notifyItemInserted(mUserInfoLists.size()-1);
+    public void getAllUser(DBHelper mDBHelper) {
+        int size = mUserInfoLists.size();
+        mUserInfoLists.clear();
+        mUserInfoLists.add(0, new UserInfo(-1, "", ""));
+        mUserInfoLists.addAll(mDBHelper.getAllUser());
+        notifyItemRangeRemoved(1, size);
+    }
+
+    public void addUser(UserInfo userInfo) {
+        mUserInfoLists.add(userInfo);
+        notifyItemInserted(mUserInfoLists.size() - 1);
     }
 }

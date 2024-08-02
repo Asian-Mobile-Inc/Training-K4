@@ -25,7 +25,6 @@ public class IssueNineActivity extends AppCompatActivity {
     private RecyclerView mRvUserInfo;
     private final DBHelper mDBHelper = new DBHelper(this, "User.db", 1);
     private UserInfoAdapter mUserInfoAdapter;
-    private List<UserInfo> mUserInfoLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,10 @@ public class IssueNineActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnAdd.setOnClickListener(v -> {;
+        mBtnAdd.setOnClickListener(v -> {
+            if (validate()) {
+                return;
+            }
             mDBHelper.addUser(new UserInfo(0, mEdtUsername.getText().toString(), mEdtAge.getText().toString()));
             mUserInfoAdapter.addUser(mDBHelper.getLastUser());
         });
@@ -58,7 +60,7 @@ public class IssueNineActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        mUserInfoLists = new ArrayList<>();
+        List<UserInfo> mUserInfoLists = new ArrayList<>();
         mUserInfoAdapter = new UserInfoAdapter(mUserInfoLists, this);
         getAllUser();
         mRvUserInfo.setAdapter(mUserInfoAdapter);
@@ -67,5 +69,15 @@ public class IssueNineActivity extends AppCompatActivity {
 
     private void getAllUser() {
         mUserInfoAdapter.getAllUser(mDBHelper);
+    }
+
+    private boolean validate() {
+        if (mEdtUsername.getText().toString().isEmpty()) {
+            mEdtUsername.setError(getString(R.string.name_invalid));
+        }
+        if (mEdtAge.getText().toString().isEmpty()) {
+            mEdtAge.setError(getString(R.string.age_invalid));
+        }
+        return mEdtUsername.getText().toString().isEmpty() || mEdtAge.getText().toString().isEmpty();
     }
 }
