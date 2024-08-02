@@ -25,6 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnThread.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ThreadTask.class)));
-        mBtnAsyncTask.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AsyncTask.class)));
+        mBtnAsyncTask.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AsyncTaskDownload.class)));
     }
 }

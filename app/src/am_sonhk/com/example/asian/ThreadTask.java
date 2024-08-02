@@ -19,7 +19,6 @@ import java.net.URL;
 
 public class ThreadTask extends AppCompatActivity {
 
-    @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
