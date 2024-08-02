@@ -36,52 +36,7 @@ public class CalculateActivity extends AppCompatActivity {
         mTvResult = findViewById(R.id.tvResult);
     }
 
-    private void initListener() {
-        mBtnAdd.setOnClickListener(v -> {
-            if (!validateInput()) {
-                return;
-            }
-            int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
-            int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
-            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne + numberTwo)));
-        });
-
-        mBtnSubtract.setOnClickListener(v -> {
-            if (!validateInput()) {
-                return;
-            }
-            int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
-            int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
-            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne - numberTwo)));
-        });
-
-        mBtnMultiply.setOnClickListener(v -> {
-            if (!validateInput()) {
-                return;
-            }
-            int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
-            int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
-            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne * numberTwo)));
-        });
-
-        mBtnDivide.setOnClickListener(v -> {
-            if (!validateInput()) {
-                return;
-            }
-            int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
-            int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
-            if (numberTwo == 0) {
-                mEdtNumberTwo.setError(getString(R.string.cant_divide_by_zero));
-                Toast.makeText(this, getString(R.string.cant_divide_by_zero), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            float result = (float) numberOne / numberTwo;
-            mTvResult.setText(getString(R.string.result_float_param, result));
-        });
-    }
-
-
-    private boolean validateInput() {
+    private boolean validateData() {
         boolean isValid = true;
 
         String numberOne = mEdtNumberOne.getText().toString().trim();
@@ -99,4 +54,47 @@ public class CalculateActivity extends AppCompatActivity {
         return isValid;
     }
 
+    private void initListener() {
+        mBtnAdd.setOnClickListener(v -> {
+            if (!validateData()) {
+                return;
+            }
+            int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
+            int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
+            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne + numberTwo)));
+        });
+
+        mBtnSubtract.setOnClickListener(v -> {
+            if (!validateData()) {
+                return;
+            }
+            int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
+            int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
+            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne - numberTwo)));
+        });
+
+        mBtnMultiply.setOnClickListener(v -> {
+            if (!validateData()) {
+                return;
+            }
+            int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
+            int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
+            mTvResult.setText(getString(R.string.result_float_param, (float) (numberOne * numberTwo)));
+        });
+
+        mBtnDivide.setOnClickListener(v -> {
+            if (!validateData()) {
+                return;
+            }
+            int numberOne = Integer.parseInt(mEdtNumberOne.getText().toString().trim());
+            int numberTwo = Integer.parseInt(mEdtNumberTwo.getText().toString().trim());
+            if (numberTwo == 0) {
+                mEdtNumberTwo.setError(getString(R.string.cant_divide_by_zero));
+                Toast.makeText(this, getString(R.string.cant_divide_by_zero), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            float result = (float) numberOne / numberTwo;
+            mTvResult.setText(getString(R.string.result_float_param, result));
+        });
+    }
 }
