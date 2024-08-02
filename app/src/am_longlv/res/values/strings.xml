@@ -36,6 +36,8 @@
     <string name="degree_str_param">Bằng cấp: %s</string>
     <string name="email_str_param">Email: %s</string>
     <string name="password_str_param">Password: %s</string>
+    <string name="fragment_one_str_param">Fragment One: %s</string>
+    <string name="fragment_two_str_param">Fragment Two: %s</string>
     <!--  strings for issue 3-->
     <string name="hint_edittext">This is hint Edittext</string>
     <string name="error_divided_zero">Không thể chia cho 0</string>
