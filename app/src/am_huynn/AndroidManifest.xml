@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ex_sqlite.ui.SQLiteTutorialActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ui.FacebookActivity"
             android:exported="false" />
