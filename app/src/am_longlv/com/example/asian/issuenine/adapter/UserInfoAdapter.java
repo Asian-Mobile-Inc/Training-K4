@@ -1,6 +1,7 @@
 package com.example.asian.issuenine.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
         holder.mBtnDelete = itemView.findViewById(R.id.btnDelete);
     }
     private void initData(UserInfo userInfo, ViewHolder holder){
-        if (userInfo!=null){
+        if (userInfo!=null && userInfo.getUserId()!=-1){
             holder.mTvUserId.setText(String.valueOf(userInfo.getUserId()));
             holder.mTvUsername.setText(userInfo.getUsername());
             holder.mTvAge.setText(userInfo.getAge());
@@ -81,11 +82,30 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
         try (DBHelper mDBHelper = new DBHelper(this.mContext, "User.db", 1)) {
             mDBHelper.deleteUser(userInfo);
             mUserInfoLists.remove(userInfo);
-            for (UserInfo userInfo1 : mUserInfoLists){
-                notifyItemChanged(mUserInfoLists.indexOf(userInfo1));
+            int position = mUserInfoLists.indexOf(userInfo);
+            for (int i= position; i < mUserInfoLists.size(); i++) {
+                notifyItemChanged(i);
             }
         }catch (Exception e){
             Toast.makeText(mContext, mContext.getString(R.string.err_load_data), Toast.LENGTH_SHORT).show();
         }
+    }
+    public void getAllUser(DBHelper mDBHelper){
+        mUserInfoLists.clear();
+        mUserInfoLists.add(0,new UserInfo(-1,"",""));
+        mUserInfoLists.addAll(mDBHelper.getAllUser());
+        for (int i = 0; i < mUserInfoLists.size(); i++) {
+            notifyItemChanged(i);
+        }
+    }
+    public void addUser(UserInfo userInfo){
+        mUserInfoLists.add(userInfo);
+        for (int i = 0; i < mUserInfoLists.size(); i++) {
+            if (mUserInfoLists.get(i)!=null){
+                Log.d("androidRuntime", "addUser: "+mUserInfoLists.get(i).getUserId());
+            }
+
+        }
+        notifyItemInserted(mUserInfoLists.size()-1);
     }
 }

@@ -46,9 +46,9 @@ public class IssueNineActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnAdd.setOnClickListener(v -> {
+        mBtnAdd.setOnClickListener(v -> {;
             mDBHelper.addUser(new UserInfo(0, mEdtUsername.getText().toString(), mEdtAge.getText().toString()));
-            getAllUser();
+            mUserInfoAdapter.addUser(mDBHelper.getLastUser());
         });
         mBtnDeleteAll.setOnClickListener(v -> {
             mDBHelper.deleteAllUser();
@@ -66,8 +66,6 @@ public class IssueNineActivity extends AppCompatActivity {
     }
 
     private void getAllUser() {
-        mUserInfoLists.clear();
-        mUserInfoLists.addAll(mDBHelper.getAllUser());
-        mUserInfoAdapter.notifyDataSetChanged();
+        mUserInfoAdapter.getAllUser(mDBHelper);
     }
 }
