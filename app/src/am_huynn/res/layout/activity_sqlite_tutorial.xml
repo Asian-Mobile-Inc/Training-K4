@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:autofillHints="@string/hint_name"
-        android:ems="10"
+        android:focusableInTouchMode="false"
         android:gravity="center"
         android:hint="@string/hint_name"
         android:inputType="textPersonName"
@@ -31,9 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:autofillHints="@string/hint_age"
-        android:ems="10"
+        android:focusableInTouchMode="false"
         android:gravity="center"
         android:hint="@string/hint_age"
+        android:imeOptions="actionDone"
         android:inputType="number"
         android:paddingVertical="12dp" />
 
@@ -45,7 +46,7 @@
         android:paddingHorizontal="4dp">
 
         <Button
-            android:id="@+id/btnAdd"
+            android:id="@+id/btnAddUser"
             style="@style/ShapeAppearanceOverlay.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +83,8 @@
             android:background="@drawable/bg_white"
             android:gravity="center"
             android:padding="8dp"
-            android:text="@string/user_id" />
+            android:text="@string/user_id"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="0dp"
@@ -91,7 +93,8 @@
             android:background="@drawable/bg_grey"
             android:gravity="center"
             android:padding="8dp"
-            android:text="@string/user_name" />
+            android:text="@string/user_name"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="0dp"
@@ -100,7 +103,8 @@
             android:background="@drawable/bg_grey"
             android:gravity="center"
             android:padding="8dp"
-            android:text="@string/age" />
+            android:text="@string/age"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

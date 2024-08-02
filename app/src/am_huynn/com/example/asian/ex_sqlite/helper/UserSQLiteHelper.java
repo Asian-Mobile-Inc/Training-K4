@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.asian.ex_sqlite.model.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserSQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_USER = "user";
@@ -36,22 +35,26 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void addUser(User user) {
+    public User addUser(String name, int age) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_NAME, user.getUserName());
-        values.put(COLUMN_AGE, user.getAge());
-        db.insert(TABLE_USER, null, values);
+        values.put(COLUMN_USER_NAME, name);
+        values.put(COLUMN_AGE, age);
+        long idInsert = db.insert(TABLE_USER, null, values);
+        Cursor cursor = db.query(TABLE_USER, ALL_COLUMN, COLUMN_USER_ID + " = " + idInsert, null, null, null, null);
+        cursor.moveToFirst();
+        User user = cursorToPerson(cursor);
         db.close();
+        return user;
     }
 
-    public List<User> getAllUsers() {
-        List<User> listUser = new ArrayList<>();
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> listUser = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_USER, ALL_COLUMN, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            User user = new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
+            User user = cursorToPerson(cursor);
             listUser.add(user);
             cursor.moveToNext();
         }
@@ -66,5 +69,10 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
     public void deleteAllUsers() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_USER);
+    }
+
+    private User cursorToPerson(Cursor cursor) {
+        User user = new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
+        return user;
     }
 }

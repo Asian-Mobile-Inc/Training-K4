@@ -5,18 +5,13 @@ public class User {
     private String userName;
     private int age;
 
-    public User(String userName, int age) {
-        this.userName = userName;
-        this.age = age;
-    }
-
     public User(int userId, String userName, int age) {
         this.userId = userId;
         this.userName = userName;
         this.age = age;
     }
 
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
