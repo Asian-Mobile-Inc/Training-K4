@@ -40,6 +40,7 @@
     <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
     <string name="send_information">Gửi thông tin</string>
 
+    <string name="exercise_sqlite">Exercise SQLite</string>
     <string name="sqlite_tutorial">SQLITE TUTORIAL - USER MANAGEMENT</string>
     <string name="hint_name">Name: </string>
     <string name="hint_age">Age: </string>
@@ -50,4 +51,6 @@
     <string name="user_name">User Name</string>
     <string name="age">Age</string>
     <string name="delete">DELETE</string>
+    <string name="please_do_not_empty">Vui lòng không để trống</string>
+    <string name="age_greater_than_zero">Tuổi lớn hơn 0</string>
 </resources>
