@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,32 +19,46 @@
         android:id="@+id/edtUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username" />
+        android:autofillHints="true"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/edtUserAge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="true"
         android:hint="@string/age"
-        android:inputType="number" />
+        android:inputType="number"
+        android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/btnAddUser"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnDeleteAllUsers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_all" />
+        <Button
+            android:id="@+id/btnAddUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add" />
 
-    <Button
-        android:id="@+id/btnShowAllUsers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/show_all" />
+        <Button
+            android:id="@+id/btnDeleteAllUsers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/delete_all" />
+
+        <Button
+            android:id="@+id/btnShowAllUsers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/show_all" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewUsers"

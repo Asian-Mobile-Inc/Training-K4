@@ -38,24 +38,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long addUser(String name, int age) {
+    public void addUser(String name, int age) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_NAME, name);
         values.put(COLUMN_USER_AGE, age);
 
-        long id = db.insert(TABLE_USER, null, values);
+        db.insert(TABLE_USER, null, values);
         db.close();
-        return id;
     }
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
 
-        try {
-            cursor = db.query(TABLE_USER, null, null, null, null, null, null);
+        try (SQLiteDatabase db = this.getReadableDatabase(); Cursor cursor = db.query(TABLE_USER, null, null, null, null, null, null)) {
 
             if (cursor != null && cursor.moveToFirst()) {
                 int idIndex = cursor.getColumnIndex(COLUMN_USER_ID);
@@ -68,13 +64,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     int age = cursor.getInt(ageIndex);
                     users.add(new User(id, name, age));
                 } while (cursor.moveToNext());
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-            if (db != null) {
-                db.close();
             }
         }
 

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="app_name" translatable="false">ExSonhk</string>
   <string name="facebook">FACEBOOK</string>
   <string name="login">Login</string>
@@ -50,4 +50,6 @@
   <string name="delete">DELETE</string>
   <string name="user_age">User Age</string>
   <string name="user_deleted">User deleted</string>
+  <string name="delete_all_data_done">All data have deleted</string>
+  <string name="input_dataa_complete">Input data complete</string>
 </resources>

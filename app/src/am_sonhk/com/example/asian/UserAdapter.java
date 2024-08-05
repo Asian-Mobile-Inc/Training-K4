@@ -35,21 +35,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.tvUserId.setText(String.valueOf(user.getUserId()));
         holder.tvUserName.setText(user.getUserName());
         holder.tvUserAge.setText(String.valueOf(user.getAge()));
-
-        holder.btnDeleteUser.setOnClickListener(v -> {
-            // Delete the user from the database
-            databaseHelper.deleteUserById(user.getUserId());
-
-            // Remove the user from the list and notify RecyclerView
-            userList.remove(position);
-            notifyItemRemoved(position);
-
-            // Optionally, if needed, notifyItemRangeChanged can be used to update the remaining items
-            // notifyItemRangeChanged(position, userList.size());
-
-            // Show a toast message
-            Toast.makeText(holder.itemView.getContext(), holder.itemView.getContext().getString(R.string.user_deleted), Toast.LENGTH_SHORT).show();
-        });
     }
 
 
@@ -59,7 +44,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUserId, tvUserName, tvUserAge;
+        TextView tvUserId;
+        TextView tvUserName;
+        TextView tvUserAge;
         Button btnDeleteUser;
 
         public UserViewHolder(@NonNull View itemView) {

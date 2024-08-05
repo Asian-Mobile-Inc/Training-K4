@@ -16,14 +16,15 @@ import java.util.List;
 
 public class DatabaseEx extends AppCompatActivity {
 
-    private EditText edtUserName, edtUserAge;
-    private Button btnAddUser;
-    private Button btnDeleteAllUsers;
-    private Button btnShowAllUsers;
-    private RecyclerView recyclerViewUsers;
-    private UserAdapter userAdapter;
-    private List<User> userList;
-    private DatabaseHelper databaseHelper;
+    private EditText edtUserName;
+    private EditText edtUserAge;
+    private Button mBtnAddUser;
+    private Button mBtnDeleteAllUsers;
+    private Button mBtnShowAllUsers;
+    private RecyclerView mRecyclerViewUsers;
+    private UserAdapter mUserAdapter;
+    private List<User> mUserList;
+    private DatabaseHelper mDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,21 +33,21 @@ public class DatabaseEx extends AppCompatActivity {
 
         edtUserName = findViewById(R.id.edtUserName);
         edtUserAge = findViewById(R.id.edtUserAge);
-        btnAddUser = findViewById(R.id.btnAddUser);
-        btnDeleteAllUsers = findViewById(R.id.btnDeleteAllUsers);
-        btnShowAllUsers = findViewById(R.id.btnShowAllUsers);
-        recyclerViewUsers = findViewById(R.id.recyclerViewUsers);
+        mBtnAddUser = findViewById(R.id.btnAddUser);
+        mBtnDeleteAllUsers = findViewById(R.id.btnDeleteAllUsers);
+        mBtnShowAllUsers = findViewById(R.id.btnShowAllUsers);
+        mRecyclerViewUsers = findViewById(R.id.recyclerViewUsers);
 
-        databaseHelper = new DatabaseHelper(this);
-        userList = new ArrayList<>();
-        userAdapter = new UserAdapter(userList, databaseHelper);
+        mDatabaseHelper = new DatabaseHelper(this);
+        mUserList = new ArrayList<>();
+        mUserAdapter = new UserAdapter(mUserList, mDatabaseHelper);
 
-        recyclerViewUsers.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewUsers.setAdapter(userAdapter);
+        mRecyclerViewUsers.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewUsers.setAdapter(mUserAdapter);
 
-        btnAddUser.setOnClickListener(this::addUser);
-        btnDeleteAllUsers.setOnClickListener(this::deleteAllUsers);
-        btnShowAllUsers.setOnClickListener(this::loadUsers);
+        mBtnAddUser.setOnClickListener(this::addUser);
+        mBtnDeleteAllUsers.setOnClickListener(this::deleteAllUsers);
+        mBtnShowAllUsers.setOnClickListener(this::loadUsers);
 
         loadUsers();
     }
@@ -59,26 +60,28 @@ public class DatabaseEx extends AppCompatActivity {
             return;
         }
         int age = Integer.parseInt(ageStr);
-        databaseHelper.addUser(name, age);
+        mDatabaseHelper.addUser(name, age);
         edtUserName.setText("");
         edtUserAge.setText("");
+        Toast.makeText(this, getString(R.string.input_dataa_complete), Toast.LENGTH_SHORT).show();
         loadUsers();
     }
 
     private void deleteAllUsers(View view) {
-        databaseHelper.deleteAllUsers();
+        mDatabaseHelper.deleteAllUsers();
         loadUsers();
+        Toast.makeText(this, getString(R.string.delete_all_data_done), Toast.LENGTH_SHORT).show();
     }
 
     private void loadUsers(View view) {
         loadUsers();
     }
 
-    private void loadUsers() {
-        userList.clear();
-        userList.addAll(databaseHelper.getAllUsers());
-        userAdapter.notifyDataSetChanged();
-    }
+        private void loadUsers() {
+            mUserList.clear();
+            mUserList.addAll(mDatabaseHelper.getAllUsers());
+            mUserAdapter.notifyDataSetChanged();
+        }
 }
 
-// TODO : fix string
+// TODO : use DiffUtil replace for notifyDataChanged

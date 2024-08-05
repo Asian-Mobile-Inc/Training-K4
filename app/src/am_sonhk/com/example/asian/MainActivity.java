@@ -23,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnDatabase.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DatabaseEx.class)));
+        mBtnDatabase.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, DatabaseEx.class));
+        });
     }
 }
+
+
