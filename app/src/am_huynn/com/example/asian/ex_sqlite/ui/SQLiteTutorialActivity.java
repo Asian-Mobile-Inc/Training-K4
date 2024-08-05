@@ -80,19 +80,21 @@ public class SQLiteTutorialActivity extends AppCompatActivity {
             return;
         }
         User user = mSqLiteOpenHelper.addUser(name, Integer.parseInt(age));
-        mUserAdapter.addUser(user);
+        mUsers.add(user);
+        mUserAdapter.setData(mUsers);
         clearEditText();
         hideKeyboard();
     }
 
     private void deleteAll() {
-        mUserAdapter.deleteAll();
         mSqLiteOpenHelper.deleteAllUsers();
+        mUsers.clear();
+        mUserAdapter.setData(mUsers);
     }
 
     private void showAllUsers() {
-        ArrayList<User> newUsers = mSqLiteOpenHelper.getAllUsers();
-        mUserAdapter.showAllUser(newUsers);
+        mUsers = mSqLiteOpenHelper.getAllUsers();
+        mUserAdapter.setData(mUsers);
     }
 
     private void hideKeyboard() {

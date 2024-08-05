@@ -8,9 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.asian.R;
+import com.example.asian.ex_sqlite.diff_util.MyDiffUtilCallback;
 import com.example.asian.ex_sqlite.helper.UserSQLiteHelper;
 import com.example.asian.ex_sqlite.model.User;
 
@@ -24,7 +26,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public UserAdapter(Context context, UserSQLiteHelper userSQLiteHelper, ArrayList<User> users) {
         this.mContext = context;
         this.mUserSQLiteHelper = userSQLiteHelper;
-        this.mUsers = users;
+        this.mUsers = new ArrayList<>(users);
     }
 
     @NonNull
@@ -67,15 +69,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
     }
 
-    public void addUser(User user) {
-        mUsers.add(user);
-        notifyItemInserted(mUsers.size());
-    }
-
-    public void deleteAll() {
-        int size = mUsers.size();
+    public void setData(ArrayList<User> newList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffUtilCallback(mUsers, newList));
         mUsers.clear();
-        notifyItemRangeRemoved(0, size);
+        mUsers.addAll(newList);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     private void deleteUser(int id, int position) {
@@ -86,10 +84,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 return;
             }
         }
-    }
-
-    public void showAllUser(ArrayList<User> users) {
-        mUsers = users;
-        notifyItemRangeChanged(0, mUsers.size());
     }
 }
