@@ -17,10 +17,10 @@ public class FragmentOne extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_layout, container, false);
         TextView mTextView = mView.findViewById(R.id.fragmentText);
-        mTextView.setText("Fragment One");
+        mTextView.setText(R.string.fragment_one);
 
         if (getArguments() != null) {
-            String mColor = getArguments().getString("color");
+            String mColor = getArguments().getString(BaseFragment.KEY_COLOR_FRAGMENT);
             if (mColor != null) {
                 mView.setBackgroundColor(Color.parseColor(mColor));
             }
@@ -31,13 +31,13 @@ public class FragmentOne extends BaseFragment {
 
     @Override
     public String getFragmentName() {
-        return "Fragment One";
+        return getString(R.string.fragment_one);
     }
 
     public static FragmentOne newInstance(String color) {
         FragmentOne mFragment = new FragmentOne();
         Bundle mArgs = new Bundle();
-        mArgs.putString("color", color);
+        mArgs.putString(BaseFragment.KEY_COLOR_FRAGMENT, color);
         mFragment.setArguments(mArgs);
         return mFragment;
     }
