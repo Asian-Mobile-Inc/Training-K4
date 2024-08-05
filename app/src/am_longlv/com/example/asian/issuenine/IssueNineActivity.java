@@ -50,7 +50,10 @@ public class IssueNineActivity extends AppCompatActivity {
                 return;
             }
             mDBHelper.addUser(new UserInfo(0, mEdtUsername.getText().toString(), mEdtAge.getText().toString()));
-            mUserInfoAdapter.addUser(mDBHelper.getLastUser());
+            List<UserInfo> userInfoList = new ArrayList<>();
+            userInfoList.add(0, new UserInfo(-1, "", ""));
+            userInfoList.addAll(mDBHelper.getAllUser());
+            mUserInfoAdapter.addUser(userInfoList);
         });
         mBtnDeleteAll.setOnClickListener(v -> {
             mDBHelper.deleteAllUser();
