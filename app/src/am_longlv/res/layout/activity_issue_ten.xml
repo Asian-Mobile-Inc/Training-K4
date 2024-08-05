@@ -5,19 +5,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-<!--    <com.example.asian.issueten.customview.MyChartView-->
-<!--        android:id="@+id/mcvSellExpenses"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:mcv_expenses="@color/pink_FF5C78"-->
-<!--        app:mcv_sales="@color/blue_6D6DE6" />-->
-    <com.example.asian.issueten.customview.CustomGrid
+    <com.example.asian.issueten.customview.MyChartView
         android:id="@+id/mcvSellExpenses"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:mcv_expenses="@color/pink_FF5C78"
+        app:mcv_sales="@color/blue_6D6DE6" />
+<!--    <com.example.asian.issueten.customview.CustomGrid-->
+<!--        android:id="@+id/mcvSellExpenses"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
