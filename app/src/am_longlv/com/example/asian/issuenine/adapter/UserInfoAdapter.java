@@ -10,12 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.asian.R;
 import com.example.asian.issuenine.database.DBHelper;
+import com.example.asian.issuenine.diff.UserDiffCallback;
 import com.example.asian.issuenine.model.UserInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHolder> {
@@ -84,24 +87,28 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
 
     public void deleteUser(UserInfo userInfo) {
         try (DBHelper mDBHelper = new DBHelper(this.mContext, "User.db", 1)) {
-            mDBHelper.deleteUser(userInfo);
-            mUserInfoLists.remove(userInfo);
-            notifyItemRangeRemoved(1, mUserInfoLists.size());
+
         } catch (Exception e) {
             Toast.makeText(mContext, mContext.getString(R.string.err_load_data), Toast.LENGTH_SHORT).show();
         }
     }
 
     public void getAllUser(DBHelper mDBHelper) {
-        int size = mUserInfoLists.size();
+        List<UserInfo> mUserInfoNewLists = new ArrayList<>();
+        mUserInfoNewLists.add(0, new UserInfo(-1, "", ""));
+        mUserInfoNewLists.addAll(mDBHelper.getAllUser());
+        UserDiffCallback userDiffCallback = new UserDiffCallback(mUserInfoLists, mUserInfoNewLists);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(userDiffCallback);
         mUserInfoLists.clear();
-        mUserInfoLists.add(0, new UserInfo(-1, "", ""));
-        mUserInfoLists.addAll(mDBHelper.getAllUser());
-        notifyItemRangeRemoved(1, size);
+        mUserInfoLists.addAll(mUserInfoNewLists);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     public void addUser(UserInfo userInfo) {
+        List<UserInfo> mUserInfoOldLists = mUserInfoLists;
         mUserInfoLists.add(userInfo);
-        notifyItemInserted(mUserInfoLists.size() - 1);
+        UserDiffCallback userDiffCallback = new UserDiffCallback(mUserInfoOldLists, mUserInfoLists);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(userDiffCallback);
+        diffResult.dispatchUpdatesTo(this);
     }
 }
