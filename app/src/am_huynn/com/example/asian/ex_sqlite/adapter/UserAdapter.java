@@ -13,19 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.asian.R;
 import com.example.asian.ex_sqlite.diff_util.MyDiffUtilCallback;
-import com.example.asian.ex_sqlite.helper.UserSQLiteHelper;
 import com.example.asian.ex_sqlite.model.User;
+import com.example.asian.ex_sqlite.ui.SQLiteTutorialActivity;
 
 import java.util.ArrayList;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final Context mContext;
-    private final UserSQLiteHelper mUserSQLiteHelper;
     private ArrayList<User> mUsers;
 
-    public UserAdapter(Context context, UserSQLiteHelper userSQLiteHelper, ArrayList<User> users) {
+    public UserAdapter(Context context, ArrayList<User> users) {
         this.mContext = context;
-        this.mUserSQLiteHelper = userSQLiteHelper;
         this.mUsers = new ArrayList<>(users);
     }
 
@@ -44,8 +42,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.mTvUserName.setText(user.getUserName());
         holder.mTvAge.setText(String.valueOf(user.getAge()));
         holder.mBtnDelete.setOnClickListener(view -> {
-            mUserSQLiteHelper.deleteUser(user.getUserId());
-            deleteUser(user.getUserId(), position);
+            SQLiteTutorialActivity activity = (SQLiteTutorialActivity) mContext;
+            activity.deleteUser(user);
         });
     }
 
@@ -74,15 +72,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         mUsers.clear();
         mUsers.addAll(newList);
         diffResult.dispatchUpdatesTo(this);
-    }
-
-    private void deleteUser(int id, int position) {
-        for (User user : mUsers) {
-            if (user.getUserId() == id) {
-                mUsers.remove(user);
-                notifyItemRemoved(position);
-                return;
-            }
-        }
     }
 }
