@@ -1,7 +1,6 @@
 package com.example.asian.issueten;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.asian.R;

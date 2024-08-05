@@ -283,7 +283,6 @@ public class MyChartView extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                calculateMove(event);
                 if (event.getPointerCount() > 1) {
                     calculateScale(event);
                 }
@@ -299,6 +298,8 @@ public class MyChartView extends View {
                             mScale = SCALE_DEFAULT;
                         }
                     }
+                }else{
+                    calculateMove(event);
                 }
                 invalidate();
                 break;
