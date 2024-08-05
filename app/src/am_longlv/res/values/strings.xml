@@ -39,4 +39,12 @@
     <string name="id_card_invalid">ID card is invalid</string>
     <string name="more_info_invalid">Info is invalid</string>
     <string name="more_info_too_short">Nhập lớn hơn 100 ký tự</string>
+    <!--    Issue 10-->
+    <string name="sales">Sales</string>
+    <string name="expenses">Expenses</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="edit">Edit</string>
+    <string name="month">Month</string>
+    <string name="save">Save</string>
 </resources>

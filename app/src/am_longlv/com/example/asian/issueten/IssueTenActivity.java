@@ -1,28 +1,35 @@
 package com.example.asian.issueten;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.asian.ExerciseCalculateActivity;
-import com.example.asian.ExerciseLoginActivity;
-import com.example.asian.ExerciseUpdateInfoActivity;
 import com.example.asian.R;
+import com.example.asian.issueten.customview.MyChartView;
+import com.example.asian.issueten.model.SellExpense;
+
+import java.util.List;
 
 public class IssueTenActivity extends AppCompatActivity {
+    private MyChartView mMcvSellExpenses;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_ten);
-        initUI();
-        initListener();
+//        initUI();
+//        initData();
     }
 
     private void initUI() {
+        mMcvSellExpenses = findViewById(R.id.mcvSellExpenses);
     }
 
-    private void initListener() {
+    private void initData() {
+        Bundle bundle = getIntent().getBundleExtra("bundleSellExpenses");
+        if (bundle != null) {
+            List<SellExpense> sellExpenses = bundle.getParcelableArrayList("sellExpenses");
+            mMcvSellExpenses.setupDataChart(sellExpenses);
+        }
     }
 }

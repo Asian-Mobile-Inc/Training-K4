@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.asian.issueten.IssueTenActivity;
+import com.example.asian.issueten.IssueTenCreateDataActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class));
         });
         mBtnIssueTen.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, IssueTenActivity.class));
+            startActivity(new Intent(MainActivity.this, IssueTenCreateDataActivity.class));
         });
     }
 }
