@@ -2,6 +2,7 @@ package com.example.asian.ui;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -11,12 +12,14 @@ import com.example.asian.constants.Constants;
 import com.example.asian.fragment.OneFragment;
 import com.example.asian.fragment.TwoFragment;
 
-public class ExerciseFragmentActivity extends AppCompatActivity {
+public class ExerciseFragmentActivity extends AppCompatActivity implements OneFragment.FragmentOneListener, TwoFragment.FragmentTwoListener {
     private Button mBtnFragmentOne;
     private Button mBtnFragmentTwo;
+    private FrameLayout mFrContent;
     private FragmentManager mFragmentManager;
     private int mOnFragmentOneClick = 0;
     private int mOnFragmentTwoClick = 0;
+    private static final int MAX_ON_CLICK = 1;
 
 
     @Override
@@ -31,6 +34,7 @@ public class ExerciseFragmentActivity extends AppCompatActivity {
     private void initView() {
         mBtnFragmentOne = findViewById(R.id.btnFragmentOne);
         mBtnFragmentTwo = findViewById(R.id.btnFragmentTwo);
+        mFrContent = findViewById(R.id.frContent);
     }
 
     private void initListener() {
@@ -39,7 +43,7 @@ public class ExerciseFragmentActivity extends AppCompatActivity {
             Bundle data = new Bundle();
             data.putInt(Constants.KEY_COLOR_FRAGMENT, getResources().getColor(R.color.green_319532));
             oneFragment.setArguments(data);
-            if (mOnFragmentOneClick > 1) {
+            if (mOnFragmentOneClick > MAX_ON_CLICK) {
                 mFragmentManager.beginTransaction().replace(R.id.frContent, oneFragment).commit();
             } else {
                 mFragmentManager.beginTransaction().replace(R.id.frContent, oneFragment).addToBackStack(null).commit();
@@ -53,7 +57,7 @@ public class ExerciseFragmentActivity extends AppCompatActivity {
             Bundle data = new Bundle();
             data.putInt(Constants.KEY_COLOR_FRAGMENT, getResources().getColor(R.color.purple_523051));
             twoFragment.setArguments(data);
-            if (mOnFragmentTwoClick > 1) {
+            if (mOnFragmentTwoClick > MAX_ON_CLICK) {
                 mFragmentManager.beginTransaction().add(R.id.frContent, twoFragment).commit();
             } else {
                 mFragmentManager.beginTransaction().add(R.id.frContent, twoFragment).addToBackStack(null).commit();
@@ -61,5 +65,15 @@ public class ExerciseFragmentActivity extends AppCompatActivity {
             mOnFragmentTwoClick++;
             mOnFragmentOneClick = 0;
         });
+    }
+
+    @Override
+    public void setTitleFragmentOne() {
+        setTitle(getString(R.string.fragment_one));
+    }
+
+    @Override
+    public void setTitleFragmentTwo() {
+        setTitle(R.string.fragment_two);
     }
 }
