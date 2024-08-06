@@ -1,6 +1,7 @@
 package com.example.asian.ex_sqlite.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,17 @@ import com.example.asian.ex_sqlite.model.User;
 import com.example.asian.ex_sqlite.ui.SQLiteTutorialActivity;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+    private Function<User, Void> deleteUser;
     private final Context mContext;
     private ArrayList<User> mUsers;
 
-    public UserAdapter(Context context, ArrayList<User> users) {
+    public UserAdapter(Context context, ArrayList<User> users, Function<User, Void> deleteUser) {
         this.mContext = context;
         this.mUsers = new ArrayList<>(users);
+        this.deleteUser = deleteUser;
     }
 
     @NonNull
@@ -42,8 +46,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.mTvUserName.setText(user.getUserName());
         holder.mTvAge.setText(String.valueOf(user.getAge()));
         holder.mBtnDelete.setOnClickListener(view -> {
-            SQLiteTutorialActivity activity = (SQLiteTutorialActivity) mContext;
-            activity.deleteUser(user);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                this.deleteUser.apply(user);
+            }
         });
     }
 

@@ -62,7 +62,7 @@ public class SQLiteTutorialActivity extends AppCompatActivity {
 
 
     private void initAdapter() {
-        mUserAdapter = new UserAdapter(this, mUsers);
+        mUserAdapter = new UserAdapter(this, mUsers, user -> deleteUser(user));
         mRvUsers.setAdapter(mUserAdapter);
         mRvUsers.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -92,15 +92,16 @@ public class SQLiteTutorialActivity extends AppCompatActivity {
         mUserAdapter.setData(mUsers);
     }
 
-    public void deleteUser(User user) {
+    public Void deleteUser(User user) {
         mSqLiteOpenHelper.deleteUser(user.getUserId());
         for (User u : mUsers) {
             if (u.getUserId() == user.getUserId()) {
                 mUsers.remove(u);
                 mUserAdapter.setData(mUsers);
-                return;
+                break;
             }
         }
+        return null;
     }
 
     private void showAllUsers() {
