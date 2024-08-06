@@ -23,6 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_INSERT = "INSERT INTO User(user_name, age) VALUES(?, ?)";
     private static final String SQL_DELETE = "DELETE FROM User WHERE user_id = ?";
     private static final String SQL_DELETE_ALL = "DELETE FROM User";
+    private static final String SQL_GET_LAST_USER = "SELECT * FROM User ORDER BY user_id DESC LIMIT 1";
 
     public DBHelper(Context context, String name, int version) {
         super(context, name, null, version);
@@ -66,5 +67,14 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return userInfoList;
+    }
+
+    public UserInfo getLastUser() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_GET_LAST_USER, null);
+        cursor.moveToLast();
+        UserInfo userInfo = new UserInfo(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
+        cursor.close();
+        return userInfo;
     }
 }

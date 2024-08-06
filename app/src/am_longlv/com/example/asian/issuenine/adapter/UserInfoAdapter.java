@@ -1,6 +1,7 @@
 package com.example.asian.issuenine.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,16 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
         @Nullable
         @Override
         public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-            return super.getChangePayload(oldItemPosition, newItemPosition);
+            UserInfo userInfo = mUserNewLists.get(newItemPosition);
+            UserInfo oldUserInfo = mUserOldLists.get(oldItemPosition);
+            Bundle bundle = new Bundle();
+            if (!userInfo.getUsername().equals(oldUserInfo.getUsername())) {
+                bundle.putString("username", userInfo.getUsername());
+            }
+            if (!userInfo.getAge().equals(oldUserInfo.getAge())) {
+                bundle.putString("age", userInfo.getAge());
+            }
+            return bundle;
         }
     }
 
@@ -86,6 +96,23 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
             return mUserInfoLists.size();
         }
         return 0;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()){
+            super.onBindViewHolder(holder, position, payloads);
+        }else{
+            Bundle bundle = (Bundle) payloads.get(0);
+            for (String key : bundle.keySet()){
+                if (key.equals("username")){
+                    holder.mTvUsername.setText(bundle.getString(key));
+                }
+                if (key.equals("age")){
+                    holder.mTvAge.setText(bundle.getString(key));
+                }
+            }
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -137,22 +164,11 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
         }
     }
 
-    public void getAllUser(DBHelper mDBHelper) {
-        List<UserInfo> mUserInfoNewLists = new ArrayList<>();
-        mUserInfoNewLists.add(0, new UserInfo(-1, "", ""));
-        mUserInfoNewLists.addAll(mDBHelper.getAllUser());
-        DiffUserCallBack diffUserCallBack = new DiffUserCallBack(mUserInfoLists, mUserInfoNewLists);
+    public void updateData(List<UserInfo> userInfoNewLists) {
+        DiffUserCallBack diffUserCallBack = new DiffUserCallBack(mUserInfoLists, userInfoNewLists);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUserCallBack);
-        mUserInfoLists.clear();
-        mUserInfoLists.addAll(mUserInfoNewLists);
         diffResult.dispatchUpdatesTo(this);
-    }
-
-    public void addUser(List<UserInfo> userInfoLists) {
-        DiffUserCallBack diffUserCallBack = new DiffUserCallBack(mUserInfoLists, userInfoLists);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUserCallBack);
         mUserInfoLists.clear();
-        mUserInfoLists.addAll(userInfoLists);
-        diffResult.dispatchUpdatesTo(this);
+        mUserInfoLists.addAll(userInfoNewLists);
     }
 }

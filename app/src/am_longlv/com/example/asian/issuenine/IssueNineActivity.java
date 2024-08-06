@@ -13,7 +13,6 @@ import com.example.asian.issuenine.adapter.UserInfoAdapter;
 import com.example.asian.issuenine.database.DBHelper;
 import com.example.asian.issuenine.model.UserInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IssueNineActivity extends AppCompatActivity {
@@ -25,6 +24,7 @@ public class IssueNineActivity extends AppCompatActivity {
     private RecyclerView mRvUserInfo;
     private final DBHelper mDBHelper = new DBHelper(this, "User.db", 1);
     private UserInfoAdapter mUserInfoAdapter;
+    List<UserInfo> mUserInfoLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,33 +45,39 @@ public class IssueNineActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnAdd.setOnClickListener(v -> {
-            if (validate()) {
-                return;
-            }
-            mDBHelper.addUser(new UserInfo(0, mEdtUsername.getText().toString(), mEdtAge.getText().toString()));
-            List<UserInfo> userInfoList = new ArrayList<>();
-            userInfoList.add(0, new UserInfo(-1, "", ""));
-            userInfoList.addAll(mDBHelper.getAllUser());
-            mUserInfoAdapter.addUser(userInfoList);
-        });
-        mBtnDeleteAll.setOnClickListener(v -> {
-            mDBHelper.deleteAllUser();
-            getAllUser();
-        });
+        mBtnAdd.setOnClickListener(v -> addUser());
+        mBtnDeleteAll.setOnClickListener(v -> deleteAllUser());
         mBtnShowAll.setOnClickListener(v -> getAllUser());
     }
 
     private void setUpRecyclerView() {
-        List<UserInfo> mUserInfoLists = new ArrayList<>();
+//        mUserInfoLists = new ArrayList<>();
+//        mUserInfoLists.add(0, new UserInfo(-1, "", ""));
+//        mUserInfoLists.addAll(mDBHelper.getAllUser());
         mUserInfoAdapter = new UserInfoAdapter(mUserInfoLists, this);
-        getAllUser();
         mRvUserInfo.setAdapter(mUserInfoAdapter);
         mRvUserInfo.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void getAllUser() {
-        mUserInfoAdapter.getAllUser(mDBHelper);
+        mUserInfoLists.add(0, new UserInfo(-1, "", ""));
+        mUserInfoLists.addAll(mDBHelper.getAllUser());
+        mUserInfoAdapter.updateData(mUserInfoLists);
+    }
+
+    private void deleteAllUser() {
+        mDBHelper.deleteAllUser();
+        mUserInfoLists.clear();
+        mUserInfoAdapter.updateData(mUserInfoLists);
+    }
+
+    private void addUser() {
+        if (validate()) {
+            return;
+        }
+        mDBHelper.addUser(new UserInfo(0, mEdtUsername.getText().toString(), mEdtAge.getText().toString()));
+        mUserInfoLists.add(mDBHelper.getLastUser());
+        mUserInfoAdapter.updateData(mUserInfoLists);
     }
 
     private boolean validate() {
