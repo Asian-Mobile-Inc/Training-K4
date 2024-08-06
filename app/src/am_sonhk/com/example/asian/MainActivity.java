@@ -7,7 +7,9 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mBtnExerciseLogin, mBtnExerciseCal, mBtnExerciseUpdateInfo;
+    private Button mBtnExerciseLogin;
+    private Button mBtnExerciseCal;
+    private Button mBtnExerciseUpdateInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +26,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnExerciseLogin.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
-        mBtnExerciseCal.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CalculateActivity.class)));
-        mBtnExerciseUpdateInfo.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, UpdateInfoActivity.class)));
+        mBtnExerciseLogin.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        });
+        mBtnExerciseCal.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, CalculateActivity.class));
+        });
+        mBtnExerciseUpdateInfo.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, UpdateInfoActivity.class));
+        });
     }
 }

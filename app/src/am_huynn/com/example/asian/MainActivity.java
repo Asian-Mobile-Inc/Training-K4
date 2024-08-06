@@ -11,7 +11,9 @@ import com.example.asian.ui.InformationActivity;
 import com.example.asian.ui.MathActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mBtnToFacebook, mBtnToMath, mBtnToInformation;
+    private Button mBtnToFacebook;
+    private Button mBtnToMath;
+    private Button mBtnToInformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
