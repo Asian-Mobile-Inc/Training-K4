@@ -34,8 +34,12 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
     }
 
     private void initListener() {
-        mBtnAddFragment.setOnClickListener(v -> addFragment());
-        mBtnReplaceFragment.setOnClickListener(v -> replaceFragment());
+        mBtnAddFragment.setOnClickListener(v -> {
+            addFragment();
+        });
+        mBtnReplaceFragment.setOnClickListener(v -> {
+            replaceFragment();
+        });
     }
 
     private void replaceFragment() {
@@ -43,8 +47,6 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         bundle.putString(Constant.KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
         IssueFourFirstFragment issueFourFirstFragment = new IssueFourFirstFragment();
         issueFourFirstFragment.setArguments(bundle);
-        mClickBtnAdd = 0;
-        mClickBtnReplace++;
         if (mClickBtnReplace > MAX_COUNT_CLICK) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issueFourFirstFragment).commit();
         } else {
@@ -57,13 +59,21 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         bundle.putString(Constant.KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
         IssueFourSecondFragment issueFourSecondFragment = new IssueFourSecondFragment();
         issueFourSecondFragment.setArguments(bundle);
-        mClickBtnReplace = 0;
-        mClickBtnAdd++;
         if (mClickBtnAdd > MAX_COUNT_CLICK) {
             getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issueFourSecondFragment).commit();
         } else {
             getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issueFourSecondFragment).addToBackStack(null).commit();
         }
+    }
+
+    @Override
+    public void onFragmentSecondAttach() {
+        mClickBtnAdd++;
+    }
+
+    @Override
+    public void onFragmentSecondDetach() {
+        mClickBtnAdd--;
     }
 
     @Override
@@ -78,5 +88,15 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.fragment_one_str_param, colorCode));
         }
+    }
+
+    @Override
+    public void onFragmentFirstAttach() {
+        mClickBtnReplace++;
+    }
+
+    @Override
+    public void onFragmentFirstDetach() {
+        mClickBtnReplace--;
     }
 }
