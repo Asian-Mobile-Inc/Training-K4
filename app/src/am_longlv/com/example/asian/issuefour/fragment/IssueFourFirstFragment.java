@@ -20,8 +20,6 @@ public class IssueFourFirstFragment extends Fragment {
 
     public interface OnFragmentFirstChange {
         void onFragmentFirstChange(String colorCode);
-        void onFragmentFirstAttach();
-        void onFragmentFirstDetach();
     }
 
     public IssueFourFirstFragment() {
@@ -60,13 +58,11 @@ public class IssueFourFirstFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mListener = (OnFragmentFirstChange) context;
-        mListener.onFragmentFirstAttach();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener.onFragmentFirstDetach();
         mListener = null;
     }
 }

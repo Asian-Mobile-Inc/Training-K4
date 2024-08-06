@@ -5,6 +5,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.asian.Constant;
 import com.example.asian.issuefour.fragment.IssueFourFirstFragment;
@@ -15,9 +16,8 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
     private Button mBtnReplaceFragment;
     private Button mBtnAddFragment;
     private EditText mEdtColorCode;
-    private int mClickBtnReplace = 0;
-    private int mClickBtnAdd = 0;
     private static final int MAX_COUNT_CLICK = 2;
+    private final FragmentManager mFragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +47,14 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         bundle.putString(Constant.KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
         IssueFourFirstFragment issueFourFirstFragment = new IssueFourFirstFragment();
         issueFourFirstFragment.setArguments(bundle);
-        if (mClickBtnReplace > MAX_COUNT_CLICK) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issueFourFirstFragment).commit();
+        if (mFragmentManager.getBackStackEntryCount() >= MAX_COUNT_CLICK) {
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.frLayout, issueFourFirstFragment)
+                    .disallowAddToBackStack().commit();
         } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, issueFourFirstFragment).addToBackStack(null).commit();
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.frLayout, issueFourFirstFragment)
+                    .addToBackStack(null).commit();
         }
     }
 
@@ -59,21 +63,15 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         bundle.putString(Constant.KEY_COLOR_CODE, mEdtColorCode.getText().toString().trim());
         IssueFourSecondFragment issueFourSecondFragment = new IssueFourSecondFragment();
         issueFourSecondFragment.setArguments(bundle);
-        if (mClickBtnAdd > MAX_COUNT_CLICK) {
-            getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issueFourSecondFragment).commit();
+        if (mFragmentManager.getBackStackEntryCount() >= MAX_COUNT_CLICK) {
+            mFragmentManager.beginTransaction()
+                    .add(R.id.frLayout, issueFourSecondFragment)
+                    .disallowAddToBackStack().commit();
         } else {
-            getSupportFragmentManager().beginTransaction().add(R.id.frLayout, issueFourSecondFragment).addToBackStack(null).commit();
+            mFragmentManager.beginTransaction()
+                    .add(R.id.frLayout, issueFourSecondFragment)
+                    .addToBackStack(null).commit();
         }
-    }
-
-    @Override
-    public void onFragmentSecondAttach() {
-        mClickBtnAdd++;
-    }
-
-    @Override
-    public void onFragmentSecondDetach() {
-        mClickBtnAdd--;
     }
 
     @Override
@@ -88,15 +86,5 @@ public class IssueFourActivity extends AppCompatActivity implements IssueFourFir
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.fragment_one_str_param, colorCode));
         }
-    }
-
-    @Override
-    public void onFragmentFirstAttach() {
-        mClickBtnReplace++;
-    }
-
-    @Override
-    public void onFragmentFirstDetach() {
-        mClickBtnReplace--;
     }
 }
