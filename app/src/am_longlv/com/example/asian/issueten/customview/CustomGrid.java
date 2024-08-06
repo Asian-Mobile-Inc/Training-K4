@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -36,8 +37,7 @@ public class CustomGrid extends View {
     private float mYFingerFirst = 0;
     private float mXFingerSecond = 0;
     private float mYFingerSecond = 0;
-    private float mScaleX = 1;
-    private float mScaleY = 1;
+    private float mScale = 1;
     private float mMoveX = 0;
     private float mMoveY = 0;
     private static final int SCALE_DEFAULT = 1;
@@ -90,13 +90,23 @@ public class CustomGrid extends View {
         initPaint();
         paintAxis(canvas);
         canvas.save();
-        float px = (mXFingerSecond+mXFingerFirst)/2;
-        float py = (mYFingerSecond+mYFingerFirst)/2;
-        canvas.scale(mScaleX, mScaleY, px, py);
+        float px = (mXFingerSecond + mXFingerFirst) / 2;
+        float py = (mYFingerSecond + mYFingerFirst) / 2;
+        canvas.scale(mScale, mScale, px, py);
         canvas.translate(mMoveX, -mMoveY);
+        paintLinePrice(canvas);
         paintChart(canvas);
         canvas.restore();
+        canvas.save();
+        canvas.scale(mScale, 1, px, py);
+        canvas.translate(mMoveX, 0);
+        paintMonth(canvas);
+        canvas.restore();
+        canvas.save();
         paintWall(canvas);
+        canvas.scale(1, mScale, px, py);
+        canvas.translate(0, -mMoveY);
+        paintPrice(canvas);
     }
 
     private void paintAxis(Canvas canvas) {
@@ -112,9 +122,15 @@ public class CustomGrid extends View {
         int startY = getHeight() / COUNT_RATIO;
         int originX = getWidth() / COUNT_RATIO;
         int originY = mHeight - startY;
-        int axisY = mHeight - startY;
         canvas.drawLine(originX - 20, originY, getWidth(), originY, paint);
         canvas.drawLine(originX, originY + 20, originX, startY, paint);
+    }
+    private void paintLinePrice(Canvas canvas){
+        Paint paint = new Paint();
+        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
+        int startY = getHeight() / COUNT_RATIO;
+        int originX = getWidth() / COUNT_RATIO;
+        int axisY = mHeight - startY;
         for (int i = 1; i <= COUNT_LINE_Y_AXIS; i++) {
             canvas.drawLine(originX - 20,
                     (axisY - (((float) (i * (mHeight - 2 * startY)) / COUNT_LINE_Y_AXIS))),
@@ -152,7 +168,23 @@ public class CustomGrid extends View {
             canvas.drawLine(xDraw, (mHeight - startY), xDraw, ySales, mPaintSales);
             canvas.drawLine(xDraw + mWidthChart, (mHeight - startY), xDraw
                     + mWidthChart, yExpense, mPaintExpense);
-
+        }
+    }
+    private void paintMonth(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
+        paint.setTextSize(TEXT_SIZE);
+        for (int i = 0; i < mSellExpenses.size(); i++) {
+            float startX = (float) getWidth() / COUNT_RATIO;
+            float startY = (float) getHeight() / COUNT_RATIO;
+            float axisY = mHeight - 2 * startY;
+            float space = ((getWidth() * 2 - 6 * startX) / COUNT_MONTH);
+            if (mSellExpenses.size() <= 6) {
+                space = ((getWidth() - 3 * startX) / mSellExpenses.size());
+            }
+            float x = (i * space + startX);
+            float xNext = ((i + 1) * space + startX);
+            float xDraw = x + Math.abs(x - xNext) / 2 - mWidthChart / 2;
             paint.setStrokeWidth((float) getHeight() / COUNT_RATIO);
             paint.setColor(ContextCompat.getColor(mContext, R.color.white));
             canvas.drawLine(x, mHeight - startY / 2, xNext, mHeight
@@ -165,13 +197,34 @@ public class CustomGrid extends View {
                     mHeight - startY, paint);
             canvas.drawLine(x, mHeight - startY, x, mHeight - startY + 20, paint);
         }
-    }
 
-    private void paintWall(Canvas canvas) {
+    }
+    private void paintPrice(Canvas canvas) {
         long maxValue = getMaxValue();
         float startY = (float) getHeight() / COUNT_RATIO;
         float originX = (float) getWidth() / COUNT_RATIO;
         float axisY = mHeight - startY;
+        Paint paint = new Paint();
+        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
+        paint.setTextSize(TEXT_SIZE);
+        paint.setStrokeWidth(1);
+        for (int i = 0; i <= COUNT_LINE_Y_AXIS; i++) {
+            if ((((axisY - (((i * (mHeight - 2 * startY)) / 8)))) >= startY)
+                    && ((axisY - (((i * (mHeight - 2 * startY)) / 8))))
+                    <= mHeight - startY) {
+                canvas.drawLine(originX - 20,
+                        (axisY - (((i * (mHeight - 2 * startY)) / 8))),
+                        originX, (axisY - (((i * (mHeight - 2 * startY)) / 8)))
+                        , paint);
+                canvas.drawText("$" + i * maxValue / 8, 0,
+                        (axisY - (((i * (mHeight - 2 * startY)) / 8))),
+                        paint);
+            }
+        }
+    }
+
+    private void paintWall(Canvas canvas) {
+        float startY = (float) getHeight() / COUNT_RATIO;
         Paint paint = new Paint();
         paint.setColor(ContextCompat.getColor(mContext, R.color.white));
         paint.setStrokeWidth(((float) getWidth() / COUNT_RATIO) * 2);
@@ -185,26 +238,13 @@ public class CustomGrid extends View {
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
         paint.setTextSize(TEXT_SIZE);
         paint.setStrokeWidth(1);
-        for (int i = 0; i <= COUNT_LINE_Y_AXIS; i++) {
-            if ((((axisY - (((i * (mHeight - 2 * startY)) / 8))) - mMoveY) >= startY)
-                    && ((axisY - (((i * (mHeight - 2 * startY)) / 8))) - mMoveY)
-                    <= mHeight - startY) {
-                canvas.drawLine(originX - 20,
-                        (axisY - (((i * (mHeight - 2 * startY)) / 8))) - mMoveY,
-                        originX, (axisY - (((i * (mHeight - 2 * startY)) / 8)))
-                                - mMoveY, paint);
-                canvas.drawText("$" + i * maxValue / 8, 0,
-                        (axisY - (((i * (mHeight - 2 * startY)) / 8))) - mMoveY,
-                        paint);
-            }
-        }
-        paint.setStrokeWidth(1);
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
         paint.setTextSize(20);
         canvas.drawLine((float) getWidth() / 4, (float) (getHeight() / COUNT_RATIO) / 2,
                 (float) (getWidth() * 3) / 4, (float) (getHeight() / COUNT_RATIO) / 2,
                 paint);
-        canvas.drawCircle((float) getWidth() / 4, (float) (getHeight() / COUNT_RATIO) / 2,
+        canvas.drawCircle((float) getWidth() / 4 + ((mScale - 1) / (SCALE_MAX - 1)
+                        * ((float) getWidth() / 2)), (float) (getHeight() / COUNT_RATIO) / 2,
                 20, paint);
         canvas.drawText(SCALE_DEFAULT + "x", (float) getWidth() / 2 - (float) getWidth() / 4,
                 (float) (getHeight() / COUNT_RATIO) / 2 - 20, paint);
@@ -274,23 +314,14 @@ public class CustomGrid extends View {
                 if (event.getX() >= (float) getWidth() / 4 && event.getX() <=
                         (float) (getWidth() * 3) / 4 && event.getY() >= 0
                         && event.getY() <= (float) getHeight() / COUNT_RATIO) {
-                    mScaleX = 1 + (event.getX() - (float) getWidth() / 4) / ((float) getWidth() / 2)
-                            * (SCALE_MAX - 1);
-                    mScaleY = 1 + (event.getX() - (float) getWidth() / 4) / ((float) getWidth() / 2)
+                    mScale = 1 + (event.getX() - (float) getWidth() / 4) / ((float) getWidth() / 2)
                             * (SCALE_MAX - 1);
 
-                    if (mScaleX > SCALE_MAX) {
-                        mScaleX = SCALE_MAX;
+                    if (mScale > SCALE_MAX) {
+                        mScale = SCALE_MAX;
                     } else {
-                        if (mScaleX < SCALE_DEFAULT) {
-                            mScaleX = SCALE_DEFAULT;
-                        }
-                    }
-                    if (mScaleY > SCALE_MAX) {
-                        mScaleY = SCALE_MAX;
-                    } else {
-                        if (mScaleY < SCALE_DEFAULT) {
-                            mScaleY = SCALE_DEFAULT;
+                        if (mScale < SCALE_DEFAULT) {
+                            mScale = SCALE_DEFAULT;
                         }
                     }
                     invalidate();
@@ -304,22 +335,13 @@ public class CustomGrid extends View {
                 if (event.getX() >= (float) getWidth() / 4 && event.getX() <=
                         (float) (getWidth() * 3) / 4 && event.getY() >= 0
                         && event.getY() <= (float) getHeight() / COUNT_RATIO) {
-                    mScaleX = 1 + (event.getX() - (float) getWidth() / 4) / ((float) getWidth() / 2)
+                    mScale = 1 + (event.getX() - (float) getWidth() / 4) / ((float) getWidth() / 2)
                             * (SCALE_MAX - 1);
-                    mScaleY = 1 + (event.getX() - (float) getWidth() / 4) / ((float) getWidth() / 2)
-                            * (SCALE_MAX - 1);
-                    if (mScaleX > SCALE_MAX) {
-                        mScaleX = SCALE_MAX;
+                    if (mScale > SCALE_MAX) {
+                        mScale = SCALE_MAX;
                     } else {
-                        if (mScaleX < SCALE_DEFAULT) {
-                            mScaleX = SCALE_DEFAULT;
-                        }
-                    }
-                    if (mScaleY > SCALE_MAX) {
-                        mScaleY = SCALE_MAX;
-                    } else {
-                        if (mScaleY < SCALE_DEFAULT) {
-                            mScaleY = SCALE_DEFAULT;
+                        if (mScale < SCALE_DEFAULT) {
+                            mScale = SCALE_DEFAULT;
                         }
                     }
                 }
@@ -332,48 +354,25 @@ public class CustomGrid extends View {
     }
 
     private void calculateScale(MotionEvent event) {
-        double distanceXBefore = Math.abs(mXFingerFirst - mXFingerSecond);
-        double distanceXAfter = Math.abs(event.getX(0) - event.getX(1));
-        double distanceYBefore = Math.abs(mYFingerFirst - mYFingerSecond);
-        double distanceYAfter = Math.abs(event.getY(0) - event.getY(1));
+        double distanceXBefore = getDistance(mXFingerFirst, mYFingerFirst, mXFingerSecond, mYFingerSecond);
+        double distanceXAfter = getDistance(event.getX(0), event.getY(0),
+                event.getX(1), event.getY(1));
         if (mXFingerFirst != mXFingerSecond && mYFingerFirst != mYFingerSecond) {
             if (distanceXAfter > distanceXBefore) {
-                if (mScaleX + (distanceXAfter / distanceXBefore) - 1 < SCALE_MAX) {
-                    mScaleX += (float) (distanceXAfter / distanceXBefore) - 1;
-                    mMoveX -= (float) ((distanceXAfter / distanceXBefore) - 1) / 2 * getWidth() * 3 / 4;
+                if (mScale + (distanceXAfter / distanceXBefore) - 1 < SCALE_MAX) {
+                    mScale += (float) (distanceXAfter / distanceXBefore) - 1;
                 } else {
-                    if (mScaleX > SCALE_MAX) {
-                        mScaleX = SCALE_MAX;
+                    if (mScale > SCALE_MAX) {
+                        mScale = SCALE_MAX;
                     }
                 }
             }
             if (distanceXAfter < distanceXBefore) {
-                if (mScaleX - ((distanceXBefore / distanceXAfter) - 1) > 1) {
-                    mScaleX -= (float) ((distanceXBefore / distanceXAfter) - 1);
-                    mMoveX += (float) ((distanceXAfter / distanceXBefore) - 1) / 2 * getWidth() * 3 / 4;
+                if (mScale - ((distanceXBefore / distanceXAfter) - 1) > 1) {
+                    mScale -= (float) ((distanceXBefore / distanceXAfter) - 1);
                 } else {
-                    if (mScaleX < SCALE_DEFAULT) {
-                        mScaleX = SCALE_DEFAULT;
-                    }
-                }
-            }
-            if (distanceYAfter > distanceYBefore) {
-                if (mScaleY + (distanceYAfter / distanceYBefore) - 1 < SCALE_MAX) {
-                    mScaleY += (float) (distanceYAfter / distanceYBefore) - 1;
-                    mMoveX -= (float) ((distanceYAfter / distanceYBefore) - 1) / 2 * getWidth() * 3 / 4;
-                } else {
-                    if (mScaleY > SCALE_MAX) {
-                        mScaleY = SCALE_MAX;
-                    }
-                }
-            }
-            if (distanceYAfter < distanceYBefore) {
-                if (mScaleY - ((distanceYBefore / distanceYAfter) - 1) > 1) {
-                    mScaleY -= (float) ((distanceYBefore / distanceYAfter) - 1);
-                    mMoveX += (float) ((distanceYAfter / distanceYBefore) - 1) / 2 * getWidth() * 3 / 4;
-                } else {
-                    if (mScaleY < SCALE_DEFAULT) {
-                        mScaleY = SCALE_DEFAULT;
+                    if (mScale < SCALE_DEFAULT) {
+                        mScale = SCALE_DEFAULT;
                     }
                 }
             }
@@ -395,23 +394,23 @@ public class CustomGrid extends View {
         } else {
             minPage = -space * (mSellExpenses.size() - 6);
         }
-        if (mMoveX + ((moveX - mXFingerFirst)) < minPage - space * (mScaleX - 1) * mSellExpenses.size()) {
-            mMoveX = minPage - space * (mScaleX - 1) * (mSellExpenses.size());
+        if (mMoveX + ((moveX - mXFingerFirst)) < minPage - space * (mScale - 1) * mSellExpenses.size()) {
+            mMoveX = minPage - space * (mScale - 1) * (mSellExpenses.size());
         } else if (mMoveX + moveX - mXFingerFirst > 0) {
             mMoveX = 0;
         } else {
             mMoveX += (moveX - mXFingerFirst);
             mXFingerFirst = moveX;
         }
-
-        if (mMoveY - moveY + mYFingerFirst < -(getHeight() * (mScaleY - 1))) {
-            mMoveY = -(getHeight() * (mScaleY - 1));
+        if (mMoveY - moveY + mYFingerFirst < -(getHeight() * (mScale - 1))) {
+            mMoveY = -(getHeight() * (mScale - 1));
         } else if (mMoveY - moveY + mYFingerFirst > 0) {
             mMoveY = 0;
         } else {
             mMoveY += (-moveY + mYFingerFirst);
             mYFingerFirst = moveY;
         }
+        Log.d("androidruntime", "mMoveX: " + mMoveX + " mMoveY: " + mMoveY);
     }
 
     private double getDistance(float x1, float y1, float x2, float y2) {

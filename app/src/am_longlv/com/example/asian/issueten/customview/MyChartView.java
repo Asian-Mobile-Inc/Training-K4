@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -38,7 +39,10 @@ public class MyChartView extends View {
     private float mYFingerSecond = 0;
     private float mScale = 1;
     private float mMoveX = 0;
+    private float mMoveXDefault = 0;
     private float mMoveY = 0;
+    private float mXCenter = 0;
+    private float mYCenter = 0;
     private static final int SCALE_DEFAULT = 1;
     private static final int SCALE_MAX = 5;
 
@@ -298,7 +302,7 @@ public class MyChartView extends View {
                             mScale = SCALE_DEFAULT;
                         }
                     }
-                }else{
+                } else {
                     calculateMove(event);
                 }
                 invalidate();
@@ -311,6 +315,8 @@ public class MyChartView extends View {
 
     private void calculateScale(MotionEvent event) {
         if (mXFingerFirst != mXFingerSecond && mYFingerFirst != mYFingerSecond) {
+            mXCenter = (event.getX() + event.getX(1)) / 2;
+            mYCenter = (event.getY() + event.getY(1)) / 2;
             double distanceBefore = getDistance(mXFingerFirst, mYFingerFirst,
                     mXFingerSecond, mYFingerSecond);
             double distanceAfter = getDistance(event.getX(), event.getY(),
@@ -318,7 +324,13 @@ public class MyChartView extends View {
             if (distanceAfter > distanceBefore) {
                 if (mScale + (distanceAfter / distanceBefore) - 1 < SCALE_MAX) {
                     mScale += (float) (distanceAfter / distanceBefore) - 1;
-                    mMoveX -= (float) ((distanceAfter / distanceBefore) - 1) / 2 * getWidth() * 3 / 4;
+                    if (mXCenter + mMoveXDefault > (float) (getWidth() * 5) / 6) {
+                        mMoveX = (float) -((getWidth() * 5) / 6 * mScale)
+                                - (mXCenter+mMoveXDefault-getWidth()) * (mScale - 1);
+                    } else if (mXCenter + mMoveXDefault < (float) getWidth() / 6) {
+                        mMoveX = -(mMoveXDefault * mScale) - mXCenter * (mScale - 1);
+                    }
+                    Log.d("androidruntime", "scale: " + mScale + " moveX: " + mMoveX + " mXCenter: " + mXCenter);
                 } else {
                     if (mScale > SCALE_MAX) {
                         mScale = SCALE_MAX;
@@ -328,7 +340,6 @@ public class MyChartView extends View {
             if (distanceAfter < distanceBefore) {
                 if (mScale - ((distanceBefore / distanceAfter) - 1) > 1) {
                     mScale -= (float) ((distanceBefore / distanceAfter) - 1);
-                    mMoveX += (float) ((distanceAfter / distanceBefore) - 1) / 2 * getWidth() * 3 / 4;
                 } else {
                     if (mScale < SCALE_DEFAULT) {
                         mScale = SCALE_DEFAULT;
@@ -370,6 +381,8 @@ public class MyChartView extends View {
             mMoveY += (-moveY + mYFingerFirst);
             mYFingerFirst = moveY;
         }
+        mMoveXDefault = mMoveX / mScale;
+        Log.d("androidruntime", "moveX: " + mMoveX + " moveXDefault: " + mMoveXDefault);
     }
 
     private double getDistance(float x1, float y1, float x2, float y2) {
