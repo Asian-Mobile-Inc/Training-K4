@@ -2,7 +2,6 @@ package com.example.asian.ui;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -15,7 +14,6 @@ import com.example.asian.fragment.TwoFragment;
 public class ExerciseFragmentActivity extends AppCompatActivity implements OneFragment.FragmentOneListener, TwoFragment.FragmentTwoListener {
     private Button mBtnFragmentOne;
     private Button mBtnFragmentTwo;
-    private FrameLayout mFrContent;
     private FragmentManager mFragmentManager;
     private int mOnFragmentOneClick = 0;
     private int mOnFragmentTwoClick = 0;
@@ -34,7 +32,6 @@ public class ExerciseFragmentActivity extends AppCompatActivity implements OneFr
     private void initView() {
         mBtnFragmentOne = findViewById(R.id.btnFragmentOne);
         mBtnFragmentTwo = findViewById(R.id.btnFragmentTwo);
-        mFrContent = findViewById(R.id.frContent);
     }
 
     private void initListener() {
