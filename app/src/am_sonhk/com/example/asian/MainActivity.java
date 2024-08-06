@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseUpdateInfo.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, UpdateInfoActivity.class));
         });
-        mBtnExerciseFragmentArgument.setOnClickListener(view -> {
+        mBtnExerciseFragmentArgument.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, FragmentActivity.class));
         });
     }

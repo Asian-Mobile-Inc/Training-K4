@@ -7,18 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.asian.FragmentOne;
-import com.example.asian.FragmentTwo;
-import com.example.asian.R;
+import com.example.asian.fragment.BaseFragment;
+import com.example.asian.fragment.FragmentOne;
+import com.example.asian.fragment.FragmentTwo;
 
 public class FragmentActivity extends AppCompatActivity {
-    public static final String KEY_COLOR_FRAGMENT = "keyColorFragment";
-
     private int mFragmentClickCount = 0;
     private Button mBtnFragmentOne;
     private Button mBtnFragmentTwo;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +32,7 @@ public class FragmentActivity extends AppCompatActivity {
         mBtnFragmentOne.setOnClickListener(v -> replaceFragment(FragmentOne.newInstance("#4CAF50")));
         mBtnFragmentTwo.setOnClickListener(v -> addFragment(FragmentTwo.newInstance("#9C27B0")));
 
-//        getSupportFragmentManager().addOnBackStackChangedListener(this::updateTitle);
+        getSupportFragmentManager().addOnBackStackChangedListener(this::updateTitle);
     }
 
     private void replaceFragment(FragmentOne fragment) {
@@ -47,7 +43,7 @@ public class FragmentActivity extends AppCompatActivity {
             mTransaction.addToBackStack(null);
         }
         mTransaction.commit();
-//        updateTitle();
+        updateTitle();
     }
 
     private void addFragment(FragmentTwo fragment) {
@@ -58,8 +54,13 @@ public class FragmentActivity extends AppCompatActivity {
             mTransaction.addToBackStack(null);
         }
         mTransaction.commit();
-//        updateTitle();
+        updateTitle();
     }
+
+    private void updateTitle() {
+        Fragment mCurrentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        if (mCurrentFragment instanceof BaseFragment) {
+            setTitle(((BaseFragment) mCurrentFragment).getFragmentName());
+        }
     }
 }
-
