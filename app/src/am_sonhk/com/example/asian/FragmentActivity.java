@@ -74,8 +74,7 @@ public class FragmentActivity extends AppCompatActivity {
         if (mFragmentClickCount > 2) {
             mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // delete list backstack
             mFragmentClickCount = 0;
-        }
-        else if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {  //the time that passed after the last time the user clicked the button
+        } else if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {  //the time that passed after the last time the user clicked the button
             mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Log.d("FragmentActivity", "mLastClickTime: " + mLastClickTime); //log clicktime
         }
