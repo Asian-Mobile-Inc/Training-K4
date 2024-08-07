@@ -15,6 +15,7 @@ public class ExerciseFragmentActivity extends AppCompatActivity implements OneFr
     private Button mBtnFragmentOne;
     private Button mBtnFragmentTwo;
     private FragmentManager mFragmentManager;
+    private int mCountClickButton = 0;
     private static final int MAX_ON_CLICK = 2;
 
     @Override
@@ -37,9 +38,11 @@ public class ExerciseFragmentActivity extends AppCompatActivity implements OneFr
             Bundle data = new Bundle();
             data.putInt(Constants.KEY_COLOR_FRAGMENT, getResources().getColor(R.color.green_319532));
             oneFragment.setArguments(data);
-            if (mFragmentManager.getBackStackEntryCount() >= MAX_ON_CLICK) {
+            if (mCountClickButton >= MAX_ON_CLICK) {
                 mFragmentManager.beginTransaction().replace(R.id.frContent, oneFragment).commit();
+                mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else {
+                mCountClickButton++;
                 mFragmentManager.beginTransaction().replace(R.id.frContent, oneFragment).addToBackStack(null).commit();
             }
         });
@@ -49,9 +52,11 @@ public class ExerciseFragmentActivity extends AppCompatActivity implements OneFr
             Bundle data = new Bundle();
             data.putInt(Constants.KEY_COLOR_FRAGMENT, getResources().getColor(R.color.purple_523051));
             twoFragment.setArguments(data);
-            if (mFragmentManager.getBackStackEntryCount() >= MAX_ON_CLICK) {
+            if (mCountClickButton >= MAX_ON_CLICK) {
                 mFragmentManager.beginTransaction().add(R.id.frContent, twoFragment).commit();
+                mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else {
+                mCountClickButton++;
                 mFragmentManager.beginTransaction().add(R.id.frContent, twoFragment).addToBackStack(null).commit();
             }
         });
