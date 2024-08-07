@@ -13,7 +13,6 @@ import com.example.asian.R;
 import com.example.asian.issueten.adapter.CreateDataAdapter;
 import com.example.asian.issueten.model.SellExpense;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class IssueTenCreateDataActivity extends AppCompatActivity {
     private RecyclerView mRvCreateData;
     private Button mBtnCreateData;
     private List<SellExpense> mSellExpenses;
-    private CreateDataAdapter mCreateDataAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,7 @@ public class IssueTenCreateDataActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        mCreateDataAdapter = new CreateDataAdapter(mSellExpenses, this);
+        CreateDataAdapter mCreateDataAdapter = new CreateDataAdapter(mSellExpenses, this);
         mRvCreateData.setAdapter(mCreateDataAdapter);
         mRvCreateData.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -52,6 +51,7 @@ public class IssueTenCreateDataActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
     public void setUpListDefault() {
         mSellExpenses = new ArrayList<>();
         mSellExpenses.add(new SellExpense(1, 100, 2000));

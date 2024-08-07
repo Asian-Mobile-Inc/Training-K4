@@ -41,8 +41,6 @@ public class MyChartView extends View {
     private float mMoveX = 0;
     private float mMoveXDefault = 0;
     private float mMoveY = 0;
-    private float mXCenter = 0;
-    private float mYCenter = 0;
     private static final int SCALE_DEFAULT = 1;
     private static final int SCALE_MAX = 5;
 
@@ -112,10 +110,11 @@ public class MyChartView extends View {
         int axisY = mHeight - startY;
         canvas.drawLine(originX - 20, originY, getWidth(), originY, paint);
         canvas.drawLine(originX, originY + 20, originX, startY, paint);
-        for (int i = 1; i <= COUNT_LINE_Y_AXIS; i++) {
+        int lineY = COUNT_LINE_Y_AXIS * Math.round(mScale);
+        for (int i = 1; i <= lineY; i++) {
             canvas.drawLine(originX - 20,
-                    (axisY - (((float) (i * (mHeight - 2 * startY)) / COUNT_LINE_Y_AXIS) * mScale)) - mMoveY,
-                    getWidth(), (axisY - (((float) (i * (mHeight - 2 * startY)) / COUNT_LINE_Y_AXIS) * mScale))
+                    (axisY - (((float) (i * (mHeight - 2 * startY)) / lineY) * mScale)) - mMoveY,
+                    getWidth(), (axisY - (((float) (i * (mHeight - 2 * startY)) / lineY) * mScale))
                             - mMoveY, paint);
         }
     }
@@ -183,16 +182,17 @@ public class MyChartView extends View {
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
         paint.setTextSize(TEXT_SIZE);
         paint.setStrokeWidth(1);
-        for (int i = 0; i <= COUNT_LINE_Y_AXIS; i++) {
-            if ((((axisY - (((i * (mHeight - 2 * startY)) / 8) * mScale)) - mMoveY) >= startY)
-                    && ((axisY - (((i * (mHeight - 2 * startY)) / 8) * mScale)) - mMoveY)
+        int lineY = COUNT_LINE_Y_AXIS * Math.round(mScale);
+        for (int i = 0; i <= lineY; i++) {
+            if ((((axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale)) - mMoveY) >= startY)
+                    && ((axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale)) - mMoveY)
                     <= mHeight - startY) {
                 canvas.drawLine(originX - 20,
-                        (axisY - (((i * (mHeight - 2 * startY)) / 8) * mScale)) - mMoveY,
-                        originX, (axisY - (((i * (mHeight - 2 * startY)) / 8) * mScale))
+                        (axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale)) - mMoveY,
+                        originX, (axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale))
                                 - mMoveY, paint);
-                canvas.drawText("$" + i * maxValue / 8, 0,
-                        (axisY - (((i * (mHeight - 2 * startY)) / 8) * mScale)) - mMoveY,
+                canvas.drawText("$" + i * maxValue / lineY, 0,
+                        (axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale)) - mMoveY,
                         paint);
             }
         }
@@ -315,8 +315,7 @@ public class MyChartView extends View {
 
     private void calculateScale(MotionEvent event) {
         if (mXFingerFirst != mXFingerSecond && mYFingerFirst != mYFingerSecond) {
-            mXCenter = (event.getX() + event.getX(1)) / 2;
-            mYCenter = (event.getY() + event.getY(1)) / 2;
+            float mXCenter = (event.getX() + event.getX(1)) / 2;
             double distanceBefore = getDistance(mXFingerFirst, mYFingerFirst,
                     mXFingerSecond, mYFingerSecond);
             double distanceAfter = getDistance(event.getX(), event.getY(),
@@ -324,24 +323,19 @@ public class MyChartView extends View {
             if (distanceAfter > distanceBefore) {
                 if (mScale + (distanceAfter / distanceBefore) - 1 < SCALE_MAX) {
                     mScale += (float) (distanceAfter / distanceBefore) - 1;
-                    if (mXCenter + mMoveXDefault > (float) (getWidth() * 5) / 6) {
-                        mMoveX = (float) -((getWidth() * 5) / 6 * mScale)
-                                - (mXCenter+mMoveXDefault-getWidth()) * (mScale - 1);
-                    } else if (mXCenter + mMoveXDefault < (float) getWidth() / 6) {
-                        mMoveX = -(mMoveXDefault * mScale) - mXCenter * (mScale - 1);
-                    }
-                    Log.d("androidruntime", "scale: " + mScale + " moveX: " + mMoveX + " mXCenter: " + mXCenter);
+                    mMoveX = (mMoveXDefault - mXCenter) * (mScale - 1);
                 } else {
-                    if (mScale > SCALE_MAX) {
+                    if (mScale + (distanceAfter / distanceBefore) - 1 > SCALE_MAX) {
                         mScale = SCALE_MAX;
                     }
                 }
             }
             if (distanceAfter < distanceBefore) {
-                if (mScale - ((distanceBefore / distanceAfter) - 1) > 1) {
+                if (mScale - ((distanceBefore / distanceAfter) - 1) > SCALE_DEFAULT) {
                     mScale -= (float) ((distanceBefore / distanceAfter) - 1);
+                    mMoveX = (mMoveXDefault - mXCenter) * (mScale - 1);
                 } else {
-                    if (mScale < SCALE_DEFAULT) {
+                    if (mScale - ((distanceBefore / distanceAfter) - 1) <= SCALE_DEFAULT) {
                         mScale = SCALE_DEFAULT;
                     }
                 }
