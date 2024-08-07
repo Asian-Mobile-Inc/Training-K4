@@ -17,7 +17,7 @@ public class ExerciseFragmentActivity extends AppCompatActivity implements OneFr
     private FragmentManager mFragmentManager;
     private int mOnFragmentOneClick = 0;
     private int mOnFragmentTwoClick = 0;
-    private static final int MAX_ON_CLICK = 1;
+    private static final int MAX_ON_CLICK = 2;
 
 
     @Override
