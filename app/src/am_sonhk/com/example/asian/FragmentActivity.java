@@ -1,6 +1,8 @@
 package com.example.asian;
 
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import com.example.asian.fragment.FragmentTwo;
 public class FragmentActivity extends AppCompatActivity {
 
     private int mFragmentClickCount;
+    private int mLastClickTime = 0;
     private FragmentManager mFragmentManager;
     private Button mBtnFragmentOne;
     private Button mBtnFragmentTwo;
@@ -67,8 +70,16 @@ public class FragmentActivity extends AppCompatActivity {
 
     private void deleteBackStack() {
         mFragmentClickCount++;
+        Log.d("FragmentActivity", "mFragmentClickCount: " + mFragmentClickCount); // Log the click count
         if (mFragmentClickCount > 2) {
             mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // delete list backstack
+            mFragmentClickCount = 0;
         }
+        else if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {  //the time that passed after the last time the user clicked the button
+            mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Log.d("FragmentActivity", "mLastClickTime: " + mLastClickTime); //log clicktime
+        }
+        mLastClickTime = (int) SystemClock.elapsedRealtime();  //record the time the user last clicked the button validly
     }
 }
+
