@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.asian.Constant;
 import com.example.asian.issuefive.adapter.RecyclerViewAdapter;
 import com.example.asian.R;
 
@@ -21,7 +22,6 @@ public class IssueFiveThirdFragment extends Fragment {
     private RecyclerViewAdapter mAdapter;
     private List<String> mLists;
     private static final String FIRST_NAME_ITEM = "Item 3";
-    private static final char FIRST_CHAR = 'A', LAST_CHAR = 'Z';
 
     public IssueFiveThirdFragment() {
     }
@@ -42,7 +42,7 @@ public class IssueFiveThirdFragment extends Fragment {
 
     private void setUpListData() {
         mLists = new ArrayList<>();
-        for (char i = FIRST_CHAR; i <= LAST_CHAR; i++) {
+        for (char i = Constant.FIRST_CHAR; i <= Constant.LAST_CHAR; i++) {
             mLists.add(FIRST_NAME_ITEM + i);
         }
     }

@@ -23,4 +23,6 @@ public class Constant {
     public static final String KEY_COLOR_CODE = "colorCode";
     public static final String COLOR_DEFAULT = "#000000";
     public static final String START_CHAR_COLOR = "#";
+    public static final char FIRST_CHAR = 'A';
+    public static final char LAST_CHAR = 'Z';
 }

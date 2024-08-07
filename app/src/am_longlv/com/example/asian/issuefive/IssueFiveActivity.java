@@ -21,7 +21,9 @@ public class IssueFiveActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
     private FloatingActionButton mFabAddItem;
-    private static final String NAME_TAG_ONE = "Tab 1", NAME_TAG_TWO = "Tab 2", NAME_TAG_THREE = "Tab 3";
+    private static final String NAME_TAG_ONE = "Tab 1";
+    private static final String NAME_TAG_TWO = "Tab 2";
+    private static final String NAME_TAG_THREE = "Tab 3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
