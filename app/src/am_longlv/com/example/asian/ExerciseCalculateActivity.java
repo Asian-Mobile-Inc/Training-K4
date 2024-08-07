@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,46 +37,52 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnPlus.setOnClickListener(v -> {
-            if (!validateInput()) {
+            if (validate()) {
                 return;
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result) + (firstNumber + secondNumber));
+            mTvResult.setText(getString(R.string.result_float_param, (float) (firstNumber + secondNumber)));
         });
         mBtnSub.setOnClickListener(v -> {
-            if (!validateInput()) {
+            if (validate()) {
                 return;
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result) + (firstNumber - secondNumber));
+            mTvResult.setText(getString(R.string.result_float_param, (float) (firstNumber - secondNumber)));
         });
         mBtnMul.setOnClickListener(v -> {
-            if (!validateInput()) {
+            if (validate()) {
                 return;
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result) + (firstNumber * secondNumber));
+            mTvResult.setText(getString(R.string.result_float_param, (float) (firstNumber * secondNumber)));
         });
         mBtnDiv.setOnClickListener(v -> {
-            if (!validateInput()) {
+            if (validate()) {
                 return;
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
             if (secondNumber == 0) {
                 mEdtSecondNumber.setError(getString(R.string.error_divided_zero));
-                Toast.makeText(this, getString(R.string.error_divided_zero), Toast.LENGTH_SHORT).show();
                 return;
             }
             float result = (float) firstNumber / secondNumber;
-            mTvResult.setText(getString(R.string.result) + (result));
+            mTvResult.setText(getString(R.string.result_float_param, result));
         });
     }
 
-    private boolean validateInput() {
-        return !mEdtFirstNumber.getText().toString().trim().isEmpty() && !mEdtSecondNumber.getText().toString().trim().isEmpty();
+    private boolean validate() {
+        if (mEdtFirstNumber.getText().toString().trim().isEmpty()) {
+            mEdtFirstNumber.setError(getString(R.string.error_empty_input));
+        }
+        if (mEdtSecondNumber.getText().toString().trim().isEmpty()) {
+            mEdtSecondNumber.setError(getString(R.string.error_empty_input));
+        }
+        return mEdtFirstNumber.getText().toString().trim().isEmpty()
+                || mEdtSecondNumber.getText().toString().trim().isEmpty();
     }
 }

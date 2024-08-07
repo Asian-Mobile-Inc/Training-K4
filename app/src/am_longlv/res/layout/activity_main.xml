@@ -25,4 +25,10 @@
         android:layout_margin="10dp"
         android:text="@string/exercise_update_info" />
 
+    <Button
+        android:id="@+id/btnIssuesFour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/view_issues_four" />
 </LinearLayout>

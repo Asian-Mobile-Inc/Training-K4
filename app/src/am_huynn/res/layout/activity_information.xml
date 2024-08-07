@@ -72,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edtCard" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/rgDegree"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:gravity="center"
@@ -109,7 +109,7 @@
         android:textColor="@color/green_D1E39C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/rgDegree" />
 
     <CheckBox
         android:id="@+id/cbReadPaper"

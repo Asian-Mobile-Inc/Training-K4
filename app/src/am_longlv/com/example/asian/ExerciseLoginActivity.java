@@ -1,5 +1,6 @@
 package com.example.asian;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -7,15 +8,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.asian.issuethree.IssueThreeActivity;
+
 public class ExerciseLoginActivity extends AppCompatActivity {
     private Button mBtnLogin;
     private EditText mEdtEmail;
     private EditText mEdtPassword;
-    private static final String EMAIL_ADDRESS = "@gmail.com";
-    private static final String REGEX_NUMBER = ".*\\d.*";
-    private static final String REGEX_NORMAL_CHARACTER = ".*[a-z].*";
-    private static final String REGEX_SPECIAL_CHARACTER = ".*[!@#$%^&*].*";
-    private static final int MIN_LENGTH_PASSWORD = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,28 +31,50 @@ public class ExerciseLoginActivity extends AppCompatActivity {
 
     private void initListener() {
         mBtnLogin.setOnClickListener(v -> {
-            if (validate(mEdtEmail.getText().toString().trim(), mEdtPassword.getText().toString().trim())) {
-                Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+            if (validate(mEdtEmail.getText().toString().trim(),
+                    mEdtPassword.getText().toString().trim())) {
+                putDataToIssueThreeActivity();
             }
         });
     }
 
     private boolean validate(String email, String password) {
-        if (!email.contains(EMAIL_ADDRESS)) {
+        if (!checkEmailAddress(email)) {
             mEdtEmail.setError(getString(R.string.email_invalid));
-            return false;
         }
-        if (!checkPassword(password)) {
-            mEdtPassword.setError(getString(R.string.password_invalid));
-            return false;
-        }
-        return true;
+        return checkEmailAddress(email) && checkPassword(password);
     }
 
     private boolean checkPassword(String password) {
-        return password.matches(REGEX_NUMBER)
-                && password.matches(REGEX_NORMAL_CHARACTER)
-                && password.matches(REGEX_SPECIAL_CHARACTER)
-                && password.length() >= MIN_LENGTH_PASSWORD;
+        if (password.length() < Constant.MIN_LENGTH_PASSWORD) {
+            mEdtPassword.setError(getString(R.string.password_invalid));
+        } else if (!password.matches(Constant.REGEX_NORMAL_CHARACTER)) {
+            mEdtPassword.setError(getString(R.string.password_match_normal));
+        } else if (!password.matches(Constant.REGEX_NUMBER)) {
+            mEdtPassword.setError(getString(R.string.password_match_number));
+        } else if (!password.matches(Constant.REGEX_SPECIAL_CHARACTER)) {
+            mEdtPassword.setError(getString(R.string.password_match_special));
+        }
+        return password.matches(Constant.REGEX_NUMBER)
+                && password.matches(Constant.REGEX_NORMAL_CHARACTER)
+                && password.matches(Constant.REGEX_SPECIAL_CHARACTER)
+                && password.length() >= Constant.MIN_LENGTH_PASSWORD;
+    }
+
+    private boolean checkEmailAddress(String email) {
+        String[] emailArray = email.split(Constant.CHAR_SPLIT_EMAIL);
+        return emailArray.length == Constant.COUNT_EMAIL_SENTENCES
+                && !emailArray[0].trim().isEmpty()
+                && emailArray[1].equals(Constant.EMAIL_ADDRESS);
+    }
+
+    private void putDataToIssueThreeActivity() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.KEY_EMAIL, mEdtEmail.getText().toString().trim());
+        bundle.putString(Constant.KEY_PASSWORD, mEdtPassword.getText().toString().trim());
+        Intent intent = new Intent(this, IssueThreeActivity.class);
+        intent.putExtra(Constant.KEY_FROM_LOGIN, bundle);
+        startActivity(intent);
+        Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
     }
 }
