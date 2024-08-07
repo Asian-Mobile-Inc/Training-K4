@@ -2,25 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="30dp"
-    android:gravity="center"
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btnFacebook"
+        android:id="@+id/btnExerciseLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/exercise_facebook" />
+        android:layout_margin="10dp"
+        android:text="@string/exercise_login" />
 
     <Button
-        android:id="@+id/btnMath"
+        android:id="@+id/btnExerciseCal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/exercise_math" />
+        android:layout_margin="10dp"
+        android:text="@string/exercise_calculate" />
 
     <Button
-        android:id="@+id/btnInformation"
+        android:id="@+id/btnExerciseUpdateInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/exercise_information" />
+        android:layout_margin="10dp"
+        android:text="@string/exercise_update_info" />
+
 </LinearLayout>

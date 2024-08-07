@@ -1,0 +1,190 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_header"
+        android:padding="8dp"
+        android:text="@string/personal_information"
+        android:textAlignment="center"
+        android:textColor="@color/yellow_FFD700"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/fullname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+
+    <EditText
+        android:id="@+id/edtName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/name_must_more_than_3_word"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+
+    <TextView
+        android:id="@+id/tvID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/id_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
+
+    <EditText
+        android:id="@+id/edtID"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/input_correct_nine_number"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvID"
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
+
+    <TextView
+        android:id="@+id/tvDegree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="8dp"
+        android:text="@string/degree"
+        android:textAlignment="center"
+        android:textColor="@color/yellow_FFD700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtID" />
+
+    <RadioGroup
+        android:id="@+id/rgDegree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDegree">
+
+        <RadioButton
+            android:id="@+id/rbIntermediate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/intermediate_level" />
+
+        <RadioButton
+            android:id="@+id/rbCollege"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/college_level" />
+
+        <RadioButton
+            android:id="@+id/rbUniversity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/university_level" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvHobby"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="8dp"
+        android:text="@string/hobby"
+        android:textAlignment="center"
+        android:textColor="@color/yellow_FFD700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgDegree" />
+
+    <LinearLayout
+        android:id="@+id/llHobbies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHobby">
+
+        <CheckBox
+            android:id="@+id/cbReadingNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/read_news" />
+
+        <CheckBox
+            android:id="@+id/cbReadingBook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/read_book" />
+
+        <CheckBox
+            android:id="@+id/cbReadingCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/read_code" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvAdditionalInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="8dp"
+        android:text="@string/additional_info"
+        android:textAlignment="center"
+        android:textColor="@color/yellow_FFD700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llHobbies" />
+
+    <EditText
+        android:id="@+id/edtAdditionalInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/input_additional_info_can_null"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:minHeight="100dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAdditionalInfo" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/send_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtAdditionalInfo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,8 +55,9 @@ public class IssueFiveSecondFragment extends Fragment {
     }
 
     public void updateListItem(String name) {
-        this.mLists.add(name);
+        List<String> mLists = new ArrayList<>(this.mLists);
+        mLists.add(name);
+        mAdapter.updateData(mLists);
         mRecyclerView.scrollToPosition(mLists.size() - 1);
-        mAdapter.updateDataPosition(mLists, mLists.size() - 1);
     }
 }

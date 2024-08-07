@@ -9,6 +9,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ExerciseUpdateInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExerciseCalculateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExerciseLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".issuethree.IssueThreeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".issuefour.IssueFourActivity"
+            android:exported="false" />
+        <activity
             android:name=".issuefive.IssueFiveActivity"
             android:exported="false" />
         <activity

@@ -2,6 +2,7 @@ package com.example.asian.issuefive.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,62 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.asian.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    public static class DiffStringCallback extends DiffUtil.Callback {
+        private final List<String> mOldLists;
+        private final List<String> mNewLists;
+
+        public DiffStringCallback(List<String> mOldList, List<String> mNewList) {
+            this.mOldLists = mOldList;
+            this.mNewLists = mNewList;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return mOldLists.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return mNewLists.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return mOldLists.get(oldItemPosition).equals(mNewLists.get(newItemPosition));
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            return mOldLists.get(oldItemPosition).equals(mNewLists.get(newItemPosition));
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(int oldItemPosition, int newItemPosition) {
+            String newModel = mNewLists.get(newItemPosition);
+            String oldModel = mOldLists.get(oldItemPosition);
+
+            Bundle diff = new Bundle();
+            if (!newModel.equals(oldModel)) {
+                diff.putString(KEY_DATA_CHANGE, newModel);
+            }
+            if (diff.isEmpty()) {
+                return null;
+            }
+            return diff;
+        }
+    }
+    private static final String KEY_DATA_CHANGE = "content";
     private List<String> mLists;
     private final Context mContext;
 
@@ -39,6 +89,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads);
+        } else {
+            Bundle o = (Bundle) payloads.get(0);
+            for (String key : o.keySet()) {
+                if (key.equals(KEY_DATA_CHANGE)) {
+                    holder.mTvItemIssue5.setText(mLists.get(position));
+                }
+            }
+        }
+    }
+
+    @Override
     public int getItemCount() {
         if (mLists == null) {
             return 0;
@@ -56,9 +120,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public void updateDataPosition(List<String> mLists, int position) {
-        this.mLists = mLists;
-        notifyItemInserted(position);
+    public void updateData(List<String> lists) {
+        DiffStringCallback diffCallback = new DiffStringCallback(this.mLists, lists);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        this.mLists.clear();
+        this.mLists = lists;
+        diffResult.dispatchUpdatesTo(this);
     }
 
     private void showDialogActionItem(int position) {
@@ -70,7 +137,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         setUpActionItemDialog(dialog, position);
         dialog.show();
-
     }
 
     private void setUpActionItemDialog(Dialog dialog, int position) {
@@ -96,10 +162,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         dialog.findViewById(R.id.btnConfirmDelete).setOnClickListener(v -> {
-            mLists.remove(position);
-            for (int i = position; i <= mLists.size(); i++) {
-                notifyItemChanged(i);
-            }
+            List<String> lists = new ArrayList<>(mLists);
+            lists.remove(position);
+            updateData(lists);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.btnCancelDelete).setOnClickListener(v -> dialog.dismiss());
@@ -115,8 +180,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         dialog.findViewById(R.id.btnConfirm).setOnClickListener(v -> {
             EditText edtNewName = dialog.findViewById(R.id.edtNewName);
-            mLists.set(position, edtNewName.getText().toString());
-            notifyItemChanged(position);
+            List<String> lists = new ArrayList<>(mLists);
+            lists.set(position, edtNewName.getText().toString());
+            updateData(lists);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());

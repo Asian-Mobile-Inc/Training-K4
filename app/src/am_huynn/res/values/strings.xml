@@ -1,3 +1,61 @@
 <resources>
-  <string name="app_name" translatable="false">ExHuynn</string>
+    <string name="app_name" translatable="false">ExHuynn</string>
+    <string name="exercise_facebook">Exercise Facebook</string>
+    <string name="exercise_math">Exercise Math</string>
+    <string name="exercise_information">Exercise Information</string>
+
+    <!-- Strings related to exercise 1 -->
+    <string name="facebook">FACEBOOK</string>
+    <string name="hint_email_or_phone">Email or phone</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="field_can_not_empty">Trường không được để trống</string>
+    <string name="invalid_email">Email không đúng định dạng</string>
+    <string name="password_more_than_eight_characters">Mật khẩu phải nhiều hơn 8 ký tự</string>
+    <string name="password_must_include_number">Mật khẩu phải bao gồm một số</string>
+    <string name="password_must_include_normal_characters">Mật khẩu phải bao gồm một ký tự bình thường</string>
+    <string name="password_must_include_special_characters">Mật khẩu phải bao gồm một ký tự đặt biệt</string>
+    <string name="email_string_param">Email: %s</string>
+    <string name="password_string_param">Password: %s</string>
+
+    <!-- Strings related to exercise 2 -->
+    <string name="math">bài toán</string>
+    <string name="number_one">Số hạng 1</string>
+    <string name="number_two">Số hạng 2</string>
+    <string name="hint_number_one">Nhập vào số hạng 1</string>
+    <string name="hint_number_two">Nhập vào số hạng 2</string>
+    <string name="result">Kết quả: </string>
+    <string name="result_float_param">Kết quả: %.2f</string>
+    <string name="addition">+</string>
+    <string name="subtraction">-</string>
+    <string name="multiplication">*</string>
+    <string name="division">/</string>
+    <string name="please_input_number">Kết quả: Vui lòng nhập số</string>
+    <string name="please_input_number_other_zero">Kết quả: Vui lòng nhập số hạng 2 khác 0</string>
+
+    <!-- Strings related to exercise 3 -->
+    <string name="information">Thông tin cá nhân</string>
+    <string name="name">Họ tên:</string>
+    <string name="name_string_param">Họ tên: %s</string>
+    <string name="hint_name_greater_than_three">Tên phải >= 3 ký tự</string>
+    <string name="card">CMND:</string>
+    <string name="card_string_param">CMND: %s</string>
+    <string name="hint_enter_nine_digits">Nhập đúng 9 chữ số</string>
+    <string name="degree">Bằng cấp</string>
+    <string name="degree_string_param">Bằng cấp: %s</string>
+    <string name="high_school">Trung học</string>
+    <string name="college">Cao đẳng</string>
+    <string name="university">Đại học</string>
+    <string name="interest">Sở thích</string>
+    <string name="interest_string_param">Sở thích: %s</string>
+    <string name="read_paper">Đọc báo</string>
+    <string name="read_book">Đọc sách</string>
+    <string name="read_coding">Đọc coding</string>
+    <string name="more_information">Thông tin bổ sung</string>
+    <string name="more_information_string_param">Thông tin bổ sung: %s</string>
+    <string name="hint_more_information_hint">Nhập thông tin bổ sung có thể để trống</string>
+    <string name="send_information">Gửi thông tin</string>
+    <string name="please_not_empty">Vui lòng không để trống</string>
+    <string name="separate">-</string>
+    <string name="please_greater_hundred_character">Thông tin thêm lớn hơn 100 ký tự</string>
 </resources>

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +56,9 @@ public class IssueFiveFirstFragment extends Fragment {
     }
 
     public void updateListItem(String name) {
-        this.mLists.add(name);
+        List<String> mLists = new ArrayList<>(this.mLists);
+        mLists.add(name);
+        mAdapter.updateData(mLists);
         mRecyclerView.scrollToPosition(mLists.size() - 1);
-        mAdapter.updateDataPosition(mLists, mLists.size() - 1);
     }
 }

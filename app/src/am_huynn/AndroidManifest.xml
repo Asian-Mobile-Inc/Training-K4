@@ -8,14 +8,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name=".MainViewActivity"
+            android:name=".ui.DataInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.FacebookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MathActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.InformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
