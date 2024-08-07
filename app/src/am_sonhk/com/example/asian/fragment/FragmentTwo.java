@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,32 +15,29 @@ import com.example.asian.R;
 
 public class FragmentTwo extends Fragment {
 
-    public static FragmentTwo newInstance(String color) {
-        FragmentTwo mFragment = new FragmentTwo();
-        Bundle mArgs = new Bundle();
-        mArgs.putString(BaseFragment.KEY_COLOR_FRAGMENT, color);
-        mFragment.setArguments(mArgs);
-        return mFragment;
+    private static String mParamColor;
+
+    public static FragmentTwo newInstance(String paramColor) {
+        FragmentTwo fragment = new FragmentTwo();
+        mParamColor = paramColor;
+        return fragment;
     }
 
-    public String getFragmentName() {
-        return getString(R.string.fragment_two);
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.fragment_layout, container, false);
-        TextView mTextView = mView.findViewById(R.id.fragmentText);
-        mTextView.setText(R.string.fragment_two);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-        if (getArguments() != null) {
-            String mColor = getArguments().getString(BaseFragment.KEY_COLOR_FRAGMENT);
-            if (mColor != null) {
-                mView.setBackgroundColor(Color.parseColor(mColor));
-            }
-        }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_two, container, false);
+    }
 
-        return mView;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        RelativeLayout relativeLayout = view.findViewById(R.id.rlFragmentTwo);
+        relativeLayout.setBackgroundColor(Color.parseColor(mParamColor));
+        super.onViewCreated(view, savedInstanceState);
     }
 }
