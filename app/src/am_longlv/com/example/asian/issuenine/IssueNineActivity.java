@@ -13,9 +13,10 @@ import com.example.asian.issuenine.adapter.UserInfoAdapter;
 import com.example.asian.issuenine.database.DBHelper;
 import com.example.asian.issuenine.model.UserInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class IssueNineActivity extends AppCompatActivity {
+public class IssueNineActivity extends AppCompatActivity implements UserInfoAdapter.OnItemSelected {
     private EditText mEdtUsername;
     private EditText mEdtAge;
     private Button mBtnAdd;
@@ -51,24 +52,25 @@ public class IssueNineActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-//        mUserInfoLists = new ArrayList<>();
-//        mUserInfoLists.add(0, new UserInfo(-1, "", ""));
-//        mUserInfoLists.addAll(mDBHelper.getAllUser());
+        mUserInfoLists = new ArrayList<>();
+        mUserInfoLists.add(0,new UserInfo(-1,"",""));
+        mUserInfoLists.addAll(mDBHelper.getAllUser());
         mUserInfoAdapter = new UserInfoAdapter(mUserInfoLists, this);
         mRvUserInfo.setAdapter(mUserInfoAdapter);
         mRvUserInfo.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void getAllUser() {
-        mUserInfoLists.add(0, new UserInfo(-1, "", ""));
-        mUserInfoLists.addAll(mDBHelper.getAllUser());
-        mUserInfoAdapter.updateData(mUserInfoLists);
+        List<UserInfo> userInfoLists = new ArrayList<>(mDBHelper.getAllUser());
+        userInfoLists.add(0,new UserInfo(-1,"",""));
+        mUserInfoAdapter.updateData(userInfoLists);
     }
 
     private void deleteAllUser() {
         mDBHelper.deleteAllUser();
-        mUserInfoLists.clear();
-        mUserInfoAdapter.updateData(mUserInfoLists);
+        List<UserInfo> userInfoLists = new ArrayList<>();
+        userInfoLists.add(0,new UserInfo(-1,"",""));
+        mUserInfoAdapter.updateData(userInfoLists);
     }
 
     private void addUser() {
@@ -76,8 +78,9 @@ public class IssueNineActivity extends AppCompatActivity {
             return;
         }
         mDBHelper.addUser(new UserInfo(0, mEdtUsername.getText().toString(), mEdtAge.getText().toString()));
-        mUserInfoLists.add(mDBHelper.getLastUser());
-        mUserInfoAdapter.updateData(mUserInfoLists);
+        List<UserInfo> userInfoLists = new ArrayList<>(mUserInfoLists);
+        userInfoLists.add(new UserInfo(0, mEdtUsername.getText().toString(), mEdtAge.getText().toString()));
+        mUserInfoAdapter.updateData(userInfoLists);
     }
 
     private boolean validate() {
@@ -88,5 +91,13 @@ public class IssueNineActivity extends AppCompatActivity {
             mEdtAge.setError(getString(R.string.age_invalid));
         }
         return mEdtUsername.getText().toString().isEmpty() || mEdtAge.getText().toString().isEmpty();
+    }
+
+    @Override
+    public void onItemSelected(UserInfo userInfo) {
+        mDBHelper.deleteUser(userInfo);
+        List<UserInfo> userInfoLists = new ArrayList<>(mUserInfoLists);
+        userInfoLists.remove(userInfo);
+        mUserInfoAdapter.updateData(userInfoLists);
     }
 }
