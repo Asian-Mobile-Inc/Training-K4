@@ -3,6 +3,7 @@ package com.example.asian.issuefive.adapter;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,25 +50,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
             return mOldLists.get(oldItemPosition).equals(mNewLists.get(newItemPosition));
         }
-
-        @Nullable
-        @Override
-        public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-            String newModel = mNewLists.get(newItemPosition);
-            String oldModel = mOldLists.get(oldItemPosition);
-
-            Bundle diff = new Bundle();
-            if (!newModel.equals(oldModel)) {
-                diff.putString(KEY_DATA_CHANGE, newModel);
-            }
-            if (diff.isEmpty()) {
-                return null;
-            }
-            return diff;
-        }
     }
-    private static final String KEY_DATA_CHANGE = "content";
-    private List<String> mLists;
+
+    private final List<String> mLists;
     private final Context mContext;
 
     public RecyclerViewAdapter(List<String> mLists, Context mContext) {
@@ -85,21 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.mTvItemIssue5.setText(mLists.get(position));
-        holder.mTvItemIssue5.setOnClickListener(v -> showDialogActionItem(position));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
-        if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads);
-        } else {
-            Bundle o = (Bundle) payloads.get(0);
-            for (String key : o.keySet()) {
-                if (key.equals(KEY_DATA_CHANGE)) {
-                    holder.mTvItemIssue5.setText(mLists.get(position));
-                }
-            }
-        }
+        holder.mTvItemIssue5.setOnClickListener(v -> showDialogActionItem(holder.getAdapterPosition()));
     }
 
     @Override
@@ -123,9 +94,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void updateData(List<String> lists) {
         DiffStringCallback diffCallback = new DiffStringCallback(this.mLists, lists);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-        this.mLists.clear();
-        this.mLists = lists;
         diffResult.dispatchUpdatesTo(this);
+        this.mLists.clear();
+        this.mLists.addAll(lists);
     }
 
     private void showDialogActionItem(int position) {

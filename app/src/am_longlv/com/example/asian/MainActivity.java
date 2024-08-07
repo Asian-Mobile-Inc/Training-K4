@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.asian.issuefour.IssueFourActivity;
-
 import com.example.asian.issuefive.IssueFiveActivity;
 
 public class MainActivity extends AppCompatActivity {
