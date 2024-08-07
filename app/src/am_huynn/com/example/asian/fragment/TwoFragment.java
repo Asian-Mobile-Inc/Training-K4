@@ -14,8 +14,8 @@ import com.example.asian.R;
 import com.example.asian.constants.Constants;
 
 public class TwoFragment extends Fragment {
-    private RelativeLayout mRlFragmentTwo;
     private FragmentTwoListener mFragmentTwoListener;
+    private RelativeLayout mRlFragmentTwo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +43,12 @@ public class TwoFragment extends Fragment {
             mFragmentTwoListener = (FragmentTwoListener) context;
             mFragmentTwoListener.setTitleFragmentTwo();
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mFragmentTwoListener = null;
     }
 
     public interface FragmentTwoListener {
