@@ -19,7 +19,6 @@ public class ExerciseFragmentActivity extends AppCompatActivity implements OneFr
     private int mOnFragmentTwoClick = 0;
     private static final int MAX_ON_CLICK = 2;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
