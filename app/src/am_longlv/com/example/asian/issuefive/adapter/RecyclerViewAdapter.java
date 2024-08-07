@@ -46,23 +46,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public interface OnItemSelected {
-        public void onItemSelected(int position);
+        void onItemSelected(int position);
     }
 
     private final OnItemSelected mOnItemSelected;
     private final List<String> mLists;
-    private final Context mContext;
 
     public RecyclerViewAdapter(List<String> mLists, Context mContext) {
         mOnItemSelected = (OnItemSelected) mContext;
         this.mLists = mLists;
-        this.mContext = mContext;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_list_issue5, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_issue5, parent, false);
         return new ViewHolder(itemView);
     }
 
