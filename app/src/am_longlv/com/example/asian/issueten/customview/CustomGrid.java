@@ -1,13 +1,15 @@
 package com.example.asian.issueten.customview;
 
+import static android.view.MotionEvent.INVALID_POINTER_ID;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -33,15 +35,25 @@ public class CustomGrid extends View {
     private int mColorSales;
     private int mColorExpense;
     private float mWidthChart = 0;
-    private float mXFingerFirst = 0;
-    private float mYFingerFirst = 0;
-    private float mXFingerSecond = 0;
-    private float mYFingerSecond = 0;
-    private float mScale = 1;
-    private float mMoveX = 0;
-    private float mMoveY = 0;
     private static final int SCALE_DEFAULT = 1;
     private static final int SCALE_MAX = 5;
+    private ScaleGestureDetector mScaleDetector;
+    private float mScaleFactor = 1.f;
+    private float mPosX;
+    private float mPosY;
+    private float mLastTouchX;
+    private float mLastTouchY;
+    private int mActivePointerId = INVALID_POINTER_ID;
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            mScaleFactor *= detector.getScaleFactor();
+            mScaleFactor = Math.max(SCALE_DEFAULT, Math.min(mScaleFactor, SCALE_MAX));
+            invalidate();
+            return true;
+        }
+    }
 
     public void setupDataChart(List<SellExpense> sellExpenses) {
         mSellExpenses.clear();
@@ -52,11 +64,13 @@ public class CustomGrid extends View {
     public CustomGrid(Context context) {
         super(context);
         mContext = context;
+        mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
     }
 
     public CustomGrid(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setUpAttribute(context, attrs);
+        mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         mContext = context;
     }
 
@@ -90,22 +104,20 @@ public class CustomGrid extends View {
         initPaint();
         paintAxis(canvas);
         canvas.save();
-        float px = (mXFingerSecond + mXFingerFirst) / 2;
-        float py = (mYFingerSecond + mYFingerFirst) / 2;
-        canvas.scale(mScale, mScale, px, py);
-        canvas.translate(mMoveX, -mMoveY);
+        canvas.translate(mPosX, mPosY);
+        canvas.scale(mScaleFactor, mScaleFactor, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
         paintLinePrice(canvas);
         paintChart(canvas);
         canvas.restore();
         canvas.save();
-        canvas.scale(mScale, 1, px, py);
-        canvas.translate(mMoveX, 0);
+        canvas.translate(mPosX, 0);
+        canvas.scale(mScaleFactor, SCALE_DEFAULT, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
         paintMonth(canvas);
         canvas.restore();
         canvas.save();
         paintWall(canvas);
-        canvas.scale(1, mScale, px, py);
-        canvas.translate(0, -mMoveY);
+        canvas.translate(0, mPosY);
+        canvas.scale(SCALE_DEFAULT, mScaleFactor, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
         paintPrice(canvas);
     }
 
@@ -125,7 +137,8 @@ public class CustomGrid extends View {
         canvas.drawLine(originX - 20, originY, getWidth(), originY, paint);
         canvas.drawLine(originX, originY + 20, originX, startY, paint);
     }
-    private void paintLinePrice(Canvas canvas){
+
+    private void paintLinePrice(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
         int startY = getHeight() / COUNT_RATIO;
@@ -170,6 +183,7 @@ public class CustomGrid extends View {
                     + mWidthChart, yExpense, mPaintExpense);
         }
     }
+
     private void paintMonth(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
@@ -199,6 +213,7 @@ public class CustomGrid extends View {
         }
 
     }
+
     private void paintPrice(Canvas canvas) {
         long maxValue = getMaxValue();
         float startY = (float) getHeight() / COUNT_RATIO;
@@ -243,7 +258,7 @@ public class CustomGrid extends View {
         canvas.drawLine((float) getWidth() / 4, (float) (getHeight() / COUNT_RATIO) / 2,
                 (float) (getWidth() * 3) / 4, (float) (getHeight() / COUNT_RATIO) / 2,
                 paint);
-        canvas.drawCircle((float) getWidth() / 4 + ((mScale - 1) / (SCALE_MAX - 1)
+        canvas.drawCircle((float) getWidth() / 4 + ((mScaleFactor - 1) / (SCALE_MAX - 1)
                         * ((float) getWidth() / 2)), (float) (getHeight() / COUNT_RATIO) / 2,
                 20, paint);
         canvas.drawText(SCALE_DEFAULT + "x", (float) getWidth() / 2 - (float) getWidth() / 4,
@@ -305,115 +320,62 @@ public class CustomGrid extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         performClick();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mXFingerFirst = event.getX();
-                mYFingerFirst = event.getY();
-                mXFingerSecond = event.getX();
-                mYFingerSecond = event.getY();
-                if (event.getX() >= (float) getWidth() / 4 && event.getX() <=
-                        (float) (getWidth() * 3) / 4 && event.getY() >= 0
-                        && event.getY() <= (float) getHeight() / COUNT_RATIO) {
-                    mScale = 1 + (event.getX() - (float) getWidth() / 4) / ((float) getWidth() / 2)
-                            * (SCALE_MAX - 1);
+        if (event.getX() > (float) getWidth() / COUNT_RATIO && event.getX() < (float) (getWidth() * 5) / 6
+                && event.getY() > (float) getHeight() / COUNT_RATIO && event.getY() < (float) (getHeight() * 11) / 12) {
+            mScaleDetector.onTouchEvent(event);
+        }
+        final int action = event.getAction();
+        switch (action & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN: {
+                final float x = event.getX();
+                final float y = event.getY();
 
-                    if (mScale > SCALE_MAX) {
-                        mScale = SCALE_MAX;
-                    } else {
-                        if (mScale < SCALE_DEFAULT) {
-                            mScale = SCALE_DEFAULT;
-                        }
-                    }
+                mLastTouchX = x;
+                mLastTouchY = y;
+                mActivePointerId = event.getPointerId(0);
+                break;
+            }
+
+            case MotionEvent.ACTION_MOVE: {
+                final int pointerIndex = event.findPointerIndex(mActivePointerId);
+                final float x = event.getX(pointerIndex);
+                final float y = event.getY(pointerIndex);
+                if (!mScaleDetector.isInProgress()) {
+                    final float dx = x - mLastTouchX;
+                    final float dy = y - mLastTouchY;
+
+                    mPosX += dx;
+                    mPosY += dy;
+
                     invalidate();
                 }
+
+                mLastTouchX = x;
+                mLastTouchY = y;
+
                 break;
-            case MotionEvent.ACTION_MOVE:
-                calculateMove(event);
-                if (event.getPointerCount() > 1) {
-                    calculateScale(event);
-                }
-                if (event.getX() >= (float) getWidth() / 4 && event.getX() <=
-                        (float) (getWidth() * 3) / 4 && event.getY() >= 0
-                        && event.getY() <= (float) getHeight() / COUNT_RATIO) {
-                    mScale = 1 + (event.getX() - (float) getWidth() / 4) / ((float) getWidth() / 2)
-                            * (SCALE_MAX - 1);
-                    if (mScale > SCALE_MAX) {
-                        mScale = SCALE_MAX;
-                    } else {
-                        if (mScale < SCALE_DEFAULT) {
-                            mScale = SCALE_DEFAULT;
-                        }
-                    }
-                }
-                invalidate();
-                break;
+            }
+
             case MotionEvent.ACTION_UP:
+
+            case MotionEvent.ACTION_CANCEL: {
+                mActivePointerId = INVALID_POINTER_ID;
                 break;
+            }
+
+            case MotionEvent.ACTION_POINTER_UP: {
+                final int pointerIndex = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK)
+                        >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+                final int pointerId = event.getPointerId(pointerIndex);
+                if (pointerId == mActivePointerId) {
+                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+                    mLastTouchX = event.getX(newPointerIndex);
+                    mLastTouchY = event.getY(newPointerIndex);
+                    mActivePointerId = event.getPointerId(newPointerIndex);
+                }
+                break;
+            }
         }
         return true;
-    }
-
-    private void calculateScale(MotionEvent event) {
-        double distanceXBefore = getDistance(mXFingerFirst, mYFingerFirst, mXFingerSecond, mYFingerSecond);
-        double distanceXAfter = getDistance(event.getX(0), event.getY(0),
-                event.getX(1), event.getY(1));
-        if (mXFingerFirst != mXFingerSecond && mYFingerFirst != mYFingerSecond) {
-            if (distanceXAfter > distanceXBefore) {
-                if (mScale + (distanceXAfter / distanceXBefore) - 1 < SCALE_MAX) {
-                    mScale += (float) (distanceXAfter / distanceXBefore) - 1;
-                } else {
-                    if (mScale > SCALE_MAX) {
-                        mScale = SCALE_MAX;
-                    }
-                }
-            }
-            if (distanceXAfter < distanceXBefore) {
-                if (mScale - ((distanceXBefore / distanceXAfter) - 1) > 1) {
-                    mScale -= (float) ((distanceXBefore / distanceXAfter) - 1);
-                } else {
-                    if (mScale < SCALE_DEFAULT) {
-                        mScale = SCALE_DEFAULT;
-                    }
-                }
-            }
-        }
-        mXFingerFirst = event.getX(0);
-        mYFingerFirst = event.getY(0);
-        mXFingerSecond = event.getX(1);
-        mYFingerSecond = event.getY(1);
-    }
-
-    private void calculateMove(MotionEvent event) {
-        float moveX = event.getX();
-        float moveY = event.getY();
-        float space = ((float) (getWidth() * 2 - 6 * getWidth() / COUNT_RATIO) / COUNT_MONTH);
-        float minPage;
-        if (mSellExpenses.size() <= 6) {
-            space = ((float) (getWidth() - 3 * getWidth() / COUNT_RATIO) / mSellExpenses.size());
-            minPage = 0;
-        } else {
-            minPage = -space * (mSellExpenses.size() - 6);
-        }
-        if (mMoveX + ((moveX - mXFingerFirst)) < minPage - space * (mScale - 1) * mSellExpenses.size()) {
-            mMoveX = minPage - space * (mScale - 1) * (mSellExpenses.size());
-        } else if (mMoveX + moveX - mXFingerFirst > 0) {
-            mMoveX = 0;
-        } else {
-            mMoveX += (moveX - mXFingerFirst);
-            mXFingerFirst = moveX;
-        }
-        if (mMoveY - moveY + mYFingerFirst < -(getHeight() * (mScale - 1))) {
-            mMoveY = -(getHeight() * (mScale - 1));
-        } else if (mMoveY - moveY + mYFingerFirst > 0) {
-            mMoveY = 0;
-        } else {
-            mMoveY += (-moveY + mYFingerFirst);
-            mYFingerFirst = moveY;
-        }
-        Log.d("androidruntime", "mMoveX: " + mMoveX + " mMoveY: " + mMoveY);
-    }
-
-    private double getDistance(float x1, float y1, float x2, float y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 }
