@@ -9,6 +9,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.asian.issuefive.adapter.RecyclerViewAdapter;
 import com.example.asian.issuefive.adapter.ViewPagerAdapter;
 import com.example.asian.issuefive.fragment.IssueFiveFirstFragment;
 import com.example.asian.issuefive.fragment.IssueFiveSecondFragment;
@@ -17,7 +18,7 @@ import com.example.asian.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-public class IssueFiveActivity extends AppCompatActivity {
+public class IssueFiveActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemSelected {
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
     private FloatingActionButton mFabAddItem;
@@ -114,5 +115,32 @@ public class IssueFiveActivity extends AppCompatActivity {
         });
         dialog.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
         dialog.show();
+    }
+
+    @Override
+    public void onItemSelected(int position) {
+        int currentItem = mViewPager.getCurrentItem();
+        switch (currentItem) {
+            case 0:
+                IssueFiveFirstFragment issueFiveFirstFragment = (IssueFiveFirstFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+                if (issueFiveFirstFragment != null) {
+                    issueFiveFirstFragment.showDialogActionItem(position);
+                }
+                break;
+            case 1:
+                IssueFiveSecondFragment issueFiveSecondFragment = (IssueFiveSecondFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+                if (issueFiveSecondFragment != null) {
+                    issueFiveSecondFragment.showDialogActionItem(position);
+                }
+                break;
+            case 2:
+                IssueFiveThirdFragment issueFiveThirdFragment = (IssueFiveThirdFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+                if (issueFiveThirdFragment != null) {
+                    issueFiveThirdFragment.showDialogActionItem(position);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
