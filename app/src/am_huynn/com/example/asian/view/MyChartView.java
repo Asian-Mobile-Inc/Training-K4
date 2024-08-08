@@ -88,6 +88,7 @@ public class MyChartView extends View {
     }
 
     private void initValues() {
+
         float valueMax = 0;
         for (int i = 0; i < mSellExpenses.size(); i++) {
             if (mSellExpenses.get(i).getSales() > valueMax) {
@@ -110,7 +111,7 @@ public class MyChartView extends View {
         int xStart = 200;
         int yStart = 100;
         int spaceItemMonth = 180;
-        int spaceItemValue = 80; // 10value = 40dp
+        int spaceItemValue = (getHeight() - yStart) / mValues.size(); // 10value = 40dp
         int yEnd = (mValues.size() - 1) * spaceItemValue + yStart;
         int xEnd = mSellExpenses.size() * spaceItemMonth + xStart;
 
@@ -128,7 +129,7 @@ public class MyChartView extends View {
             mTextPaint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(mSellExpenses.get(i).getMonth().name(), xStart + i * spaceItemMonth + spaceItemMonth / 2, yEnd + 40, mTextPaint);
 
-            canvas.drawRect(xStart + i * spaceItemMonth + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getSales() / 10000 * 40), xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd, mPaintSales);
+            canvas.drawRect(xStart + i * spaceItemMonth + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getSales() / 10000 * (spaceItemValue / 2)), xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd, mPaintSales);
             canvas.drawRect(xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getExpenses() / 10000 * 40), xStart + i * spaceItemMonth + spaceColumnChart + spaceColumnChart + spaceCenterColumn, yEnd, mPaintExpenses);
         }
     }
