@@ -2,11 +2,6 @@ package com.example.asian.issuefive.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +9,28 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+
 import com.example.asian.Constant;
-import com.example.asian.issuefive.adapter.RecyclerViewAdapter;
 import com.example.asian.R;
+import com.example.asian.issuefive.adapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class IssueFiveSecondFragment extends Fragment {
+public class IssueFiveFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private List<String> mLists;
-    private static final String FIRST_NAME_ITEM = "Item 2";
+    private static final String NAME_ITEM = "Item %s";
+    private final int position;
 
-    public IssueFiveSecondFragment() {
+    public IssueFiveFragment(int position) {
+        this.position = position;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class IssueFiveSecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_issue_five_second, container, false);
+        View view = inflater.inflate(R.layout.fragment_issue_five, container, false);
         setUpListData();
         setUpRecyclerView(view);
         return view;
@@ -47,14 +50,15 @@ public class IssueFiveSecondFragment extends Fragment {
     private void setUpListData() {
         mLists = new ArrayList<>();
         for (char i = Constant.FIRST_CHAR; i <= Constant.LAST_CHAR; i++) {
-            mLists.add(FIRST_NAME_ITEM + i);
+            mLists.add(String.format(NAME_ITEM, position) + i);
         }
     }
 
     private void setUpRecyclerView(View view) {
-        mRecyclerView = view.findViewById(R.id.rvFragmentSecond);
+        mRecyclerView = view.findViewById(R.id.rvFragmentFirst);
         mAdapter = new RecyclerViewAdapter(mLists, getContext());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setItemAnimator(null);
         mRecyclerView.setAdapter(mAdapter);
     }
 

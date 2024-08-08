@@ -11,20 +11,16 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.asian.issuefive.adapter.RecyclerViewAdapter;
 import com.example.asian.issuefive.adapter.ViewPagerAdapter;
-import com.example.asian.issuefive.fragment.IssueFiveFirstFragment;
-import com.example.asian.issuefive.fragment.IssueFiveSecondFragment;
-import com.example.asian.issuefive.fragment.IssueFiveThirdFragment;
+import com.example.asian.issuefive.fragment.IssueFiveFragment;
 import com.example.asian.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class IssueFiveActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemSelected {
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
     private FloatingActionButton mFabAddItem;
-    private static final String NAME_TAG_ONE = "Tab 1";
-    private static final String NAME_TAG_TWO = "Tab 2";
-    private static final String NAME_TAG_THREE = "Tab 3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +29,6 @@ public class IssueFiveActivity extends AppCompatActivity implements RecyclerView
         initUI();
         initListener();
         setUpTabLayout();
-        setUpViewPager();
     }
 
     private void initUI() {
@@ -47,58 +42,18 @@ public class IssueFiveActivity extends AppCompatActivity implements RecyclerView
     }
 
     private void setUpTabLayout() {
-        mTabLayout.addTab(mTabLayout.newTab().setText(NAME_TAG_ONE));
-        mTabLayout.addTab(mTabLayout.newTab().setText(NAME_TAG_TWO));
-        mTabLayout.addTab(mTabLayout.newTab().setText(NAME_TAG_THREE));
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-    }
-
-    private void setUpViewPager() {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+        mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(viewPagerAdapter);
-        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                mTabLayout.selectTab(mTabLayout.getTabAt(position));
-            }
-        });
+        new TabLayoutMediator(mTabLayout, mViewPager,
+                (tab, position) -> tab.setText("Tab " + (position + 1))
+        ).attach();
     }
 
     private void addItemFragment(int currentItem, String name) {
-        switch (currentItem) {
-            case 0:
-                IssueFiveFirstFragment issueFiveFirstFragment = (IssueFiveFirstFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
-                if (issueFiveFirstFragment != null) {
-                    issueFiveFirstFragment.updateListItem(name);
-                }
-                break;
-            case 1:
-                IssueFiveSecondFragment issueFiveSecondFragment = (IssueFiveSecondFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
-                if (issueFiveSecondFragment != null) {
-                    issueFiveSecondFragment.updateListItem(name);
-                }
-                break;
-            case 2:
-                IssueFiveThirdFragment issueFiveThirdFragment = (IssueFiveThirdFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
-                if (issueFiveThirdFragment != null) {
-                    issueFiveThirdFragment.updateListItem(name);
-                }
-                break;
-            default:
-                break;
+        IssueFiveFragment issueFiveFragment = (IssueFiveFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+        if (issueFiveFragment != null) {
+            issueFiveFragment.updateListItem(name);
         }
     }
 
@@ -120,27 +75,9 @@ public class IssueFiveActivity extends AppCompatActivity implements RecyclerView
     @Override
     public void onItemSelected(int position) {
         int currentItem = mViewPager.getCurrentItem();
-        switch (currentItem) {
-            case 0:
-                IssueFiveFirstFragment issueFiveFirstFragment = (IssueFiveFirstFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
-                if (issueFiveFirstFragment != null) {
-                    issueFiveFirstFragment.showDialogActionItem(position);
-                }
-                break;
-            case 1:
-                IssueFiveSecondFragment issueFiveSecondFragment = (IssueFiveSecondFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
-                if (issueFiveSecondFragment != null) {
-                    issueFiveSecondFragment.showDialogActionItem(position);
-                }
-                break;
-            case 2:
-                IssueFiveThirdFragment issueFiveThirdFragment = (IssueFiveThirdFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
-                if (issueFiveThirdFragment != null) {
-                    issueFiveThirdFragment.showDialogActionItem(position);
-                }
-                break;
-            default:
-                break;
+        IssueFiveFragment issueFiveFragment = (IssueFiveFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+        if (issueFiveFragment != null) {
+            issueFiveFragment.showDialogActionItem(position);
         }
     }
 }
