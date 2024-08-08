@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="MyChartView_XML">
+        <attr name="color_sales" format="color" />
+        <attr name="color_expenses" format="color" />
+    </declare-styleable>
 </resources>
