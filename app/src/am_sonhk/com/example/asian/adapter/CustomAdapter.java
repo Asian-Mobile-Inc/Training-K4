@@ -13,17 +13,23 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.asian.ActionMenu;
 import com.example.asian.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CustomAdapter extends
-        RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private final Context mContext;
-    private final ArrayList<String> mListItem;
+    private List<String> mListItem;
+
+    public CustomAdapter(Context mContext, List<String> mListItem) {
+        this.mContext = mContext;
+        this.mListItem = new ArrayList<>(mListItem);
+    }
 
     @NonNull
     @Override
@@ -74,29 +80,33 @@ public class CustomAdapter extends
     }
 
     public void addItem(String newItem) {
-        mListItem.add(newItem);
-        notifyItemInserted(mListItem.size());
+        List<String> newList = new ArrayList<>(mListItem);
+        newList.add(newItem);
+        updateList(newList);
     }
 
     public void editItem(String textInfo, int position) {
-        mListItem.set(position, textInfo);
-        notifyItemRangeChanged(position, mListItem.size());
+        List<String> newList = new ArrayList<>(mListItem);
+        newList.set(position, textInfo);
+        updateList(newList);
     }
 
     public void removeItem(int position) {
-        mListItem.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, mListItem.size());
+        List<String> newList = new ArrayList<>(mListItem);
+        newList.remove(position);
+        updateList(newList);
+    }
+
+    public void updateList(List<String> newList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallback(mListItem, newList));
+        mListItem.clear();
+        mListItem.addAll(newList);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override
     public int getItemCount() {
         return mListItem.size();
-    }
-
-    public CustomAdapter(Context mContext, ArrayList<String> mListItem) {
-        this.mContext = mContext;
-        this.mListItem = mListItem;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
