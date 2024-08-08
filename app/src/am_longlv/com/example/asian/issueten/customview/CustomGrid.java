@@ -7,10 +7,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -82,6 +80,7 @@ public class CustomGrid extends View {
 
     public CustomGrid(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initPaint();
         setUpAttribute(context, attrs);
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         mContext = context;
@@ -115,7 +114,6 @@ public class CustomGrid extends View {
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         setupVariable();
-        initPaint();
         paintAxis(canvas);
         paintChart(canvas);
         paintWall(canvas);
@@ -142,7 +140,7 @@ public class CustomGrid extends View {
         if (mSellExpenses.size() > 6) {
             mScaleFactorX = Math.max(2, mScaleFactorX);
         }
-        canvas.scale(-mScaleFactorX, -mScaleFactorY, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
+        canvas.scale(mScaleFactorX, mScaleFactorY, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
         paintLinePrice(canvas);
         for (int i = mSellExpenses.size() - 1; i >= 0; i--) {
             SellExpense sellExpense = mSellExpenses.get(i);
@@ -156,12 +154,12 @@ public class CustomGrid extends View {
             mPaintSales.setStrokeWidth(mWidthChart);
             float xDraw = x + Math.abs(x - xNext) / 2 - mWidthChart / 2;
 
-            float ySales = (mTopAxis
-                    + (sellExpense.getSales() * axisY / maxValue));
-            float yExpense = (mTopAxis
-                    + (sellExpense.getExpense() * axisY / maxValue));
-            canvas.drawLine(xDraw, mTopAxis, xDraw, ySales, mPaintSales);
-            canvas.drawLine(xDraw + mWidthChart, mTopAxis, xDraw
+            float ySales = (mBottomAxis
+                    - (sellExpense.getSales() * axisY / maxValue));
+            float yExpense = (mBottomAxis
+                    - (sellExpense.getExpense() * axisY / maxValue));
+            canvas.drawLine(xDraw, mBottomAxis, xDraw, ySales, mPaintSales);
+            canvas.drawLine(xDraw + mWidthChart, mBottomAxis, xDraw
                     + mWidthChart, yExpense, mPaintExpense);
         }
         canvas.restore();
@@ -184,17 +182,14 @@ public class CustomGrid extends View {
         if (mSellExpenses.size() > 6) {
             mScaleFactorX = Math.max(2, mScaleFactorX);
         }
-        canvas.scale(-mScaleFactorX, 1, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
+        canvas.scale(mScaleFactorX, 1, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
         mPaint.setColor(ContextCompat.getColor(mContext, R.color.black));
         mPaint.setTextSize(TEXT_SIZE);
         for (int i = 0; i < mSellExpenses.size(); i++) {
             float startX = (float) getWidth() / COUNT_RATIO;
             float startY = (float) getHeight() / COUNT_RATIO;
             float axisY = mHeight - 2 * startY;
-            float space = ((getWidth() * 2 - 6 * startX) / COUNT_MONTH);
-            if (mSellExpenses.size() <= 6) {
-                space = ((getWidth() - 3 * startX) / mSellExpenses.size());
-            }
+            float space = ((getWidth() - 3 * startX) / mSellExpenses.size());
             float x = (i * space + startX);
             float xNext = ((i + 1) * space + startX);
             float xDraw = x + Math.abs(x - xNext) / 2 - mWidthChart / 2;

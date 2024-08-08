@@ -18,7 +18,7 @@
         android:id="@+id/btnShow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="@string/show"
+        android:text="@string/show_chart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

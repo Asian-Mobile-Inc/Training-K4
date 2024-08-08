@@ -42,7 +42,7 @@
     <!--    Issue 10-->
     <string name="sales">Sales</string>
     <string name="expenses">Expenses</string>
-    <string name="show">Show</string>
+    <string name="show_chart">Show Chart</string>
     <string name="hide">Hide</string>
     <string name="edit">Edit</string>
     <string name="month">Month</string>

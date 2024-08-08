@@ -6,8 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +27,6 @@ public class MyChartView extends View {
     private Paint mPaintExpense;
     private final Context mContext;
     private int mHeight;
-    private int mRealWidth;
     private static final int COUNT_RATIO = 12;
     private static final int COUNT_MONTH = 12;
     private static final int TEXT_SIZE = 35;
@@ -39,12 +40,14 @@ public class MyChartView extends View {
     private float mYFingerSecond = 0;
     private float mScale = 1;
     private float mMoveX = 0;
-    private float mMoveXDefault = 0;
     private float mMoveY = 0;
     private static final int SCALE_DEFAULT = 1;
     private static final int SCALE_MAX = 5;
     private boolean mIsAnm = true;
     private float mPercentAmn = 0.1f;
+    private long mTimeDown;
+    private float mDownX;
+    private float mAcceleration = 0f;
 
     public void setupDataChart(List<SellExpense> sellExpenses) {
         mSellExpenses.clear();
@@ -84,7 +87,8 @@ public class MyChartView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int height = Math.min(heightMeasureSpec,widthMeasureSpec);
+        super.onMeasure(widthMeasureSpec, height);
     }
 
     @Override
@@ -98,17 +102,53 @@ public class MyChartView extends View {
             calPercentAmn();
             invalidate();
         }
+        if (mAcceleration > 0.5 || mAcceleration < -0.5) {
+            calMoveXAcceleration();
+            invalidate();
+        }
+    }
+
+    private void calMoveXAcceleration() {
+        int ratioAcceleration = 100;
+        if (Math.abs(mAcceleration) > 3) {
+            ratioAcceleration = 50;
+        }
+        if (Math.abs(mAcceleration) > 6) {
+            ratioAcceleration = 30;
+        }
+        if (mAcceleration > 0) {
+            mAcceleration -= 0.1f;
+            mMoveX += (float) getWidth() / ratioAcceleration;
+        } else {
+            mAcceleration += 0.1f;
+            mMoveX -= (float) getWidth() / ratioAcceleration;
+        }
+        float space = ((float) (getWidth() * 2 - 6 * getWidth() / COUNT_RATIO) / COUNT_MONTH);
+        float minPage;
+        if (mSellExpenses.size() <= 6) {
+            space = ((float) (getWidth() - 3 * getWidth() / COUNT_RATIO) / mSellExpenses.size());
+            minPage = 0;
+        } else {
+            minPage = -space * (mSellExpenses.size() - 6);
+        }
+        if (mMoveX + (float) getWidth() / 100 < minPage - space * (mScale - 1) * mSellExpenses.size()) {
+            mMoveX = minPage - space * (mScale - 1) * (mSellExpenses.size());
+            mAcceleration = 0;
+        } else if (mMoveX + (float) getWidth() / 100 > 0) {
+            mMoveX = 0;
+            mAcceleration = 0;
+        }
     }
 
     private void calPercentAmn() {
-        mPercentAmn += 0.03f;
+        mPercentAmn += 0.015f;
         if (mPercentAmn > 1f) {
             mIsAnm = false;
         }
     }
 
     private void paintAxis(Canvas canvas) {
-        Paint paint = new Paint();
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(ContextCompat.getColor(mContext, R.color.gray_BDBDBD));
         paint.setStrokeWidth(getWidth());
         canvas.drawLine((float) getWidth() / 2, 0, (float) getWidth() / 2,
@@ -146,7 +186,6 @@ public class MyChartView extends View {
             if (mSellExpenses.size() <= 6) {
                 space = ((getWidth() - 3 * startX) / mSellExpenses.size()) * mScale;
             }
-            mRealWidth = (int) (space * mSellExpenses.size());
             float x = (i * space + startX + mMoveX);
             float xNext = ((i + 1) * space + startX + mMoveX);
 
@@ -281,6 +320,10 @@ public class MyChartView extends View {
         performClick();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (event.getPointerCount() == 1) {
+                    mDownX = event.getX();
+                    mTimeDown = System.currentTimeMillis();
+                }
                 mXFingerFirst = event.getX();
                 mYFingerFirst = event.getY();
                 mXFingerSecond = event.getX();
@@ -323,6 +366,12 @@ public class MyChartView extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
+                if (event.getPointerCount() == 1) {
+                    long mTimeUp = System.currentTimeMillis();
+                    float mDisAcc = event.getX() - mDownX;
+                    mAcceleration += mDisAcc / (mTimeUp - mTimeDown);
+                    invalidate();
+                }
                 break;
         }
         return true;
@@ -390,7 +439,6 @@ public class MyChartView extends View {
             mMoveY += (-moveY + mYFingerFirst);
             mYFingerFirst = moveY;
         }
-        mMoveXDefault = mMoveX / mScale;
     }
 
     private double getDistance(float x1, float y1, float x2, float y2) {

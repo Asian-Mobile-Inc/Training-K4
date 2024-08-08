@@ -4,13 +4,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.asian.R;
+import com.example.asian.issueten.customview.CustomGrid;
 import com.example.asian.issueten.customview.MyChartView;
 import com.example.asian.issueten.model.SellExpense;
 
 import java.util.List;
 
 public class IssueTenActivity extends AppCompatActivity {
-    private MyChartView mMcvSellExpenses;
+    private CustomGrid mMcvSellExpenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
