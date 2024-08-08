@@ -7,7 +7,10 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -27,7 +30,15 @@ public class CustomGrid extends View {
     private Paint mPaintSales;
     private Paint mPaintExpense;
     private final Context mContext;
+    private RectF mRectFAxis;
+    private float mTopAxis;
+    private float mLeftAxis;
+    private float mRightAxis;
+    private float mBottomAxis;
+
+    private Paint mPaint;
     private int mHeight;
+    private int mWidth;
     private static final int COUNT_RATIO = 12;
     private static final int COUNT_MONTH = 12;
     private static final int TEXT_SIZE = 35;
@@ -38,7 +49,8 @@ public class CustomGrid extends View {
     private static final int SCALE_DEFAULT = 1;
     private static final int SCALE_MAX = 5;
     private ScaleGestureDetector mScaleDetector;
-    private float mScaleFactor = 1.f;
+    private float mScaleFactorX = 1.f;
+    private float mScaleFactorY = 1.f;
     private float mPosX;
     private float mPosY;
     private float mLastTouchX;
@@ -48,8 +60,9 @@ public class CustomGrid extends View {
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            mScaleFactor *= detector.getScaleFactor();
-            mScaleFactor = Math.max(SCALE_DEFAULT, Math.min(mScaleFactor, SCALE_MAX));
+            mScaleFactorX *= detector.getScaleFactor();
+            mScaleFactorX = Math.max(SCALE_DEFAULT, Math.min(mScaleFactorX, SCALE_MAX));
+            mScaleFactorY = mScaleFactorX;
             invalidate();
             return true;
         }
@@ -101,93 +114,79 @@ public class CustomGrid extends View {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
+        setupVariable();
         initPaint();
         paintAxis(canvas);
-        canvas.save();
-        canvas.translate(mPosX, mPosY);
-        canvas.scale(mScaleFactor, mScaleFactor, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
-        paintLinePrice(canvas);
         paintChart(canvas);
-        canvas.restore();
-        canvas.save();
-        canvas.translate(mPosX, 0);
-        canvas.scale(mScaleFactor, SCALE_DEFAULT, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
-        paintMonth(canvas);
-        canvas.restore();
-        canvas.save();
         paintWall(canvas);
-        canvas.translate(0, mPosY);
-        canvas.scale(SCALE_DEFAULT, mScaleFactor, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
-        paintPrice(canvas);
+    }
+
+    private void setupVariable() {
+        mPaint = new Paint();
+        mHeight = getHeight();
+        mWidth = getWidth();
+        mLeftAxis = (float) mWidth / COUNT_RATIO;
+        mRightAxis = (float) mWidth - (float) (2 * mWidth) / COUNT_RATIO;
+        mTopAxis = (float) mHeight / COUNT_RATIO;
+        mBottomAxis = mHeight - mTopAxis;
+        mRectFAxis = new RectF(mLeftAxis, mTopAxis, mRightAxis, mBottomAxis);
     }
 
     private void paintAxis(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(ContextCompat.getColor(mContext, R.color.gray_BDBDBD));
-        paint.setStrokeWidth(getWidth());
-        canvas.drawLine((float) getWidth() / 2, 0, (float) getWidth() / 2,
-                getHeight(), paint);
-        mHeight = getHeight();
-        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
-        paint.setTextSize(TEXT_SIZE);
-        paint.setStrokeWidth(1);
-        int startY = getHeight() / COUNT_RATIO;
-        int originX = getWidth() / COUNT_RATIO;
-        int originY = mHeight - startY;
-        canvas.drawLine(originX - 20, originY, getWidth(), originY, paint);
-        canvas.drawLine(originX, originY + 20, originX, startY, paint);
-    }
-
-    private void paintLinePrice(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
-        int startY = getHeight() / COUNT_RATIO;
-        int originX = getWidth() / COUNT_RATIO;
-        int axisY = mHeight - startY;
-        for (int i = 1; i <= COUNT_LINE_Y_AXIS; i++) {
-            canvas.drawLine(originX - 20,
-                    (axisY - (((float) (i * (mHeight - 2 * startY)) / COUNT_LINE_Y_AXIS))),
-                    getWidth(), (axisY - (((float) (i * (mHeight - 2 * startY))
-                            / COUNT_LINE_Y_AXIS))), paint);
-        }
+        mPaint.setColor(ContextCompat.getColor(mContext, R.color.gray_BDBDBD));
+        canvas.drawRect(mRectFAxis, mPaint);
     }
 
     private void paintChart(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
-        paint.setTextSize(TEXT_SIZE);
-        for (int i = 0; i < mSellExpenses.size(); i++) {
-            long maxValue = getMaxValue();
-            float startX = (float) getWidth() / COUNT_RATIO;
-            float startY = (float) getHeight() / COUNT_RATIO;
-            float axisY = mHeight - 2 * startY;
+        canvas.save();
+        if (mSellExpenses.size() > 6) {
+            mScaleFactorX = Math.max(2, mScaleFactorX);
+        }
+        canvas.scale(-mScaleFactorX, -mScaleFactorY, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
+        paintLinePrice(canvas);
+        for (int i = mSellExpenses.size() - 1; i >= 0; i--) {
             SellExpense sellExpense = mSellExpenses.get(i);
-            float space = ((getWidth() * 2 - 6 * startX) / COUNT_MONTH);
-            if (mSellExpenses.size() <= 6) {
-                space = ((getWidth() - 3 * startX) / mSellExpenses.size());
-            }
-            float x = (i * space + startX);
-            float xNext = ((i + 1) * space + startX);
-
+            long maxValue = getMaxValue();
+            float axisY = mHeight - 2 * mTopAxis;
+            float space = ((mWidth - 3 * mLeftAxis) / mSellExpenses.size());
+            float x = (i * space + mLeftAxis);
+            float xNext = ((i + 1) * space + mLeftAxis);
             mWidthChart = space / 4;
             mPaintExpense.setStrokeWidth(mWidthChart);
             mPaintSales.setStrokeWidth(mWidthChart);
             float xDraw = x + Math.abs(x - xNext) / 2 - mWidthChart / 2;
 
-            float ySales = (mHeight - startY
-                    - (sellExpense.getSales() * axisY / maxValue));
-            float yExpense = (mHeight - startY
-                    - (sellExpense.getExpense() * axisY / maxValue));
-            canvas.drawLine(xDraw, (mHeight - startY), xDraw, ySales, mPaintSales);
-            canvas.drawLine(xDraw + mWidthChart, (mHeight - startY), xDraw
+            float ySales = (mTopAxis
+                    + (sellExpense.getSales() * axisY / maxValue));
+            float yExpense = (mTopAxis
+                    + (sellExpense.getExpense() * axisY / maxValue));
+            canvas.drawLine(xDraw, mTopAxis, xDraw, ySales, mPaintSales);
+            canvas.drawLine(xDraw + mWidthChart, mTopAxis, xDraw
                     + mWidthChart, yExpense, mPaintExpense);
+        }
+        canvas.restore();
+        paintMonth(canvas);
+    }
+
+    private void paintLinePrice(Canvas canvas) {
+        mPaint.setColor(ContextCompat.getColor(mContext, R.color.black));
+        float axisY = mHeight - mTopAxis;
+        for (int i = 1; i <= COUNT_LINE_Y_AXIS; i++) {
+            canvas.drawLine(mLeftAxis - 20,
+                    (axisY - (((float) (i * (mHeight - 2 * mTopAxis)) / COUNT_LINE_Y_AXIS))),
+                    getWidth(), (axisY - (((float) (i * (mHeight - 2 * mTopAxis))
+                            / COUNT_LINE_Y_AXIS))), mPaint);
         }
     }
 
     private void paintMonth(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
-        paint.setTextSize(TEXT_SIZE);
+        canvas.save();
+        if (mSellExpenses.size() > 6) {
+            mScaleFactorX = Math.max(2, mScaleFactorX);
+        }
+        canvas.scale(-mScaleFactorX, 1, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
+        mPaint.setColor(ContextCompat.getColor(mContext, R.color.black));
+        mPaint.setTextSize(TEXT_SIZE);
         for (int i = 0; i < mSellExpenses.size(); i++) {
             float startX = (float) getWidth() / COUNT_RATIO;
             float startY = (float) getHeight() / COUNT_RATIO;
@@ -199,19 +198,19 @@ public class CustomGrid extends View {
             float x = (i * space + startX);
             float xNext = ((i + 1) * space + startX);
             float xDraw = x + Math.abs(x - xNext) / 2 - mWidthChart / 2;
-            paint.setStrokeWidth((float) getHeight() / COUNT_RATIO);
-            paint.setColor(ContextCompat.getColor(mContext, R.color.white));
+            mPaint.setStrokeWidth((float) getHeight() / COUNT_RATIO);
+            mPaint.setColor(ContextCompat.getColor(mContext, R.color.white));
             canvas.drawLine(x, mHeight - startY / 2, xNext, mHeight
-                    - startY / 2, paint);
-            paint.setStrokeWidth(1);
-            paint.setColor(ContextCompat.getColor(mContext, R.color.black));
+                    - startY / 2, mPaint);
+            mPaint.setStrokeWidth(1);
+            mPaint.setColor(ContextCompat.getColor(mContext, R.color.black));
             canvas.drawText(mSellExpenses.get(i).convertMonthToString(), xDraw,
-                    axisY + (float) (startY * 1.5), paint);
+                    axisY + (float) (startY * 1.5), mPaint);
             canvas.drawLine(x - 20, mHeight - startY, xNext,
-                    mHeight - startY, paint);
-            canvas.drawLine(x, mHeight - startY, x, mHeight - startY + 20, paint);
+                    mHeight - startY, mPaint);
+            canvas.drawLine(x, mHeight - startY, x, mHeight - startY + 20, mPaint);
         }
-
+        canvas.restore();
     }
 
     private void paintPrice(Canvas canvas) {
@@ -239,33 +238,18 @@ public class CustomGrid extends View {
     }
 
     private void paintWall(Canvas canvas) {
-        float startY = (float) getHeight() / COUNT_RATIO;
-        Paint paint = new Paint();
-        paint.setColor(ContextCompat.getColor(mContext, R.color.white));
-        paint.setStrokeWidth(((float) getWidth() / COUNT_RATIO) * 2);
+        canvas.save();
+        mPaint.setColor(ContextCompat.getColor(mContext, R.color.white));
+        mPaint.setStrokeWidth(((float) getWidth() / COUNT_RATIO) * 2);
         canvas.drawLine(getWidth() - (float) getWidth() / COUNT_RATIO, 0,
-                getWidth() - (float) getWidth() / COUNT_RATIO, getHeight(), paint);
-        paint.setStrokeWidth(((float) getWidth() / COUNT_RATIO * 2));
-        canvas.drawLine(0, 0, 0, getHeight(), paint);
-        paint.setStrokeWidth(((float) getHeight() / COUNT_RATIO));
-        canvas.drawLine(0, startY / 2, getWidth(),
-                startY / 2, paint);
-        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
-        paint.setTextSize(TEXT_SIZE);
-        paint.setStrokeWidth(1);
-        paint.setColor(ContextCompat.getColor(mContext, R.color.black));
-        paint.setTextSize(20);
-        canvas.drawLine((float) getWidth() / 4, (float) (getHeight() / COUNT_RATIO) / 2,
-                (float) (getWidth() * 3) / 4, (float) (getHeight() / COUNT_RATIO) / 2,
-                paint);
-        canvas.drawCircle((float) getWidth() / 4 + ((mScaleFactor - 1) / (SCALE_MAX - 1)
-                        * ((float) getWidth() / 2)), (float) (getHeight() / COUNT_RATIO) / 2,
-                20, paint);
-        canvas.drawText(SCALE_DEFAULT + "x", (float) getWidth() / 2 - (float) getWidth() / 4,
-                (float) (getHeight() / COUNT_RATIO) / 2 - 20, paint);
-        canvas.drawText(SCALE_MAX + "x", (float) getWidth() / 2 + (float) getWidth() / 4,
-                (float) (getHeight() / COUNT_RATIO) / 2 - 20, paint);
+                getWidth() - (float) getWidth() / COUNT_RATIO, getHeight(), mPaint);
+        mPaint.setStrokeWidth(((float) getWidth() / COUNT_RATIO * 2));
+        canvas.drawLine(0, 0, 0, getHeight(), mPaint);
+        mPaint.setStrokeWidth(((float) getHeight() / COUNT_RATIO));
+        canvas.drawLine(0, mTopAxis / 2, getWidth(),
+                mTopAxis / 2, mPaint);
         paintHintColor(canvas);
+        paintPrice(canvas);
     }
 
     private void paintHintColor(Canvas canvas) {
@@ -344,8 +328,14 @@ public class CustomGrid extends View {
                     final float dx = x - mLastTouchX;
                     final float dy = y - mLastTouchY;
 
-                    mPosX += dx;
-                    mPosY += dy;
+//                    if (mPosY + dy < 0) {
+//                        mPosY = 0;
+//                    } else if (mPosY + dy > mHeight * mScaleFactor){
+//                        mPosY = mHeight * mScaleFactor;
+//                    }else {
+//                        mPosY += dy;
+//                    }
+
 
                     invalidate();
                 }

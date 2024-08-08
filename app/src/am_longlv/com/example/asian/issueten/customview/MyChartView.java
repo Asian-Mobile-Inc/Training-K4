@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -26,6 +25,7 @@ public class MyChartView extends View {
     private Paint mPaintExpense;
     private final Context mContext;
     private int mHeight;
+    private int mRealWidth;
     private static final int COUNT_RATIO = 12;
     private static final int COUNT_MONTH = 12;
     private static final int TEXT_SIZE = 35;
@@ -43,6 +43,8 @@ public class MyChartView extends View {
     private float mMoveY = 0;
     private static final int SCALE_DEFAULT = 1;
     private static final int SCALE_MAX = 5;
+    private boolean mIsAnm = true;
+    private float mPercentAmn = 0.1f;
 
     public void setupDataChart(List<SellExpense> sellExpenses) {
         mSellExpenses.clear();
@@ -92,6 +94,17 @@ public class MyChartView extends View {
         paintAxis(canvas);
         paintChart(canvas);
         paintWall(canvas);
+        if (mIsAnm) {
+            calPercentAmn();
+            invalidate();
+        }
+    }
+
+    private void calPercentAmn() {
+        mPercentAmn += 0.03f;
+        if (mPercentAmn > 1f) {
+            mIsAnm = false;
+        }
     }
 
     private void paintAxis(Canvas canvas) {
@@ -133,6 +146,7 @@ public class MyChartView extends View {
             if (mSellExpenses.size() <= 6) {
                 space = ((getWidth() - 3 * startX) / mSellExpenses.size()) * mScale;
             }
+            mRealWidth = (int) (space * mSellExpenses.size());
             float x = (i * space + startX + mMoveX);
             float xNext = ((i + 1) * space + startX + mMoveX);
 
@@ -146,9 +160,10 @@ public class MyChartView extends View {
                     - (sellExpense.getSales() * axisY / maxValue)) - mMoveY;
             float yExpense = (mHeight - startY
                     - (sellExpense.getExpense() * axisY / maxValue)) - mMoveY;
-            canvas.drawLine(xDraw, (mHeight - startY) - mMoveY, xDraw, ySales, mPaintSales);
+            canvas.drawLine(xDraw, (mHeight - startY) - mMoveY, xDraw,
+                    ySales + ((mHeight - startY) - mMoveY) * (1 - mPercentAmn), mPaintSales);
             canvas.drawLine(xDraw + mWidthChart, (mHeight - startY) - mMoveY, xDraw
-                    + mWidthChart, yExpense, mPaintExpense);
+                    + mWidthChart, yExpense + ((mHeight - startY) - mMoveY) * (1 - mPercentAmn), mPaintExpense);
 
             paint.setStrokeWidth((float) getHeight() / COUNT_RATIO);
             paint.setColor(ContextCompat.getColor(mContext, R.color.white));
@@ -323,7 +338,7 @@ public class MyChartView extends View {
             if (distanceAfter > distanceBefore) {
                 if (mScale + (distanceAfter / distanceBefore) - 1 < SCALE_MAX) {
                     mScale += (float) (distanceAfter / distanceBefore) - 1;
-                    mMoveX = (mMoveXDefault - mXCenter) * (mScale - 1);
+                    mMoveX = -mXCenter * mScale;
                 } else {
                     if (mScale + (distanceAfter / distanceBefore) - 1 > SCALE_MAX) {
                         mScale = SCALE_MAX;
@@ -333,7 +348,7 @@ public class MyChartView extends View {
             if (distanceAfter < distanceBefore) {
                 if (mScale - ((distanceBefore / distanceAfter) - 1) > SCALE_DEFAULT) {
                     mScale -= (float) ((distanceBefore / distanceAfter) - 1);
-                    mMoveX = (mMoveXDefault - mXCenter) * (mScale - 1);
+                    mMoveX = -mXCenter * mScale;
                 } else {
                     if (mScale - ((distanceBefore / distanceAfter) - 1) <= SCALE_DEFAULT) {
                         mScale = SCALE_DEFAULT;
@@ -376,7 +391,6 @@ public class MyChartView extends View {
             mYFingerFirst = moveY;
         }
         mMoveXDefault = mMoveX / mScale;
-        Log.d("androidruntime", "moveX: " + mMoveX + " moveXDefault: " + mMoveXDefault);
     }
 
     private double getDistance(float x1, float y1, float x2, float y2) {
