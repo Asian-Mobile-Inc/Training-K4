@@ -28,4 +28,16 @@
         android:layout_height="wrap_content"
         android:text="@string/option_delete"
         android:textColor="@android:color/black" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rename_file"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share_file"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_details"/>
 </LinearLayout>

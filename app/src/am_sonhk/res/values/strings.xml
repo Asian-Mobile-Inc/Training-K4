@@ -9,4 +9,7 @@
     <string name="title_handle_data">Home Action</string>
     <string name="hint_edt_new_text">Enter new text</string>
     <string name="hint_edt_position">Enter position</string>
-  </resources>
+    <string name="show_details">Show Details</string>
+    <string name="share_file">Share File</string>
+    <string name="rename_file">Rename File</string>
+</resources>
