@@ -24,7 +24,7 @@ public class MyChartView extends View {
     private TextPaint mTextPaint;
     private Paint mPaintSales;
     private Paint mPaintExpenses;
-    private ArrayList<Float> mValues = new ArrayList<>();
+    private ArrayList<Integer> mValues = new ArrayList<>();
 
     public MyChartView(Context context) {
         super(context);
@@ -98,11 +98,11 @@ public class MyChartView extends View {
             }
         }
 
-        float value = 0;
-
+        int value = 0;
+        mValues.add(value);
         do {
-            mValues.add(value);
             value = value + 20000;
+            mValues.add(value);
         } while (value < valueMax);
     }
 
@@ -128,8 +128,8 @@ public class MyChartView extends View {
             mTextPaint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(mSellExpenses.get(i).getMonth().name(), xStart + i * spaceItemMonth + spaceItemMonth / 2, yEnd + 40, mTextPaint);
 
-            canvas.drawRect(xStart + i * spaceItemMonth + spaceCenterColumn, yStart, xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd, mPaintSales);
-            canvas.drawRect(xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yStart, xStart + i * spaceItemMonth + spaceColumnChart + spaceColumnChart + spaceCenterColumn, yEnd, mPaintExpenses);
+            canvas.drawRect(xStart + i * spaceItemMonth + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getSales() / 10000 * 40), xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd, mPaintSales);
+            canvas.drawRect(xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getExpenses() / 10000 * 40), xStart + i * spaceItemMonth + spaceColumnChart + spaceColumnChart + spaceCenterColumn, yEnd, mPaintExpenses);
         }
     }
 }
