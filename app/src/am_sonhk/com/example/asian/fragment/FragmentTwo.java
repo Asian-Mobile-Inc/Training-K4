@@ -2,6 +2,7 @@ package com.example.asian.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,29 +16,38 @@ import com.example.asian.R;
 
 public class FragmentTwo extends Fragment {
 
-    private static String mParamColor;
+    private static final String ARG_COLOR = "paramColor";
+    private int mParamColor;
 
-    public static FragmentTwo newInstance(String paramColor) {
+    public static FragmentTwo newInstance(int paramColor) {
         FragmentTwo fragment = new FragmentTwo();
-        mParamColor = paramColor;
+        Bundle args = new Bundle();
+        args.putInt(ARG_COLOR, paramColor);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParamColor = getArguments().getInt(ARG_COLOR, Color.WHITE);
+        }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_two, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_two, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.rlFragmentTwo);
-        relativeLayout.setBackgroundColor(Color.parseColor(mParamColor));
-        super.onViewCreated(view, savedInstanceState);
+        relativeLayout.setBackgroundColor(mParamColor);
+        Log.e("FragmentTwo","onCreateView: ");
+        return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("FragmentTwo", "onPause: ");
     }
 }

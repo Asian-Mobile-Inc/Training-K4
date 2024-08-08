@@ -2,10 +2,10 @@ package com.example.asian;
 
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,16 +31,18 @@ public class FragmentActivity extends AppCompatActivity {
 
     private void handleOnclick() {
         mBtnFragmentOne.setOnClickListener(view -> {
-            deleteBackStack();
+//            deleteBackStack();
             handleFragmentChange(
-                    FragmentOne.newInstance("#338837"),
-                    "Fragment One");
+                    FragmentOne.newInstance(ContextCompat.getColor(this, R.color.green_338837)),
+                    getString(R.string.fragment_one)
+            );
         });
         mBtnFragmentTwo.setOnClickListener(view -> {
-            deleteBackStack();
+//            deleteBackStack();
             handleFragmentChange(
-                    FragmentTwo.newInstance("#671063"),
-                    "Fragment Two");
+                    FragmentTwo.newInstance(ContextCompat.getColor(this, R.color.purple_671063)),
+                    getString(R.string.fragment_two)
+            );
         });
     }
 
@@ -53,16 +55,16 @@ public class FragmentActivity extends AppCompatActivity {
     }
 
     private void handleFragmentChange(Fragment fragment, String nameBackStack) {
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction(); //Begin transaction
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction(); // Begin transaction
         fragmentTransaction.replace(R.id.fragmentContainer, fragment);
         fragmentTransaction.addToBackStack(nameBackStack);
         fragmentTransaction.commit();
     }
 
     private void handleBackStackChanged() {
-        int backStackEntryCount = mFragmentManager.getBackStackEntryCount(); // get Total item in list backstack
-        if (backStackEntryCount > 0) { // if list more 0
-            FragmentManager.BackStackEntry backEntry = mFragmentManager.getBackStackEntryAt(backStackEntryCount - 1);  // Get item earlyer
+        int backStackEntryCount = mFragmentManager.getBackStackEntryCount(); // Get total item in list backstack
+        if (backStackEntryCount > 0) {
+            FragmentManager.BackStackEntry backEntry = mFragmentManager.getBackStackEntryAt(backStackEntryCount - 1);  // Get the nearly item in list
             String fragmentName = backEntry.getName();
             setTitle(fragmentName);
         }
@@ -70,15 +72,12 @@ public class FragmentActivity extends AppCompatActivity {
 
     private void deleteBackStack() {
         mFragmentClickCount++;
-        Log.d("FragmentActivity", "mFragmentClickCount: " + mFragmentClickCount); // Log the click count
         if (mFragmentClickCount > 2) {
-            mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // delete list backstack
+            mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // Delete list backstack
             mFragmentClickCount = 0;
-        } else if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {  //the time that passed after the last time the user clicked the button
+        } else if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
             mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
-        mLastClickTime = (int) SystemClock.elapsedRealtime();  //record the time the user last clicked the button validly
-        Log.d("FragmentActivity", "mLastClickTime: " + mLastClickTime); //log clicktime
+        mLastClickTime = (int) SystemClock.elapsedRealtime();
     }
 }
-

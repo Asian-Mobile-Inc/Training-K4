@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -16,29 +15,36 @@ import com.example.asian.R;
 
 public class FragmentOne extends Fragment {
 
-    private static String mParamColor;
+    private static final String ARG_COLOR = "paramColor";
+    private int mParamColor;
 
-    public static FragmentOne newInstance(String paramColor) {
+    public static FragmentOne newInstance(int paramColor) {
         FragmentOne fragment = new FragmentOne();
-        mParamColor = paramColor;
+        Bundle args = new Bundle();
+        args.putInt(ARG_COLOR, paramColor);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParamColor = getArguments().getInt(ARG_COLOR, Color.WHITE);
+        }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_one, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_one, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.rlFragmentOne);
-        relativeLayout.setBackgroundColor(Color.parseColor(mParamColor));
-        super.onViewCreated(view, savedInstanceState);
+        relativeLayout.setBackgroundColor(mParamColor);
+        return view;
     }
 }
