@@ -26,7 +26,6 @@ public class IssueFiveFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private List<String> mLists;
-    private static final String NAME_ITEM = "Item %s";
     private final int position;
 
     public IssueFiveFragment(int position) {
@@ -50,7 +49,7 @@ public class IssueFiveFragment extends Fragment {
     private void setUpListData() {
         mLists = new ArrayList<>();
         for (char i = Constant.FIRST_CHAR; i <= Constant.LAST_CHAR; i++) {
-            mLists.add(String.format(NAME_ITEM, position) + i);
+            mLists.add(String.format(getString(R.string.name_item_int_param), position) + i);
         }
     }
 

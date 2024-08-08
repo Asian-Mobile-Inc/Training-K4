@@ -46,7 +46,7 @@ public class IssueFiveActivity extends AppCompatActivity implements RecyclerView
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(viewPagerAdapter);
         new TabLayoutMediator(mTabLayout, mViewPager,
-                (tab, position) -> tab.setText("Tab " + (position + 1))
+                (tab, position) -> tab.setText(String.format(getString(R.string.tab_int_param), position + 1))
         ).attach();
     }
 

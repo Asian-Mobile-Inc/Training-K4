@@ -88,4 +88,6 @@
     <string name="delete_this_item">Delete this item</string>
     <string name="enter_your_text">Enter your text here</string>
     <string name="enter_item_name">Nhập tên</string>
+    <string name="name_item_int_param">Item %d</string>
+    <string name="tab_int_param">Tab %d</string>
 </resources>
