@@ -76,9 +76,9 @@ public class FragmentActivity extends AppCompatActivity {
             mFragmentClickCount = 0;
         } else if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {  //the time that passed after the last time the user clicked the button
             mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            Log.d("FragmentActivity", "mLastClickTime: " + mLastClickTime); //log clicktime
         }
         mLastClickTime = (int) SystemClock.elapsedRealtime();  //record the time the user last clicked the button validly
+        Log.d("FragmentActivity", "mLastClickTime: " + mLastClickTime); //log clicktime
     }
 }
 
