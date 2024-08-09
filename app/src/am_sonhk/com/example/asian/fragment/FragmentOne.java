@@ -2,6 +2,7 @@ package com.example.asian.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,19 @@ public class FragmentOne extends Fragment {
         View view = inflater.inflate(R.layout.fragment_one, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.rlFragmentOne);
         relativeLayout.setBackgroundColor(mParamColor);
+        Log.d("FragmentOne", "onCreateView: ");
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("FragmentOne", "onPause: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("FragmentOne", "onDestroy: ");
     }
 }

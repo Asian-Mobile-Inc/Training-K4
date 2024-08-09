@@ -1,7 +1,6 @@
 package com.example.asian;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +15,6 @@ import com.example.asian.fragment.FragmentTwo;
 public class FragmentActivity extends AppCompatActivity {
 
     private int mFragmentClickCount;
-    private int mLastClickTime = 0;
     private FragmentManager mFragmentManager;
     private Button mBtnFragmentOne;
     private Button mBtnFragmentTwo;
@@ -29,23 +27,6 @@ public class FragmentActivity extends AppCompatActivity {
         handleOnclick();
     }
 
-    private void handleOnclick() {
-        mBtnFragmentOne.setOnClickListener(view -> {
-//            deleteBackStack();
-            handleFragmentChange(
-                    FragmentOne.newInstance(ContextCompat.getColor(this, R.color.green_338837)),
-                    getString(R.string.fragment_one)
-            );
-        });
-        mBtnFragmentTwo.setOnClickListener(view -> {
-//            deleteBackStack();
-            handleFragmentChange(
-                    FragmentTwo.newInstance(ContextCompat.getColor(this, R.color.purple_671063)),
-                    getString(R.string.fragment_two)
-            );
-        });
-    }
-
     private void initView() {
         mFragmentClickCount = 0;
         mBtnFragmentOne = findViewById(R.id.btnFragmentOne);
@@ -54,10 +35,34 @@ public class FragmentActivity extends AppCompatActivity {
         mFragmentManager.addOnBackStackChangedListener(this::handleBackStackChanged);
     }
 
-    private void handleFragmentChange(Fragment fragment, String nameBackStack) {
+    private void handleOnclick() {
+        mBtnFragmentOne.setOnClickListener(view -> {
+            handleFragmentClick(
+                    FragmentOne.newInstance(ContextCompat.getColor(this, R.color.green_338837)),
+                    getString(R.string.fragment_one)
+            );
+        });
+
+        mBtnFragmentTwo.setOnClickListener(view -> {
+            handleFragmentClick(
+                    FragmentTwo.newInstance(ContextCompat.getColor(this, R.color.purple_671063)),
+                    getString(R.string.fragment_two)
+            );
+        });
+    }
+
+    private void handleFragmentClick(Fragment fragment, String nameBackStack) {
+        boolean addToBackStack = shouldAddToBackStack();
+        handleFragmentChange(fragment, nameBackStack, addToBackStack);
+        mFragmentClickCount++; // Increment the click count after handling the fragment change
+    }
+
+    private void handleFragmentChange(Fragment fragment, String nameBackStack, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction(); // Begin transaction
         fragmentTransaction.replace(R.id.fragmentContainer, fragment);
-        fragmentTransaction.addToBackStack(nameBackStack);
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(nameBackStack);
+        }
         fragmentTransaction.commit();
     }
 
@@ -70,14 +75,7 @@ public class FragmentActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteBackStack() {
-        mFragmentClickCount++;
-        if (mFragmentClickCount > 2) {
-            mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // Delete list backstack
-            mFragmentClickCount = 0;
-        } else if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
-            mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
-        mLastClickTime = (int) SystemClock.elapsedRealtime();
+    private boolean shouldAddToBackStack() {
+        return mFragmentClickCount < 2; // Only add to back stack for the first two clicks
     }
 }
