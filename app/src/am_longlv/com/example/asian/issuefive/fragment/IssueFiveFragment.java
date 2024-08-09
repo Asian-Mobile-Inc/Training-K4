@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.example.asian.Constant;
 import com.example.asian.R;
@@ -20,7 +19,6 @@ import com.example.asian.issuefive.adapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class IssueFiveFragment extends Fragment {
     private RecyclerView mRecyclerView;
