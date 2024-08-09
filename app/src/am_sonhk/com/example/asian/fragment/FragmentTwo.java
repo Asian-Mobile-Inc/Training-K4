@@ -41,13 +41,6 @@ public class FragmentTwo extends Fragment {
         View view = inflater.inflate(R.layout.fragment_two, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.rlFragmentTwo);
         relativeLayout.setBackgroundColor(mParamColor);
-        Log.e("FragmentTwo","onCreateView: ");
         return view;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("FragmentTwo", "onPause: ");
     }
 }

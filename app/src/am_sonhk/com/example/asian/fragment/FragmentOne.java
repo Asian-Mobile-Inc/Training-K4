@@ -28,11 +28,6 @@ public class FragmentOne extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -48,17 +43,5 @@ public class FragmentOne extends Fragment {
         relativeLayout.setBackgroundColor(mParamColor);
         Log.d("FragmentOne", "onCreateView: ");
         return view;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("FragmentOne", "onPause: ");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("FragmentOne", "onDestroy: ");
     }
 }
