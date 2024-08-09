@@ -15,20 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.asian.R;
 import com.example.asian.ex_sqlite.diff_util.MyDiffUtilCallback;
 import com.example.asian.ex_sqlite.model.User;
-import com.example.asian.ex_sqlite.ui.SQLiteTutorialActivity;
 
 import java.util.ArrayList;
 import java.util.function.Function;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private Function<User, Void> deleteUser;
+    private IDeleteUser iDeleteUser;
     private final Context mContext;
     private ArrayList<User> mUsers;
 
-    public UserAdapter(Context context, ArrayList<User> users, Function<User, Void> deleteUser) {
+    public UserAdapter(Context context, ArrayList<User> users) {
         this.mContext = context;
         this.mUsers = new ArrayList<>(users);
-        this.deleteUser = deleteUser;
     }
 
     @NonNull
@@ -46,8 +44,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.mTvUserName.setText(user.getUserName());
         holder.mTvAge.setText(String.valueOf(user.getAge()));
         holder.mBtnDelete.setOnClickListener(view -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                this.deleteUser.apply(user);
+            if (mContext instanceof IDeleteUser) {
+                iDeleteUser = (IDeleteUser) mContext;
+                iDeleteUser.deleteUser(user.getUserId());
             }
         });
     }
@@ -77,5 +76,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         mUsers.clear();
         mUsers.addAll(newList);
         diffResult.dispatchUpdatesTo(this);
+    }
+
+    public interface IDeleteUser {
+        void deleteUser(int id);
     }
 }

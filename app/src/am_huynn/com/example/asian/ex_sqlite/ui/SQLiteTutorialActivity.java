@@ -19,7 +19,7 @@ import com.example.asian.ex_sqlite.model.User;
 
 import java.util.ArrayList;
 
-public class SQLiteTutorialActivity extends AppCompatActivity {
+public class SQLiteTutorialActivity extends AppCompatActivity implements UserAdapter.IDeleteUser {
     private ArrayList<User> mUsers;
     private EditText mEdtUserName;
     private EditText mEdtUserAge;
@@ -62,7 +62,7 @@ public class SQLiteTutorialActivity extends AppCompatActivity {
 
 
     private void initAdapter() {
-        mUserAdapter = new UserAdapter(this, mUsers, user -> deleteUser(user));
+        mUserAdapter = new UserAdapter(this, mUsers);
         mRvUsers.setAdapter(mUserAdapter);
         mRvUsers.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -90,18 +90,6 @@ public class SQLiteTutorialActivity extends AppCompatActivity {
         mSqLiteOpenHelper.deleteAllUsers();
         mUsers.clear();
         mUserAdapter.setData(mUsers);
-    }
-
-    public Void deleteUser(User user) {
-        mSqLiteOpenHelper.deleteUser(user.getUserId());
-        for (User u : mUsers) {
-            if (u.getUserId() == user.getUserId()) {
-                mUsers.remove(u);
-                mUserAdapter.setData(mUsers);
-                break;
-            }
-        }
-        return null;
     }
 
     private void showAllUsers() {
@@ -137,5 +125,17 @@ public class SQLiteTutorialActivity extends AppCompatActivity {
             isValid = true;
         }
         return isValid;
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        mSqLiteOpenHelper.deleteUser(id);
+        for (User u : mUsers) {
+            if (u.getUserId() == id) {
+                mUsers.remove(u);
+                mUserAdapter.setData(mUsers);
+                break;
+            }
+        }
     }
 }
