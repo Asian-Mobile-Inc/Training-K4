@@ -113,10 +113,10 @@ public class SQLiteTutorialActivity extends AppCompatActivity implements UserAda
     private boolean validatorInput(String name, String age) {
         boolean isValid;
         if (name.isEmpty()) {
-            mEdtUserName.setError(getString(R.string.please_do_not_empty));
+            mEdtUserName.setError(getString(R.string.field_is_required));
             isValid = false;
         } else if (age.isEmpty()) {
-            mEdtUserAge.setError(getString(R.string.please_do_not_empty));
+            mEdtUserAge.setError(getString(R.string.field_is_required));
             isValid = false;
         } else if (Integer.parseInt(age) < 1) {
             mEdtUserAge.setError(getString(R.string.age_greater_than_zero));

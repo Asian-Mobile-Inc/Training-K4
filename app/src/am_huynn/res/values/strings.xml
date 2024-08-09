@@ -51,6 +51,6 @@
     <string name="user_name">User Name</string>
     <string name="age">Age</string>
     <string name="delete">DELETE</string>
-    <string name="please_do_not_empty">Vui lòng không để trống</string>
-    <string name="age_greater_than_zero">Tuổi lớn hơn 0</string>
+    <string name="field_is_required">Field is required</string>
+    <string name="age_greater_than_zero">Age is greater than 0</string>
 </resources>
