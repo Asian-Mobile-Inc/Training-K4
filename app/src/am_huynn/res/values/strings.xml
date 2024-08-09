@@ -58,4 +58,9 @@
     <string name="please_not_empty">Vui lòng không để trống</string>
     <string name="separate">-</string>
     <string name="please_greater_hundred_character">Thông tin thêm lớn hơn 100 ký tự</string>
+
+    <!-- Strings related to exercise Fragment -->
+    <string name="fragment_one">Fragment One</string>
+    <string name="fragment_two">Fragment Two</string>
+    <string name="exercise_fragment">Exercise Fragment</string>
 </resources>

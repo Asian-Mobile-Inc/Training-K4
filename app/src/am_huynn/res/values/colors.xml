@@ -10,7 +10,9 @@
     <color name="green_D1E39C">#D1E39C</color>
     <color name="green_405555">#405555</color>
     <color name="green">#008000</color>
+    <color name="green_319532">#319532</color>
     <color name="purple">#800080</color>
+    <color name="purple_523051">#523051</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 </resources>
