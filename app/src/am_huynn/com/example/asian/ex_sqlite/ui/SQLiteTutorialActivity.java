@@ -60,7 +60,6 @@ public class SQLiteTutorialActivity extends AppCompatActivity implements UserAda
         mBtnShowAll = findViewById(R.id.btnShowAll);
     }
 
-
     private void initAdapter() {
         mUserAdapter = new UserAdapter(this, mUsers);
         mRvUsers.setAdapter(mUserAdapter);
