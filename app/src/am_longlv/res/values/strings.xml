@@ -73,4 +73,21 @@
     <string name="add_fragment">Add Fragment</string>
     <string name="add_to_back_stack">Add To Back Stack</string>
     <string name="no_add_to_back_stack">No Add To Back Stack</string>
+    <!--    Issue 5-->
+    <string name="view_issues_five">View Issues 5</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="title">Title</string>
+    <string name="delete_file">Delete File</string>
+    <string name="rename_file">Rename File</string>
+    <string name="open_file">Open File</string>
+    <string name="share_file">Share File</string>
+    <string name="show_details">Show Details</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="delete_this_item">Delete this item</string>
+    <string name="enter_your_text">Enter your text here</string>
+    <string name="enter_item_name">Nhập tên</string>
+    <string name="name_item_int_param">Item %d</string>
+    <string name="tab_int_param">Tab %d</string>
 </resources>

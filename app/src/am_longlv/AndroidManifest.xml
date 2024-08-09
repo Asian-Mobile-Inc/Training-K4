@@ -24,6 +24,9 @@
             android:name=".issuefour.IssueFourActivity"
             android:exported="false" />
         <activity
+            android:name=".issuefive.IssueFiveActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
