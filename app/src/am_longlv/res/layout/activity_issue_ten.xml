@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.example.asian.issueten.customview.CustomGrid
+    <com.example.asian.issueten.customview.MyChartView
         android:id="@+id/mcvSellExpenses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

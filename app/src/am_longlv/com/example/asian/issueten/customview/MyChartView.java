@@ -87,7 +87,7 @@ public class MyChartView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int height = Math.min(heightMeasureSpec,widthMeasureSpec);
+        int height = Math.min(heightMeasureSpec, widthMeasureSpec);
         super.onMeasure(widthMeasureSpec, height);
     }
 
@@ -236,6 +236,7 @@ public class MyChartView extends View {
         paint.setColor(ContextCompat.getColor(mContext, R.color.black));
         paint.setTextSize(TEXT_SIZE);
         paint.setStrokeWidth(1);
+        paint.setTextAlign(Paint.Align.RIGHT);
         int lineY = COUNT_LINE_Y_AXIS * Math.round(mScale);
         for (int i = 0; i <= lineY; i++) {
             if ((((axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale)) - mMoveY) >= startY)
@@ -245,7 +246,7 @@ public class MyChartView extends View {
                         (axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale)) - mMoveY,
                         originX, (axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale))
                                 - mMoveY, paint);
-                canvas.drawText("$" + i * maxValue / lineY, 0,
+                canvas.drawText("$" + i * maxValue / lineY, (float) getWidth() / COUNT_RATIO - 20,
                         (axisY - (((i * (mHeight - 2 * startY)) / lineY) * mScale)) - mMoveY,
                         paint);
             }

@@ -11,7 +11,7 @@ import com.example.asian.issueten.model.SellExpense;
 import java.util.List;
 
 public class IssueTenActivity extends AppCompatActivity {
-    private CustomGrid mMcvSellExpenses;
+    private MyChartView mMcvSellExpenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
