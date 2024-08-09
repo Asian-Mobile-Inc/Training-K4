@@ -44,11 +44,7 @@ public class MyDiffUtilCallback extends DiffUtil.Callback {
         if (!oldList.get(oldItemPosition).getUserName().equals(newList.get(newItemPosition).getUserName())) {
             return false;
         } else {
-            if (oldList.get(oldItemPosition).getAge() != newList.get(newItemPosition).getAge()) {
-                return false;
-            } else {
-                return true;
-            }
+            return oldList.get(oldItemPosition).getAge() == newList.get(newItemPosition).getAge();
         }
     }
 

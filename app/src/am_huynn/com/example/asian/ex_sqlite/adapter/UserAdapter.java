@@ -1,7 +1,6 @@
 package com.example.asian.ex_sqlite.adapter;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,11 @@ import com.example.asian.ex_sqlite.diff_util.MyDiffUtilCallback;
 import com.example.asian.ex_sqlite.model.User;
 
 import java.util.ArrayList;
-import java.util.function.Function;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private IDeleteUser iDeleteUser;
     private final Context mContext;
-    private ArrayList<User> mUsers;
+    private final ArrayList<User> mUsers;
 
     public UserAdapter(Context context, ArrayList<User> users) {
         this.mContext = context;
