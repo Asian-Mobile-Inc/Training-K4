@@ -40,7 +40,6 @@ public class ExerciseFragmentActivity extends AppCompatActivity implements OneFr
             oneFragment.setArguments(data);
             if (mCountClickButton >= MAX_ON_CLICK) {
                 mFragmentManager.beginTransaction().replace(R.id.frContent, oneFragment).commit();
-                mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else {
                 mCountClickButton++;
                 mFragmentManager.beginTransaction().replace(R.id.frContent, oneFragment).addToBackStack(null).commit();
@@ -54,7 +53,6 @@ public class ExerciseFragmentActivity extends AppCompatActivity implements OneFr
             twoFragment.setArguments(data);
             if (mCountClickButton >= MAX_ON_CLICK) {
                 mFragmentManager.beginTransaction().add(R.id.frContent, twoFragment).commit();
-                mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else {
                 mCountClickButton++;
                 mFragmentManager.beginTransaction().add(R.id.frContent, twoFragment).addToBackStack(null).commit();
