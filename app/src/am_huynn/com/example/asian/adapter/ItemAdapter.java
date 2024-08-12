@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
     private final ArrayList<Item> mItems;
     private final Context mContext;
-    private ISelectedItem mISelectedItem;
+    private ISelectedItem mSelectedItem;
 
     public ItemAdapter(Context context, ArrayList<Item> items) {
         this.mContext = context;
@@ -48,8 +48,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
         holder.mLlItem.setOnClickListener(view -> {
             if (mContext instanceof ISelectedItem) {
-                mISelectedItem = (ISelectedItem) mContext;
-                mISelectedItem.selectedItem(item);
+                mSelectedItem = (ISelectedItem) mContext;
+                mSelectedItem.selectedItem(item);
             }
         });
     }
