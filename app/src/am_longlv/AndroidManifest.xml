@@ -27,7 +27,7 @@
             android:name=".issuefive.IssueFiveActivity"
             android:exported="false" />
         <activity
-            android:name=".IssueSix.IssueSixActivity"
+            android:name=".issuesix.IssueSixActivity"
             android:exported="false"
             android:theme="@style/App.ToolbarMenuItem" />
         <activity

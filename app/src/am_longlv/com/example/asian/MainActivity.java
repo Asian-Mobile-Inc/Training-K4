@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.asian.IssueSix.IssueSixActivity;
+import com.example.asian.issuesix.IssueSixActivity;
 import com.example.asian.issuefour.IssueFourActivity;
 import com.example.asian.issuefive.IssueFiveActivity;
 

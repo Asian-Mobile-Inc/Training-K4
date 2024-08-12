@@ -1,4 +1,4 @@
-package com.example.asian.IssueSix;
+package com.example.asian.issuesix;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
