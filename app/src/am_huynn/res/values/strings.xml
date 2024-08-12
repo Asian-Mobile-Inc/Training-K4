@@ -63,4 +63,7 @@
     <string name="fragment_one">Fragment One</string>
     <string name="fragment_two">Fragment Two</string>
     <string name="exercise_fragment">Exercise Fragment</string>
+
+    <!-- Strings related to exercise Tab Layout -->
+    <string name="exercise_tab_layout">Exercise Tab Layout</string>
 </resources>
