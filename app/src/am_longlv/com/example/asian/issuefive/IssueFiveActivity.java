@@ -17,7 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class IssueFiveActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemSelected {
+public class IssueFiveActivity extends AppCompatActivity
+        implements RecyclerViewAdapter.OnItemSelected {
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
     private FloatingActionButton mFabAddItem;
@@ -35,6 +36,7 @@ public class IssueFiveActivity extends AppCompatActivity implements RecyclerView
         mTabLayout = findViewById(R.id.tlIssueFive);
         mViewPager = findViewById(R.id.vpIssueFive);
         mFabAddItem = findViewById(R.id.fabAddItem);
+
     }
 
     private void initListener() {
@@ -46,12 +48,15 @@ public class IssueFiveActivity extends AppCompatActivity implements RecyclerView
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(viewPagerAdapter);
         new TabLayoutMediator(mTabLayout, mViewPager,
-                (tab, position) -> tab.setText(String.format(getString(R.string.tab_int_param), position + 1))
+                (tab, position) -> tab.setText(
+                        String.format(getString(R.string.tab_int_param), position + 1))
         ).attach();
     }
 
     private void addItemFragment(int currentItem, String name) {
-        IssueFiveFragment issueFiveFragment = (IssueFiveFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+        IssueFiveFragment issueFiveFragment =
+                (IssueFiveFragment) getSupportFragmentManager().findFragmentByTag(
+                        "f" + currentItem);
         if (issueFiveFragment != null) {
             issueFiveFragment.updateListItem(name);
         }
@@ -62,10 +67,12 @@ public class IssueFiveActivity extends AppCompatActivity implements RecyclerView
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_edit_name);
         if (dialog.getWindow() != null) {
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         dialog.findViewById(R.id.btnConfirm).setOnClickListener(v -> {
-            addItemFragment(currentItem, ((EditText) dialog.findViewById(R.id.edtNewName)).getText().toString());
+            addItemFragment(currentItem,
+                    ((EditText) dialog.findViewById(R.id.edtNewName)).getText().toString());
             dialog.dismiss();
         });
         dialog.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
@@ -75,7 +82,9 @@ public class IssueFiveActivity extends AppCompatActivity implements RecyclerView
     @Override
     public void onItemSelected(int position) {
         int currentItem = mViewPager.getCurrentItem();
-        IssueFiveFragment issueFiveFragment = (IssueFiveFragment) getSupportFragmentManager().findFragmentByTag("f" + currentItem);
+        IssueFiveFragment issueFiveFragment =
+                (IssueFiveFragment) getSupportFragmentManager().findFragmentByTag(
+                        "f" + currentItem);
         if (issueFiveFragment != null) {
             issueFiveFragment.showDialogActionItem(position);
         }

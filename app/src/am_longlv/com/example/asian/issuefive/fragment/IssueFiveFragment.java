@@ -24,15 +24,26 @@ public class IssueFiveFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private List<String> mLists;
-    private final int position;
+    private int position;
+    private static final String KEY_POSITION = "bundle_position";
 
-    public IssueFiveFragment(int position) {
-        this.position = position;
+    public IssueFiveFragment() {
+    }
+
+    public static IssueFiveFragment newInstance(int position) {
+        IssueFiveFragment myFragment = new IssueFiveFragment();
+        Bundle args = new Bundle();
+        args.putInt(KEY_POSITION, position);
+        myFragment.setArguments(args);
+        return myFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            position = getArguments().getInt(KEY_POSITION, 0);
+        }
     }
 
     @Override
@@ -72,7 +83,8 @@ public class IssueFiveFragment extends Fragment {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_action_item_issue_five);
             if (dialog.getWindow() != null) {
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
             }
             setUpActionItemDialog(dialog, position);
             dialog.show();
@@ -100,7 +112,8 @@ public class IssueFiveFragment extends Fragment {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_confirm);
             if (dialog.getWindow() != null) {
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
             }
             dialog.findViewById(R.id.btnConfirmDelete).setOnClickListener(v -> {
                 List<String> lists = new ArrayList<>(mLists);
@@ -119,7 +132,8 @@ public class IssueFiveFragment extends Fragment {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_edit_name);
             if (dialog.getWindow() != null) {
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
             }
             dialog.findViewById(R.id.btnConfirm).setOnClickListener(v -> {
                 EditText edtNewName = dialog.findViewById(R.id.edtNewName);

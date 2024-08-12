@@ -17,7 +17,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return new IssueFiveFragment(position + 1);
+        return IssueFiveFragment.newInstance(position + 1);
     }
 
     @Override
