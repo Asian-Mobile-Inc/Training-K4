@@ -93,7 +93,7 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
             }
         }
 
-        if (requestCode == 10000) {
+        if (requestCode == Constants.RESULT_CODE_EDIT) {
             if (data != null) {
                 String nameEdit = data.getStringExtra(Constants.KEY_NAME_BACK);
                 int idEdit = data.getIntExtra(Constants.KEY_ID_BACK, 0);
