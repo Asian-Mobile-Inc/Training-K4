@@ -1,11 +1,14 @@
 package com.example.asian.ui;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
-
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.asian.R;
 import com.example.asian.adapter.ItemAdapter;
@@ -19,12 +22,12 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-public class TabActivity extends AppCompatActivity implements ItemAdapter.IDeleteItem {
+public class TabActivity extends AppCompatActivity implements ItemAdapter.ISelectedItem {
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
     private FloatingActionButton mFabAdd;
     private ArrayList<Item> mItems;
-    private PagerAdapter mPagerAdapter;
+    private ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,9 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
         initListener();
         createListItems();
         setAdapter();
+        initLauncher();
     }
+
     private void initView() {
         mTabLayout = findViewById(R.id.tlTab);
         mViewPager = findViewById(R.id.vpPager);
@@ -44,8 +49,31 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
     private void initListener() {
         mFabAdd.setOnClickListener(view -> {
             Intent intent = new Intent(this, CreateItemActivity.class);
-            startActivityForResult(intent, Constants.RESULT_CODE_ADD);
+            launcher.launch(intent);
         });
+    }
+
+    private void initLauncher() {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+
+                result -> {
+                    int resultCode = result.getResultCode();
+                    Intent data = result.getData();
+                    if (resultCode == Constants.RESULT_CODE_ADD) {
+                        if (data != null) {
+                            String nameCreate = data.getStringExtra(Constants.KEY_NAME_BACK);
+                            createItem(nameCreate);
+                        }
+                    }
+
+                    if (resultCode == Constants.RESULT_CODE_EDIT) {
+                        if (data != null) {
+                            String nameEdit = data.getStringExtra(Constants.KEY_NAME_BACK);
+                            int idEdit = data.getIntExtra(Constants.KEY_ID_BACK, 0);
+                            editItem(new Item(idEdit, nameEdit));
+                        }
+                    }
+                });
     }
 
     private void createListItems() {
@@ -58,52 +86,50 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
     }
 
     private void setAdapter() {
-        mPagerAdapter = new PagerAdapter(this, mItems);
+        PagerAdapter mPagerAdapter = new PagerAdapter(this, mItems);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        new TabLayoutMediator(mTabLayout,mViewPager,(tab, position) -> {
-            tab.setText("Tab "+(position+1));
-        }).attach();
+        new TabLayoutMediator(mTabLayout, mViewPager, (tab, position) -> tab.setText(getString(R.string.name_tab_param, position + 1))).attach();
     }
 
     public void createItem(String name) {
         ViewFragment myFragment = (ViewFragment) getSupportFragmentManager().findFragmentByTag("f" + mViewPager.getCurrentItem());
-        if(myFragment != null) {
+        if (myFragment != null) {
             myFragment.createItem(new Item(name));
         }
     }
 
     public void editItem(Item item) {
         ViewFragment myFragment = (ViewFragment) getSupportFragmentManager().findFragmentByTag("f" + mViewPager.getCurrentItem());
-        if(myFragment != null) {
+        if (myFragment != null) {
             myFragment.updateItem(item);
         }
     }
 
-    @Override
     public void deleteItem(int id) {
         ViewFragment myFragment = (ViewFragment) getSupportFragmentManager().findFragmentByTag("f" + mViewPager.getCurrentItem());
-        if(myFragment != null) {
+        if (myFragment != null) {
             myFragment.deleteItem(id);
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.RESULT_CODE_ADD) {
-            if (data != null) {
-                String nameCreate = data.getStringExtra(Constants.KEY_NAME_BACK);
-                createItem(nameCreate);
-            }
-        }
-
-        if (requestCode == Constants.RESULT_CODE_EDIT) {
-            if (data != null) {
-                String nameEdit = data.getStringExtra(Constants.KEY_NAME_BACK);
-                int idEdit = data.getIntExtra(Constants.KEY_ID_BACK, 0);
-                editItem(new Item(idEdit, nameEdit));
-            }
-        }
+    public void selectedItem(Item item) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom_dialog);
+        dialog.show();
+        TextView tvEditItem = dialog.findViewById(R.id.tvEditItem);
+        TextView tvDeleteItem = dialog.findViewById(R.id.tvDeleteItem);
+        tvDeleteItem.setOnClickListener(view1 -> {
+            deleteItem(item.getId());
+            dialog.dismiss();
+        });
+        tvEditItem.setOnClickListener(view1 -> {
+            dialog.dismiss();
+            Intent intent = new Intent(this, EditItemActivity.class);
+            intent.putExtra(Constants.KEY_NAME_ITEM, item.getName());
+            intent.putExtra(Constants.KEY_ID_ITEM, item.getId());
+            launcher.launch(intent);
+        });
     }
 }

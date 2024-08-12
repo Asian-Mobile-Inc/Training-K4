@@ -20,7 +20,6 @@ public class ViewFragment extends Fragment {
     private RecyclerView mRvItemsList;
     private ItemAdapter mItemAdapter;
 
-
     public ViewFragment(ArrayList<Item> items) {
         this.mItems = new ArrayList<>(items);
     }

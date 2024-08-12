@@ -1,9 +1,6 @@
 package com.example.asian.adapter;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +12,15 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.asian.R;
-import com.example.asian.constants.Constants;
 import com.example.asian.diff.ItemDiffUtilCallBack;
 import com.example.asian.model.Item;
-import com.example.asian.ui.EditItemActivity;
 
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
     private final ArrayList<Item> mItems;
     private final Context mContext;
-    private IDeleteItem iDeleteItem;
+    private ISelectedItem iSelectedItem;
 
     public ItemAdapter(Context context, ArrayList<Item> items) {
         this.mContext = context;
@@ -52,25 +47,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.mTvItemName.setText(item.getName());
 
         holder.mLlItem.setOnClickListener(view -> {
-            Dialog dialog = new Dialog(mContext);
-            dialog.setContentView(R.layout.custom_dialog);
-            dialog.show();
-            TextView tvEditItem = dialog.findViewById(R.id.tvEditItem);
-            TextView tvDeleteItem = dialog.findViewById(R.id.tvDeleteItem);
-            tvDeleteItem.setOnClickListener(view1 -> {
-                if (mContext instanceof IDeleteItem) {
-                    iDeleteItem = (IDeleteItem) mContext;
-                    iDeleteItem.deleteItem(item.getId());
-                }
-                dialog.dismiss();
-            });
-            tvEditItem.setOnClickListener(view1 -> {
-                dialog.dismiss();
-                Intent intent = new Intent(mContext, EditItemActivity.class);
-                intent.putExtra(Constants.KEY_NAME_ITEM, item.getName());
-                intent.putExtra(Constants.KEY_ID_ITEM, item.getId());
-                ((Activity) mContext).startActivityForResult(intent, Constants.RESULT_CODE_EDIT);
-            });
+            if (mContext instanceof ISelectedItem) {
+                iSelectedItem = (ISelectedItem) mContext;
+                iSelectedItem.selectedItem(item);
+            }
         });
     }
 
@@ -94,7 +74,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         }
     }
 
-    public interface IDeleteItem {
-        void deleteItem(int id);
+    public interface ISelectedItem {
+        void selectedItem(Item item);
     }
 }

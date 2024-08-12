@@ -24,19 +24,19 @@ public class PagerAdapter extends FragmentStateAdapter {
         ArrayList<Item> listItem = new ArrayList<>();
         if (position == 0) {
             for (Item i : mItems) {
-                if (i.getName().contains("1")) {
+                if (i.getName().contains(String.valueOf(position+1))) {
                     listItem.add(i);
                 }
             }
         } else if (position == 1) {
             for (Item i : mItems) {
-                if (i.getName().contains("2")) {
+                if (i.getName().contains(String.valueOf(position+1))) {
                     listItem.add(i);
                 }
             }
         } else if (position == 2) {
             for (Item i : mItems) {
-                if (i.getName().contains("3")) {
+                if (i.getName().contains(String.valueOf(position+1))) {
                     listItem.add(i);
                 }
             }
