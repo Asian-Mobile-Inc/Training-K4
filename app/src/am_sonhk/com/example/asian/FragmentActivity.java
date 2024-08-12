@@ -1,6 +1,7 @@
 package com.example.asian;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,13 +19,13 @@ public class FragmentActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private Button mBtnFragmentOne;
     private Button mBtnFragmentTwo;
-
+    private static final int MAX_ON_CLICK = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_fragment_layout);
         initView();
-        handleOnclick();
+        handleOnClick();
     }
 
     private void initView() {
@@ -35,47 +36,47 @@ public class FragmentActivity extends AppCompatActivity {
         mFragmentManager.addOnBackStackChangedListener(this::handleBackStackChanged);
     }
 
-    private void handleOnclick() {
+    private void handleOnClick() {
         mBtnFragmentOne.setOnClickListener(view -> {
-            handleFragmentClick(
+            handleFragmentReplace(
                     FragmentOne.newInstance(ContextCompat.getColor(this, R.color.green_338837)),
                     getString(R.string.fragment_one)
             );
         });
 
         mBtnFragmentTwo.setOnClickListener(view -> {
-            handleFragmentClick(
+            handleFragmentAdd(
                     FragmentTwo.newInstance(ContextCompat.getColor(this, R.color.purple_671063)),
                     getString(R.string.fragment_two)
             );
         });
     }
 
-    private void handleFragmentClick(Fragment fragment, String nameBackStack) {
-        boolean addToBackStack = shouldAddToBackStack();
-        handleFragmentChange(fragment, nameBackStack, addToBackStack);
+    private void handleFragmentAdd(Fragment fragment, String nameBackStack) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction().add(R.id.fragmentContainer, fragment);
+        if (mFragmentClickCount < MAX_ON_CLICK) {
+            transaction.addToBackStack(nameBackStack);
+        }
+        transaction.commit();
         mFragmentClickCount++;
     }
 
-    private void handleFragmentChange(Fragment fragment, String nameBackStack, boolean addToBackStack) {
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment);
-        if (addToBackStack) {
-            fragmentTransaction.addToBackStack(nameBackStack);
+    private void handleFragmentReplace(Fragment fragment, String nameBackStack) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment);
+
+        if (mFragmentClickCount < MAX_ON_CLICK) {
+            transaction.addToBackStack(nameBackStack);
         }
-        fragmentTransaction.commit();
+        transaction.commit();
+        mFragmentClickCount++;;
     }
 
     private void handleBackStackChanged() {
         int backStackEntryCount = mFragmentManager.getBackStackEntryCount();
         if (backStackEntryCount > 0) {
-            FragmentManager.BackStackEntry backEntry = mFragmentManager.getBackStackEntryAt(backStackEntryCount - 1);  // Get the nearly item in list
+            FragmentManager.BackStackEntry backEntry = mFragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
             String fragmentName = backEntry.getName();
             setTitle(fragmentName);
         }
-    }
-
-    private boolean shouldAddToBackStack() {
-        return mFragmentClickCount < 2;
     }
 }
