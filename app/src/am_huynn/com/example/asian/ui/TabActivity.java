@@ -27,7 +27,7 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.ISelec
     private ViewPager2 mViewPager;
     private FloatingActionButton mFabAdd;
     private ArrayList<Item> mItems;
-    private ActivityResultLauncher<Intent> launcher;
+    private ActivityResultLauncher<Intent> mLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +49,12 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.ISelec
     private void initListener() {
         mFabAdd.setOnClickListener(view -> {
             Intent intent = new Intent(this, CreateItemActivity.class);
-            launcher.launch(intent);
+            mLauncher.launch(intent);
         });
     }
 
     private void initLauncher() {
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-
+        mLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     int resultCode = result.getResultCode();
                     Intent data = result.getData();
@@ -121,15 +120,15 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.ISelec
         TextView tvEditItem = dialog.findViewById(R.id.tvEditItem);
         TextView tvDeleteItem = dialog.findViewById(R.id.tvDeleteItem);
         tvDeleteItem.setOnClickListener(view1 -> {
-            deleteItem(item.getItemId());
+            deleteItem(item.getId());
             dialog.dismiss();
         });
         tvEditItem.setOnClickListener(view1 -> {
             dialog.dismiss();
             Intent intent = new Intent(this, EditItemActivity.class);
-            intent.putExtra(Constants.KEY_NAME_ITEM, item.getItemName());
-            intent.putExtra(Constants.KEY_ID_ITEM, item.getItemId());
-            launcher.launch(intent);
+            intent.putExtra(Constants.KEY_NAME_ITEM, item.getName());
+            intent.putExtra(Constants.KEY_ID_ITEM, item.getId());
+            mLauncher.launch(intent);
         });
     }
 }

@@ -27,19 +27,19 @@ public class PagerAdapter extends FragmentStateAdapter {
         int tabThree = 2;
         if (position == tabOne) {
             for (Item i : mItems) {
-                if (i.getItemName().contains(String.valueOf(position + 1))) {
+                if (i.getName().contains(String.valueOf(position + 1))) {
                     listItem.add(i);
                 }
             }
         } else if (position == tabTwo) {
             for (Item i : mItems) {
-                if (i.getItemName().contains(String.valueOf(position + 1))) {
+                if (i.getName().contains(String.valueOf(position + 1))) {
                     listItem.add(i);
                 }
             }
         } else if (position == tabThree) {
             for (Item i : mItems) {
-                if (i.getItemName().contains(String.valueOf(position + 1))) {
+                if (i.getName().contains(String.valueOf(position + 1))) {
                     listItem.add(i);
                 }
             }

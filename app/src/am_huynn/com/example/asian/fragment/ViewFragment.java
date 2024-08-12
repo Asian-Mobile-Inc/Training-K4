@@ -49,7 +49,7 @@ public class ViewFragment extends Fragment {
 
     public void updateItem(Item item) {
         for (int i = 0; i < mItems.size(); i++) {
-            if (mItems.get(i).getItemId() == item.getItemId()) {
+            if (mItems.get(i).getId() == item.getId()) {
                 mItems.set(i, item);
                 mItemAdapter.setData(mItems);
                 return;
@@ -59,7 +59,7 @@ public class ViewFragment extends Fragment {
 
     public void deleteItem(int id) {
         for (int i = 0; i < mItems.size(); i++) {
-            if (mItems.get(i).getItemId() == id) {
+            if (mItems.get(i).getId() == id) {
                 mItems.remove(i);
                 mItemAdapter.setData(mItems);
                 return;
