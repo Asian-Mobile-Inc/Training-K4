@@ -30,6 +30,7 @@ public class TabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
         initView();
+        initListener();
         createListItems();
         setAdapter();
     }

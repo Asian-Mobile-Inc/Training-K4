@@ -9,6 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CreateItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.CreateItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.TabActivity"
             android:exported="false" />
         <activity

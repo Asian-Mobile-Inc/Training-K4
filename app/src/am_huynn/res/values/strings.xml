@@ -66,4 +66,9 @@
 
     <!-- Strings related to exercise Tab Layout -->
     <string name="exercise_tab_layout">Exercise Tab Layout</string>
+    <string name="name_is_not_empty">Name is not empty</string>
+    <string name="create_item">Create Item</string>
+    <string name="hint_create_item">Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
 </resources>
