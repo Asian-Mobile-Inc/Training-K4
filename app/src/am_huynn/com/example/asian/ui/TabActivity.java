@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.asian.R;
 import com.example.asian.adapter.ItemAdapter;
 import com.example.asian.adapter.PagerAdapter;
+import com.example.asian.constants.Constants;
 import com.example.asian.fragment.ViewFragment;
 import com.example.asian.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -80,17 +81,17 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1000) {
+        if (requestCode == Constants.RESULT_CODE_ADD) {
             if (data != null) {
-                String nameCreate = data.getStringExtra("keyNameBack");
+                String nameCreate = data.getStringExtra(Constants.KEY_NAME_BACK);
                 createItem(nameCreate);
             }
         }
 
-        if (requestCode == 10000) {
+        if (requestCode == Constants.RESULT_CODE_EDIT) {
             if (data != null) {
-                String nameEdit = data.getStringExtra("keyNameBack");
-                int idEdit = data.getIntExtra("keyIdBack", 0);
+                String nameEdit = data.getStringExtra(Constants.KEY_NAME_BACK);
+                int idEdit = data.getIntExtra(Constants.KEY_ID_BACK, 0);
                 editItem(new Item(idEdit, nameEdit));
             }
         }

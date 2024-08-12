@@ -8,6 +8,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.R;
+import com.example.asian.constants.Constants;
 
 public class CreateItemActivity extends AppCompatActivity {
     private EditText mEdtCreateItem;
@@ -36,8 +37,8 @@ public class CreateItemActivity extends AppCompatActivity {
                 return;
             }
             Intent intent = new Intent();
-            intent.putExtra("keyNameBack", mEdtCreateItem.getText().toString());
-            setResult(1000, intent);
+            intent.putExtra(Constants.KEY_NAME_BACK, mEdtCreateItem.getText().toString());
+            setResult(Constants.RESULT_CODE_ADD, intent);
             finish();
         });
     }

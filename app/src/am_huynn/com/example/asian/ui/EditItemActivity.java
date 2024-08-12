@@ -8,6 +8,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.R;
+import com.example.asian.constants.Constants;
 
 public class EditItemActivity extends AppCompatActivity {
     private EditText mEdtItem;
@@ -30,23 +31,21 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
     private void initValue() {
-        String name = getIntent().getStringExtra("keyNameItem");
+        String name = getIntent().getStringExtra(Constants.KEY_NAME_ITEM);
         mEdtItem.setText(name);
     }
 
     private void initListener() {
-        mBtnCancel.setOnClickListener(view -> {
-            finish();
-        });
+        mBtnCancel.setOnClickListener(view -> finish());
 
         mBtnEdit.setOnClickListener(view -> {
             if (!validatorName()) {
                 return;
             }
             Intent intent = new Intent();
-            intent.putExtra("keyNameBack", mEdtItem.getText().toString());
-            intent.putExtra("keyIdBack", getIntent().getIntExtra("keyIdItem", 0));
-            setResult(10000, intent);
+            intent.putExtra(Constants.KEY_NAME_BACK, mEdtItem.getText().toString());
+            intent.putExtra(Constants.KEY_NAME_BACK, getIntent().getIntExtra(Constants.KEY_ID_ITEM, 0));
+            setResult(Constants.RESULT_CODE_EDIT, intent);
             finish();
         });
     }
