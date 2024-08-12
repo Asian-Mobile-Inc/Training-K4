@@ -32,7 +32,7 @@ public class IssueSixActivity extends AppCompatActivity {
     private NavigationView mNvIssueSix;
     private FloatingActionButton mFabIssueSix;
     private TextView mTvShowTitleMenu;
-    private boolean isFavourite = false;
+    private boolean mIsFavourite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +88,12 @@ public class IssueSixActivity extends AppCompatActivity {
                 Drawable drawable = item.getIcon();
                 if (drawable != null) {
                     int color;
-                    if (!isFavourite) {
+                    if (!mIsFavourite) {
                         color = ContextCompat.getColor(this, R.color.pink_FF5C78);
                     } else {
                         color = ContextCompat.getColor(this, R.color.white);
                     }
-                    isFavourite = !isFavourite;
+                    mIsFavourite = !mIsFavourite;
                     DrawableCompat.setTint(drawable, color);
                     item.setIcon(drawable);
                     showSnakeBar(mDrawerLayout, getString(R.string.favourite));
