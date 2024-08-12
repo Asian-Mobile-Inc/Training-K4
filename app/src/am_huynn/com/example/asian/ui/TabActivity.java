@@ -1,15 +1,16 @@
 package com.example.asian.ui;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import com.example.asian.R;
+import com.example.asian.adapter.ItemAdapter;
 import com.example.asian.adapter.PagerAdapter;
 import com.example.asian.fragment.ViewFragment;
 import com.example.asian.model.Item;
@@ -18,7 +19,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class TabActivity extends AppCompatActivity {
+public class TabActivity extends AppCompatActivity implements ItemAdapter.IDeleteItem {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private FloatingActionButton mFabAdd;
@@ -30,10 +31,10 @@ public class TabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
         initView();
-        initListener();
-        createListItems();
         setAdapter();
+        initListener();
     }
+
     private void initView() {
         mTabLayout = findViewById(R.id.tlTab);
         mViewPager = findViewById(R.id.vpPaper);
@@ -47,15 +48,6 @@ public class TabActivity extends AppCompatActivity {
         });
     }
 
-    private void createListItems() {
-        mItems = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
-            for (int j = 1; j < 7; j++) {
-                mItems.add(new Item(i + j, "" + i + (char) (64 + j)));
-            }
-        }
-    }
-
     private void setAdapter() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         createListItems();
@@ -65,10 +57,24 @@ public class TabActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+    private void createListItems() {
+        mItems = new ArrayList<>();
+        for (int i = 1; i <= 3; i++) {
+            for (int j = 1; j < 7; j++) {
+                mItems.add(new Item(i + j, "" + i + (char) (64 + j)));
+            }
+        }
+    }
+
     public void createItem(String name) {
         ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
 
         myFragment.createItem(new Item(mItems.size() + 1, name));
+    }
+
+    public void editItem(Item item) {
+        ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+        myFragment.updateItem(item);
     }
 
     @Override
@@ -80,5 +86,19 @@ public class TabActivity extends AppCompatActivity {
                 createItem(nameCreate);
             }
         }
+
+        if (requestCode == 10000) {
+            if (data != null) {
+                String nameEdit = data.getStringExtra("keyNameBack");
+                int idEdit = data.getIntExtra("keyIdBack", 0);
+                editItem(new Item(idEdit, nameEdit));
+            }
+        }
+    }
+
+    @Override
+    public void deleteItem(int id) {
+        ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+        myFragment.deleteItem(id);
     }
 }

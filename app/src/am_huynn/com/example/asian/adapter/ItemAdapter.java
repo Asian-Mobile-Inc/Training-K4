@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.asian.R;
 import com.example.asian.diff.ItemDiffUtilCallBack;
 import com.example.asian.model.Item;
+import com.example.asian.ui.EditItemActivity;
 
 import java.util.ArrayList;
 
@@ -53,6 +54,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             Dialog dialog = new Dialog(mContext);
             dialog.setContentView(R.layout.custom_dialog);
             dialog.show();
+            TextView tvEditItem = dialog.findViewById(R.id.tvEditItem);
+            TextView tvDeleteItem = dialog.findViewById(R.id.tvDeleteItem);
+            tvDeleteItem.setOnClickListener(view1 -> {
+                if (mContext instanceof IDeleteItem) {
+                    iDeleteItem = (IDeleteItem) mContext;
+                    iDeleteItem.deleteItem(item.getId());
+                }
+                dialog.dismiss();
+            });
+            tvEditItem.setOnClickListener(view1 -> {
+                dialog.dismiss();
+                Intent intent = new Intent(mContext, EditItemActivity.class);
+                intent.putExtra("keyNameItem", item.getName());
+                intent.putExtra("keyIdItem", item.getId());
+                ((Activity) mContext).startActivityForResult(intent, 10000);
+            });
         });
     }
 
