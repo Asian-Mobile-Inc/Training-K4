@@ -67,5 +67,4 @@ public class ViewFragment extends Fragment {
             }
         }
     }
-
 }

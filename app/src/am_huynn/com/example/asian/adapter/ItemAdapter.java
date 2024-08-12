@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.asian.R;
+import com.example.asian.constants.Constants;
 import com.example.asian.diff.ItemDiffUtilCallBack;
 import com.example.asian.model.Item;
 import com.example.asian.ui.EditItemActivity;
@@ -66,9 +67,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             tvEditItem.setOnClickListener(view1 -> {
                 dialog.dismiss();
                 Intent intent = new Intent(mContext, EditItemActivity.class);
-                intent.putExtra("keyNameItem", item.getName());
-                intent.putExtra("keyIdItem", item.getId());
-                ((Activity) mContext).startActivityForResult(intent, 10000);
+                intent.putExtra(Constants.KEY_NAME_ITEM, item.getName());
+                intent.putExtra(Constants.KEY_ID_ITEM, item.getId());
+                ((Activity) mContext).startActivityForResult(intent, Constants.RESULT_CODE_EDIT);
             });
         });
     }

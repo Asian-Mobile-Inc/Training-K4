@@ -2,6 +2,7 @@ package com.example.asian.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -36,7 +37,9 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnCancel.setOnClickListener(view -> finish());
+        mBtnCancel.setOnClickListener(view -> {
+            finish();
+        });
 
         mBtnEdit.setOnClickListener(view -> {
             if (!validatorName()) {
@@ -44,7 +47,7 @@ public class EditItemActivity extends AppCompatActivity {
             }
             Intent intent = new Intent();
             intent.putExtra(Constants.KEY_NAME_BACK, mEdtItem.getText().toString());
-            intent.putExtra(Constants.KEY_NAME_BACK, getIntent().getIntExtra(Constants.KEY_ID_ITEM, 0));
+            intent.putExtra(Constants.KEY_ID_BACK, getIntent().getIntExtra(Constants.KEY_ID_ITEM, 0));
             setResult(Constants.RESULT_CODE_EDIT, intent);
             finish();
         });

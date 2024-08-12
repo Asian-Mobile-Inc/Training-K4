@@ -1,13 +1,13 @@
 package com.example.asian.ui;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.example.asian.R;
 import com.example.asian.adapter.ItemAdapter;
@@ -32,10 +32,10 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
         initView();
-        setAdapter();
         initListener();
+        createListItems();
+        setAdapter();
     }
-
     private void initView() {
         mTabLayout = findViewById(R.id.tlTab);
         mViewPager = findViewById(R.id.vpPaper);
@@ -45,17 +45,8 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
     private void initListener() {
         mFabAdd.setOnClickListener(view -> {
             Intent intent = new Intent(this, CreateItemActivity.class);
-            startActivityForResult(intent, 1000);
+            startActivityForResult(intent, Constants.RESULT_CODE_ADD);
         });
-    }
-
-    private void setAdapter() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        createListItems();
-        mPagerAdapter = new PagerAdapter(fragmentManager, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, mItems);
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOffscreenPageLimit(2);
-        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     private void createListItems() {
@@ -67,15 +58,29 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
         }
     }
 
+    private void setAdapter() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        createListItems();
+        mPagerAdapter = new PagerAdapter(fragmentManager, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, mItems);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOffscreenPageLimit(2);
+        mTabLayout.setupWithViewPager(mViewPager);
+    }
+
     public void createItem(String name) {
         ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
-
         myFragment.createItem(new Item(mItems.size() + 1, name));
     }
 
     public void editItem(Item item) {
         ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
         myFragment.updateItem(item);
+    }
+
+    @Override
+    public void deleteItem(int id) {
+        ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+        myFragment.deleteItem(id);
     }
 
     @Override
@@ -88,18 +93,12 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
             }
         }
 
-        if (requestCode == Constants.RESULT_CODE_EDIT) {
+        if (requestCode == 10000) {
             if (data != null) {
                 String nameEdit = data.getStringExtra(Constants.KEY_NAME_BACK);
                 int idEdit = data.getIntExtra(Constants.KEY_ID_BACK, 0);
                 editItem(new Item(idEdit, nameEdit));
             }
         }
-    }
-
-    @Override
-    public void deleteItem(int id) {
-        ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
-        myFragment.deleteItem(id);
     }
 }
