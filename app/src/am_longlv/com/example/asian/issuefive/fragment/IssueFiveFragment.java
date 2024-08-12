@@ -24,7 +24,7 @@ public class IssueFiveFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private List<String> mLists;
-    private int position;
+    private int mPosition;
     private static final String KEY_POSITION = "bundle_position";
 
     public IssueFiveFragment() {
@@ -42,7 +42,7 @@ public class IssueFiveFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            position = getArguments().getInt(KEY_POSITION, 0);
+            mPosition = getArguments().getInt(KEY_POSITION, 0);
         }
     }
 
@@ -58,7 +58,7 @@ public class IssueFiveFragment extends Fragment {
     private void setUpListData() {
         mLists = new ArrayList<>();
         for (char i = Constant.FIRST_CHAR; i <= Constant.LAST_CHAR; i++) {
-            mLists.add(String.format(getString(R.string.name_item_int_param), position) + i);
+            mLists.add(String.format(getString(R.string.name_item_int_param), mPosition) + i);
         }
     }
 
