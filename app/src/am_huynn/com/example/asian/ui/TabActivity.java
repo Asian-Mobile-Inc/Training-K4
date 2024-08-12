@@ -1,14 +1,17 @@
 package com.example.asian.ui;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.asian.R;
 import com.example.asian.adapter.PagerAdapter;
+import com.example.asian.fragment.ViewFragment;
 import com.example.asian.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -36,6 +39,13 @@ public class TabActivity extends AppCompatActivity {
         mFabAdd = findViewById(R.id.fabAdd);
     }
 
+    private void initListener() {
+        mFabAdd.setOnClickListener(view -> {
+            Intent intent = new Intent(this, CreateItemActivity.class);
+            startActivityForResult(intent, 1000);
+        });
+    }
+
     private void createListItems() {
         mItems = new ArrayList<>();
         for (int i = 1; i <= 3; i++) {
@@ -52,5 +62,22 @@ public class TabActivity extends AppCompatActivity {
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    public void createItem(String name) {
+        ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+
+        myFragment.createItem(new Item(mItems.size() + 1, name));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000) {
+            if (data != null) {
+                String nameCreate = data.getStringExtra("keyNameBack");
+                createItem(nameCreate);
+            }
+        }
     }
 }

@@ -42,4 +42,9 @@ public class ViewFragment extends Fragment {
         mRvItemsList.setAdapter(mItemAdapter);
         mRvItemsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
+    public void createItem(Item item) {
+        mItems.add(item);
+        mItemAdapter.setData(mItems);
+    }
 }
