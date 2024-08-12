@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.asian.issuefour.IssueFourActivity;
+import com.example.asian.issuefive.IssueFiveActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin;
     private Button mBtnExerciseCal;
     private Button mBtnExerciseUpdateInfo;
     private Button mBtnIssuesFour;
+    private Button mBtnIssueFive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +29,24 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseCal = findViewById(R.id.btnExerciseCal);
         mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
         mBtnIssuesFour = findViewById(R.id.btnIssuesFour);
+        mBtnIssueFive = findViewById(R.id.btnIssueFive);
     }
 
     private void initListener() {
-        mBtnExerciseLogin.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, ExerciseLoginActivity.class)));
-        mBtnExerciseCal.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, ExerciseCalculateActivity.class)));
-        mBtnExerciseUpdateInfo.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class)));
-        mBtnIssuesFour.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, IssueFourActivity.class)));
+        mBtnExerciseLogin.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ExerciseLoginActivity.class));
+        });
+        mBtnExerciseCal.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ExerciseCalculateActivity.class));
+        });
+        mBtnExerciseUpdateInfo.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ExerciseUpdateInfoActivity.class));
+        });
+        mBtnIssuesFour.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, IssueFourActivity.class));
+        });
+        mBtnIssueFive.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, IssueFiveActivity.class));
+        });
     }
 }
