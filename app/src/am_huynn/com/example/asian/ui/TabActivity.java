@@ -121,14 +121,14 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.ISelec
         TextView tvEditItem = dialog.findViewById(R.id.tvEditItem);
         TextView tvDeleteItem = dialog.findViewById(R.id.tvDeleteItem);
         tvDeleteItem.setOnClickListener(view1 -> {
-            deleteItem(item.getId());
+            deleteItem(item.getItemId());
             dialog.dismiss();
         });
         tvEditItem.setOnClickListener(view1 -> {
             dialog.dismiss();
             Intent intent = new Intent(this, EditItemActivity.class);
-            intent.putExtra(Constants.KEY_NAME_ITEM, item.getName());
-            intent.putExtra(Constants.KEY_ID_ITEM, item.getId());
+            intent.putExtra(Constants.KEY_NAME_ITEM, item.getItemName());
+            intent.putExtra(Constants.KEY_ID_ITEM, item.getItemId());
             launcher.launch(intent);
         });
     }

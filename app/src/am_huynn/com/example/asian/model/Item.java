@@ -2,33 +2,25 @@ package com.example.asian.model;
 
 public class Item {
     private static int increment = 0;
-    private int id;
-    private String name;
+    private int itemId;
+    private String itemName;
 
-    public Item(String name) {
+    public Item(String itemName) {
         increment++;
-        this.id = increment;
-        this.name = name;
+        this.itemId = increment;
+        this.itemName = itemName;
     }
 
-    public Item(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Item(int itemId, String itemName) {
+        this.itemId = itemId;
+        this.itemName = itemName;
     }
 
-    public int getId() {
-        return id;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getItemName() {
+        return itemName;
     }
 }
