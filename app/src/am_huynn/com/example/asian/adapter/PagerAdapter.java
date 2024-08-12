@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class PagerAdapter extends FragmentStateAdapter {
     private final ArrayList<Item> mItems;
 
-    public PagerAdapter(@NonNull FragmentActivity fragmentActivity,ArrayList<Item> items) {
+    public PagerAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Item> items) {
         super(fragmentActivity);
         mItems = new ArrayList<>(items);
     }
@@ -22,24 +22,24 @@ public class PagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         ArrayList<Item> listItem = new ArrayList<>();
-        int tabOne = 1;
-        int tabTwo = 2;
-        int tabThree = 3;
+        int tabOne = 0;
+        int tabTwo = 1;
+        int tabThree = 2;
         if (position == tabOne) {
             for (Item i : mItems) {
-                if (i.getName().contains(String.valueOf(tabOne))) {
+                if (i.getName().contains(String.valueOf(position + 1))) {
                     listItem.add(i);
                 }
             }
         } else if (position == tabTwo) {
             for (Item i : mItems) {
-                if (i.getName().contains(String.valueOf(tabTwo))) {
+                if (i.getName().contains(String.valueOf(position + 1))) {
                     listItem.add(i);
                 }
             }
         } else if (position == tabThree) {
             for (Item i : mItems) {
-                if (i.getName().contains(String.valueOf(tabThree))) {
+                if (i.getName().contains(String.valueOf(position + 1))) {
                     listItem.add(i);
                 }
             }
