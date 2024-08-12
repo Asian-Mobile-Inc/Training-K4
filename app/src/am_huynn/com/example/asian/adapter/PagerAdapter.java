@@ -22,21 +22,24 @@ public class PagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         ArrayList<Item> listItem = new ArrayList<>();
-        if (position == 0) {
+        int tabOne = 1;
+        int tabTwo = 2;
+        int tabThree = 3;
+        if (position == tabOne) {
             for (Item i : mItems) {
-                if (i.getName().contains(String.valueOf(position+1))) {
+                if (i.getName().contains(String.valueOf(tabOne))) {
                     listItem.add(i);
                 }
             }
-        } else if (position == 1) {
+        } else if (position == tabTwo) {
             for (Item i : mItems) {
-                if (i.getName().contains(String.valueOf(position+1))) {
+                if (i.getName().contains(String.valueOf(tabTwo))) {
                     listItem.add(i);
                 }
             }
-        } else if (position == 2) {
+        } else if (position == tabThree) {
             for (Item i : mItems) {
-                if (i.getName().contains(String.valueOf(position+1))) {
+                if (i.getName().contains(String.valueOf(tabThree))) {
                     listItem.add(i);
                 }
             }
