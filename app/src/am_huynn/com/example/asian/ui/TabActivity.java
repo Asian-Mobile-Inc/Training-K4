@@ -53,7 +53,7 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
         mItems = new ArrayList<>();
         for (int i = 1; i <= 3; i++) {
             for (int j = 1; j < 7; j++) {
-                mItems.add(new Item(i + j, "" + i + (char) (64 + j)));
+                mItems.add(new Item("" + i + (char) (64 + j)));
             }
         }
     }
@@ -69,7 +69,7 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
 
     public void createItem(String name) {
         ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
-        myFragment.createItem(new Item(mItems.size() + 1, name));
+        myFragment.createItem(new Item(name));
     }
 
     public void editItem(Item item) {
