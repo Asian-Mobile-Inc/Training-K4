@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -50,15 +51,15 @@ public class IssueSixActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mFabIssueSix.setOnClickListener(v ->
-                Snackbar.make(v, getString(R.string.replace_with_your_own_action), Snackbar.LENGTH_LONG)
-                        .show());
-
+        mFabIssueSix.setOnClickListener(v -> {
+            showSnakeBar(v, getString(R.string.replace_with_your_own_action));
+        });
     }
 
     private void setUpDrawerLayout() {
         setSupportActionBar(mToolbar);
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        mActionBarDrawerToggle =
+                new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
         mActionBarDrawerToggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -118,18 +119,29 @@ public class IssueSixActivity extends AppCompatActivity {
         switch (id) {
             case (R.id.navHome):
                 mTvShowTitleMenu.setText(getString(R.string.home));
+                showSnakeBar(mDrawerLayout, getString(R.string.home));
                 break;
             case (R.id.navSetting):
                 mTvShowTitleMenu.setText(getString(R.string.setting));
+                showSnakeBar(mDrawerLayout, getString(R.string.setting));
                 break;
             case (R.id.navShare):
                 mTvShowTitleMenu.setText(getString(R.string.share));
+                showSnakeBar(mDrawerLayout, getString(R.string.share));
                 break;
             case (R.id.navSend):
                 mTvShowTitleMenu.setText(getString(R.string.send));
+                showSnakeBar(mDrawerLayout, getString(R.string.send));
                 break;
             default:
                 break;
+        }
+    }
+
+    private void showSnakeBar(View v, String text) {
+        if (v != null) {
+            Snackbar.make(v, text, Snackbar.LENGTH_LONG)
+                    .show();
         }
     }
 }
