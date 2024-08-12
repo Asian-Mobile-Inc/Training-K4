@@ -54,11 +54,11 @@ public class FragmentActivity extends AppCompatActivity {
     private void handleFragmentClick(Fragment fragment, String nameBackStack) {
         boolean addToBackStack = shouldAddToBackStack();
         handleFragmentChange(fragment, nameBackStack, addToBackStack);
-        mFragmentClickCount++; // Increment the click count after handling the fragment change
+        mFragmentClickCount++;
     }
 
     private void handleFragmentChange(Fragment fragment, String nameBackStack, boolean addToBackStack) {
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction(); // Begin transaction
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, fragment);
         if (addToBackStack) {
             fragmentTransaction.addToBackStack(nameBackStack);
@@ -67,7 +67,7 @@ public class FragmentActivity extends AppCompatActivity {
     }
 
     private void handleBackStackChanged() {
-        int backStackEntryCount = mFragmentManager.getBackStackEntryCount(); // Get total item in list backstack
+        int backStackEntryCount = mFragmentManager.getBackStackEntryCount();
         if (backStackEntryCount > 0) {
             FragmentManager.BackStackEntry backEntry = mFragmentManager.getBackStackEntryAt(backStackEntryCount - 1);  // Get the nearly item in list
             String fragmentName = backEntry.getName();
@@ -76,6 +76,6 @@ public class FragmentActivity extends AppCompatActivity {
     }
 
     private boolean shouldAddToBackStack() {
-        return mFragmentClickCount < 2; // Only add to back stack for the first two clicks
+        return mFragmentClickCount < 2;
     }
 }
