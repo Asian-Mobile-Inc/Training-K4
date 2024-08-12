@@ -2,9 +2,7 @@ package com.example.asian.ui;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,12 +15,13 @@ import com.example.asian.fragment.ViewFragment;
 import com.example.asian.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
 public class TabActivity extends AppCompatActivity implements ItemAdapter.IDeleteItem {
     private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+    private ViewPager2 mViewPager;
     private FloatingActionButton mFabAdd;
     private ArrayList<Item> mItems;
     private PagerAdapter mPagerAdapter;
@@ -38,7 +37,7 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
     }
     private void initView() {
         mTabLayout = findViewById(R.id.tlTab);
-        mViewPager = findViewById(R.id.vpPaper);
+        mViewPager = findViewById(R.id.vpPager);
         mFabAdd = findViewById(R.id.fabAdd);
     }
 
@@ -59,28 +58,34 @@ public class TabActivity extends AppCompatActivity implements ItemAdapter.IDelet
     }
 
     private void setAdapter() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        createListItems();
-        mPagerAdapter = new PagerAdapter(fragmentManager, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, mItems);
+        mPagerAdapter = new PagerAdapter(this, mItems);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mTabLayout.setupWithViewPager(mViewPager);
+        new TabLayoutMediator(mTabLayout,mViewPager,(tab, position) -> {
+            tab.setText("Tab "+(position+1));
+        }).attach();
     }
 
     public void createItem(String name) {
-        ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
-        myFragment.createItem(new Item(name));
+        ViewFragment myFragment = (ViewFragment) getSupportFragmentManager().findFragmentByTag("f" + mViewPager.getCurrentItem());
+        if(myFragment != null) {
+            myFragment.createItem(new Item(name));
+        }
     }
 
     public void editItem(Item item) {
-        ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
-        myFragment.updateItem(item);
+        ViewFragment myFragment = (ViewFragment) getSupportFragmentManager().findFragmentByTag("f" + mViewPager.getCurrentItem());
+        if(myFragment != null) {
+            myFragment.updateItem(item);
+        }
     }
 
     @Override
     public void deleteItem(int id) {
-        ViewFragment myFragment = (ViewFragment) mPagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
-        myFragment.deleteItem(id);
+        ViewFragment myFragment = (ViewFragment) getSupportFragmentManager().findFragmentByTag("f" + mViewPager.getCurrentItem());
+        if(myFragment != null) {
+            myFragment.deleteItem(id);
+        }
     }
 
     @Override

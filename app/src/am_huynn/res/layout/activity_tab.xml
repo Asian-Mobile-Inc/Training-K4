@@ -16,8 +16,8 @@
         app:tabSelectedTextColor="@color/black"
         app:tabTextColor="@color/white" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vpPaper"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tlTab" />
@@ -26,8 +26,8 @@
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/vpPaper"
-        android:layout_alignBottom="@id/vpPaper"
+        android:layout_alignEnd="@id/vpPager"
+        android:layout_alignBottom="@id/vpPager"
         android:layout_margin="20dp"
         android:clickable="true"
         android:contentDescription="@string/exercise_fragment"
