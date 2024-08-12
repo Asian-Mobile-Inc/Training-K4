@@ -1,7 +1,5 @@
 package com.example.asian.issueten.customview;
 
-import static android.view.MotionEvent.INVALID_POINTER_ID;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -9,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -38,7 +38,6 @@ public class CustomGrid extends View {
     private int mHeight;
     private int mWidth;
     private static final int COUNT_RATIO = 12;
-    private static final int COUNT_MONTH = 12;
     private static final int TEXT_SIZE = 35;
     private static final int COUNT_LINE_Y_AXIS = 8;
     private int mColorSales;
@@ -47,20 +46,42 @@ public class CustomGrid extends View {
     private static final int SCALE_DEFAULT = 1;
     private static final int SCALE_MAX = 5;
     private ScaleGestureDetector mScaleDetector;
-    private float mScaleFactorX = 1.f;
-    private float mScaleFactorY = 1.f;
-    private float mPosX;
-    private float mPosY;
-    private float mLastTouchX;
-    private float mLastTouchY;
-    private int mActivePointerId = INVALID_POINTER_ID;
+    private GestureDetector mGestureDetector;
+    private float mScaleFactor = 1.f;
+    private float mMoveX = 0;
+    private float mMoveY = 0;
+    private float mXFingerFirst = 0;
+    private float mYFingerFirst = 0;
+    private float mScaleBefore = 1f;
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            mScaleFactorX *= detector.getScaleFactor();
-            mScaleFactorX = Math.max(SCALE_DEFAULT, Math.min(mScaleFactorX, SCALE_MAX));
-            mScaleFactorY = mScaleFactorX;
+            mScaleFactor *= detector.getScaleFactor();
+            mScaleFactor = Math.max(SCALE_DEFAULT, Math.min(mScaleFactor, SCALE_MAX));
+            invalidate();
+            return true;
+        }
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onScroll(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
+            mMoveX -= distanceX;
+            mMoveY += distanceY;
+            float space = ((mWidth - 3 * mLeftAxis) / mSellExpenses.size());
+            float minScrollWidth = (mWidth - 3f * mLeftAxis)
+                    / (mScaleFactor * (mSellExpenses.size() / 6f)) - space * mSellExpenses.size();
+            if (mMoveX < minScrollWidth) {
+                mMoveX = minScrollWidth;
+            } else if (mMoveX > 0) {
+                mMoveX = 0;
+            }
+            if (mMoveY < -mHeight * (mScaleFactor - 1)) {
+                mMoveY = -mHeight * (mScaleFactor - 1);
+            } else if (mMoveY > 0) {
+                mMoveY = 0;
+            }
             invalidate();
             return true;
         }
@@ -76,13 +97,19 @@ public class CustomGrid extends View {
         super(context);
         mContext = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
+        mGestureDetector = new GestureDetector(context, new GestureListener());
     }
 
     public CustomGrid(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initPaint();
         setUpAttribute(context, attrs);
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
+        mGestureDetector = new GestureDetector(context, new GestureListener());
+        mContext = context;
+    }
+
+    public CustomGrid(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         mContext = context;
     }
 
@@ -95,9 +122,21 @@ public class CustomGrid extends View {
         mColorExpense = a.getColor(R.styleable.MyChartView_mcv_expenses, Color.BLUE);
     }
 
-    public CustomGrid(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        mContext = context;
+    private void setupVariable() {
+        mPaintSales = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintSales.setStrokeWidth(mWidthChart);
+        mPaintSales.setColor(mColorSales);
+        mPaintExpense = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintExpense.setStrokeWidth(mWidthChart);
+        mPaintExpense.setColor(mColorExpense);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mHeight = getHeight();
+        mWidth = getWidth();
+        mLeftAxis = (float) mWidth / COUNT_RATIO;
+        mRightAxis = (float) mWidth - (float) (2 * mWidth) / COUNT_RATIO;
+        mTopAxis = (float) mHeight / COUNT_RATIO;
+        mBottomAxis = mHeight - mTopAxis;
+        mRectFAxis = new RectF(mLeftAxis, mTopAxis, mRightAxis, mBottomAxis);
     }
 
     @Override
@@ -119,47 +158,36 @@ public class CustomGrid extends View {
         paintWall(canvas);
     }
 
-    private void setupVariable() {
-        mPaint = new Paint();
-        mHeight = getHeight();
-        mWidth = getWidth();
-        mLeftAxis = (float) mWidth / COUNT_RATIO;
-        mRightAxis = (float) mWidth - (float) (2 * mWidth) / COUNT_RATIO;
-        mTopAxis = (float) mHeight / COUNT_RATIO;
-        mBottomAxis = mHeight - mTopAxis;
-        mRectFAxis = new RectF(mLeftAxis, mTopAxis, mRightAxis, mBottomAxis);
-    }
-
     private void paintAxis(Canvas canvas) {
         mPaint.setColor(ContextCompat.getColor(mContext, R.color.gray_BDBDBD));
         canvas.drawRect(mRectFAxis, mPaint);
     }
 
     private void paintChart(Canvas canvas) {
-        canvas.save();
-        if (mSellExpenses.size() > 6) {
-            mScaleFactorX = Math.max(2, mScaleFactorX);
-        }
-        canvas.scale(mScaleFactorX, mScaleFactorY, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
         paintLinePrice(canvas);
-        for (int i = mSellExpenses.size() - 1; i >= 0; i--) {
+        canvas.save();
+        canvas.translate(mLeftAxis, mBottomAxis);
+        if (mSellExpenses.size() > 6) {
+            canvas.scale(mScaleFactor * (mSellExpenses.size() / 6f), mScaleFactor);
+        } else {
+            canvas.scale(mScaleFactor, mScaleFactor);
+        }
+        float space = ((mWidth - 3 * mLeftAxis) / mSellExpenses.size());
+        canvas.translate(mMoveX, -mMoveY);
+        for (int i = 0; i < mSellExpenses.size(); i++) {
             SellExpense sellExpense = mSellExpenses.get(i);
             long maxValue = getMaxValue();
             float axisY = mHeight - 2 * mTopAxis;
-            float space = ((mWidth - 3 * mLeftAxis) / mSellExpenses.size());
-            float x = (i * space + mLeftAxis);
-            float xNext = ((i + 1) * space + mLeftAxis);
+            float x = (i * space);
+            float xNext = ((i + 1) * space);
             mWidthChart = space / 4;
             mPaintExpense.setStrokeWidth(mWidthChart);
             mPaintSales.setStrokeWidth(mWidthChart);
             float xDraw = x + Math.abs(x - xNext) / 2 - mWidthChart / 2;
-
-            float ySales = (mBottomAxis
-                    - (sellExpense.getSales() * axisY / maxValue));
-            float yExpense = (mBottomAxis
-                    - (sellExpense.getExpense() * axisY / maxValue));
-            canvas.drawLine(xDraw, mBottomAxis, xDraw, ySales, mPaintSales);
-            canvas.drawLine(xDraw + mWidthChart, mBottomAxis, xDraw
+            float ySales = -(sellExpense.getSales() * axisY / maxValue);
+            float yExpense = -(sellExpense.getExpense() * axisY / maxValue);
+            canvas.drawLine(xDraw, 0, xDraw, ySales, mPaintSales);
+            canvas.drawLine(xDraw + mWidthChart, 0, xDraw
                     + mWidthChart, yExpense, mPaintExpense);
         }
         canvas.restore();
@@ -167,22 +195,29 @@ public class CustomGrid extends View {
     }
 
     private void paintLinePrice(Canvas canvas) {
+        canvas.save();
+        canvas.translate(mLeftAxis, mBottomAxis);
+        canvas.scale(mScaleFactor * 2, mScaleFactor);
+        canvas.translate(mMoveX, -mMoveY);
         mPaint.setColor(ContextCompat.getColor(mContext, R.color.black));
         float axisY = mHeight - mTopAxis;
         for (int i = 1; i <= COUNT_LINE_Y_AXIS; i++) {
-            canvas.drawLine(mLeftAxis - 20,
-                    (axisY - (((float) (i * (mHeight - 2 * mTopAxis)) / COUNT_LINE_Y_AXIS))),
-                    getWidth(), (axisY - (((float) (i * (mHeight - 2 * mTopAxis))
-                            / COUNT_LINE_Y_AXIS))), mPaint);
+            canvas.drawLine(0,
+                    (-(((float) (i * (mHeight - 2 * mTopAxis)) / COUNT_LINE_Y_AXIS))),
+                    getWidth(),
+                    (-(((float) (i * (mHeight - 2 * mTopAxis)) / COUNT_LINE_Y_AXIS))), mPaint);
         }
+        canvas.restore();
     }
 
     private void paintMonth(Canvas canvas) {
         canvas.save();
         if (mSellExpenses.size() > 6) {
-            mScaleFactorX = Math.max(2, mScaleFactorX);
+            canvas.scale(mScaleFactor * (mSellExpenses.size() / 6f), mScaleFactor);
+        } else {
+            canvas.scale(mScaleFactor, mScaleFactor);
         }
-        canvas.scale(mScaleFactorX, 1, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
+        canvas.translate(mMoveX, 1);
         mPaint.setColor(ContextCompat.getColor(mContext, R.color.black));
         mPaint.setTextSize(TEXT_SIZE);
         for (int i = 0; i < mSellExpenses.size(); i++) {
@@ -209,6 +244,7 @@ public class CustomGrid extends View {
     }
 
     private void paintPrice(Canvas canvas) {
+        canvas.save();
         long maxValue = getMaxValue();
         float startY = (float) getHeight() / COUNT_RATIO;
         float originX = (float) getWidth() / COUNT_RATIO;
@@ -230,6 +266,7 @@ public class CustomGrid extends View {
                         paint);
             }
         }
+        canvas.restore();
     }
 
     private void paintWall(Canvas canvas) {
@@ -245,6 +282,7 @@ public class CustomGrid extends View {
                 mTopAxis / 2, mPaint);
         paintHintColor(canvas);
         paintPrice(canvas);
+        canvas.restore();
     }
 
     private void paintHintColor(Canvas canvas) {
@@ -282,15 +320,6 @@ public class CustomGrid extends View {
         return max;
     }
 
-    private void initPaint() {
-        mPaintSales = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintSales.setStrokeWidth(mWidthChart);
-        mPaintSales.setColor(mColorSales);
-        mPaintExpense = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintExpense.setStrokeWidth(mWidthChart);
-        mPaintExpense.setColor(mColorExpense);
-    }
-
     @Override
     public boolean performClick() {
         return super.performClick();
@@ -299,68 +328,27 @@ public class CustomGrid extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         performClick();
-        if (event.getX() > (float) getWidth() / COUNT_RATIO && event.getX() < (float) (getWidth() * 5) / 6
-                && event.getY() > (float) getHeight() / COUNT_RATIO && event.getY() < (float) (getHeight() * 11) / 12) {
-            mScaleDetector.onTouchEvent(event);
-        }
-        final int action = event.getAction();
-        switch (action & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN: {
-                final float x = event.getX();
-                final float y = event.getY();
-
-                mLastTouchX = x;
-                mLastTouchY = y;
-                mActivePointerId = event.getPointerId(0);
+        mScaleDetector.onTouchEvent(event);
+        mGestureDetector.onTouchEvent(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mXFingerFirst = event.getX();
+                mYFingerFirst = event.getY();
                 break;
-            }
-
-            case MotionEvent.ACTION_MOVE: {
-                final int pointerIndex = event.findPointerIndex(mActivePointerId);
-                final float x = event.getX(pointerIndex);
-                final float y = event.getY(pointerIndex);
-                if (!mScaleDetector.isInProgress()) {
-                    final float dx = x - mLastTouchX;
-                    final float dy = y - mLastTouchY;
-
-//                    if (mPosY + dy < 0) {
-//                        mPosY = 0;
-//                    } else if (mPosY + dy > mHeight * mScaleFactor){
-//                        mPosY = mHeight * mScaleFactor;
-//                    }else {
-//                        mPosY += dy;
-//                    }
-
-
-                    invalidate();
-                }
-
-                mLastTouchX = x;
-                mLastTouchY = y;
-
+            case MotionEvent.ACTION_MOVE:
+                calculateMove(event);
+                invalidate();
                 break;
-            }
-
             case MotionEvent.ACTION_UP:
-
-            case MotionEvent.ACTION_CANCEL: {
-                mActivePointerId = INVALID_POINTER_ID;
                 break;
-            }
-
-            case MotionEvent.ACTION_POINTER_UP: {
-                final int pointerIndex = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK)
-                        >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-                final int pointerId = event.getPointerId(pointerIndex);
-                if (pointerId == mActivePointerId) {
-                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-                    mLastTouchX = event.getX(newPointerIndex);
-                    mLastTouchY = event.getY(newPointerIndex);
-                    mActivePointerId = event.getPointerId(newPointerIndex);
-                }
-                break;
-            }
         }
         return true;
+    }
+
+    private void calculateMove(MotionEvent event) {
+        float ratioScale = mScaleFactor / mScaleBefore;
+        mMoveX = mMoveX + (1 - ratioScale) * (event.getX() - mScaleDetector.getFocusX());
+        mMoveY = mMoveY + (1 - ratioScale) * (event.getY() - mScaleDetector.getFocusY());
+        mScaleBefore = mScaleFactor;
     }
 }
