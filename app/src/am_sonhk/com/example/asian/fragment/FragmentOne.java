@@ -41,7 +41,6 @@ public class FragmentOne extends Fragment {
         View view = inflater.inflate(R.layout.fragment_one, container, false);
         RelativeLayout relativeLayout = view.findViewById(R.id.rlFragmentOne);
         relativeLayout.setBackgroundColor(mParamColor);
-        Log.d("FragmentOne", "onCreateView: ");
         return view;
     }
 }
