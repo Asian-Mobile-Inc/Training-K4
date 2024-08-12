@@ -1,6 +1,6 @@
 package com.example.asian.issuesix;
 
-import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +15,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.asian.R;
@@ -31,6 +32,7 @@ public class IssueSixActivity extends AppCompatActivity {
     private NavigationView mNvIssueSix;
     private FloatingActionButton mFabIssueSix;
     private TextView mTvShowTitleMenu;
+    private boolean isFavourite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,6 @@ public class IssueSixActivity extends AppCompatActivity {
         mActionBarDrawerToggle =
                 new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-        mActionBarDrawerToggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         setStatusBarColor();
@@ -71,7 +72,7 @@ public class IssueSixActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.red_A8FF0000));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.red_FF0000));
     }
 
     @Override
@@ -81,15 +82,36 @@ public class IssueSixActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mActionBarDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        eventOnClickMenu(item.getItemId());
-        mNvIssueSix.setCheckedItem(item.getItemId());
+        switch (item.getItemId()) {
+            case (R.id.action_favourite):
+                Drawable drawable = item.getIcon();
+                if (drawable != null) {
+                    int color;
+                    if (!isFavourite) {
+                        color = ContextCompat.getColor(this, R.color.pink_FF5C78);
+                    } else {
+                        color = ContextCompat.getColor(this, R.color.white);
+                    }
+                    isFavourite = !isFavourite;
+                    DrawableCompat.setTint(drawable, color);
+                    item.setIcon(drawable);
+                    showSnakeBar(mDrawerLayout, getString(R.string.favourite));
+                }
+                return true;
+            case (R.id.action_settings):
+                mNvIssueSix.setCheckedItem(R.id.navSetting);
+                mTvShowTitleMenu.setText(getString(R.string.setting));
+                showSnakeBar(mDrawerLayout, getString(R.string.setting));
+                return true;
+            case (R.id.action_home):
+                mNvIssueSix.setCheckedItem(R.id.navHome);
+                mTvShowTitleMenu.setText(getString(R.string.home));
+                showSnakeBar(mDrawerLayout, getString(R.string.home));
+                return true;
+            default:
+                break;
+        }
         if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -98,12 +120,7 @@ public class IssueSixActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main_drawer_issue_six, menu);
-        menu.removeItem(R.id.itCommnuicate);
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            item.setCheckable(false);
-        }
+        getMenuInflater().inflate(R.menu.menu_second_drawer_issue_six, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -23,18 +23,10 @@
                 style="@style/App.ToolbarMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/red_A8FF0000"
+                android:background="@color/red_FF0000"
                 app:menu="@menu/menu_main_drawer_issue_six"
                 app:title="Navigation Drawer"
                 app:titleTextColor="@color/white">
-
-                <ImageView
-                    android:id="@+id/ivHeart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_favourite" />
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/svIssuesSix"

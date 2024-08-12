@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group>
-        <item
-            android:id="@+id/navHome"
-            android:icon="@drawable/ic_home"
-            android:title="@string/home" />
-        <item
-            android:id="@+id/navSetting"
-            android:icon="@drawable/ic_setting"
-            android:title="@string/setting" />
-        <item android:title="@string/communicate">
-            <menu>
-                <item
-                    android:id="@+id/navShare"
-                    android:icon="@drawable/ic_share"
-                    android:title="@string/share" />
-                <item
-                    android:id="@+id/navSend"
-                    android:icon="@drawable/ic_send"
-                    android:title="@string/send" />
-            </menu>
-        </item>
-    </group>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_favourite"
+        android:icon="@drawable/ic_favourite"
+        app:showAsAction="ifRoom"
+        android:checkable="true"
+        android:title="@string/favourite">
+    </item>
+    <item
+        android:id="@+id/action_home"
+        app:showAsAction="never"
+        android:title="@string/home">
+    </item>
+    <item
+        android:id="@+id/action_settings"
+        app:showAsAction="never"
+        android:title="@string/setting">
+    </item>
 </menu>
