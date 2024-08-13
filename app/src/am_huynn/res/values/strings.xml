@@ -63,4 +63,17 @@
     <string name="fragment_one">Fragment One</string>
     <string name="fragment_two">Fragment Two</string>
     <string name="exercise_fragment">Exercise Fragment</string>
+
+    <!-- Strings related to exercise Kotlin Mvvm -->
+    <string name="exercise_mvvm">Exercise MVVM</string>
+    <string name="sqlite_tutorial">SQLITE TUTORIAL - USER MANAGEMENT</string>
+    <string name="add">Add</string>
+    <string name="delete_all">Delete All</string>
+    <string name="show_all">Show All</string>
+    <string name="user_id">User ID</string>
+    <string name="user_name">User Name</string>
+    <string name="user_age">User Age</string>
+    <string name="delete">Delete</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_age">Age</string>
 </resources>
