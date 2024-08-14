@@ -1,6 +1,5 @@
 package com.example.asian;
 
-import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 import static com.example.asian.ActionMenu.ACT_ADD;
 import static com.example.asian.ActionMenu.ACT_DEL;
 
@@ -8,7 +7,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,32 +15,41 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.asian.adapter.ViewPagerAdapter;
+import com.example.asian.adapter.ViewPager2Adapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     TabLayout mTabLayout;
-    ViewPager mViewPager;
-    ViewPagerAdapter mViewPagerAdapter;
+    ViewPager2 mViewPager2;
+    ViewPager2Adapter mViewPager2Adapter;
     FloatingActionButton mFloatingActionButton;
+    public static final char FIRST_CHAR = 'A';
+    public static final char LAST_CHAR = 'Z';
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mViewPagerAdapter.addFragment(new TabOneActivity(createData("1")), "Tab-1");
-        mViewPagerAdapter.addFragment(new TabTwoActivity(createData("2")), "Tab-2");
-        mViewPagerAdapter.addFragment(new TabThreeActivity(createData("3")), "Tab-3");
-        mViewPager.setAdapter(mViewPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+
+        // Initialize the ViewPager2 adapter and set it to the ViewPager2
+        mViewPager2Adapter = new ViewPager2Adapter(getSupportFragmentManager(), getLifecycle());
+        mViewPager2Adapter.addFragment(new TabOneActivity(createData(getString(R.string.st_frg))), getString(R.string.st_tab));
+        mViewPager2Adapter.addFragment(new TabTwoActivity(createData(getString(R.string.nd_frg))), getString(R.string.nd_tab));
+        mViewPager2Adapter.addFragment(new TabThreeActivity(createData(getString(R.string.rd_frg))), getString(R.string.rd_tab));
+        mViewPager2.setAdapter(mViewPager2Adapter);
+
+        // Attach the TabLayout with ViewPager2 using TabLayoutMediator
+        new TabLayoutMediator(mTabLayout, mViewPager2, (tab, position) ->
+                tab.setText(mViewPager2Adapter.getPageTitle(position))
+        ).attach();
         handleClick();
     }
 
@@ -77,20 +84,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Fragment getCurrentFragment() {
-        int currentItem = mViewPager.getCurrentItem();
-        return mViewPagerAdapter.getItem(currentItem);
+        int currentItem = mViewPager2.getCurrentItem();
+        return mViewPager2Adapter.createFragment(currentItem);
     }
 
     private void initView() {
         mFloatingActionButton = findViewById(R.id.flButton);
-        mViewPager = findViewById(R.id.viewPager);
+        mViewPager2 = findViewById(R.id.viewPager2);
         mTabLayout = findViewById(R.id.tbLayout);
     }
 
     public ArrayList<String> createData(String name) {
         ArrayList<String> stringList = new ArrayList<>();
-        for (char ch = 'A'; ch <= 'Z'; ch++) {
-            stringList.add("Item " + name + ch);
+        for (char ch = FIRST_CHAR; ch <= LAST_CHAR; ch++) {
+            stringList.add(getString(R.string.item) + name + ch);
         }
         return stringList;
     }
@@ -101,15 +108,14 @@ public class MainActivity extends AppCompatActivity {
         final EditText edtInfoItem = new EditText(this);
         edtInfoItem.setHint(hintText);
         builder.setView(edtInfoItem);
-        builder.setPositiveButton("Save", (dialog, which) -> {
+        builder.setPositiveButton(getString(R.string.save), (dialog, which) -> {
             try {
                 handleAction(edtInfoItem.getText().toString(), caseAction);
             } catch (Exception e) {
-                Log.e("MainActivity", "Error handling action: " + e.getMessage());
-                Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(getString(R.string.cancel), null);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
@@ -138,8 +144,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void handleClick() {
-            mButtonAdd.setOnClickListener(view -> showTextDialog("Add Item", "Enter data", ACT_ADD));
-            mButtonDel.setOnClickListener(view -> showTextDialog("Delete Item", "Enter data", ACT_DEL));
+            mButtonAdd.setOnClickListener(view -> showTextDialog(getString(R.string.add_item),
+                    getString(R.string.enter_data), ACT_ADD));
+            mButtonDel.setOnClickListener(view -> showTextDialog(getString(R.string.delete_item),
+                    getString(R.string.enter_data), ACT_DEL));
         }
     }
 }

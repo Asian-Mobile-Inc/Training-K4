@@ -1,10 +1,12 @@
 package com.example.asian.adapter;
 
 import static com.example.asian.ActionMenu.ACT_ADD;
+import static com.example.asian.ActionMenu.ACT_DEL;
 import static com.example.asian.ActionMenu.ACT_EDIT;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +37,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View heroView = inflater.inflate(R.layout.item_row, parent, false);
-        return new ViewHolder(heroView);
+        View mView = inflater.inflate(R.layout.item_row, parent, false);
+        return new ViewHolder(mView);
     }
 
     @Override
@@ -49,11 +51,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 int id = menuItem.getItemId();
                 if (id == R.id.option_delete) {
-                    removeItem(position);
+                    removeItem(nameItem);
                 } else if (id == R.id.option_edit) {
-                    showTextDialog("Edit Item", mListItem.get(position), position, ACT_EDIT);
+                    showTextDialog(mContext.getString(R.string.edit_item), mListItem.get(position), position, ACT_EDIT);
                 } else if (id == R.id.option_add) {
-                    showTextDialog("Add Item", "", position, ACT_ADD);
+                    showTextDialog(mContext.getString(R.string.add_item), "", position, ACT_ADD);
                 }
                 return true;
             });
@@ -67,14 +69,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         final EditText edtInfoItem = new EditText(mContext);
         edtInfoItem.setText(currentText);
         builder.setView(edtInfoItem);
-        builder.setPositiveButton("Save", (dialog, which) -> {
+        builder.setPositiveButton(mContext.getString(R.string.save), (dialog, which) -> {
             if (caseAction == ACT_EDIT) {
                 editItem(edtInfoItem.getText().toString(), position);
             } else if (caseAction == ACT_ADD) {
                 addItem(edtInfoItem.getText().toString());
             }
         });
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(mContext.getString(R.string.cancel), null);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
@@ -91,14 +93,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         updateList(newList);
     }
 
-    public void removeItem(int position) {
+    public void removeItem(String item) {
         List<String> newList = new ArrayList<>(mListItem);
-        newList.remove(position);
+        Log.e("Remove", "removeItem:" + item );
+        newList.remove(item);
         updateList(newList);
     }
 
     public void updateList(List<String> newList) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallback(mListItem, newList));
+        DiffCallback diffCallback = new DiffCallback(this.mListItem, newList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         mListItem.clear();
         mListItem.addAll(newList);
         diffResult.dispatchUpdatesTo(this);

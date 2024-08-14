@@ -12,4 +12,18 @@
     <string name="show_details">Show Details</string>
     <string name="share_file">Share File</string>
     <string name="rename_file">Rename File</string>
+    <string name="add_item">Add Item</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="item">"Item : "</string>
+    <string name="error">"Error : "</string>
+    <string name="enter_data">Enter Data</string>
+    <string name="st_frg">1</string>
+    <string name="nd_frg">2</string>
+    <string name="rd_frg">3</string>
+    <string name="st_tab">Tab 1</string>
+    <string name="nd_tab">Tab 2</string>
+    <string name="rd_tab">Tab 3</string>
 </resources>

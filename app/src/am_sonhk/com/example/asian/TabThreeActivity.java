@@ -45,7 +45,7 @@ public class TabThreeActivity extends Fragment {
         mCustomAdapter.addItem(newData);
     }
 
-    public void delDataToRecyclerView(String position) {
-        mCustomAdapter.removeItem(Integer.parseInt(position));
+    public void delDataToRecyclerView(String item) {
+        mCustomAdapter.removeItem(item);
     }
 }
