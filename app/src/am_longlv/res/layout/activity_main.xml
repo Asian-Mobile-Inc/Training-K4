@@ -38,5 +38,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/view_issues_five" />
+    <Button
+        android:id="@+id/btnIssueElevent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/view_issues_eleventh" />
 
 </LinearLayout>

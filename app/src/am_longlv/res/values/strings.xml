@@ -90,4 +90,17 @@
     <string name="enter_item_name">Nhập tên</string>
     <string name="name_item_int_param">Item %d</string>
     <string name="tab_int_param">Tab %d</string>
+    <!--    Issue 11-->
+    <string name="view_issues_eleventh">View Issues 11</string>
+    <string name="sqlite_tutorial">SQLite tutorial - user management</string>
+    <string name="age">Age</string>
+    <string name="add">Add</string>
+    <string name="delete_all">Delete all</string>
+    <string name="show_all">Show all</string>
+    <string name="user_id">User ID</string>
+    <string name="user_name">User Name</string>
+    <string name="user_age">User Age</string>
+    <string name="edit">Edit</string>
+    <string name="age_invalid">Age is invalid</string>
+    <string name="enter_item_age">Nhập tuổi</string>
 </resources>

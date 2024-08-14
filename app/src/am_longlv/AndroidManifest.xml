@@ -27,6 +27,9 @@
             android:name=".issuefive.IssueFiveActivity"
             android:exported="false" />
         <activity
+            android:name=".issueeleventh.IssueEleventhActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
