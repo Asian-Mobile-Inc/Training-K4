@@ -1,5 +1,4 @@
 <resources>
-
   <string name="app_name" translatable="false">ExSonhk</string>
   <string name="toolbar_name">Navigation Drawer</string>
   <string name="name_drawer">Java Helps</string>
@@ -20,4 +19,7 @@
   <string name="nav_communicate">Communicate</string>
   <string name="navigation_drawer_open">Open Navigation Drawer</string>
   <string name="navigation_drawer_close">Close Navigation Drawer</string>
+  <string name="replace_your_own">Replace with your own action</string>
+  <string name="search">Search</string>
+  <string name="title">Title</string>
 </resources>
