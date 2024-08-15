@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asian.R;
 import com.example.asian.adapter.CustomAdapter;
 
 import java.util.ArrayList;

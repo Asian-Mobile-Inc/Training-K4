@@ -1,12 +1,10 @@
 package com.example.asian.adapter;
 
 import static com.example.asian.ActionMenu.ACT_ADD;
-import static com.example.asian.ActionMenu.ACT_DEL;
 import static com.example.asian.ActionMenu.ACT_EDIT;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +93,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     public void removeItem(String item) {
         List<String> newList = new ArrayList<>(mListItem);
-        Log.e("Remove", "removeItem:" + item );
         newList.remove(item);
         updateList(newList);
     }
