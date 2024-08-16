@@ -11,7 +11,7 @@ class UserRepository(app: Application) {
     private val userDao: UserDao
 
     init {
-        val userDatabase: UserDatabase = UserDatabase.getInstance(app);
+        val userDatabase: UserDatabase = UserDatabase.getInstance(app)
         userDao = userDatabase.getUserDao()
     }
 
