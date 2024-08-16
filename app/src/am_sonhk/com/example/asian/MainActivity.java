@@ -16,7 +16,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -61,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
             addActionItem(R.id.action_favorite, R.drawable.ic_love);
             mToolBar.setTitle(getString(R.string.title));
         });
-
-        mFloatingActionButton.setOnClickListener(view -> Snackbar.make(view,
-                getString(R.string.replace_your_own),
-                Snackbar.LENGTH_SHORT).show());
+        mFloatingActionButton.setOnClickListener(view -> {
+            Snackbar.make(view, getString(R.string.replace_your_own), Snackbar.LENGTH_SHORT).show();
+        });
     }
 
     private void initControlNav() {
@@ -121,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addActionItem(int id, int drawable) {
-        MenuItem searchItem = mMenu.add(Menu.NONE, id, Menu.NONE, getString(R.string.search));
-        searchItem.setIcon(drawable);
-        searchItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        MenuItem mItem = mMenu.add(Menu.NONE, id, Menu.NONE, getString(R.string.search));
+        mItem.setIcon(drawable);
+        mItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
     }
 }
