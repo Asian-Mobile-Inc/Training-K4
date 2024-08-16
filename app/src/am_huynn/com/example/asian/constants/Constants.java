@@ -18,4 +18,5 @@ public class Constants {
 
     public static final int MIN_LENGTH_PASSWORD = 8;
     public static final int MIN_LENGTH_MORE_INFORMATION = 100;
+    public static final int NOT_FOUND_INDEX = -1;
 }
