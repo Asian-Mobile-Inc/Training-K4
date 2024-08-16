@@ -1,13 +1,12 @@
 package com.example.asian.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.asian.model.User
 
 @Dao
 interface UserDao {
-    @Insert
-    suspend fun insertUser(user: User)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUser(user: User) : Long
 
     @Update
     suspend fun updateUser(user: User)
@@ -16,5 +15,8 @@ interface UserDao {
     suspend fun deleteUser(user: User)
 
     @Query("select * from user")
-    fun getAllUsers(): LiveData<List<User>>
+    suspend fun getAllUsers(): MutableList<User>
+
+    @Query("delete from user")
+    suspend fun deleteAllUsers()
 }
