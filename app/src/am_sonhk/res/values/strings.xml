@@ -1,5 +1,7 @@
 <resources>
   <string name="app_name" translatable="false">ExSonhk</string>
+  <string name="fragment_one" >Fragment One</string>
+  <string name="fragment_two" >Fragment Two</string>
   <string name="facebook">FACEBOOK</string>
   <string name="login">Login</string>
   <string name="first_number">Số hạng 1</string>
@@ -62,4 +64,6 @@
   <string name="interest_string_param">Interst: %s</string>
   <string name="additional_info_string_param">Addtional Info : %s</string>
   <string name="id_string_param">ID: %s\n</string>
+  <string name="fragment_argument">"Fragment/Argument "</string>
+
 </resources>

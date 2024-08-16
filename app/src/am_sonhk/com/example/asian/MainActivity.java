@@ -10,6 +10,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin;
     private Button mBtnExerciseCal;
     private Button mBtnExerciseUpdateInfo;
+    private Button mBtnExerciseFragmentArgument;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseLogin = findViewById(R.id.btnExerciseLogin);
         mBtnExerciseCal = findViewById(R.id.btnExerciseCal);
         mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
+        mBtnExerciseFragmentArgument = findViewById(R.id.btnFragmentArgument);
     }
 
     private void initListener() {
@@ -35,5 +37,9 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseUpdateInfo.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, UpdateInfoActivity.class));
         });
+        mBtnExerciseFragmentArgument.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, FragmentActivity.class));
+        });
     }
 }
+
