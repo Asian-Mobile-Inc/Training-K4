@@ -103,4 +103,5 @@
     <string name="edit">Edit</string>
     <string name="age_invalid">Age is invalid</string>
     <string name="enter_item_age">Nhập tuổi</string>
+    <string name="delete_all_item">Delete all?</string>
 </resources>

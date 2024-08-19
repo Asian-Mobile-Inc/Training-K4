@@ -4,8 +4,8 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.Window
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.asian.R
 import com.example.asian.databinding.ActivityIssueEleventhBinding
@@ -16,46 +16,50 @@ import com.example.asian.issueeleventh.model.UserInfo
 import com.example.asian.issueeleventh.viewmodel.UserViewModel
 
 class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener {
-    private val userViewModel: UserViewModel by lazy {
-        ViewModelProvider(
-            this,
-            UserViewModel.UserViewModelFactory(this.application)
-        )[UserViewModel::class.java]
+    private val mUserViewModel: UserViewModel by viewModels()
+    private val mBinding: ActivityIssueEleventhBinding by lazy {
+        ActivityIssueEleventhBinding.inflate(layoutInflater)
     }
-    private lateinit var mBinding: ActivityIssueEleventhBinding
     private lateinit var mUserAdapter: UserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindingData()
+        setContentView(mBinding.root)
+        initObserver()
         setupRecyclerView()
         initListener()
+        initData()
+    }
+
+    private fun initData() {
+        mUserViewModel.getAllData()
     }
 
     private fun initListener() {
         mBinding.btnAdd.setOnClickListener {
             if (isValidate()) {
-                userViewModel.insertUser(
+                mUserViewModel.insertUser(
                     UserInfo(
                         mBinding.edtName.text.toString(),
                         mBinding.edtAge.text.toString().toInt()
                     )
                 )
+                mBinding.edtAge.text = null
+                mBinding.edtName.text = null
+                mBinding.rvUser.scrollToPosition(mUserViewModel.getListSize() - 1)
             }
         }
         mBinding.btnDeleteAll.setOnClickListener {
-            userViewModel.deleteAllUser()
+            showDialogDelete(null)
         }
         mBinding.btnShowAll.setOnClickListener {
-//            userViewModel.getAllData()
+            mUserViewModel.getAllData()
         }
     }
 
-    private fun bindingData() {
-        mBinding = ActivityIssueEleventhBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-        userViewModel.allUsers.observe(this) {
-            mUserAdapter.submitList(it)
+    private fun initObserver() {
+        mUserViewModel.allUsers.observe(this) {
+            mUserAdapter.submitList(it.toMutableList())
         }
     }
 
@@ -72,7 +76,12 @@ class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener
         if (mBinding.edtAge.text.isEmpty()) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
         }
-        return !(mBinding.edtName.text.isEmpty() || mBinding.edtAge.text.isEmpty())
+        if (mBinding.edtAge.text.toString().toInt() > 200) {
+            mBinding.edtAge.error = getString(R.string.age_invalid)
+        }
+        return !(mBinding.edtName.text.isEmpty() ||
+                mBinding.edtAge.text.isEmpty() ||
+                mBinding.edtAge.text.toString().toInt() > 200)
     }
 
     override fun onDeleteClick(user: UserInfo) {
@@ -83,7 +92,7 @@ class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener
         showDialogEdit(user)
     }
 
-    private fun showDialogDelete(user: UserInfo) {
+    private fun showDialogDelete(user: UserInfo?) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_confirm)
@@ -96,11 +105,18 @@ class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener
         val dialogBinding: DialogConfirmBinding =
             DialogConfirmBinding.inflate(dialog.layoutInflater)
         dialog.setContentView(dialogBinding.root)
+        if (user == null) {
+            dialogBinding.tvDeleteThisItem.text = getString(R.string.delete_all_item)
+        }
         dialogBinding.btnCancelDelete.setOnClickListener {
             dialog.dismiss()
         }
         dialogBinding.btnConfirmDelete.setOnClickListener {
-            userViewModel.deleteUser(user)
+            if (user != null) {
+                mUserViewModel.deleteUser(user)
+            } else {
+                mUserViewModel.deleteAllUser()
+            }
             dialog.dismiss()
         }
         dialog.show()
@@ -119,6 +135,8 @@ class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener
         val dialogBinding: DialogEditNameAgeBinding =
             DialogEditNameAgeBinding.inflate(dialog.layoutInflater)
         dialog.setContentView(dialogBinding.root)
+        dialogBinding.edtNewAge.setText(user.userAge.toString().toInt().toString())
+        dialogBinding.edtNewName.setText(user.userName)
         dialogBinding.btnCancel.setOnClickListener {
             dialog.dismiss()
         }
@@ -130,9 +148,12 @@ class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener
                 dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
             }
             if (!(dialogBinding.edtNewAge.text.isEmpty() || dialogBinding.edtNewAge.text.isEmpty())) {
-                user.userName = dialogBinding.edtNewName.text.toString()
-                user.userAge = dialogBinding.edtNewAge.text.toString().toInt()
-                userViewModel.updateUser(user)
+                val userInfo = UserInfo(
+                    dialogBinding.edtNewName.text.toString(),
+                    dialogBinding.edtNewAge.text.toString().toInt()
+                )
+                userInfo.userId = user.userId
+                mUserViewModel.updateUser(userInfo)
                 dialog.dismiss()
             }
         }
