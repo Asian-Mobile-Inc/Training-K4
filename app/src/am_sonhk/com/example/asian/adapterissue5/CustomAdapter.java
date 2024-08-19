@@ -1,4 +1,4 @@
-package com.example.asian.adapterIssue5;
+package com.example.asian.adapterissue5;
 
 import static com.example.asian.ActionMenu.ACT_ADD;
 import static com.example.asian.ActionMenu.ACT_EDIT;
