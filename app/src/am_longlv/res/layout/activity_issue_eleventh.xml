@@ -77,63 +77,18 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edtAge" />
 
-    <TextView
-        android:id="@+id/tvTitleUID"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_first_item_user"
-        android:gravity="center"
-        android:paddingHorizontal="10dp"
-        android:text="@string/user_id"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/tvTitleUN"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/tvTitleUN"
-        app:layout_constraintTop_toBottomOf="@id/btnDeleteAll"
-        app:layout_constraintWidth_percent="0.25" />
-
-    <TextView
-        android:id="@+id/tvTitleUN"
-        android:layout_width="0dp"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tlUser"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_item_user"
-        android:padding="10dp"
-        android:text="@string/user_name"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@id/tvTitleUID"
-        app:layout_constraintRight_toLeftOf="@id/tvTitleUA"
         app:layout_constraintTop_toBottomOf="@id/btnDeleteAll" />
 
-    <TextView
-        android:id="@+id/tvTitleUA"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_item_user"
-        android:gravity="center"
-        android:paddingHorizontal="10dp"
-        android:text="@string/age"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/tvTitleUN"
-        app:layout_constraintLeft_toRightOf="@id/tvTitleUN"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnDeleteAll"
-        app:layout_constraintWidth_percent="0.2" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvUser"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpUserInfo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleUN" />
+        app:layout_constraintTop_toBottomOf="@id/tlUser" />
 
     <ProgressBar
         android:id="@+id/pbLoading"

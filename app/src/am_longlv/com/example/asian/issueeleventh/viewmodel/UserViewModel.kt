@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.asian.issueeleventh.database.repository.UserRepository
 import com.example.asian.issueeleventh.model.UserInfo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
@@ -15,10 +16,18 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private var mAllUsers = MutableLiveData<MutableList<UserInfo>>()
     internal val allUsers: LiveData<MutableList<UserInfo>> = mAllUsers
+    private var mFavouriteUsers = MutableLiveData<MutableList<UserInfo>>()
+    internal val favouriteUsers: LiveData<MutableList<UserInfo>> = mFavouriteUsers
 
     internal fun getAllData() {
         viewModelScope.launch(Dispatchers.IO) {
             mAllUsers.postValue(mUserRepository.getAllUser())
+        }
+    }
+
+    internal fun getFavouriteUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            mFavouriteUsers.postValue(mUserRepository.getFavouriteUsers())
         }
     }
 
@@ -45,6 +54,23 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 mAllUsers.postValue(it)
             }
+        }
+    }
+
+    fun favouriteUser(userInfo: UserInfo) {
+        viewModelScope.launch(Dispatchers.IO) {
+            async {
+                mUserRepository.updateUser(userInfo)
+                mAllUsers.value?.let {
+                    val index = it.indexOfFirst { itChild ->
+                        itChild.userId == userInfo.userId
+                    }
+                    if (index != -1) {
+                        it[index] = userInfo
+                    }
+                    mAllUsers.postValue(it)
+                }
+            }.await()
         }
     }
 

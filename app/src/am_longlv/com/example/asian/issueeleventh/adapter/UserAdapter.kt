@@ -1,10 +1,14 @@
 package com.example.asian.issueeleventh.adapter
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.asian.R
 import com.example.asian.databinding.ItemListUserInfoBinding
 import com.example.asian.issueeleventh.model.UserInfo
 
@@ -21,6 +25,7 @@ class UserAdapter(private var mItemClickListener: ItemClickListener) :
     interface ItemClickListener {
         fun onDeleteClick(user: UserInfo)
         fun onEditClick(user: UserInfo)
+        fun onFavouriteClick(user: UserInfo)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -41,11 +46,19 @@ class UserAdapter(private var mItemClickListener: ItemClickListener) :
             binding.tvTitleUID.text = user.userId.toString()
             binding.tvTitleUN.text = user.userName
             binding.tvTitleUA.text = user.userAge.toString()
+            if (user.userFavourite){
+                binding.btnFavourite.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+            }else{
+                binding.btnFavourite.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
+            }
             binding.btnDelete.setOnClickListener {
                 itemClickListener.onDeleteClick(user)
             }
             binding.btnEdit.setOnClickListener {
                 itemClickListener.onEditClick(user)
+            }
+            binding.btnFavourite.setOnClickListener {
+                itemClickListener.onFavouriteClick(user)
             }
         }
     }

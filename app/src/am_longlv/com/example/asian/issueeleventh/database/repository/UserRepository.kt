@@ -18,4 +18,5 @@ class UserRepository(application: Application) {
     suspend fun deleteUser(userInfo: UserInfo) = mUserDao.deleteUser(userInfo)
     suspend fun deleteAllUser() = mUserDao.deleteAllUser()
     suspend fun getAllUser(): MutableList<UserInfo> = mUserDao.getAllUser()
+    suspend fun getFavouriteUsers(): MutableList<UserInfo> = mUserDao.getFavouriteUsers()
 }
