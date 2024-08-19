@@ -20,7 +20,7 @@ abstract class UserDatabase : RoomDatabase() {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
                     "ALTER TABLE user " +
-                            "add column user_favourite INTEGER NOT NULL DEFAULT false"
+                            "add column user_favourite INTEGER NOT NULL DEFAULT 0"
                 )
             }
         }
