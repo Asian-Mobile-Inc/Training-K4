@@ -18,19 +18,10 @@ abstract class UserDatabase : RoomDatabase() {
         private var mInstance: UserDatabase? = null
         private val mMigrationOneToTwo = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE user RENAME TO user_old;")
                 db.execSQL(
-                    "CREATE TABLE user (" +
-                            "user_id INTEGER PRIMARY KEY NOT NULL," +
-                            "user_name TEXT NOT NULL, " +
-                            "user_age INTEGER NOT NULL," +
-                            "user_favourite INTEGER NOT NULL DEFAULT 0)"
+                    "ALTER TABLE user " +
+                            "add column user_favourite INTEGER NOT NULL DEFAULT false"
                 )
-                db.execSQL(
-                    "INSERT INTO user( user_name, user_age) " +
-                            "SELECT user_name, user_age FROM user_old;"
-                )
-                db.execSQL("DROP TABLE user_old")
             }
         }
 

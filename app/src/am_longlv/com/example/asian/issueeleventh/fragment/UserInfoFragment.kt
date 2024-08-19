@@ -154,11 +154,14 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
                 }
                 if (dialogBinding.edtNewAge.text.toString().isEmpty()) {
                     dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
-                } else if (dialogBinding.edtNewAge.text.toString().toInt() > 200) {
+                } else if (dialogBinding.edtNewAge.text.toString().length > 3 || dialogBinding.edtNewAge.text.toString()
+                        .toInt() > 200
+                ) {
                     dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
                 }
                 if (!(dialogBinding.edtNewAge.text.isEmpty() ||
                             dialogBinding.edtNewAge.text.isEmpty() ||
+                            dialogBinding.edtNewAge.text.toString().length > 3 ||
                             dialogBinding.edtNewAge.text.toString().toInt() > 200)
                 ) {
                     val userInfo = UserInfo(

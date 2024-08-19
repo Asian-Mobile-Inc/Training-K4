@@ -57,11 +57,14 @@ class IssueEleventhActivity : AppCompatActivity() {
         }
         if (mBinding.edtAge.text.isEmpty()) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
-        } else if (mBinding.edtAge.text.toString().toInt() > 200) {
+        } else if (mBinding.edtAge.text.toString().length > 3 || mBinding.edtAge.text.toString()
+                .toInt() > 200
+        ) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
         }
         return !(mBinding.edtName.text.isEmpty() ||
                 mBinding.edtAge.text.isEmpty() ||
+                mBinding.edtAge.text.toString().length > 3 ||
                 mBinding.edtAge.text.toString().toInt() > 200)
     }
 
