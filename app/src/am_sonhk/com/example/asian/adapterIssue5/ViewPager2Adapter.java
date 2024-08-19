@@ -1,4 +1,4 @@
-package com.example.asian.adapter;
+package com.example.asian.adapterIssue5;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
