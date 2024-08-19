@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvItemIssue5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_underline"
+    android:padding="20dp"
+    android:text="@string/app_name"
+    android:textColor="@color/black"
+    android:textSize="25sp" />

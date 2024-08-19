@@ -3,13 +3,30 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".FragmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="CalculateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SendDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivityIssueFive"
+            android:exported="false"/>
+        <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
