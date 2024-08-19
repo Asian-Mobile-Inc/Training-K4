@@ -9,6 +9,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.EditItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.CreateItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.TabActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ExerciseFragmentActivity"
             android:exported="false" />
         <activity
@@ -36,4 +45,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
