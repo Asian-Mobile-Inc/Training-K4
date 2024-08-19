@@ -2,12 +2,12 @@ package com.example.asian.issueeleventh.fragment
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.asian.R
 import com.example.asian.databinding.DialogConfirmBinding
@@ -17,13 +17,14 @@ import com.example.asian.issueeleventh.adapter.UserAdapter
 import com.example.asian.issueeleventh.model.UserInfo
 import com.example.asian.issueeleventh.viewmodel.UserViewModel
 
+
 class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
     private var mTab: Int = 0
     private lateinit var mUserAdapter: UserAdapter
     private val mBinding: FragmentUserInfoBinding by lazy {
         FragmentUserInfoBinding.inflate(layoutInflater)
     }
-    private val mUserViewModel: UserViewModel by viewModels()
+    private val mUserViewModel: UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,7 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
         if (mTab == 0) {
             mUserViewModel.getAllData()
         } else {
-            mUserViewModel.getFavouriteUser()
+            mUserViewModel.getFavouriteUsers()
         }
     }
 
@@ -88,8 +89,12 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
     }
 
     override fun onFavouriteClick(user: UserInfo) {
-        val userClone:UserInfo = user.copy()
-        userClone.userFavourite = !user.userFavourite
+        val userClone = UserInfo(
+            user.userName,
+            user.userAge,
+            !user.userFavourite
+        )
+        userClone.userId = user.userId
         mUserViewModel.favouriteUser(userClone)
 
     }
@@ -149,12 +154,17 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
                 }
                 if (dialogBinding.edtNewAge.text.toString().isEmpty()) {
                     dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
+                } else if (dialogBinding.edtNewAge.text.toString().toInt() > 200) {
+                    dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
                 }
-                if (!(dialogBinding.edtNewAge.text.isEmpty() || dialogBinding.edtNewAge.text.isEmpty())) {
+                if (!(dialogBinding.edtNewAge.text.isEmpty() ||
+                            dialogBinding.edtNewAge.text.isEmpty() ||
+                            dialogBinding.edtNewAge.text.toString().toInt() > 200)
+                ) {
                     val userInfo = UserInfo(
                         dialogBinding.edtNewName.text.toString(),
                         dialogBinding.edtNewAge.text.toString().toInt(),
-                        false
+                        user.userFavourite
                     )
                     userInfo.userId = user.userId
                     mUserViewModel.updateUser(userInfo)

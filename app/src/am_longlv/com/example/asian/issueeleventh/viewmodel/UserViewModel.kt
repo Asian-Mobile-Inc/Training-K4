@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val mUserRepository: UserRepository = UserRepository(application)
-
     private var mAllUsers = MutableLiveData<MutableList<UserInfo>>()
     internal val allUsers: LiveData<MutableList<UserInfo>> = mAllUsers
     private var mFavouriteUsers = MutableLiveData<MutableList<UserInfo>>()
@@ -25,7 +24,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    internal fun getFavouriteUser() {
+    internal fun getFavouriteUsers() {
         viewModelScope.launch(Dispatchers.IO) {
             mFavouriteUsers.postValue(mUserRepository.getFavouriteUsers())
         }
@@ -54,28 +53,48 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 mAllUsers.postValue(it)
             }
+            mFavouriteUsers.value?.let {
+                val index = it.indexOfFirst { itChild ->
+                    itChild.userId == userInfo.userId
+                }
+                if (index != -1) {
+                    it[index] = userInfo
+                }
+                mFavouriteUsers.postValue(it)
+            }
         }
     }
 
     fun favouriteUser(userInfo: UserInfo) {
         viewModelScope.launch(Dispatchers.IO) {
-            async {
-                mUserRepository.updateUser(userInfo)
-                mAllUsers.value?.let {
-                    val index = it.indexOfFirst { itChild ->
-                        itChild.userId == userInfo.userId
-                    }
-                    if (index != -1) {
-                        it[index] = userInfo
-                    }
-                    mAllUsers.postValue(it)
+            mUserRepository.updateUser(userInfo)
+            mAllUsers.value?.let {
+                val index = it.indexOfFirst { itChild ->
+                    itChild.userId == userInfo.userId
                 }
-            }.await()
+                if (index != -1) {
+                    it[index] = userInfo
+                }
+                mAllUsers.postValue(it)
+            }
+            mFavouriteUsers.value?.let {
+                val index = it.indexOfFirst { itChild ->
+                    itChild.userId == userInfo.userId
+                }
+                if (index != -1) {
+                    it[index] = userInfo
+                    if (!userInfo.userFavourite) {
+                        it.remove(userInfo)
+                    }
+                } else if (userInfo.userFavourite) {
+                    it.add(userInfo)
+                }
+                it.sortBy { sit ->
+                    sit.userId
+                }
+                mFavouriteUsers.postValue(it)
+            }
         }
-    }
-
-    fun getListSize(): Int {
-        return mAllUsers.value?.size ?: 0
     }
 
     fun deleteUser(userInfo: UserInfo) {
@@ -84,6 +103,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             mAllUsers.value?.let {
                 it.remove(userInfo)
                 mAllUsers.postValue(it)
+            }
+            mFavouriteUsers.value?.let {
+                it.remove(userInfo)
+                mFavouriteUsers.postValue(it)
             }
         }
     }
@@ -94,6 +117,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             mAllUsers.value?.let {
                 it.clear()
                 mAllUsers.postValue(it)
+            }
+            mFavouriteUsers.value?.let {
+                it.clear()
+                mFavouriteUsers.postValue(it)
             }
         }
     }

@@ -24,7 +24,7 @@ abstract class UserDatabase : RoomDatabase() {
                             "user_id INTEGER PRIMARY KEY NOT NULL," +
                             "user_name TEXT NOT NULL, " +
                             "user_age INTEGER NOT NULL," +
-                            "user_favourite INTEGER NOT NULL DEFAULT false)"
+                            "user_favourite INTEGER NOT NULL DEFAULT 0)"
                 )
                 db.execSQL(
                     "INSERT INTO user( user_name, user_age) " +

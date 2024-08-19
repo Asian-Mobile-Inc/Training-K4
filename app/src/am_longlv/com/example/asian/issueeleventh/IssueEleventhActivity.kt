@@ -26,11 +26,6 @@ class IssueEleventhActivity : AppCompatActivity() {
         setContentView(mBinding.root)
         initListener()
         setUpTabLayout()
-        initData()
-    }
-
-    private fun initData() {
-        mUserViewModel.getAllData()
     }
 
     private fun initListener() {
@@ -52,6 +47,7 @@ class IssueEleventhActivity : AppCompatActivity() {
         }
         mBinding.btnShowAll.setOnClickListener {
             mUserViewModel.getAllData()
+            mUserViewModel.getFavouriteUsers()
         }
     }
 
@@ -61,8 +57,7 @@ class IssueEleventhActivity : AppCompatActivity() {
         }
         if (mBinding.edtAge.text.isEmpty()) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
-        }
-        if (mBinding.edtAge.text.toString().toInt() > 200) {
+        } else if (mBinding.edtAge.text.toString().toInt() > 200) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
         }
         return !(mBinding.edtName.text.isEmpty() ||
@@ -84,6 +79,9 @@ class IssueEleventhActivity : AppCompatActivity() {
             DialogConfirmBinding.inflate(dialog.layoutInflater)
         dialog.setContentView(dialogBinding.root)
         dialogBinding.tvDeleteThisItem.text = getString(R.string.delete_all_item)
+        dialogBinding.btnCancelDelete.setOnClickListener {
+            dialog.dismiss()
+        }
         dialogBinding.btnConfirmDelete.setOnClickListener {
             mUserViewModel.deleteAllUser()
             dialog.dismiss()
@@ -102,8 +100,7 @@ class IssueEleventhActivity : AppCompatActivity() {
                     when (position) {
                         0 -> "ALL"
                         else -> "Favourite"
-                    }
-                    )
+                    })
         }.attach()
     }
 }
