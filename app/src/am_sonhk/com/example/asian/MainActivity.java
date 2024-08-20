@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler;
     private Runnable mLocationRunnable;
     private boolean isNetworkConnected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
         mHandler = new Handler(Looper.getMainLooper());
         mNetworkChangeReceiver = new NetworkChangeReceiver();
+
+        // Start Foreground Service for logging
+        Intent mForegroundIntent = new Intent(this, MyForegroundService.class);
+        startService(mForegroundIntent);
+
         // Set up the location logging task
         mLocationRunnable = new Runnable() {
             @Override
