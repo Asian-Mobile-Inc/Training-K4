@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-//@SuppressWarnings("ALL")
+
 public class AsyncTaskDownload extends AppCompatActivity {
     URL ImageUrl = null;
     InputStream is = null;
