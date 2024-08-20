@@ -81,6 +81,8 @@
         android:id="@+id/tlUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/pink_FF5C78"
+        app:tabSelectedTextColor="@color/pink_FF5C78"
         app:layout_constraintTop_toBottomOf="@id/btnDeleteAll" />
 
     <androidx.viewpager2.widget.ViewPager2

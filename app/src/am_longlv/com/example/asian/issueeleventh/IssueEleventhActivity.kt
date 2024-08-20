@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.asian.R
 import com.example.asian.databinding.ActivityIssueEleventhBinding
 import com.example.asian.databinding.DialogConfirmBinding
+import com.example.asian.issueeleventh.adapter.TabName
 import com.example.asian.issueeleventh.adapter.ViewPagerUserAdapter
 import com.example.asian.issueeleventh.model.UserInfo
 import com.example.asian.issueeleventh.viewmodel.UserViewModel
@@ -16,6 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class IssueEleventhActivity : AppCompatActivity() {
+
     private val mUserViewModel: UserViewModel by viewModels()
     private val mBinding: ActivityIssueEleventhBinding by lazy {
         ActivityIssueEleventhBinding.inflate(layoutInflater)
@@ -26,6 +28,9 @@ class IssueEleventhActivity : AppCompatActivity() {
         setContentView(mBinding.root)
         initListener()
         setUpTabLayout()
+//        for (i in 1..10000){
+//            mUserViewModel.insertUser(UserInfo("name $i",i,false))
+//        }
     }
 
     private fun initListener() {
@@ -99,11 +104,7 @@ class IssueEleventhActivity : AppCompatActivity() {
         TabLayoutMediator(
             mBinding.tlUser, mBinding.vpUserInfo
         ) { tab: TabLayout.Tab, position: Int ->
-            tab.text = (
-                    when (position) {
-                        0 -> "ALL"
-                        else -> "Favourite"
-                    })
+            tab.text = TabName.getName(position)
         }.attach()
     }
 }

@@ -1,9 +1,7 @@
 package com.example.asian.issueeleventh.adapter
 
-import android.R.attr.data
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.asian.databinding.ItemListUserInfoBinding
 import com.example.asian.issueeleventh.model.UserInfo
-
 
 class UserAdapter(private var mItemClickListener: ItemClickListener) :
     ListAdapter<UserInfo, UserAdapter.ViewHolder>(UserDiffCallback()) {
@@ -23,15 +20,10 @@ class UserAdapter(private var mItemClickListener: ItemClickListener) :
             oldItem == newItem
 
         override fun getChangePayload(oldItem: UserInfo, newItem: UserInfo): Any? {
-            val bundle = Bundle()
             if (oldItem.userAge == newItem.userAge && oldItem.userName == newItem.userName) {
-                bundle.putBoolean("favourite", newItem.userFavourite)
-
+                return 1
             }
-            if (bundle.size() == 0){
-                return null
-            }
-            return bundle
+            return null
         }
     }
 
@@ -57,12 +49,7 @@ class UserAdapter(private var mItemClickListener: ItemClickListener) :
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
-            val o = payloads[0] as Bundle
-            for (key in o.keySet()) {
-                if (key == "favourite") {
-                    holder.bindFavourite(getItem(position),mItemClickListener)
-                }
-            }
+            holder.bindFavourite(getItem(position), mItemClickListener)
         }
     }
 
