@@ -5,22 +5,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asian.model.User;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
-    private List<User> userList;
-    private DatabaseHelper databaseHelper;
+    private final List<User> mUserList;
+    private final DatabaseHelper mDatabaseHelper;
 
     public UserAdapter(List<User> userList, DatabaseHelper databaseHelper) {
-        this.userList = userList;
-        this.databaseHelper = databaseHelper;
+        this.mUserList = userList;
+        this.mDatabaseHelper = databaseHelper;
     }
 
     @NonNull
@@ -32,16 +33,36 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User user = userList.get(position);
+        User user = mUserList.get(position);
         holder.tvUserId.setText(String.valueOf(user.getUserId()));
         holder.tvUserName.setText(user.getUserName());
         holder.tvUserAge.setText(String.valueOf(user.getAge()));
+
+        holder.btnDeleteUser.setOnClickListener(v -> {
+            // Delete the user from the database
+            mDatabaseHelper.deleteUserById(user.getUserId());
+            // Remove the user from the list and notify RecyclerView by using DiffUtil
+            List<User> newListUser = new ArrayList<>(mUserList);
+            newListUser.remove(user);
+            updateList(newListUser);
+            // Show a toast message
+            Toast.makeText(holder.itemView.getContext(), holder.itemView.getContext().getString(R.string.user_deleted), Toast.LENGTH_SHORT).show();
+//            Toast.makeText()
+        });
+    }
+
+    public void updateList(List<User> newList) {
+        MyDiffUtilsCallback diffCallback = new MyDiffUtilsCallback(this.mUserList, newList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        mUserList.clear();
+        mUserList.addAll(newList);
+        diffResult.dispatchUpdatesTo(this);
     }
 
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return mUserList.size();
     }
 
     static class UserViewHolder extends RecyclerView.ViewHolder {
@@ -59,5 +80,3 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         }
     }
 }
-
-

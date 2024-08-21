@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.asian.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,18 +24,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
                 + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USER_NAME + " TEXT,"
                 + COLUMN_USER_AGE + " INTEGER" + ")";
-        db.execSQL(CREATE_USER_TABLE);
+        sqLiteDatabase.execSQL(CREATE_USER_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        onCreate(sqLiteDatabase);
     }
 
     public void addUser(String name, int age) {
@@ -45,16 +43,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_NAME, name);
         values.put(COLUMN_USER_AGE, age);
-
         db.insert(TABLE_USER, null, values);
         db.close();
     }
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-
-        try (SQLiteDatabase db = this.getReadableDatabase(); Cursor cursor = db.query(TABLE_USER, null, null, null, null, null, null)) {
-
+        try (SQLiteDatabase sqLiteDatabase = this.getReadableDatabase(); Cursor cursor = sqLiteDatabase.query(TABLE_USER, null, null, null, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 int idIndex = cursor.getColumnIndex(COLUMN_USER_ID);
                 int nameIndex = cursor.getColumnIndex(COLUMN_USER_NAME);
@@ -68,17 +63,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         }
-
         return users;
     }
 
     public void deleteUserById(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_USER, COLUMN_USER_ID + "=?", new String[]{String.valueOf(id)});
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_USER, COLUMN_USER_ID + "=?", new String[]{String.valueOf(id)});
     }
 
     public void deleteAllUsers() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_USER, null, null);
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_USER, null, null);
     }
 }

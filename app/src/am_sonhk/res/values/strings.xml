@@ -53,4 +53,6 @@
   <string name="delete_all_data_done">All data have deleted</string>
   <string name="input_dataa_complete">Input data complete</string>
     <string name="kotlin">SQLite And Database Kotlin\n</string>
+    <string name="max_name_length">Name maximum 30 characters</string>
+  <string name="max_age_length">Age maximum 3 characters</string>
 </resources>

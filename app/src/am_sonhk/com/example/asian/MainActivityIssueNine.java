@@ -8,18 +8,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.asian.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseEx extends AppCompatActivity {
+public class MainActivityIssueNine extends AppCompatActivity {
 
-    private EditText edtUserName;
-    private EditText edtUserAge;
+    private static final int MAX_AGE_LENGTH = 3;
+    private static final int MAX_NAME_LENGTH = 50;
+    private EditText mEdtUserName;
+    private EditText mEdtUserAge;
     private Button mBtnAddUser;
     private Button mBtnDeleteAllUsers;
     private Button mBtnShowAllUsers;
@@ -32,13 +33,8 @@ public class DatabaseEx extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_mana_layout);
-
-        edtUserName = findViewById(R.id.edtUserName);
-        edtUserAge = findViewById(R.id.edtUserAge);
-        mBtnAddUser = findViewById(R.id.btnAddUser);
-        mBtnDeleteAllUsers = findViewById(R.id.btnDeleteAllUsers);
-        mBtnShowAllUsers = findViewById(R.id.btnShowAllUsers);
-        mRecyclerViewUsers = findViewById(R.id.recyclerViewUsers);
+        initUI();
+        initListener();
 
         mDatabaseHelper = new DatabaseHelper(this);
         mUserList = new ArrayList<>();
@@ -47,31 +43,50 @@ public class DatabaseEx extends AppCompatActivity {
         mRecyclerViewUsers.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerViewUsers.setAdapter(mUserAdapter);
 
-        mBtnAddUser.setOnClickListener(this::addUser);
-        mBtnDeleteAllUsers.setOnClickListener(this::deleteAllUsers);
-        mBtnShowAllUsers.setOnClickListener(this::loadUsers);
-
         loadUsers();
     }
 
+    private void initListener() {
+        mBtnAddUser.setOnClickListener(this::addUser);
+        mBtnDeleteAllUsers.setOnClickListener(this::deleteAllUsers);
+        mBtnShowAllUsers.setOnClickListener(this::loadUsers);
+    }
+
+    private void initUI() {
+        mEdtUserName = findViewById(R.id.edtUserName);
+        mEdtUserAge = findViewById(R.id.edtUserAge);
+        mBtnAddUser = findViewById(R.id.btnAddUser);
+        mBtnDeleteAllUsers = findViewById(R.id.btnDeleteAllUsers);
+        mBtnShowAllUsers = findViewById(R.id.btnShowAllUsers);
+        mRecyclerViewUsers = findViewById(R.id.recyclerViewUsers);
+    }
+
     private void addUser(View view) {
-        String name = edtUserName.getText().toString();
-        String ageStr = edtUserAge.getText().toString();
+        String name = mEdtUserName.getText().toString();
+        String ageStr = mEdtUserAge.getText().toString();
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(ageStr)) {
             Toast.makeText(this, getString(R.string.pls_enter_the_data), Toast.LENGTH_SHORT).show();
             return;
+        } else if (name.length() > MAX_NAME_LENGTH) {
+            Toast.makeText(this, getString(R.string.max_name_length), Toast.LENGTH_SHORT).show();
+            return;
+        } else if (ageStr.length() > MAX_AGE_LENGTH) {
+            Toast.makeText(this, getString(R.string.max_age_length), Toast.LENGTH_SHORT).show();
+            return;
         }
+
         int age = Integer.parseInt(ageStr);
         mDatabaseHelper.addUser(name, age);
-        edtUserName.setText("");
-        edtUserAge.setText("");
+        mEdtUserName.setText("");
+        mEdtUserAge.setText("");
         Toast.makeText(this, getString(R.string.input_dataa_complete), Toast.LENGTH_SHORT).show();
         loadUsers();
     }
 
     private void deleteAllUsers(View view) {
         mDatabaseHelper.deleteAllUsers();
-        loadUsers();
+        List<User> newListUser = new ArrayList<>();
+        updateList(newListUser);
         Toast.makeText(this, getString(R.string.delete_all_data_done), Toast.LENGTH_SHORT).show();
     }
 
@@ -79,11 +94,16 @@ public class DatabaseEx extends AppCompatActivity {
         loadUsers();
     }
 
-        private void loadUsers() {
-            mUserList.clear();
-            mUserList.addAll(mDatabaseHelper.getAllUsers());
-            mUserAdapter.notifyDataSetChanged();
-        }
-}
+    private void loadUsers() {
+        List<User> newList = mDatabaseHelper.getAllUsers();
+        updateList(newList);
+    }
 
-// TODO : use DiffUtil replace for notifyDataChanged
+    public void updateList(List<User> newList) {
+        MyDiffUtilsCallback diffCallback = new MyDiffUtilsCallback(this.mUserList, newList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        mUserList.clear();
+        mUserList.addAll(newList);
+        diffResult.dispatchUpdatesTo(mUserAdapter);
+    }
+}
