@@ -29,6 +29,8 @@
         <service
             android:name=".MyForegroundService"
             android:foregroundServiceType="location" />
+        <service android:name=".GpsTracker"
+            android:foregroundServiceType="location"/>
 
         <activity
             android:name=".MainActivity"

@@ -126,7 +126,6 @@ class GpsTracker extends Service implements LocationListener {
         if (location != null) {
             latitude = location.getLatitude();
         }
-
         // return latitude
         return latitude;
     }
@@ -139,7 +138,6 @@ class GpsTracker extends Service implements LocationListener {
         if (location != null) {
             longitude = location.getLongitude();
         }
-
         // return longitude
         return longitude;
     }
