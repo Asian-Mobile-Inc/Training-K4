@@ -80,4 +80,7 @@
     <string name="age_greater_than_zero">Age is greater than 0</string>
     <string name="cancel">Cancel</string>
     <string name="this_is_dialog">This is Dialog</string>
+    <string name="all">ALL</string>
+    <string name="favorite">FAVORITE</string>
+    <string name="age_is_less_than_three_digits">Age is less than 3 digits</string>
 </resources>
