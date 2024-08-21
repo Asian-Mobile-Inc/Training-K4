@@ -73,69 +73,25 @@
         app:layout_constraintStart_toEndOf="@id/btnDeleteAll"
         app:layout_constraintTop_toBottomOf="@id/edtAge" />
 
-    <TextView
-        android:id="@+id/tvUserId"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_white"
-        android:padding="8dp"
-        android:text="@string/user_id"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/tvUserName"
-        app:layout_constraintEnd_toStartOf="@id/tvUserName"
-        app:layout_constraintHorizontal_weight="3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnDeleteAll" />
-
-    <TextView
-        android:id="@+id/tvUserName"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tlTabUsers"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/bg_grey"
-        android:padding="8dp"
-        android:text="@string/user_name"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/tvUserAge"
-        app:layout_constraintHorizontal_weight="6"
-        app:layout_constraintStart_toEndOf="@+id/tvUserId"
-        app:layout_constraintTop_toBottomOf="@id/btnDeleteAll" />
-
-    <TextView
-        android:id="@+id/tvUserAge"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_grey"
-        android:padding="8dp"
-        android:text="@string/user_age"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/tvUserName"
+        android:contentDescription="@string/exercise_mvvm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="3"
-        app:layout_constraintStart_toEndOf="@id/tvUserName"
-        app:layout_constraintTop_toBottomOf="@id/btnDeleteAll" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnDeleteAll"
+        app:tabIndicatorColor="@color/red_FF5E62"
+        app:tabIndicatorFullWidth="false"
+        app:tabSelectedTextColor="@color/red_FF5E62"
+        app:tabTextColor="@color/grey" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvUsers"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpPagerUsers"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUserName" />
-
-    <ProgressBar
-        android:id="@+id/pbProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUserName" />
+        app:layout_constraintTop_toBottomOf="@id/tlTabUsers" />
 </androidx.constraintlayout.widget.ConstraintLayout>

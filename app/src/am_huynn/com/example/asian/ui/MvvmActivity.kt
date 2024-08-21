@@ -1,57 +1,42 @@
 package com.example.asian.ui
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.asian.R
-import com.example.asian.adapter.UserAdapter
+import com.example.asian.adapter.PagerAdapter
 import com.example.asian.databinding.ActivityMvvmBinding
-import com.example.asian.databinding.DialogLayoutBinding
 import com.example.asian.model.User
 import com.example.asian.viewmodel.UserViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 
 class MvvmActivity : AppCompatActivity() {
     private val binding: ActivityMvvmBinding by lazy {
         ActivityMvvmBinding.inflate(layoutInflater)
     }
 
-    private val userViewModel: UserViewModel by lazy {
-        ViewModelProvider(
-            this, UserViewModel.UserViewModelFactory(this.application)
-        )[UserViewModel::class.java]
-    }
-
-    private val userAdapter: UserAdapter by lazy {
-        UserAdapter(this, onUpdateUser, onDeleteUser)
-    }
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        initAdapter()
+        initControl()
         initListener()
     }
 
-    private fun initAdapter() {
-        binding.rvUsers.layoutManager = LinearLayoutManager(this)
-        binding.rvUsers.adapter = userAdapter
-        userViewModel.getIsLoadingObserver().observe(this) {
-            if (it == true) {
-                binding.pbProgress.visibility = View.VISIBLE
+    private fun initControl() {
+        val pagerAdapter = PagerAdapter(this)
+        binding.vpPagerUsers.adapter = pagerAdapter
+        TabLayoutMediator(binding.tlTabUsers, binding.vpPagerUsers) { tab, position ->
+            if (position == userViewModel.positionPageOne) {
+                tab.text = resources.getString(R.string.all)
             } else {
-                binding.pbProgress.visibility = View.INVISIBLE
+                tab.text = resources.getString(R.string.favorite)
             }
-        }
-        userViewModel.getAllUserObserver().observe(this) {
-            userAdapter.setUsers(it)
-        }
+        }.attach()
     }
 
     private fun initListener() {
@@ -76,49 +61,12 @@ class MvvmActivity : AppCompatActivity() {
             binding.edtAge.error = errorAge
             return
         } else {
-            val user = User(name, age.toInt())
+            val user = User(name, age.toInt(), false)
             userViewModel.insertUser(user)
             binding.edtName.text = null
             binding.edtAge.text = null
             hideKeyboard()
         }
-    }
-
-    private val onDeleteUser: (User) -> Unit = {
-        userViewModel.deleteUser(it)
-    }
-
-    private val onUpdateUser: (User) -> Unit = {
-        showEditDialog(it)
-    }
-
-    private fun showEditDialog(user: User) {
-        val dialog = AlertDialog.Builder(this).create()
-        val dialogBinding = DialogLayoutBinding.inflate(LayoutInflater.from(this))
-        val dialogLayout = dialogBinding.root
-
-        dialog.apply {
-            setTitle(resources.getText(R.string.this_is_dialog))
-            setView(dialogLayout)
-            with(dialogBinding) {
-                edtEditName.setText(user.userName)
-                edtEditName.setSelection(edtEditName.length())
-                btnCancel.setOnClickListener {
-                    dismiss()
-                }
-                btnConfirmEdit.setOnClickListener {
-                    val errorName: String? =
-                        userViewModel.validatorName(edtEditName.text.toString())
-                    if (errorName != null) {
-                        edtEditName.error = errorName
-                    } else {
-                        user.userName = edtEditName.text.toString()
-                        userViewModel.updateUser(user)
-                        dismiss()
-                    }
-                }
-            }
-        }.show()
     }
 
     private fun hideKeyboard() {
