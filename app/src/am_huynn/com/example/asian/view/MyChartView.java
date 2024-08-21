@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -93,10 +94,13 @@ public class MyChartView extends View {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
+        canvas.save();
+        canvas.scale(mScaleFactor, mScaleFactor, mScaleGestureDetector.getFocusX(), mScaleGestureDetector.getFocusY());
         if (mSellExpenses == null) {
             mSellExpenses = new ArrayList<>();
         }
         drawChartFrame(canvas);
+        canvas.restore();
     }
 
     private void initValues() {
@@ -153,11 +157,10 @@ public class MyChartView extends View {
     class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(@NonNull ScaleGestureDetector detector) {
-            mScaleFactor = detector.getScaleFactor() - 1;
-            mScaleFactor += detector.getScaleFactor();
-//            mScaleFactor = Math.max(0.5f, Math.min(mScaleFactor, 2.5f));
-            setScaleX(mScaleFactor);
-            setScaleY(mScaleFactor);
+            mScaleFactor *= detector.getScaleFactor();
+            mScaleFactor = Math.max(1f, Math.min(mScaleFactor, 5.0f));
+            Log.e("TAG", String.valueOf(mScaleFactor));
+            invalidate();
             return true;
         }
     }
