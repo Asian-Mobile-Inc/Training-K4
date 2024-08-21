@@ -10,6 +10,8 @@ data class User(
     var userName: String = "",
     @ColumnInfo(name = "age")
     var age: Int = 0,
+    @ColumnInfo(name = "favorite")
+    var favorite: Boolean = false,
 ) {
     @ColumnInfo(name = "user_id")
     @PrimaryKey(autoGenerate = true)

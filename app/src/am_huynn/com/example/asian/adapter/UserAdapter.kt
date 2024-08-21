@@ -1,18 +1,18 @@
 package com.example.asian.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.asian.R
 import com.example.asian.databinding.UserItemViewBinding
 import com.example.asian.diff.UserDiffUtilCallback
 import com.example.asian.model.User
 
 class UserAdapter(
-    private val context: Context,
     private val onUpdate: (User) -> Unit,
     private val onDelete: (User) -> Unit,
+    private val onFavorite: (User) -> Unit,
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
     private var mUsers: MutableList<User> = mutableListOf()
 
@@ -26,7 +26,7 @@ class UserAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: UserItemViewBinding =
-            UserItemViewBinding.inflate(LayoutInflater.from(context), parent, false)
+            UserItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -45,8 +45,14 @@ class UserAdapter(
                 tvUserItemId.text = user.userId.toString()
                 tvUserItemName.text = user.userName
                 tvUserItemAge.text = user.age.toString()
+                if (user.favorite) {
+                    btnFavorite.setImageResource(R.drawable.ic_favorite)
+                } else {
+                    btnFavorite.setImageResource(R.drawable.ic_un_favorite)
+                }
                 btnDeleteItemUser.setOnClickListener { onDelete(user) }
                 btnEditItemUser.setOnClickListener { onUpdate(user) }
+                btnFavorite.setOnClickListener { onFavorite(user) }
             }
         }
     }
