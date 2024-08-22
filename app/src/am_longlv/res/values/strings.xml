@@ -90,4 +90,6 @@
     <string name="enter_item_name">Nhập tên</string>
     <string name="name_item_int_param">Item %d</string>
     <string name="tab_int_param">Tab %d</string>
+    <!--    Issue 13-->
+    <string name="name_image">Name Image</string>
 </resources>
