@@ -35,6 +35,7 @@ public class CustomViewActivity extends AppCompatActivity {
         mSellExpenses.add(new SellExpense(EnumMonth.Apr, 78000, 20000));
         mSellExpenses.add(new SellExpense(EnumMonth.May, 110000, 42000));
         mSellExpenses.add(new SellExpense(EnumMonth.Jun, 130000, 80000));
+        mSellExpenses.add(new SellExpense(EnumMonth.Jan, 130000, 80000));
         mMcvMyChart.setSellExpenses(mSellExpenses);
     }
 }

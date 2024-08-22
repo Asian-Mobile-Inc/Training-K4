@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -34,6 +34,8 @@ public class MyChartView extends View {
 
     private ScaleGestureDetector mScaleGestureDetector;
 
+    private GestureDetector mScrollGestureDetector;
+
     public MyChartView(Context context) {
         super(context);
         initPaint();
@@ -44,6 +46,7 @@ public class MyChartView extends View {
         initAttrs(context, attrs);
         initPaint();
         mScaleGestureDetector = new ScaleGestureDetector(this.getContext(), new ScaleListener());
+        mScrollGestureDetector = new GestureDetector(this.getContext(), new ScrollGestureDetector());
     }
 
     public void setSellExpenses(ArrayList<SellExpense> sellExpenses) {
@@ -151,6 +154,7 @@ public class MyChartView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mScaleGestureDetector.onTouchEvent(event);
+        mScrollGestureDetector.onTouchEvent(event);
         return true;
     }
 
@@ -159,8 +163,16 @@ public class MyChartView extends View {
         public boolean onScale(@NonNull ScaleGestureDetector detector) {
             mScaleFactor *= detector.getScaleFactor();
             mScaleFactor = Math.max(1f, Math.min(mScaleFactor, 5.0f));
-            Log.e("TAG", String.valueOf(mScaleFactor));
             invalidate();
+            return true;
+        }
+    }
+
+    class ScrollGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onScroll(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
+            scrollBy((int) distanceX, 0);
+            System.out.println("scroll: " + getY());
             return true;
         }
     }
