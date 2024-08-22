@@ -28,10 +28,9 @@ public class MyChartView extends View {
     private TextPaint mTextCenterPaint;
     private Paint mPaintSales;
     private Paint mPaintExpenses;
-    private ArrayList<Integer> mValues = new ArrayList<>();
-
+    private final ArrayList<Integer> mValues = new ArrayList<>();
+    private final int mMaxSizeColumItem = 6;
     private float mScaleFactor = 1.0f;
-
     private ScaleGestureDetector mScaleGestureDetector;
     private int spaceItem = 0;
 
@@ -67,6 +66,7 @@ public class MyChartView extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyChartView_XML);
         mColorSale = typedArray.getColor(R.styleable.MyChartView_XML_color_sales, getResources().getColor(R.color.blue_4A82BD));
         mColorExpenses = typedArray.getColor(R.styleable.MyChartView_XML_color_expenses, getResources().getColor(R.color.red_C6514A));
+        typedArray.recycle();
     }
 
     private void initPaint() {
@@ -135,8 +135,8 @@ public class MyChartView extends View {
         int yEnd = (mValues.size() - 1) * spaceItemValue + yStart;
         int xEnd = mSellExpenses.size() * spaceItemMonth + xStart;
 
-        int spaceColumnChart = spaceItemMonth / 3;
-        int spaceCenterColumn = spaceItemMonth / 6;
+        int spaceColumnChart = spaceItemMonth / (mMaxSizeColumItem / 2);
+        int spaceCenterColumn = spaceItemMonth / mMaxSizeColumItem;
 
         canvas.drawLine(xStart, yStart, xStart, yEnd, mPaintBlack);
         canvas.drawLine(xStart, yEnd, xEnd, yEnd, mPaintBlack);
@@ -146,7 +146,7 @@ public class MyChartView extends View {
         }
 
         for (int i = 0; i < mSellExpenses.size(); i++) {
-            canvas.drawText(mSellExpenses.get(i).getMonth().name(), xStart + i * spaceItemMonth + spaceItemMonth / 2, yEnd + 30, mTextCenterPaint);
+            canvas.drawText(mSellExpenses.get(i).getMonth().name(), xStart + i * spaceItemMonth + ((float) spaceItemMonth / 2), yEnd + 30, mTextCenterPaint);
 
             canvas.drawRect(xStart + i * spaceItemMonth + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getSales() / 20000 * spaceItemValue), xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd, mPaintSales);
             canvas.drawRect(xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getExpenses() / 20000 * spaceItemValue), xStart + i * spaceItemMonth + spaceColumnChart + spaceColumnChart + spaceCenterColumn, yEnd, mPaintExpenses);
@@ -155,11 +155,17 @@ public class MyChartView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        performClick();
         mScaleGestureDetector.onTouchEvent(event);
-        if (mSellExpenses.size() > 6) {
+        if (mSellExpenses.size() > mMaxSizeColumItem) {
             mScrollGestureDetector.onTouchEvent(event);
         }
         return true;
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 
     class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -179,17 +185,17 @@ public class MyChartView extends View {
                 if (distanceX > 0) {
                     scrollBy((int) distanceX, 0);
                 }
-            }else if (getScrollX() > 0 ) {
-                if(distanceX > 0) {
-                    if(getScrollX()< (spaceItem * (mSellExpenses.size() - 6))) {
+            } else if (getScrollX() > 0) {
+                if (distanceX > 0) {
+                    if (getScrollX() < (spaceItem * (mSellExpenses.size() - 6))) {
                         scrollBy((int) distanceX, 0);
                     }
-                }else {
-                    if(getScrollX()> 0) {
+                } else {
+                    if (getScrollX() > 0) {
                         scrollBy((int) distanceX, 0);
                     }
                 }
-            }else {
+            } else {
                 if (distanceX > 0) {
                     scrollBy((int) distanceX, 0);
                 }
