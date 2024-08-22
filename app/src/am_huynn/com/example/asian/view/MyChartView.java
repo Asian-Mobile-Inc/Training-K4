@@ -33,6 +33,7 @@ public class MyChartView extends View {
     private float mScaleFactor = 1.0f;
 
     private ScaleGestureDetector mScaleGestureDetector;
+    private int spaceItem = 0;
 
     private GestureDetector mScrollGestureDetector;
 
@@ -129,6 +130,7 @@ public class MyChartView extends View {
         int xStart = 13 * getWidth() / 100;
         int yStart = 5 * getHeight() / 100;
         int spaceItemMonth = (getWidth() - xStart) / 6;
+        spaceItem = spaceItemMonth;
         int spaceItemValue = (getHeight() - (12 * getHeight() / 100)) / (mValues.size() - 1);
         int yEnd = (mValues.size() - 1) * spaceItemValue + yStart;
         int xEnd = mSellExpenses.size() * spaceItemMonth + xStart;
@@ -173,7 +175,25 @@ public class MyChartView extends View {
     class ScrollGestureDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onScroll(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
-            scrollBy((int) distanceX, 0);
+            if (getScrollX() == 0) {
+                if (distanceX > 0) {
+                    scrollBy((int) distanceX, 0);
+                }
+            }else if (getScrollX() > 0 ) {
+                if(distanceX > 0) {
+                    if(getScrollX()< (spaceItem * (mSellExpenses.size() - 6))) {
+                        scrollBy((int) distanceX, 0);
+                    }
+                }else {
+                    if(getScrollX()> 0) {
+                        scrollBy((int) distanceX, 0);
+                    }
+                }
+            }else {
+                if (distanceX > 0) {
+                    scrollBy((int) distanceX, 0);
+                }
+            }
             return true;
         }
     }
