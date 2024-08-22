@@ -154,7 +154,9 @@ public class MyChartView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mScaleGestureDetector.onTouchEvent(event);
-        mScrollGestureDetector.onTouchEvent(event);
+        if (mSellExpenses.size() > 6) {
+            mScrollGestureDetector.onTouchEvent(event);
+        }
         return true;
     }
 
@@ -172,7 +174,6 @@ public class MyChartView extends View {
         @Override
         public boolean onScroll(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
             scrollBy((int) distanceX, 0);
-            System.out.println("scroll: " + getY());
             return true;
         }
     }
