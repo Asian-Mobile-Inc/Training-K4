@@ -14,6 +14,7 @@ public class Constants {
     public static final String KEY_INTEREST = "keyInterest";
     public static final String KEY_BUNDLE_LOGIN = "keyBundleLogin";
     public static final String KEY_BUNDLE_MORE_INFORMATION = "keyBundleMoreInformation";
+    public static final String KEY_LIST_SELL_EXPENSES = "keyBundleMoreInformation";
 
     public static final int MIN_LENGTH_PASSWORD = 8;
     public static final int MIN_LENGTH_MORE_INFORMATION = 100;

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edtJanuarySales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/january_sales"
+        android:hint="@string/january_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtJanuaryExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtJanuaryExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/january_expenses"
+        android:hint="@string/january_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtJanuarySales"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtFebruarySales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/february_sales"
+        android:hint="@string/february_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtFebruaryExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtJanuarySales" />
+
+    <EditText
+        android:id="@+id/edtFebruaryExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/february_expenses"
+        android:hint="@string/february_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtFebruarySales"
+        app:layout_constraintTop_toTopOf="@id/edtFebruarySales" />
+
+    <EditText
+        android:id="@+id/edtMarchSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/march_sales"
+        android:hint="@string/march_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtMarchExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtFebruarySales" />
+
+    <EditText
+        android:id="@+id/edtMarchExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/march_expenses"
+        android:hint="@string/march_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtMarchSales"
+        app:layout_constraintTop_toBottomOf="@id/edtFebruarySales" />
+
+    <EditText
+        android:id="@+id/edtAprilSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/april_sales"
+        android:hint="@string/april_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtAprilExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtMarchSales" />
+
+    <EditText
+        android:id="@+id/edtAprilExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/april_expenses"
+        android:hint="@string/april_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtAprilSales"
+        app:layout_constraintTop_toTopOf="@id/edtAprilSales" />
+
+    <EditText
+        android:id="@+id/edtMaySales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/may_sales"
+        android:hint="@string/may_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtMayExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtAprilSales" />
+
+    <EditText
+        android:id="@+id/edtMayExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/may_expenses"
+        android:hint="@string/may_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtMaySales"
+        app:layout_constraintTop_toTopOf="@id/edtMaySales" />
+
+    <EditText
+        android:id="@+id/edtJuneSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/june_sales"
+        android:hint="@string/june_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtJuneExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtMaySales" />
+
+    <EditText
+        android:id="@+id/edtJuneExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/june_expenses"
+        android:hint="@string/june_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtJuneSales"
+        app:layout_constraintTop_toTopOf="@id/edtJuneSales" />
+
+    <EditText
+        android:id="@+id/edtJulySales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/july_sales"
+        android:hint="@string/july_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtJulyExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtJuneSales" />
+
+    <EditText
+        android:id="@+id/edtJulyExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/july_expenses"
+        android:hint="@string/july_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtJulySales"
+        app:layout_constraintTop_toTopOf="@id/edtJulySales" />
+
+    <EditText
+        android:id="@+id/edtAugustSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/august_sales"
+        android:hint="@string/august_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtAugustExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtJulySales" />
+
+    <EditText
+        android:id="@+id/edtAugustExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/august_expenses"
+        android:hint="@string/august_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtAugustSales"
+        app:layout_constraintTop_toTopOf="@id/edtAugustSales" />
+
+    <EditText
+        android:id="@+id/edtSeptemberSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/september_sales"
+        android:hint="@string/september_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtAugustSales" />
+
+    <EditText
+        android:id="@+id/edtSeptemberExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/september_expenses"
+        android:hint="@string/september_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtAugustSales"
+        app:layout_constraintTop_toTopOf="@id/edtSeptemberSales" />
+
+    <EditText
+        android:id="@+id/edtOctoberSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/october_sales"
+        android:hint="@string/october_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtOctoberExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtSeptemberSales" />
+
+    <EditText
+        android:id="@+id/edtOctoberExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/october_expenses"
+        android:hint="@string/october_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtOctoberSales"
+        app:layout_constraintTop_toTopOf="@id/edtOctoberSales" />
+
+    <EditText
+        android:id="@+id/edtNovemberSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/november_sales"
+        android:hint="@string/november_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtNovemberExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtOctoberSales" />
+
+    <EditText
+        android:id="@+id/edtNovemberExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/november_expenses"
+        android:hint="@string/november_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtNovemberSales"
+        app:layout_constraintTop_toBottomOf="@id/edtOctoberSales" />
+
+    <EditText
+        android:id="@+id/edtDecemberSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/december_sales"
+        android:hint="@string/december_sales"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toStartOf="@id/edtDecemberExpenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtNovemberSales" />
+
+    <EditText
+        android:id="@+id/edtDecemberExpenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/december_expenses"
+        android:hint="@string/december_expenses"
+        android:inputType="number"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edtDecemberSales"
+        app:layout_constraintTop_toBottomOf="@id/edtNovemberSales" />
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtDecemberSales" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

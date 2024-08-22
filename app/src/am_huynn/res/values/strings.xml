@@ -58,4 +58,31 @@
     <string name="please_not_empty">Vui lòng không để trống</string>
     <string name="separate">-</string>
     <string name="please_greater_hundred_character">Thông tin thêm lớn hơn 100 ký tự</string>
+
+    <string name="january_sales">January Sales</string>
+    <string name="february_sales">February Sales</string>
+    <string name="march_sales">March Sales</string>
+    <string name="april_sales">April Sales</string>
+    <string name="may_sales">May Sales</string>
+    <string name="june_sales">June Sales</string>
+    <string name="july_sales">July Sales</string>
+    <string name="august_sales">August Sales</string>
+    <string name="september_sales">September Sales</string>
+    <string name="october_sales">October Sales</string>
+    <string name="november_sales">November Sales</string>
+    <string name="december_sales">December Sales</string>
+    <string name="january_expenses">January Expenses</string>
+    <string name="february_expenses">February Expenses</string>
+    <string name="march_expenses">March Expenses</string>
+    <string name="april_expenses">April Expenses</string>
+    <string name="may_expenses">May Expenses</string>
+    <string name="june_expenses">June Expenses</string>
+    <string name="july_expenses">July Expenses</string>
+    <string name="august_expenses">August Expenses</string>
+    <string name="september_expenses">September Expenses</string>
+    <string name="october_expenses">October Expenses</string>
+    <string name="november_expenses">November Expenses</string>
+    <string name="december_expenses">December Expenses</string>
+    <string name="send">Send</string>
+
 </resources>

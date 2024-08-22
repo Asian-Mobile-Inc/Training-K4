@@ -146,7 +146,7 @@ public class MyChartView extends View {
         }
 
         for (int i = 0; i < mSellExpenses.size(); i++) {
-            canvas.drawText(mSellExpenses.get(i).getMonth().name(), xStart + i * spaceItemMonth + ((float) spaceItemMonth / 2), yEnd + 30, mTextCenterPaint);
+            canvas.drawText(mSellExpenses.get(i).getMonth(), xStart + i * spaceItemMonth + ((float) spaceItemMonth / 2), yEnd + 30, mTextCenterPaint);
 
             canvas.drawRect(xStart + i * spaceItemMonth + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getSales() / 20000 * spaceItemValue), xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd, mPaintSales);
             canvas.drawRect(xStart + i * spaceItemMonth + spaceColumnChart + spaceCenterColumn, yEnd - (mSellExpenses.get(i).getExpenses() / 20000 * spaceItemValue), xStart + i * spaceItemMonth + spaceColumnChart + spaceColumnChart + spaceCenterColumn, yEnd, mPaintExpenses);

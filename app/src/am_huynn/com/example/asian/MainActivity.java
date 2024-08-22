@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.asian.ui.CustomViewActivity;
 import com.example.asian.ui.FacebookActivity;
 import com.example.asian.ui.InformationActivity;
+import com.example.asian.ui.InputSaleActivity;
 import com.example.asian.ui.MathActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mBtnCustomView.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CustomViewActivity.class);
+            Intent intent = new Intent(this, InputSaleActivity.class);
             startActivity(intent);
         });
     }
