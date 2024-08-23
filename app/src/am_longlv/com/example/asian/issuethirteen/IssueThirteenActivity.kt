@@ -152,7 +152,7 @@ class IssueThirteenActivity : AppCompatActivity() {
         }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(com.example.asian.R.menu.menu_toolbar_select_more, menu)
+        menuInflater.inflate(R.menu.menu_toolbar_select_more, menu)
         if (isShowMenu) {
             menu?.let {
                 for (i in 0 until it.size()) {

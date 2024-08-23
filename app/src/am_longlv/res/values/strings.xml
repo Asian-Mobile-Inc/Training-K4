@@ -95,4 +95,6 @@
     <string name="select_all">Select All</string>
     <string name="un_select_all">Un Select All</string>
     <string name="delete_all_images">Delete All Images?</string>
+    <string name="my_favourite">My Favourite</string>
+    <string name="gallery">Gallery</string>
 </resources>

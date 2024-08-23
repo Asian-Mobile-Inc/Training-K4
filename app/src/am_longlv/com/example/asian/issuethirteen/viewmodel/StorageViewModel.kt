@@ -16,7 +16,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.asian.issuethirteen.database.repository.StorageRepository
 import com.example.asian.issuethirteen.model.StorageModel
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File

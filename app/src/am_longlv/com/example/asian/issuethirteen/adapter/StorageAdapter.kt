@@ -1,7 +1,6 @@
 package com.example.asian.issuethirteen.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +51,6 @@ class StorageAdapter(private var mItemClickListener: ItemClickListener) :
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
-            Log.d("androidruntime", "sjss")
             holder.bindBackground(getItem(position), mItemClickListener)
         }
 

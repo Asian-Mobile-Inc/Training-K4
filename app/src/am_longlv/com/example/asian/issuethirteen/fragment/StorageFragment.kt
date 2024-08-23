@@ -20,6 +20,8 @@ import com.example.asian.issuethirteen.adapter.StorageAdapter
 import com.example.asian.issuethirteen.model.StorageModel
 import com.example.asian.issuethirteen.viewmodel.StorageViewModel
 
+private const val KEY_BUNDLE_TAB = "tab"
+
 class StorageFragment : Fragment(), StorageAdapter.ItemClickListener {
     private var tab = 0
     private lateinit var mStorageAdapter: StorageAdapter
@@ -31,7 +33,7 @@ class StorageFragment : Fragment(), StorageAdapter.ItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            tab = it.getInt("tab", 0)
+            tab = it.getInt(KEY_BUNDLE_TAB, 0)
         }
     }
 
@@ -50,7 +52,7 @@ class StorageFragment : Fragment(), StorageAdapter.ItemClickListener {
         fun newInstance(tab: Int) =
             StorageFragment().apply {
                 arguments = Bundle().apply {
-                    putInt("tab", tab)
+                    putInt(KEY_BUNDLE_TAB, tab)
                 }
             }
     }
