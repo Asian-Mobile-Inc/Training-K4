@@ -92,4 +92,7 @@
     <string name="tab_int_param">Tab %d</string>
     <!--    Issue 13-->
     <string name="name_image">Name Image</string>
+    <string name="select_all">Select All</string>
+    <string name="un_select_all">Un Select All</string>
+    <string name="delete_all_images">Delete All Images?</string>
 </resources>

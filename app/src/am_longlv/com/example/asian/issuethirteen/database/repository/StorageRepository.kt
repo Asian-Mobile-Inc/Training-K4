@@ -14,7 +14,6 @@ class StorageRepository(application: Application) {
     }
 
     suspend fun insertStorage(storageModel: StorageModel) = mStorageDao.insertStorage(storageModel)
-    suspend fun updateStorage(storageModel: StorageModel) = mStorageDao.updateStorage(storageModel)
     suspend fun deleteStorage(storageModel: StorageModel) =
         mStorageDao.deleteStorage(storageModel.storageUri)
 
