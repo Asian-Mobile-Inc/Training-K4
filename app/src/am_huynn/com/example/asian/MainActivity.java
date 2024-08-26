@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mBtnCustomView.setOnClickListener(view -> {
-            Intent intent = new Intent(this, InputSaleActivity.class);
+            Intent intent = new Intent(this, CustomViewActivity.class);
             startActivity(intent);
         });
     }

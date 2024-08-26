@@ -21,9 +21,7 @@ public class CustomViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_view);
         initView();
-        Bundle bundle = getIntent().getExtras();
-        ArrayList<SellExpense> sellExpenses = bundle.getParcelableArrayList(Constants.KEY_LIST_SELL_EXPENSES);
-        mMcvMyChart.setSellExpenses(sellExpenses);
+        initListSellExpenses();
     }
 
     private void initView() {
