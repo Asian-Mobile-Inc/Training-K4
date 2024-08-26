@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import com.example.asian.issueeleventh.database.dao.UserDao
 import com.example.asian.issueeleventh.model.UserInfo
 
+private const val NAME_DATABASE = "UserDatabase"
+
 @Database(entities = [UserInfo::class], version = 1)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
@@ -17,7 +19,7 @@ abstract class UserDatabase : RoomDatabase() {
         fun getInstance(application: Application): UserDatabase {
             if (mInstance == null) {
                 mInstance =
-                    Room.databaseBuilder(application, UserDatabase::class.java, "UserDatabase")
+                    Room.databaseBuilder(application, UserDatabase::class.java, NAME_DATABASE)
                         .build()
             }
             return mInstance!!

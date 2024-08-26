@@ -15,6 +15,9 @@ import com.example.asian.issueeleventh.adapter.UserAdapter
 import com.example.asian.issueeleventh.model.UserInfo
 import com.example.asian.issueeleventh.viewmodel.UserViewModel
 
+private const val MAX_AGE = 200
+private const val MAX_LENGTH_AGE = 3
+
 class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener {
     private val mUserViewModel: UserViewModel by viewModels()
     private val mBinding: ActivityIssueEleventhBinding by lazy {
@@ -76,12 +79,15 @@ class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener
         if (mBinding.edtAge.text.isEmpty()) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
         }
-        if (mBinding.edtAge.text.toString().toInt() > 200) {
+        if (mBinding.edtAge.text.toString().length > MAX_LENGTH_AGE || mBinding.edtAge.text.toString()
+                .toInt() > MAX_AGE
+        ) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
         }
         return !(mBinding.edtName.text.isEmpty() ||
                 mBinding.edtAge.text.isEmpty() ||
-                mBinding.edtAge.text.toString().toInt() > 200)
+                mBinding.edtAge.text.toString().length > MAX_LENGTH_AGE ||
+                mBinding.edtAge.text.toString().toInt() > MAX_AGE)
     }
 
     override fun onDeleteClick(user: UserInfo) {

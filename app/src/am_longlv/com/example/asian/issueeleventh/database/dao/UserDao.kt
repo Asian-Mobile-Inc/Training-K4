@@ -22,9 +22,6 @@ interface UserDao {
     @Query("select * from user order by user_id")
     suspend fun getAllUser(): MutableList<UserInfo>
 
-    @Query("select * from user order by user_id limit :limit")
-    suspend fun getPaginationUser(limit: Int): MutableList<UserInfo>
-
     @Query("delete from user")
     suspend fun deleteAllUser()
 }
