@@ -10,10 +10,12 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.asian.R
 import com.example.asian.issuethirteen.database.repository.StorageRepository
 import com.example.asian.issuethirteen.model.StorageModel
 import kotlinx.coroutines.Dispatchers
@@ -107,7 +109,7 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
         var extension: String = from.absolutePath
         extension = extension.substring(extension.lastIndexOf("."))
         val to = File("$filePath$newName$extension")
-        mNewName = newName
+        mNewName = newName.trim()
         mNewFile = to
         pendingDeleteImage = storage
         viewModelScope.launch {
@@ -132,25 +134,40 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             getRealIDFromURI(Uri.parse(file.absolutePath), context)
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            try {
-                val values = ContentValues()
-                values.clear()
-                values.put(MediaStore.Images.Media.DISPLAY_NAME, mNewName)
-                context.contentResolver.update(
-                    mUri,
-                    values, null, null
+        if (checkNameExists()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                try {
+                    val values = ContentValues()
+                    values.clear()
+                    values.put(MediaStore.Images.Media.DISPLAY_NAME, mNewName)
+                    context.contentResolver.update(
+                        mUri,
+                        values, null, null
+                    )
+                    MediaScannerConnection.scanFile(
+                        context, arrayOf(pendingDeleteImage.storageUri),
+                        null, null
+                    )
+                    notifyListRenameChange()
+                } catch (_: Exception) {
+                    val pi =
+                        MediaStore.createWriteRequest(context.contentResolver, mutableListOf(mUri))
+                    mPermissionNeededForRename.value = pi.intentSender
+                }
+            } else {
+                file.renameTo(to)
+                MediaScannerConnection.scanFile(
+                    context, arrayOf(pendingDeleteImage.storageUri),
+                    null, null
                 )
                 notifyListRenameChange()
-            } catch (_: Exception) {
-                val pi = MediaStore.createWriteRequest(context.contentResolver, mutableListOf(mUri))
-                mPermissionNeededForRename.value = pi.intentSender
             }
+            return true
         } else {
-            file.renameTo(to)
-            notifyListRenameChange()
+            Toast.makeText(context, context.getString(R.string.name_exists), Toast.LENGTH_SHORT)
+                .show()
         }
-        return true
+        return false
     }
 
     internal fun renameImageAcp(context: Context) {
@@ -164,6 +181,10 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
                     values, null, null
                 )
             }
+            MediaScannerConnection.scanFile(
+                context, arrayOf(pendingDeleteImage.storageUri),
+                null, null
+            )
             notifyListRenameChange()
         }
     }
@@ -434,5 +455,17 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
             it.addAll(newList)
             mListStorage.value = it
         }
+    }
+
+    private fun checkNameExists(): Boolean {
+        val file = File(
+            pendingDeleteImage.storageUri.substring(
+                0,
+                pendingDeleteImage.storageUri.lastIndexOf(File.separator)
+            ) + File.separator + mNewName.trim() + pendingDeleteImage.storageUri.substring(
+                pendingDeleteImage.storageUri.lastIndexOf(".")
+            ).trim()
+        )
+        return !file.exists()
     }
 }

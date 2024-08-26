@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.asian.R
 import com.example.asian.databinding.ItemListStorageBinding
 import com.example.asian.issuethirteen.model.StorageModel
@@ -65,6 +66,8 @@ class StorageAdapter(private var mItemClickListener: ItemClickListener) :
             Glide
                 .with(context)
                 .load(storage.storageUri)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(binding.ivStorage)
             binding.tvNameStorage.text = storage.storageName
             if (storage.isSelected) {

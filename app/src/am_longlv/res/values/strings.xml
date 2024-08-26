@@ -97,4 +97,5 @@
     <string name="delete_all_images">Delete All Images?</string>
     <string name="my_favourite">My Favourite</string>
     <string name="gallery">Gallery</string>
+    <string name="name_exists">File name exists</string>
 </resources>

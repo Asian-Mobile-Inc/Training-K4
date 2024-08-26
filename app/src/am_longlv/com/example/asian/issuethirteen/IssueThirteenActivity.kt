@@ -26,7 +26,6 @@ import com.example.asian.issuethirteen.viewmodel.StorageViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-
 class IssueThirteenActivity : AppCompatActivity() {
     private val mBinding: ActivityIssueThirteenBinding by lazy {
         ActivityIssueThirteenBinding.inflate(layoutInflater)
