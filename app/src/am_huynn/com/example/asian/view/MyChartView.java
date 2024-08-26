@@ -223,8 +223,8 @@ public class MyChartView extends View {
                         if (mScaleFactor == 1) {
                             mPosX = 0;
                         } else {
-                            if (value > mYStart * mScaleFactor) {
-                                mPosX = mYStart * mScaleFactor;
+                            if (value > mXStart * (mScaleFactor - 0.75f)) {
+                                mPosX = mXStart * (mScaleFactor - 0.75f);
                             } else {
                                 mPosX = value;
                             }
