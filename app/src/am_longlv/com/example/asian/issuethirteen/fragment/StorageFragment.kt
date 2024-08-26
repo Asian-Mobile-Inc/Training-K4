@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.example.asian.R
 import com.example.asian.databinding.DialogEditNameBinding
 import com.example.asian.databinding.DialogShowImageBinding
@@ -109,6 +110,7 @@ class StorageFragment : Fragment(), StorageAdapter.ItemClickListener {
                     Glide
                         .with(ct)
                         .load(storage.storageUri)
+                        .signature(ObjectKey(System.currentTimeMillis()))
                         .into(ivStorage)
                 }
                 btnCancel.setOnClickListener {
