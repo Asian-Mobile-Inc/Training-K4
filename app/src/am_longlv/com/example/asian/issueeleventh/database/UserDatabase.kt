@@ -9,6 +9,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.asian.issueeleventh.database.dao.UserDao
 import com.example.asian.issueeleventh.model.UserInfo
 
+private const val SQL_QUERY_MIGRATION = "ALTER TABLE user " +
+        "add column user_favourite INTEGER NOT NULL DEFAULT 0"
+private const val NAME_DATABASE = "UserDatabase"
+
 @Database(entities = [UserInfo::class], version = 2)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
@@ -19,8 +23,7 @@ abstract class UserDatabase : RoomDatabase() {
         private val mMigrationOneToTwo = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
-                    "ALTER TABLE user " +
-                            "add column user_favourite INTEGER NOT NULL DEFAULT 0"
+                    SQL_QUERY_MIGRATION
                 )
             }
         }
@@ -28,7 +31,7 @@ abstract class UserDatabase : RoomDatabase() {
         fun getInstance(application: Application): UserDatabase {
             if (mInstance == null) {
                 mInstance =
-                    Room.databaseBuilder(application, UserDatabase::class.java, "UserDatabase")
+                    Room.databaseBuilder(application, UserDatabase::class.java, NAME_DATABASE)
                         .addMigrations(mMigrationOneToTwo)
                         .build()
             }

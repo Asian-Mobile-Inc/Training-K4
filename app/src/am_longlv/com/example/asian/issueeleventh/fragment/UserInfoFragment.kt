@@ -17,6 +17,9 @@ import com.example.asian.issueeleventh.adapter.UserAdapter
 import com.example.asian.issueeleventh.model.UserInfo
 import com.example.asian.issueeleventh.viewmodel.UserViewModel
 
+private const val MAX_AGE = 200
+private const val MAX_LENGTH_AGE = 3
+private const val KEY_BUNDLE_TAB = "tab"
 
 class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
     private var mTab: Int = 0
@@ -29,7 +32,7 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            mTab = it.getInt("tab", 0)
+            mTab = it.getInt(KEY_BUNDLE_TAB, 0)
         }
     }
 
@@ -48,7 +51,7 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
         fun newInstance(tab: Int) =
             UserInfoFragment().apply {
                 arguments = Bundle().apply {
-                    putInt("tab", tab)
+                    putInt(KEY_BUNDLE_TAB, tab)
                 }
             }
     }
@@ -154,15 +157,15 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
                 }
                 if (dialogBinding.edtNewAge.text.toString().isEmpty()) {
                     dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
-                } else if (dialogBinding.edtNewAge.text.toString().length > 3 || dialogBinding.edtNewAge.text.toString()
-                        .toInt() > 200
+                } else if (dialogBinding.edtNewAge.text.toString().length > MAX_LENGTH_AGE || dialogBinding.edtNewAge.text.toString()
+                        .toInt() > MAX_AGE
                 ) {
                     dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
                 }
                 if (!(dialogBinding.edtNewAge.text.isEmpty() ||
                             dialogBinding.edtNewAge.text.isEmpty() ||
-                            dialogBinding.edtNewAge.text.toString().length > 3 ||
-                            dialogBinding.edtNewAge.text.toString().toInt() > 200)
+                            dialogBinding.edtNewAge.text.toString().length > MAX_LENGTH_AGE ||
+                            dialogBinding.edtNewAge.text.toString().toInt() > MAX_AGE)
                 ) {
                     val userInfo = UserInfo(
                         dialogBinding.edtNewName.text.toString(),

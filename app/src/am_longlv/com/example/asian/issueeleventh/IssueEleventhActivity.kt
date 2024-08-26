@@ -16,6 +16,9 @@ import com.example.asian.issueeleventh.viewmodel.UserViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
+private const val MAX_AGE = 200
+private const val MAX_LENGTH_AGE = 3
+
 class IssueEleventhActivity : AppCompatActivity() {
 
     private val mUserViewModel: UserViewModel by viewModels()
@@ -28,9 +31,6 @@ class IssueEleventhActivity : AppCompatActivity() {
         setContentView(mBinding.root)
         initListener()
         setUpTabLayout()
-//        for (i in 1..10000){
-//            mUserViewModel.insertUser(UserInfo("name $i",i,false))
-//        }
     }
 
     private fun initListener() {
@@ -62,15 +62,15 @@ class IssueEleventhActivity : AppCompatActivity() {
         }
         if (mBinding.edtAge.text.isEmpty()) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
-        } else if (mBinding.edtAge.text.toString().length > 3 || mBinding.edtAge.text.toString()
-                .toInt() > 200
+        } else if (mBinding.edtAge.text.toString().length > MAX_LENGTH_AGE || mBinding.edtAge.text.toString()
+                .toInt() > MAX_AGE
         ) {
             mBinding.edtAge.error = getString(R.string.age_invalid)
         }
         return !(mBinding.edtName.text.isEmpty() ||
                 mBinding.edtAge.text.isEmpty() ||
-                mBinding.edtAge.text.toString().length > 3 ||
-                mBinding.edtAge.text.toString().toInt() > 200)
+                mBinding.edtAge.text.toString().length > MAX_LENGTH_AGE ||
+                mBinding.edtAge.text.toString().toInt() > MAX_AGE)
     }
 
     private fun showDialogDeleteAll() {

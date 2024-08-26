@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.asian.issueeleventh.database.repository.UserRepository
 import com.example.asian.issueeleventh.model.UserInfo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
