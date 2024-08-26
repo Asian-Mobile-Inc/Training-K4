@@ -74,7 +74,7 @@ public class MyChartView extends View {
         mTextCenterPaint = new TextPaint();
         mPaintSales = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintExpenses = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintWall = new Paint(Paint.LINEAR_TEXT_FLAG);
+        mPaintWall = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintBlack.setColor(getResources().getColor(R.color.black));
         mPaintBlack.setStyle(Paint.Style.STROKE);
         mPaintBlack.setStrokeWidth(3);
@@ -223,8 +223,8 @@ public class MyChartView extends View {
                         if (mScaleFactor == 1) {
                             mPosX = 0;
                         } else {
-                            if (value > mYStart * (mScaleFactor - 0.75f)) {
-                                mPosX = mYStart * (mScaleFactor - 0.75f);
+                            if (value > mXStart * (mScaleFactor - 0.75f)) {
+                                mPosX = mXStart * (mScaleFactor - 0.75f);
                             } else {
                                 mPosX = value;
                             }
