@@ -10,12 +10,14 @@ import com.example.asian.ui.ExerciseFragmentActivity;
 import com.example.asian.ui.FacebookActivity;
 import com.example.asian.ui.InformationActivity;
 import com.example.asian.ui.MathActivity;
+import com.example.asian.ui.StorageActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button mBtnToFacebook;
     private Button mBtnToMath;
     private Button mBtnToInformation;
     private Button mBtnExerciseFragment;
+    private Button mBtnExerciseStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnToMath = findViewById(R.id.btnMath);
         mBtnToInformation = findViewById(R.id.btnInformation);
         mBtnExerciseFragment = findViewById(R.id.btnExerciseFragment);
+        mBtnExerciseStorage = findViewById(R.id.btnExerciseStorage);
     }
 
     private void initListener() {
@@ -50,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         mBtnExerciseFragment.setOnClickListener(view -> {
             Intent intent = new Intent(this, ExerciseFragmentActivity.class);
+            startActivity(intent);
+        });
+
+        mBtnExerciseStorage.setOnClickListener(view -> {
+            Intent intent = new Intent(this, StorageActivity.class);
             startActivity(intent);
         });
     }
