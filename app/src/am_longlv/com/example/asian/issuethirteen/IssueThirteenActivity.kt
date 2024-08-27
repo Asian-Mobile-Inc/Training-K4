@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import com.example.asian.R
 import com.example.asian.databinding.ActivityIssueThirteenBinding
 import com.example.asian.databinding.DialogConfirmBinding
+import com.example.asian.databinding.DialogShowProgressBinding
 import com.example.asian.issuethirteen.adapter.TabName
 import com.example.asian.issuethirteen.adapter.ViewPagerStorageAdapter
 import com.example.asian.issuethirteen.viewmodel.StorageViewModel
@@ -41,12 +42,31 @@ class IssueThirteenActivity : AppCompatActivity() {
     }
     private val mRequestCodePermissions: Int = 123
     private var isShowMenu: Boolean = false
+    private val progressDialog: Dialog by lazy {
+        Dialog(this).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.dialog_show_progress)
+            setCancelable(false)
+            window?.setLayout(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+    }
+    private val dialogProgressBinding: DialogShowProgressBinding by lazy {
+        DialogShowProgressBinding.inflate(progressDialog.layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
         askPermissions()
         initObserver()
+        setupDialog()
+    }
+
+    private fun setupDialog() {
+        progressDialog.setContentView(dialogProgressBinding.root)
     }
 
     private fun initObserver() {
@@ -76,6 +96,22 @@ class IssueThirteenActivity : AppCompatActivity() {
                     intentResultDelete.launch(intentSenderRequest)
                 } catch (e: IntentSender.SendIntentException) {
                     e.printStackTrace()
+                }
+            }
+        }
+        mStorageViewModel.isShowProgressBar.observe(this) {
+            it?.let {
+                val listsCount = mStorageViewModel.getListItemSelected()?.size
+                if (listsCount != null && it < listsCount.minus(2) && it != -1) {
+                    if (!progressDialog.isShowing) {
+                        progressDialog.show()
+                    }
+                    dialogProgressBinding.tvProgressLoading.text =
+                        getString(R.string.progress_dialog_two_int).format(it + 1, listsCount)
+                } else {
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
                 }
             }
         }
@@ -153,6 +189,8 @@ class IssueThirteenActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar_select_more, menu)
         if (isShowMenu) {
+            supportActionBar?.title =
+                getString(R.string.count_selected_one_int).format(mStorageViewModel.getListItemSelected()?.size)
             menu?.let {
                 for (i in 0 until it.size()) {
                     it.getItem(i).setVisible(true)
@@ -166,6 +204,7 @@ class IssueThirteenActivity : AppCompatActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
         } else {
+            supportActionBar?.title = getString(R.string.app_name)
             menu?.let {
                 for (i in 0 until it.size()) {
                     it.getItem(i).setVisible(false)
@@ -223,8 +262,8 @@ class IssueThirteenActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             btnConfirmDelete.setOnClickListener {
-                mStorageViewModel.deleteAllFile(context)
                 dialog.dismiss()
+                mStorageViewModel.deleteAllFile(context)
             }
         }
         dialog.show()

@@ -20,7 +20,9 @@ import com.example.asian.issuethirteen.database.repository.StorageRepository
 import com.example.asian.issuethirteen.model.StorageModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
+
 
 class StorageViewModel(application: Application) : AndroidViewModel(application) {
     private val storageRepository: StorageRepository = StorageRepository(application)
@@ -35,6 +37,8 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
         mPermissionNeededForDelete
     private val mListStorageSelected = MutableLiveData<MutableList<StorageModel>>()
     internal val listStorageSelected: LiveData<MutableList<StorageModel>> = mListStorageSelected
+    private val mIsShowProgressBar = MutableLiveData<Int>()
+    internal val isShowProgressBar: LiveData<Int> = mIsShowProgressBar
     private lateinit var pendingDeleteImage: StorageModel
     private lateinit var mUri: Uri
     private lateinit var mNewName: String
@@ -44,6 +48,7 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
         mListStorage.value = mutableListOf()
         mListFavourite.value = mutableListOf()
         mListStorageSelected.value = mutableListOf()
+        mIsShowProgressBar.value = -1
     }
 
     internal fun getImageFromRoom() {
@@ -132,7 +137,7 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
     private fun renameImage(file: File, to: File, context: Context): Boolean {
         mUri = ContentUris.withAppendedId(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            getRealIDFromURI(Uri.parse(file.absolutePath), context)
+            pendingDeleteImage.realId
         )
         if (checkNameExists()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -141,8 +146,10 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
                     values.clear()
                     values.put(MediaStore.Images.Media.DISPLAY_NAME, mNewName)
                     context.contentResolver.update(
-                        mUri,
-                        values, null, null
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        values,
+                        MediaStore.Images.Media.DATA + "=?",
+                        arrayOf(pendingDeleteImage.storageUri)
                     )
                     MediaScannerConnection.scanFile(
                         context, arrayOf(pendingDeleteImage.storageUri),
@@ -221,35 +228,6 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
         }
         cursor?.close()
         return imageList
-    }
-
-    private fun getRealIDFromURI(contentUri: Uri, context: Context): Long {
-        var path: Long = 0
-        val columns = arrayOf(
-            MediaStore.Images.Media._ID,
-            MediaStore.Images.Media.DATA
-        )
-        val cursor: Cursor? = context.contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            columns,
-            null,
-            null,
-            MediaStore.Images.Media.DEFAULT_SORT_ORDER
-        )
-        cursor?.let {
-            for (i in 0 until cursor.count) {
-                cursor.moveToPosition(i)
-                val dataColumnIndex =
-                    cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                val dataID = cursor.getColumnIndex(MediaStore.Images.Media._ID)
-                val uri = Uri.parse(cursor.getString(dataColumnIndex).toString())
-                if (uri.equals(contentUri)) {
-                    path = cursor.getLong(dataID)
-                }
-            }
-        }
-        cursor?.close()
-        return path
     }
 
     private fun notifyListRenameChange() {
@@ -377,14 +355,16 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             var file: File
             mListStorageSelected.value?.let {
-                for (i in it) {
-                    file = File(i.storageUri)
-                    if (file.exists()) {
-                        file.delete()
-                        MediaScannerConnection.scanFile(
-                            context, arrayOf(i.storageUri),
-                            null, null
-                        )
+                viewModelScope.launch {
+                    for (i in 0 until it.size) {
+                        file = File(it[i].storageUri)
+                        if (file.exists()) {
+                            file.delete()
+                            MediaScannerConnection.scanFile(
+                                context, arrayOf(it[i].storageUri),
+                                null, null
+                            )
+                        }
                     }
                 }
                 it.clear()
@@ -392,37 +372,46 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
             }
             validateDeleteAll()
         } else {
-            try {
-                mListStorageSelected.value?.let {
-                    for (i in it) {
-                        val uri = ContentUris.withAppendedId(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            getRealIDFromURI(Uri.parse(i.storageUri), context)
-                        )
-                        context.contentResolver.delete(
-                            uri, null, null
-                        )
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    mListStorageSelected.value?.let {
+                        mIsShowProgressBar.postValue(-1)
+                        for (i in 0 until it.size) {
+                            val uri = ContentUris.withAppendedId(
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                it[i].realId
+                            )
+                            context.contentResolver.delete(
+                                uri, null, null
+                            )
+                            mIsShowProgressBar.postValue(i)
+                        }
+                        it.clear()
+                        mListStorageSelected.postValue(it)
                     }
-                    it.clear()
-                    mListStorageSelected.value = it
-                }
-                validateDeleteAll()
-            } catch (_: Exception) {
-                mListStorageSelected.value?.let {
-                    val listUri: MutableList<Uri> = mutableListOf()
-                    listUri.clear()
-                    for (i in it) {
-                        val uri = ContentUris.withAppendedId(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            getRealIDFromURI(Uri.parse(i.storageUri), context)
-                        )
-                        listUri.add(uri)
+                    withContext(Dispatchers.Main) {
+                        validateDeleteAll()
                     }
-                    val pi = MediaStore.createWriteRequest(
-                        context.contentResolver,
-                        listUri
-                    )
-                    mPermissionNeededForDelete.value = pi.intentSender
+                } catch (_: Exception) {
+                    mIsShowProgressBar.postValue(-1)
+                    mListStorageSelected.value?.let {
+                        val listUri: MutableList<Uri> = mutableListOf()
+                        listUri.clear()
+                        for (i in 0 until it.size) {
+                            val uri = ContentUris.withAppendedId(
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                it[i].realId
+                            )
+                            listUri.add(uri)
+                            mIsShowProgressBar.postValue(i)
+                        }
+                        mIsShowProgressBar.postValue(-1)
+                        val pi = MediaStore.createWriteRequest(
+                            context.contentResolver,
+                            listUri
+                        )
+                        mPermissionNeededForDelete.postValue(pi.intentSender)
+                    }
                 }
             }
         }
