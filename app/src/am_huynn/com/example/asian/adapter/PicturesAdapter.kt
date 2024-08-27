@@ -3,13 +3,23 @@ package com.example.asian.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.asian.databinding.ItemGridImageBinding
+import com.example.asian.diff.PictureDiffCallBack
 import com.example.asian.model.Picture
 
 class PicturesAdapter() : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder>() {
     private val pictures: MutableList<Picture> = mutableListOf()
+
+    fun setData(newList: MutableList<Picture>) {
+        val diffCallback = PictureDiffCallBack(pictures, newList)
+        val diffCourses = DiffUtil.calculateDiff(diffCallback)
+        pictures.clear()
+        pictures.addAll(newList)
+        diffCourses.dispatchUpdatesTo(this)
+    }
 
     inner class PictureViewHolder(
         private val binding: ItemGridImageBinding, private val context: Context
