@@ -91,6 +91,7 @@
     <string name="name_item_int_param">Item %d</string>
     <string name="tab_int_param">Tab %d</string>
     <!--    Issue 13-->
+    <string name="view_issues_thirty">View Issues 13</string>
     <string name="name_image">Name Image</string>
     <string name="select_all">Select All</string>
     <string name="un_select_all">Un Select All</string>

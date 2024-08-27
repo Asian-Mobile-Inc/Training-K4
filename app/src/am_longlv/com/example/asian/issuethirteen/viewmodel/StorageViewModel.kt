@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-
 class StorageViewModel(application: Application) : AndroidViewModel(application) {
     private val storageRepository: StorageRepository = StorageRepository(application)
     private var mListStorage = MutableLiveData<MutableList<StorageModel>>()
@@ -146,10 +145,10 @@ class StorageViewModel(application: Application) : AndroidViewModel(application)
                     values.clear()
                     values.put(MediaStore.Images.Media.DISPLAY_NAME, mNewName)
                     context.contentResolver.update(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        mUri,
                         values,
-                        MediaStore.Images.Media.DATA + "=?",
-                        arrayOf(pendingDeleteImage.storageUri)
+                        null,
+                        null
                     )
                     MediaScannerConnection.scanFile(
                         context, arrayOf(pendingDeleteImage.storageUri),

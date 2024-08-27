@@ -44,6 +44,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/view_issues_five" />
-
+        android:text="@string/view_issues_thirty" />
 </LinearLayout>
