@@ -9,16 +9,20 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.asian.R
 import com.example.asian.databinding.ActivityStorageBinding
+import com.example.asian.viewmodel.StorageViewModel
 
 class StorageActivity : AppCompatActivity() {
     private val binding: ActivityStorageBinding by lazy {
         ActivityStorageBinding.inflate(layoutInflater)
     }
+
+    private val viewModel: StorageViewModel by viewModels()
 
     private var requestCode = 100
 
@@ -31,7 +35,7 @@ class StorageActivity : AppCompatActivity() {
     private fun initListener() {
         binding.btnShowAll.setOnClickListener {
             if (checkPermission()) {
-                Log.d("TAG", "initListener: ")
+                viewModel.loadAllImage()
             } else {
                 askForPermission()
             }
@@ -72,7 +76,7 @@ class StorageActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == this.requestCode) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("TAG", "onRequestPermissionsResult: ")
+                viewModel.loadAllImage()
             } else {
                 Toast.makeText(
                     this, resources.getText(R.string.permission_denied), Toast.LENGTH_SHORT

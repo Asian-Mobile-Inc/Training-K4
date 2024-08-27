@@ -5,12 +5,17 @@ import android.content.ContentUris
 import android.os.Build
 import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.asian.model.Picture
 
 class StorageViewModel(private val app: Application) : AndroidViewModel(app) {
-    public fun loadAllImage(): List<Picture> {
-        var listPicture: MutableList<Picture> = mutableListOf()
+    private var _pictures = MutableLiveData<MutableList<Picture>>().apply {
+        value = mutableListOf()
+    }
+    val pictures: LiveData<MutableList<Picture>> = _pictures
 
+    fun loadAllImage() {
         val uri = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
                 MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
@@ -24,7 +29,7 @@ class StorageViewModel(private val app: Application) : AndroidViewModel(app) {
         )
 
         app.contentResolver.query(uri, projection, null, null, null).use { cursor ->
-            cursor?.let {
+            cursor?.let { it ->
                 while (it.moveToNext()) {
                     val pictureId =
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Images.Media._ID))
@@ -34,10 +39,13 @@ class StorageViewModel(private val app: Application) : AndroidViewModel(app) {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, pictureId
                     )
                     val pic = Picture(pictureId, pictureName, uri)
-                    listPicture.add(pic)
+                    var values = _pictures.value
+                    values?.let { list ->
+                        list.add(pic)
+                        _pictures.value = list
+                    }
                 }
             }
         }
-        return listPicture
     }
 }
