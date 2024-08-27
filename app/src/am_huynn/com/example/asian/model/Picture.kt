@@ -1,4 +1,5 @@
 package com.example.asian.model
 
-class Picture {
-}
+import android.net.Uri
+
+data class Picture(val id: Long, val name: String, val uri: Uri)
