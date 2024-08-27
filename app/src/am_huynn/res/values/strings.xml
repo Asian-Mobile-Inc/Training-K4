@@ -68,4 +68,8 @@
     <string name="exercise_storage">Exercise Storage</string>
     <string name="name_image">Name image</string>
     <string name="image">image</string>
+    <string name="show_all">Show all</string>
+    <string name="permission_granted">Permission Granted</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="go_to_app_setting">Go to app setting</string>
 </resources>
