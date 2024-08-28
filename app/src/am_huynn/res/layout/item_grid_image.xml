@@ -19,6 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:background="@drawable/bg_name_image"
         android:text="@string/name_image"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/ivPicture" />
 </androidx.constraintlayout.widget.ConstraintLayout>
