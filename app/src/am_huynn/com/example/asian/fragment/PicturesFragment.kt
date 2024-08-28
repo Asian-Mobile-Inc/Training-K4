@@ -2,6 +2,7 @@ package com.example.asian.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.asian.databinding.DialogShowImageBinding
 import com.example.asian.databinding.FragmentPicturesBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
+import java.io.File
 
 
 class PicturesFragment(private val position: Int) : Fragment() {
@@ -86,6 +88,10 @@ class PicturesFragment(private val position: Int) : Fragment() {
                     it.favorite = favorite.value ?: false
                     viewModel.savePicture(it)
                     dismiss()
+                }
+                btnEdit.setOnClickListener { _ ->
+                    val file = File(it.uri)
+                    Log.e("TAG", file.name, )
                 }
             }
         }.show()
