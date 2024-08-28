@@ -74,4 +74,6 @@
     <string name="go_to_app_setting">Go to app setting</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="all">All</string>
+    <string name="favorite">Favorite</string>
 </resources>
