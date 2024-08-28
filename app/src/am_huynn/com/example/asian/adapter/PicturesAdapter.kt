@@ -10,7 +10,9 @@ import com.example.asian.databinding.ItemGridImageBinding
 import com.example.asian.diff.PictureDiffCallBack
 import com.example.asian.model.Picture
 
-class PicturesAdapter() : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder>() {
+class PicturesAdapter(
+    private val onClick: (Picture) -> Unit,
+) : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder>() {
     private val pictures: MutableList<Picture> = mutableListOf()
 
     fun setData(newList: MutableList<Picture>) {
@@ -27,6 +29,7 @@ class PicturesAdapter() : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder
         fun bind(picture: Picture) {
             Glide.with(context).load(picture.uri).into(binding.ivPicture)
             binding.tvNamePicture.text = picture.name
+            binding.ivPicture.setOnClickListener { onClick(picture) }
         }
     }
 

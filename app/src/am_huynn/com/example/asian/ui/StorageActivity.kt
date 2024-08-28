@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.asian.R
 import com.example.asian.adapter.PicturesAdapter
 import com.example.asian.databinding.ActivityStorageBinding
+import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
 
 class StorageActivity : AppCompatActivity() {
@@ -26,7 +28,7 @@ class StorageActivity : AppCompatActivity() {
     private val viewModel: StorageViewModel by viewModels()
 
     private val picturesAdapter: PicturesAdapter by lazy {
-        PicturesAdapter()
+        PicturesAdapter(onClick)
     }
 
     private var requestCode = 100
@@ -67,6 +69,10 @@ class StorageActivity : AppCompatActivity() {
             intent.data = uri
             startActivity(intent)
         }
+    }
+
+    private val onClick: (Picture) -> Unit = {
+        Log.e("TAG", it.name)
     }
 
     private fun checkPermission(): Boolean {

@@ -72,4 +72,6 @@
     <string name="permission_granted">Permission Granted</string>
     <string name="permission_denied">Permission Denied</string>
     <string name="go_to_app_setting">Go to app setting</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>
