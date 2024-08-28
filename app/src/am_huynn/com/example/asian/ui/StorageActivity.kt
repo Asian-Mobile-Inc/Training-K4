@@ -1,27 +1,22 @@
 package com.example.asian.ui
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
 import com.example.asian.R
-import com.example.asian.adapter.PicturesAdapter
+import com.example.asian.adapter.PagerAdapter
 import com.example.asian.databinding.ActivityStorageBinding
-import com.example.asian.databinding.DialogShowImageBinding
-import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 
 class StorageActivity : AppCompatActivity() {
     private val binding: ActivityStorageBinding by lazy {
@@ -30,9 +25,6 @@ class StorageActivity : AppCompatActivity() {
 
     private val viewModel: StorageViewModel by viewModels()
 
-    private val picturesAdapter: PicturesAdapter by lazy {
-        PicturesAdapter(onClick)
-    }
 
     private var requestCode = 100
 
@@ -41,20 +33,19 @@ class StorageActivity : AppCompatActivity() {
         setContentView(binding.root)
         initListener()
         initControl()
-        initObserver()
+//        initObserver()
     }
 
     private fun initControl() {
-        binding.rvPictures.layoutManager = GridLayoutManager(this, 3)
-
-        binding.rvPictures.adapter = picturesAdapter
-        binding.rvPictures.itemAnimator = null
-    }
-
-    private fun initObserver() {
-        viewModel.pictures.observe(this) {
-            picturesAdapter.setData(it)
-        }
+        val pagerAdapter = PagerAdapter(this)
+        binding.vpPictures.adapter = pagerAdapter
+        TabLayoutMediator(binding.tlPictures, binding.vpPictures) { tab, position ->
+            if (position == 0) {
+                tab.text = resources.getString(R.string.all)
+            } else {
+                tab.text = resources.getString(R.string.favorite)
+            }
+        }.attach()
     }
 
     private fun initListener() {
@@ -72,20 +63,6 @@ class StorageActivity : AppCompatActivity() {
             intent.data = uri
             startActivity(intent)
         }
-    }
-
-    private val onClick: (Picture) -> Unit = {
-        val dialog = AlertDialog.Builder(this).create()
-        val dialogBinding = DialogShowImageBinding.inflate(LayoutInflater.from(this))
-
-        dialog.apply {
-            setView(dialogBinding.root)
-            with(dialogBinding) {
-                Glide.with(context).load(it.uri).into(dialogBinding.ivPictureDialog)
-                tvNamePicture.text = it.name
-                btnCancel.setOnClickListener { dismiss() }
-            }
-        }.show()
     }
 
     private fun checkPermission(): Boolean {

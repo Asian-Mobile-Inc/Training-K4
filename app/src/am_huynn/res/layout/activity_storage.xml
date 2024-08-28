@@ -35,10 +35,16 @@
         app:layout_constraintStart_toEndOf="@id/btnShowAll"
         app:layout_constraintTop_toBottomOf="@id/tvExerciseStorage" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPictures"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tlPictures"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btnShowAll" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpPictures"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnShowAll" />
+        app:layout_constraintTop_toBottomOf="@id/tlPictures" />
 </androidx.constraintlayout.widget.ConstraintLayout>
