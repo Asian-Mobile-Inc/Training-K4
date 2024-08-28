@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.example.asian.issuefour.IssueFourActivity;
 import com.example.asian.issuefive.IssueFiveActivity;
+import com.example.asian.retrofit.RetrofitActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseUpdateInfo;
     private Button mBtnIssuesFour;
     private Button mBtnIssueFive;
+    private Button mBtnIssueRetrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
         mBtnIssuesFour = findViewById(R.id.btnIssuesFour);
         mBtnIssueFive = findViewById(R.id.btnIssueFive);
+        mBtnIssueRetrofit = findViewById(R.id.btnIssueRetrofit);
     }
 
     private void initListener() {
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         });
         mBtnIssueFive.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, IssueFiveActivity.class));
+        });
+        mBtnIssueRetrofit.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, RetrofitActivity.class));
         });
     }
 }
