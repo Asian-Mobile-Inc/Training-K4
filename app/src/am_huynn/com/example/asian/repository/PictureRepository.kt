@@ -4,10 +4,22 @@ import android.app.Application
 import android.content.ContentUris
 import android.os.Build
 import android.provider.MediaStore
+import com.example.asian.database.PictureDatabase
+import com.example.asian.database.dao.PictureDao
 import com.example.asian.model.Picture
 
 
 class ImageRepository(private val app: Application) {
+    private val pictureDao: PictureDao
+
+    init {
+        val pictureDatabase: PictureDatabase = PictureDatabase.getInstance(app)
+        pictureDao = pictureDatabase.getPictureDao()
+    }
+
+    suspend fun insertRoomPicture(picture: Picture) = pictureDao.insert(picture)
+    suspend fun deleteRoomPicture(picture: Picture) = pictureDao.delete(picture)
+    suspend fun getAllFavoritePicture(): MutableList<Picture> = pictureDao.getAllPictureFavorite()
 
     fun loadAllImage(): MutableList<Picture> {
         val list: MutableList<Picture> = mutableListOf()
