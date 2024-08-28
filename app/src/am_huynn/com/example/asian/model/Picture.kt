@@ -1,13 +1,13 @@
 package com.example.asian.model
 
-import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "pictures")
 data class Picture(
-    @ColumnInfo(name = "column_id") val id: Long,
-    @ColumnInfo(name = "column_name") val name: String,
-    @ColumnInfo(name = "column_uri") val uri: Uri,
-    @ColumnInfo(name = "column_favorite") val favorite: Boolean = false
+    @PrimaryKey @ColumnInfo(name = "column_id") var id: Long,
+    @ColumnInfo(name = "column_name") var name: String,
+    @ColumnInfo(name = "column_uri") var uri: String,
+    @ColumnInfo(name = "column_favorite") var favorite: Boolean = false
 )

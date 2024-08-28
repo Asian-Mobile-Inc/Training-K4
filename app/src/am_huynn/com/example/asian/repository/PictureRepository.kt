@@ -9,7 +9,7 @@ import com.example.asian.database.dao.PictureDao
 import com.example.asian.model.Picture
 
 
-class ImageRepository(private val app: Application) {
+class PictureRepository(private val app: Application) {
     private val pictureDao: PictureDao
 
     init {
@@ -19,9 +19,8 @@ class ImageRepository(private val app: Application) {
 
     suspend fun insertRoomPicture(picture: Picture) = pictureDao.insert(picture)
     suspend fun deleteRoomPicture(picture: Picture) = pictureDao.delete(picture)
-    suspend fun getAllFavoritePicture(): MutableList<Picture> = pictureDao.getAllPictureFavorite()
 
-    fun loadAllImage(): MutableList<Picture> {
+    suspend fun loadAllImage(): MutableList<Picture> {
         val list: MutableList<Picture> = mutableListOf()
 
         val uri = when {
@@ -43,10 +42,17 @@ class ImageRepository(private val app: Application) {
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Images.Media._ID))
                     val pictureName =
                         it.getString(it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
-                    val uri = ContentUris.withAppendedId(
+                    val url = ContentUris.withAppendedId(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, pictureId
                     )
-                    val pic = Picture(pictureId, pictureName, uri)
+                    var favorite = false
+                    for (p in pictureDao.getAllPictureFavorite()) {
+                        if (pictureId == p.id) {
+                            favorite = true
+                            break
+                        }
+                    }
+                    val pic = Picture(pictureId, pictureName, url.toString(), favorite)
                     list.add(pic)
                 }
             }

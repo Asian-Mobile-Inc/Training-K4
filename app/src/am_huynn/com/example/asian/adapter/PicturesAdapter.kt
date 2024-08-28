@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.asian.R
 import com.example.asian.databinding.ItemGridImageBinding
 import com.example.asian.diff.PictureDiffCallBack
 import com.example.asian.model.Picture
@@ -30,6 +31,11 @@ class PicturesAdapter(
             Glide.with(context).load(picture.uri).into(binding.ivPicture)
             binding.tvNamePicture.text = picture.name
             binding.ivPicture.setOnClickListener { onClick(picture) }
+            if (picture.favorite) {
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
+            } else {
+                binding.ivFavorite.setImageResource(R.drawable.ic_un_favorite)
+            }
         }
     }
 
