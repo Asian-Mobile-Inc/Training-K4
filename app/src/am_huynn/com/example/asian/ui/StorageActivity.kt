@@ -1,22 +1,25 @@
 package com.example.asian.ui
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.asian.R
 import com.example.asian.adapter.PicturesAdapter
 import com.example.asian.databinding.ActivityStorageBinding
+import com.example.asian.databinding.DialogShowImageBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
 
@@ -72,7 +75,17 @@ class StorageActivity : AppCompatActivity() {
     }
 
     private val onClick: (Picture) -> Unit = {
-        Log.e("TAG", it.name)
+        val dialog = AlertDialog.Builder(this).create()
+        val dialogBinding = DialogShowImageBinding.inflate(LayoutInflater.from(this))
+
+        dialog.apply {
+            setView(dialogBinding.root)
+            with(dialogBinding) {
+                Glide.with(context).load(it.uri).into(dialogBinding.ivPictureDialog)
+                tvNamePicture.text = it.name
+                btnCancel.setOnClickListener { dismiss() }
+            }
+        }.show()
     }
 
     private fun checkPermission(): Boolean {
