@@ -29,12 +29,14 @@ class PicturesAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(picture: Picture) {
             Glide.with(context).load(picture.uri).into(binding.ivPicture)
-            binding.tvNamePicture.text = picture.name
-            binding.ivPicture.setOnClickListener { onClick(picture) }
-            if (picture.favorite) {
-                binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
-            } else {
-                binding.ivFavorite.setImageResource(R.drawable.ic_un_favorite)
+            with(binding) {
+                tvNamePicture.text = picture.name
+                ivPicture.setOnClickListener { onClick(picture) }
+                if (picture.favorite) {
+                    ivFavorite.setImageResource(R.drawable.ic_favorite)
+                } else {
+                    ivFavorite.setImageResource(R.drawable.ic_un_favorite)
+                }
             }
         }
     }

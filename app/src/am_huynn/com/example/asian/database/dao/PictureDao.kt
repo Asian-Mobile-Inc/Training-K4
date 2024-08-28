@@ -1,14 +1,11 @@
 package com.example.asian.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.asian.model.Picture
 
 @Dao
 interface PictureDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(picture: Picture)
 
     @Delete

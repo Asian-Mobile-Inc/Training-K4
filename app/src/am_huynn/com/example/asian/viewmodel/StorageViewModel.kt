@@ -23,4 +23,14 @@ class StorageViewModel(app: Application) : AndroidViewModel(app) {
             _pictures.postValue(pictureRepository.loadAllImage())
         }
     }
+
+    fun savePicture(picture: Picture) {
+        viewModelScope.launch (Dispatchers.IO){
+            if(picture.favorite) {
+                pictureRepository.insertRoomPicture(picture)
+            }else {
+                pictureRepository.deleteRoomPicture(picture)
+            }
+        }
+    }
 }

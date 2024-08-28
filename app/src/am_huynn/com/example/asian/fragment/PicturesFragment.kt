@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.example.asian.R
 import com.example.asian.adapter.PicturesAdapter
 import com.example.asian.databinding.DialogShowImageBinding
 import com.example.asian.databinding.FragmentPicturesBinding
@@ -16,7 +18,7 @@ import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
 
 
-class PicturesFragment(position: Int) : Fragment() {
+class PicturesFragment(private val position: Int) : Fragment() {
     private val binding: FragmentPicturesBinding by lazy {
         FragmentPicturesBinding.inflate(layoutInflater)
     }
@@ -43,7 +45,17 @@ class PicturesFragment(position: Int) : Fragment() {
 
     private fun initObserver() {
         viewModel.pictures.observe(viewLifecycleOwner) {
-            picturesAdapter.setData(it)
+            if (position == 0) {
+                picturesAdapter.setData(it)
+            } else {
+                val list = mutableListOf<Picture>()
+                for (i in it) {
+                    if (i.favorite) {
+                        list.add(i)
+                    }
+                }
+                picturesAdapter.setData(list)
+            }
         }
     }
 
@@ -53,10 +65,28 @@ class PicturesFragment(position: Int) : Fragment() {
 
         dialog.apply {
             setView(dialogBinding.root)
+            var favorite: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply {
+                value = it.favorite
+            }
             with(dialogBinding) {
+                favorite.observe(viewLifecycleOwner) { favorite ->
+                    if (favorite) {
+                        btnFavorite.setImageResource(R.drawable.ic_favorite)
+                    } else {
+                        btnFavorite.setImageResource(R.drawable.ic_un_favorite)
+                    }
+                }
                 Glide.with(context).load(it.uri).into(dialogBinding.ivPictureDialog)
                 tvNamePicture.text = it.name
+                btnFavorite.setOnClickListener {
+                    favorite.value = !(favorite.value ?: false)
+                }
                 btnCancel.setOnClickListener { dismiss() }
+                btnSave.setOnClickListener { _ ->
+                    it.favorite = favorite.value ?: false
+                    viewModel.savePicture(it)
+                    dismiss()
+                }
             }
         }.show()
     }
