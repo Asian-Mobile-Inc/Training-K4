@@ -92,4 +92,12 @@
     <string name="tab_int_param">Tab %d</string>
     <!--    Issue retrofit-->
     <string name="view_issues_retrofit">View Issues Retrofit</string>
+    <string name="upload">Upload</string>
+    <string name="no_pick_image">You have not picked Image</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="loading">Please wait</string>
+    <string name="success">Success</string>
+    <string name="error_status_int_param">Error, status code = %d</string>
+    <string name="error_no_internet">No Internet</string>
+    <string name="other_exception">Oops: Something else went wrong</string>
 </resources>
