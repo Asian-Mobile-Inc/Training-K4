@@ -6,8 +6,11 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -15,8 +18,10 @@ import androidx.core.content.ContextCompat
 import com.example.asian.R
 import com.example.asian.adapter.PagerAdapter
 import com.example.asian.databinding.ActivityStorageBinding
+import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+
 
 class StorageActivity : AppCompatActivity() {
     private val binding: ActivityStorageBinding by lazy {
@@ -28,6 +33,15 @@ class StorageActivity : AppCompatActivity() {
 
     private var requestCode = 100
 
+    private var editResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                viewModel.confirmEditName()
+            } else {
+                Toast.makeText(this, "don't permission", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -37,7 +51,7 @@ class StorageActivity : AppCompatActivity() {
     }
 
     private fun initControl() {
-        val pagerAdapter = PagerAdapter(this)
+        val pagerAdapter = PagerAdapter(this, onEdit)
         binding.vpPictures.adapter = pagerAdapter
         TabLayoutMediator(binding.tlPictures, binding.vpPictures) { tab, position ->
             if (position == 0) {
@@ -84,6 +98,19 @@ class StorageActivity : AppCompatActivity() {
             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
         ActivityCompat.requestPermissions(this, permissions, requestCode)
+    }
+
+    private val onEdit: (Picture, String) -> Unit = { pic, newName ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            viewModel.setPictureEdit(pic)
+            viewModel.setNewName(newName)
+            val pi = MediaStore.createWriteRequest(
+                contentResolver, mutableListOf<Uri>(Uri.parse(pic.uri))
+            )
+            val senderRequest = IntentSenderRequest.Builder(pi.intentSender)
+                .setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION, 0).build()
+            editResultLauncher.launch(senderRequest)
+        }
     }
 
     override fun onRequestPermissionsResult(

@@ -28,7 +28,7 @@ class PicturesAdapter(
         private val binding: ItemGridImageBinding, private val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(picture: Picture) {
-            Glide.with(context).load(picture.uri).into(binding.ivPicture)
+            Glide.with(context).load(picture.path).into(binding.ivPicture)
             with(binding) {
                 tvNamePicture.text = picture.name
                 ivPicture.setOnClickListener { onClick(picture) }
@@ -37,6 +37,7 @@ class PicturesAdapter(
                 } else {
                     ivFavorite.setImageResource(R.drawable.ic_un_favorite)
                 }
+                binding.root.isSelected = true
             }
         }
     }

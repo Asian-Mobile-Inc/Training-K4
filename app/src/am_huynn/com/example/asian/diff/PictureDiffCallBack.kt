@@ -16,6 +16,6 @@ class PictureDiffCallBack(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldUser = oldList[oldItemPosition]
         val newUser = newList[newItemPosition]
-        return oldUser.name.equals(newUser) && oldUser.uri == newUser.uri
+        return oldUser.name.equals(newUser) && oldUser.path == newUser.path
     }
 }

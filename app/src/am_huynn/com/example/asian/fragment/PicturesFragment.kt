@@ -2,7 +2,6 @@ package com.example.asian.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.asian.R
+import com.example.asian.adapter.PictureDecoration
 import com.example.asian.adapter.PicturesAdapter
+import com.example.asian.databinding.DialogEditNameBinding
 import com.example.asian.databinding.DialogShowImageBinding
 import com.example.asian.databinding.FragmentPicturesBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
-import java.io.File
 
 
-class PicturesFragment(private val position: Int) : Fragment() {
+class PicturesFragment(
+    private val position: Int, private val onEdit: (Picture, String) -> Unit
+) : Fragment() {
     private val binding: FragmentPicturesBinding by lazy {
         FragmentPicturesBinding.inflate(layoutInflater)
     }
@@ -42,6 +44,7 @@ class PicturesFragment(private val position: Int) : Fragment() {
     private fun initControl() {
         binding.rvPictures.layoutManager = GridLayoutManager(context, 3)
         binding.rvPictures.adapter = picturesAdapter
+        binding.rvPictures.addItemDecoration(PictureDecoration(10))
         binding.rvPictures.itemAnimator = null
     }
 
@@ -78,7 +81,7 @@ class PicturesFragment(private val position: Int) : Fragment() {
                         btnFavorite.setImageResource(R.drawable.ic_un_favorite)
                     }
                 }
-                Glide.with(context).load(it.uri).into(dialogBinding.ivPictureDialog)
+                Glide.with(context).load(it.path).into(dialogBinding.ivPictureDialog)
                 tvNamePicture.text = it.name
                 btnFavorite.setOnClickListener {
                     favorite.value = !(favorite.value ?: false)
@@ -90,8 +93,50 @@ class PicturesFragment(private val position: Int) : Fragment() {
                     dismiss()
                 }
                 btnEdit.setOnClickListener { _ ->
-                    val file = File(it.uri)
-                    Log.e("TAG", file.name, )
+                    showDialogEdit(it)
+                    dismiss()
+//                    if (activity is StorageActivity) {
+//                        (activity as StorageActivity).edit(it)
+//                    }
+
+//                    val cv = ContentValues()
+//                    cv.put(MediaStore.Files.FileColumns.DISPLAY_NAME, "abc")
+//                    context.contentResolver.update(
+//                        Uri.parse(it.uri), cv, "${MediaStore.Video.Media._ID}=${it.id}", null
+//                    )
+
+//                    val file = File(it.path)
+//                    val onlyPath = file.parentFile.absolutePath
+//
+//                    var ext = (file.absolutePath)
+//                    ext = ext.substring(ext.lastIndexOf("."))
+//                    val newPath = "$onlyPath/abc${ext}"
+//                    val newFile = File(newPath)
+//                    Log.e("TAG", file.renameTo(newFile).toString() )
+                }
+            }
+        }.show()
+    }
+
+    private fun showDialogEdit(picture: Picture) {
+        val dialog = AlertDialog.Builder(context).create()
+        val dialogBinding = DialogEditNameBinding.inflate(LayoutInflater.from(context))
+        dialog.apply {
+            setView(dialogBinding.root)
+            with(dialogBinding) {
+                edtNameImage.setText(picture.name.substring(0, picture.name.indexOf(".")))
+                btnCancel.setOnClickListener { dismiss() }
+                btnSave.setOnClickListener {
+                    if (edtNameImage.text.isEmpty()) {
+                        edtNameImage.error = getString(R.string.please_not_empty)
+                    } else {
+                        dismiss()
+                        onEdit(picture, edtNameImage.text.toString())
+//                        if (activity is StorageActivity) {
+//                            picture.name = edtNameImage.text.toString()
+//                            (activity as StorageActivity).edit(picture)
+//                        }
+                    }
                 }
             }
         }.show()

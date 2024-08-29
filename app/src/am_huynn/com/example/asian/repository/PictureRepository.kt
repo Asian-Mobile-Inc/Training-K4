@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.ContentUris
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import com.example.asian.database.PictureDatabase
 import com.example.asian.database.dao.PictureDao
 import com.example.asian.model.Picture
@@ -47,7 +46,9 @@ class PictureRepository(private val app: Application) {
             }
         }
         val projection = arrayOf(
-            MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME
+            MediaStore.Images.Media._ID,
+            MediaStore.Images.Media.DISPLAY_NAME,
+            MediaStore.Images.Media.DATA
         )
 
         app.contentResolver.query(uri, projection, null, null, null).use { cursor ->
@@ -57,7 +58,8 @@ class PictureRepository(private val app: Application) {
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Images.Media._ID))
                     val pictureName =
                         it.getString(it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
-                    val url = ContentUris.withAppendedId(
+                    val path = it.getString(it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
+                    val pictureUri = ContentUris.withAppendedId(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, pictureId
                     )
                     var favorite = false
@@ -67,7 +69,7 @@ class PictureRepository(private val app: Application) {
                             break
                         }
                     }
-                    val pic = Picture(pictureId, pictureName, url.toString(), favorite)
+                    val pic = Picture(pictureId, pictureName, favorite, pictureUri.toString(), path)
                     list.add(pic)
                 }
             }
