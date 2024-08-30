@@ -67,7 +67,19 @@ class StorageViewModel(private val app: Application) : AndroidViewModel(app) {
                         pictureRepository.deleteRoomPicture(it[e])
                     }
                 }
-                it.clear()
+            }
+            _listSelected.postValue(mutableListOf())
+        }
+    }
+
+    fun deleteExternalStorage() {
+        _listSelected.value?.let {
+            repeat(it.size) { index ->
+                app.contentResolver.delete(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    "${MediaStore.Images.Media._ID} = ?",
+                    arrayOf(it[index].id.toString())
+                )
             }
         }
     }
