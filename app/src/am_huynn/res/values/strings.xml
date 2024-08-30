@@ -76,4 +76,10 @@
     <string name="cancel">Cancel</string>
     <string name="all">All</string>
     <string name="favorite">Favorite</string>
+    <string name="selected">Selected:</string>
+    <string name="selected_int_param">Selected: %d</string>
+    <string name="select_all">Select All</string>
+    <string name="do_not_request_permission_edit">Do not request permission to edit</string>
+    <string name="do_not_request_permission_delete">Do not request permission to delete</string>
+    <string name="delete_successfully">Deleted successfully</string>
 </resources>
