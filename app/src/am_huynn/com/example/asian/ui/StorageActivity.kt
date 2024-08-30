@@ -15,6 +15,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.example.asian.R
 import com.example.asian.adapter.PagerAdapter
 import com.example.asian.databinding.ActivityStorageBinding
@@ -30,7 +31,6 @@ class StorageActivity : AppCompatActivity() {
 
     private val viewModel: StorageViewModel by viewModels()
 
-
     private var requestCode = 100
 
     private var editResultLauncher =
@@ -38,7 +38,27 @@ class StorageActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 viewModel.confirmEditName()
             } else {
-                Toast.makeText(this, "don't permission", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    resources.getString(R.string.do_not_request_permission_edit),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    private var deleteResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                viewModel.deletePictures()
+                Toast.makeText(
+                    this, resources.getString(R.string.delete_successfully), Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    this,
+                    resources.getString(R.string.do_not_request_permission_delete),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -47,7 +67,7 @@ class StorageActivity : AppCompatActivity() {
         setContentView(binding.root)
         initListener()
         initControl()
-//        initObserver()
+        initObserver()
     }
 
     private fun initControl() {
@@ -63,19 +83,42 @@ class StorageActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
-        binding.btnShowAll.setOnClickListener {
-            if (checkPermission()) {
-                viewModel.loadAllImage()
-            } else {
-                askForPermission()
+        with(binding) {
+            btnShowAll.setOnClickListener {
+                if (checkPermission()) {
+                    viewModel.loadAllImage()
+                } else {
+                    askForPermission()
+                }
             }
-        }
 
-        binding.btnGoToAppSetting.setOnClickListener {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts("package", packageName, null)
-            intent.data = uri
-            startActivity(intent)
+            btnGoToAppSetting.setOnClickListener {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+
+            btnDelete.setOnClickListener {
+                viewModel.listSelected.value?.let { value ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        val pi = MediaStore.createDeleteRequest(contentResolver,
+                            value.map { e -> Uri.parse(e.uri) })
+                        val senderRequest = IntentSenderRequest.Builder(pi.intentSender).build()
+                        deleteResultLauncher.launch(senderRequest)
+                    }
+                }
+            }
+
+            btnCancel.setOnClickListener { viewModel.cancelSelected() }
+            btnSelectAll.setOnClickListener { viewModel.selectAll() }
+        }
+    }
+
+    private fun initObserver() {
+        viewModel.listSelected.observe(this) {
+            binding.clLayoutSelected.isVisible = it.isNotEmpty()
+            binding.tvSelected.text = getString(R.string.selected_int_param, it.size)
         }
     }
 

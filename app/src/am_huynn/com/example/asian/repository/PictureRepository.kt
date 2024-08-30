@@ -18,6 +18,8 @@ class PictureRepository(private val app: Application) {
         pictureDao = pictureDatabase.getPictureDao()
     }
 
+    suspend fun getAllFavorite() = pictureDao.getAllPictureFavorite()
+
     suspend fun insertRoomPicture(
         picture: Picture, list: MutableList<Picture>, callback: PictureDataSource.InsertDataCallback
     ) {
