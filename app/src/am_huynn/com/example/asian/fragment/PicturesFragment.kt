@@ -19,7 +19,6 @@ import com.example.asian.databinding.FragmentPicturesBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
 
-
 class PicturesFragment(
     private val position: Int, private val onEdit: (Picture, String) -> Unit
 ) : Fragment() {

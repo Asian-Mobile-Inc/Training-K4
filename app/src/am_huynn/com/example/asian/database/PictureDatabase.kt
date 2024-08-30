@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 import com.example.asian.database.dao.PictureDao
 import com.example.asian.model.Picture
 
-
 @Database(entities = [Picture::class], version = 1)
 abstract class PictureDatabase : RoomDatabase() {
     abstract fun getPictureDao(): PictureDao

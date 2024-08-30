@@ -23,7 +23,6 @@ import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
-
 class StorageActivity : AppCompatActivity() {
     private val binding: ActivityStorageBinding by lazy {
         ActivityStorageBinding.inflate(layoutInflater)
