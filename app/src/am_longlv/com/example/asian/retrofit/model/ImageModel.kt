@@ -11,26 +11,23 @@ data class ImageModel(
     @ColumnInfo("image_id")
     @SerializedName("image_id")
     var imageId: String,
-    @ColumnInfo("permalink_url")
-    @SerializedName("permalink_url")
-    var permalinkUrl: String,
-    @ColumnInfo("thumb_url")
-    @SerializedName("thumb_url")
-    var thumbUrl: String,
     @ColumnInfo("url")
     @SerializedName("url")
     var url: String,
     @ColumnInfo("type")
     @SerializedName("type")
     var type: String,
-    @ColumnInfo("created_at")
-    @SerializedName("created_at")
-    var createdAt: String,
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("id")
     var id: Long = 0
 
+    @ColumnInfo("storage_id", defaultValue = "")
+    var storageId: String = ""
+
     @Ignore
-    var isSelected = false
+    var isFavourite = false
+
+    @Ignore
+    var isDownloaded = false
 }

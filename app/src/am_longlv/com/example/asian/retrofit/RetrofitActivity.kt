@@ -144,6 +144,7 @@ class RetrofitActivity : AppCompatActivity() {
     private fun askPermissions() {
         if (hasPermissions()) {
             setupTabLayout()
+            mRetrofitViewModel.fetchAllImages(this)
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -180,6 +181,7 @@ class RetrofitActivity : AppCompatActivity() {
         if (requestCode == REQUEST_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setupTabLayout()
+                mRetrofitViewModel.fetchAllImages(this)
             } else {
                 finish()
             }

@@ -11,7 +11,6 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 
-
 private const val HEADER_AUTH = "Authorization: Bearer royvsrhBbaKa5Wr44s_eW6REBfi7W_23PBMvJ-T-pLA"
 
 interface ApiService {

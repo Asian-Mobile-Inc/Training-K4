@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.asian.R
 import com.example.asian.databinding.DialogConfirmBinding
 import com.example.asian.databinding.FragmentImageRetrofitBinding
 import com.example.asian.retrofit.adapter.ImageAdapter
@@ -23,7 +25,7 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
         FragmentImageRetrofitBinding.inflate(layoutInflater)
     }
     private val mImageAdapter: ImageAdapter by lazy {
-        ImageAdapter(this)
+        ImageAdapter(this, tab)
     }
     private val mViewModel: RetrofitViewModel by activityViewModels()
 
@@ -40,7 +42,6 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     ): View {
         initObserver()
         setupRecyclerView()
-        initData()
         return mBinding.root
     }
 
@@ -59,22 +60,24 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
         mBinding.rvImageRetrofit.adapter = mImageAdapter
     }
 
-    private fun initData() {
-        if (tab == 0) {
-            context?.let { mViewModel.fetchImages() }
-        } else {
-            mViewModel.getImageFromRoom()
-        }
-    }
-
     private fun initObserver() {
-        if (tab == 0) {
-            mViewModel.listImage.observe(viewLifecycleOwner) {
-                mImageAdapter.submitList(it.toMutableList())
+        when (tab) {
+            0 -> {
+                mViewModel.listImage.observe(viewLifecycleOwner) {
+                    mImageAdapter.submitList(it.toMutableList())
+                }
             }
-        } else {
-            mViewModel.listFavourite.observe(viewLifecycleOwner) {
-                mImageAdapter.submitList(it.toMutableList())
+
+            1 -> {
+                mViewModel.listLocal.observe(viewLifecycleOwner) {
+                    mImageAdapter.submitList(it.toMutableList())
+                }
+            }
+
+            else -> {
+                mViewModel.listFavourite.observe(viewLifecycleOwner) {
+                    mImageAdapter.submitList(it.toMutableList())
+                }
             }
         }
     }
@@ -110,5 +113,21 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     }
 
     override fun onItemLongClick(imageModel: ImageModel) {
+    }
+
+    override fun onBtnFavouriteClick(imageModel: ImageModel) {
+        mViewModel.handlerClickFavourite(imageModel)
+    }
+
+    override fun onBtnDownloadClick(imageModel: ImageModel) {
+        if (!imageModel.isDownloaded) {
+            context?.let { mViewModel.downloadFile(imageModel, it) }
+        } else {
+            Toast.makeText(
+                context,
+                getString(R.string.image_exists),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }

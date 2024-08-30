@@ -4,7 +4,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 object RetrofitBuilder {
     private const val BASE_URL = "https://api.gyazo.com/api/"
     private const val UPLOAD_URL = "https://upload.gyazo.com/api/"

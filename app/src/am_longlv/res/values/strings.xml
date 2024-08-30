@@ -100,4 +100,5 @@
     <string name="error_status_int_param">Error, status code = %d</string>
     <string name="error_no_internet">No Internet</string>
     <string name="other_exception">Oops: Something else went wrong</string>
+    <string name="image_exists">Ảnh đã tồn tại trong máy</string>
 </resources>

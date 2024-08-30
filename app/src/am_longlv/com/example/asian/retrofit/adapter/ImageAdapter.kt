@@ -1,7 +1,10 @@
 package com.example.asian.retrofit.adapter
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,19 +14,33 @@ import com.bumptech.glide.signature.ObjectKey
 import com.example.asian.databinding.ItemListRetrofitBinding
 import com.example.asian.retrofit.model.ImageModel
 
-class ImageAdapter(private var mItemClickListener: ItemClickListener) :
+class ImageAdapter(private var mItemClickListener: ItemClickListener, private var tab: Int) :
     ListAdapter<ImageModel, ImageAdapter.ViewHolder>(ImageDiffCallback()) {
     class ImageDiffCallback : DiffUtil.ItemCallback<ImageModel>() {
-        override fun areItemsTheSame(oldItem: ImageModel, newItem: ImageModel): Boolean =
-            oldItem.imageId == newItem.imageId
+        override fun areItemsTheSame(oldItem: ImageModel, newItem: ImageModel): Boolean {
+            return oldItem.imageId == newItem.imageId
+        }
 
-        override fun areContentsTheSame(oldItem: ImageModel, newItem: ImageModel): Boolean =
-            oldItem == newItem
+        override fun areContentsTheSame(oldItem: ImageModel, newItem: ImageModel): Boolean {
+            return oldItem == newItem
+                    && oldItem.isFavourite == newItem.isFavourite
+                    && oldItem.isDownloaded == newItem.isDownloaded
+        }
+
+        override fun getChangePayload(oldItem: ImageModel, newItem: ImageModel): Any? {
+            return if (oldItem != newItem) {
+                super.getChangePayload(oldItem, newItem)
+            } else {
+                1
+            }
+        }
     }
 
     interface ItemClickListener {
         fun onItemClick(imageModel: ImageModel)
         fun onItemLongClick(imageModel: ImageModel)
+        fun onBtnFavouriteClick(imageModel: ImageModel)
+        fun onBtnDownloadClick(imageModel: ImageModel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,7 +49,7 @@ class ImageAdapter(private var mItemClickListener: ItemClickListener) :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), parent.context
+            ), parent.context, tab
         )
     }
 
@@ -40,7 +57,19 @@ class ImageAdapter(private var mItemClickListener: ItemClickListener) :
         return holder.bind(getItem(position), mItemClickListener)
     }
 
-    class ViewHolder(private var binding: ItemListRetrofitBinding, private val context: Context) :
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            return holder.initListener(getItem(position), mItemClickListener)
+        }
+    }
+
+    class ViewHolder(
+        private var binding: ItemListRetrofitBinding,
+        private val context: Context,
+        private val tab: Int,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(imageModel: ImageModel, itemClickListener: ItemClickListener) {
             with(binding) {
@@ -49,9 +78,38 @@ class ImageAdapter(private var mItemClickListener: ItemClickListener) :
                     .load(imageModel.url)
                     .signature(ObjectKey(System.currentTimeMillis()))
                     .into(ivStorage)
-                tvNameStorage.text = imageModel.url
-                ivStorage.setOnClickListener {
-                    itemClickListener.onItemClick(imageModel)
+                tvNameStorage.text = imageModel.imageId
+            }
+            initListener(imageModel, itemClickListener)
+        }
+
+        fun initListener(
+            imageModel: ImageModel,
+            itemClickListener: ItemClickListener,
+        ) {
+            with(binding) {
+                if (tab != 0) {
+                    btnDownload.visibility = View.GONE
+                } else {
+                    ivStorage.setOnClickListener {
+                        itemClickListener.onItemClick(imageModel)
+                    }
+                }
+                if (imageModel.isFavourite) {
+                    btnFavourite.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+                } else {
+                    btnFavourite.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY)
+                }
+                if (imageModel.isDownloaded) {
+                    btnDownload.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+                } else {
+                    btnDownload.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY)
+                }
+                btnFavourite.setOnClickListener {
+                    itemClickListener.onBtnFavouriteClick(imageModel)
+                }
+                btnDownload.setOnClickListener {
+                    itemClickListener.onBtnDownloadClick(imageModel)
                 }
             }
         }
