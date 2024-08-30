@@ -6,11 +6,18 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.asian.adapterissue5.MainActivityIssueFive;
+import com.example.asian.fragmentissue4.FragmentActivity;
+import com.example.asian.issue3.CalculateActivity;
+import com.example.asian.issue3.LoginActivity;
+import com.example.asian.issue3.UpdateInfoActivity;
+
 public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin;
     private Button mBtnExerciseCal;
     private Button mBtnExerciseUpdateInfo;
     private Button mBtnExerciseFragmentArgument;
+    private Button mBtnTablayoutRecyclerview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseCal = findViewById(R.id.btnExerciseCal);
         mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
         mBtnExerciseFragmentArgument = findViewById(R.id.btnFragmentArgument);
+        mBtnTablayoutRecyclerview = findViewById(R.id.btnTablayoutRecyclerview);
     }
 
     private void initListener() {
@@ -39,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         });
         mBtnExerciseFragmentArgument.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, FragmentActivity.class));
+        });
+        mBtnTablayoutRecyclerview.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, MainActivityIssueFive.class));
         });
     }
 }

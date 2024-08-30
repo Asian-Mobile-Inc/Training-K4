@@ -30,5 +30,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/fragment_argument" />
+    <Button
+        android:id="@+id/btnTablayoutRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/name_of_issue_five"/>
 
 </LinearLayout>

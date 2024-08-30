@@ -1,4 +1,4 @@
-package com.example.asian;
+package com.example.asian.issue3;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.asian.R;
 
 public class SendDataActivity extends AppCompatActivity {
 
