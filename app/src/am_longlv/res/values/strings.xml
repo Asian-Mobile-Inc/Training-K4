@@ -35,4 +35,6 @@
     <string name="start_service">Start Service</string>
     <string name="stop_service">Stop Service</string>
     <string name="please_agree_permission">Agree Permission</string>
+    <string name="setting">Setting</string>
+    <string name="message_no_storage_permission_snackbar">Vui lòng cấp quyền cho ứng dụng</string>
 </resources>

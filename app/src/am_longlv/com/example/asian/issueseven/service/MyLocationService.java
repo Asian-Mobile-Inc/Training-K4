@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
 import com.example.asian.issueseven.IssueSevenActivity;
@@ -44,8 +43,10 @@ public class MyLocationService extends Service {
     private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction() != null && intent.getAction().equals(BroadcastInternet.ACTION_INTERNET_CHANGE)) {
-                setIsInternetChange(context, intent.getBooleanExtra(BroadcastInternet.KEY_INTERNET_CHANGE, false));
+            if (intent.getAction() != null &&
+                    intent.getAction().equals(BroadcastInternet.ACTION_INTERNET_CHANGE)) {
+                setIsInternetChange(context,
+                        intent.getBooleanExtra(BroadcastInternet.KEY_INTERNET_CHANGE, false));
             }
         }
     };
@@ -68,7 +69,8 @@ public class MyLocationService extends Service {
             double latitude = locationResult.getLocations().get(locationIndex).getLatitude();
             double longitude = locationResult.getLocations().get(locationIndex).getLongitude();
             Log.d(TAG_LOG, latitude + " - " + longitude);
-            Toast.makeText(MyLocationService.this, latitude + " - " + longitude, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MyLocationService.this, latitude + " - " + longitude, Toast.LENGTH_SHORT)
+                    .show();
         }
     };
 
@@ -78,21 +80,22 @@ public class MyLocationService extends Service {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     public void onCreate() {
         BroadcastInternet broadcastInternet = new BroadcastInternet();
         IntentFilter intentFilter = new IntentFilter(ACTION_CONNECTIVITY_CHANGE);
         registerReceiver(broadcastInternet, intentFilter);
         IntentFilter iFActionInternet = new IntentFilter(BroadcastInternet.ACTION_INTERNET_CHANGE);
-        registerReceiver(mBroadcastReceiver, iFActionInternet, Context.RECEIVER_NOT_EXPORTED);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(mBroadcastReceiver, iFActionInternet, Context.RECEIVER_NOT_EXPORTED);
+        }
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        boolean startedFromNotification = intent.getBooleanExtra(EXTRA_STARTED_FROM_NOTIFICATION, false);
+        boolean startedFromNotification =
+                intent.getBooleanExtra(EXTRA_STARTED_FROM_NOTIFICATION, false);
         if (startedFromNotification) {
             stopService();
         } else {
@@ -113,7 +116,9 @@ public class MyLocationService extends Service {
             servicePendingIntent = PendingIntent.getService(this,
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
-        Notification.Action action = new Notification.Action.Builder(R.mipmap.ic_launcher, ACTION_STOP_SERVICE, servicePendingIntent).build();
+        Notification.Action action =
+                new Notification.Action.Builder(R.mipmap.ic_launcher, ACTION_STOP_SERVICE,
+                        servicePendingIntent).build();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return new Notification.Builder(this, IssueSevenActivity.CHANNEL_ID)
                     .setContentTitle(TITLE_NOTIFICATION)
@@ -147,14 +152,17 @@ public class MyLocationService extends Service {
     }
 
     private void requestLocationUpdates(Context context) {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         if (mFusedLocationProviderClient == null) {
             mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         }
-        mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallBack, null);
+        mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallBack,
+                null);
     }
 
     private void removeLocationUpdates() {
