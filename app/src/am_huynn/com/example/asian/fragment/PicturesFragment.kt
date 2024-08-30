@@ -27,7 +27,7 @@ class PicturesFragment(
     }
 
     private val picturesAdapter: PicturesAdapter by lazy {
-        PicturesAdapter(onClickPicture, onLongClickPicture)
+        PicturesAdapter(onClickPicture, onFavorite, onLongClickPicture)
     }
 
     private val viewModel: StorageViewModel by activityViewModels()
@@ -65,6 +65,11 @@ class PicturesFragment(
 
     private val onLongClickPicture: (Picture) -> Unit = {
         viewModel.selectedPicture(it)
+    }
+
+    private val onFavorite: (Picture) -> Unit = {
+        it.favorite = !it.favorite
+        viewModel.savePicture(it)
     }
 
     private val onClickPicture: (Picture) -> Unit = {

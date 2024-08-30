@@ -166,7 +166,6 @@ class StorageViewModel(private val app: Application) : AndroidViewModel(app) {
 
     fun selectedPicture(picture: Picture) {
         if (picture.isSelected) {
-            println("aa")
             updateUiPicture(picture.id, null, null, false)
             val result = _listSelected.value
             result?.remove(picture)

@@ -14,6 +14,7 @@ import com.example.asian.model.Picture
 
 class PicturesAdapter(
     private val onClick: (Picture) -> Unit,
+    private val onFavorite: (Picture) -> Unit,
     private val onLongClick: (Picture) -> Unit,
 ) : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder>() {
     private val pictures: MutableList<Picture> = mutableListOf()
@@ -44,6 +45,7 @@ class PicturesAdapter(
                 } else {
                     ivFavorite.setImageResource(R.drawable.ic_un_favorite)
                 }
+                ivFavorite.setOnClickListener { onFavorite(picture) }
                 root.isSelected = picture.isSelected
             }
         }
