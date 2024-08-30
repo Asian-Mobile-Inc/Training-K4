@@ -48,11 +48,12 @@ class StorageViewModel(private val app: Application) : AndroidViewModel(app) {
         pictureEdit?.let {
             val cv = ContentValues()
             val ext = it.name.substring(it.name.indexOf("."), it.name.length)
+            newName += ext
             cv.put(MediaStore.Files.FileColumns.DISPLAY_NAME, newName)
             app.contentResolver.update(
                 Uri.parse(it.uri), cv, "${MediaStore.Video.Media._ID}=${it.id}", null
             )
-            updateUiPicture(it.id, newName + ext, null, null)
+            updateUiPicture(it.id, newName, null, null)
         }
     }
 
@@ -123,8 +124,7 @@ class StorageViewModel(private val app: Application) : AndroidViewModel(app) {
         viewModelScope.launch(Dispatchers.IO) {
             if (picture.favorite) {
                 _pictures.value?.let {
-                    pictureRepository.insertRoomPicture(
-                        picture,
+                    pictureRepository.insertRoomPicture(picture,
                         it,
                         object : PictureDataSource.InsertDataCallback {
                             override fun insert() {

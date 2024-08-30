@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,6 +23,7 @@ import com.example.asian.databinding.ActivityStorageBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.StorageViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import java.io.File
 
 
 class StorageActivity : AppCompatActivity() {
@@ -102,7 +104,8 @@ class StorageActivity : AppCompatActivity() {
             btnDelete.setOnClickListener {
                 viewModel.listSelected.value?.let { value ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        val pi = MediaStore.createDeleteRequest(contentResolver,
+                        val pi = MediaStore.createDeleteRequest(
+                            contentResolver,
                             value.map { e -> Uri.parse(e.uri) })
                         val senderRequest = IntentSenderRequest.Builder(pi.intentSender).build()
                         deleteResultLauncher.launch(senderRequest)
@@ -144,15 +147,17 @@ class StorageActivity : AppCompatActivity() {
     }
 
     private val onEdit: (Picture, String) -> Unit = { pic, newName ->
+        viewModel.setPictureEdit(pic)
+        viewModel.setNewName(newName)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            viewModel.setPictureEdit(pic)
-            viewModel.setNewName(newName)
             val pi = MediaStore.createWriteRequest(
                 contentResolver, mutableListOf<Uri>(Uri.parse(pic.uri))
             )
             val senderRequest = IntentSenderRequest.Builder(pi.intentSender)
                 .setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION, 0).build()
             editResultLauncher.launch(senderRequest)
+        } else {
+            viewModel.confirmEditName()
         }
     }
 
