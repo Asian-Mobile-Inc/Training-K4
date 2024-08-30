@@ -28,7 +28,7 @@ class PicturesFragment(
     }
 
     private val picturesAdapter: PicturesAdapter by lazy {
-        PicturesAdapter(onClick)
+        PicturesAdapter(onClickPicture, onLongClickPicture)
     }
 
     private val viewModel: StorageViewModel by activityViewModels()
@@ -64,14 +64,26 @@ class PicturesFragment(
         }
     }
 
-    private val onClick: (Picture) -> Unit = {
+    private val onLongClickPicture: (Picture) -> Unit = {
+        viewModel.selectedPicture(it)
+    }
+
+    private val onClickPicture: (Picture) -> Unit = {
+        if ((viewModel.listSelected.value?.size ?: 0) > 0) {
+            onLongClickPicture(it)
+        } else {
+            showDialogDetailPicture(it)
+        }
+    }
+
+    private fun showDialogDetailPicture(picture: Picture) {
         val dialog = AlertDialog.Builder(context).create()
         val dialogBinding = DialogShowImageBinding.inflate(LayoutInflater.from(context))
 
         dialog.apply {
             setView(dialogBinding.root)
-            var favorite: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply {
-                value = it.favorite
+            val favorite: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply {
+                value = picture.favorite
             }
             with(dialogBinding) {
                 favorite.observe(viewLifecycleOwner) { favorite ->
@@ -81,38 +93,20 @@ class PicturesFragment(
                         btnFavorite.setImageResource(R.drawable.ic_un_favorite)
                     }
                 }
-                Glide.with(context).load(it.path).into(dialogBinding.ivPictureDialog)
-                tvNamePicture.text = it.name
+                Glide.with(context).load(picture.path).into(dialogBinding.ivPictureDialog)
+                tvNamePicture.text = picture.name
                 btnFavorite.setOnClickListener {
                     favorite.value = !(favorite.value ?: false)
                 }
                 btnCancel.setOnClickListener { dismiss() }
-                btnSave.setOnClickListener { _ ->
-                    it.favorite = favorite.value ?: false
-                    viewModel.savePicture(it)
+                btnSave.setOnClickListener {
+                    picture.favorite = favorite.value ?: false
+                    viewModel.savePicture(picture)
                     dismiss()
                 }
-                btnEdit.setOnClickListener { _ ->
-                    showDialogEdit(it)
+                btnEdit.setOnClickListener {
+                    showDialogEdit(picture)
                     dismiss()
-//                    if (activity is StorageActivity) {
-//                        (activity as StorageActivity).edit(it)
-//                    }
-
-//                    val cv = ContentValues()
-//                    cv.put(MediaStore.Files.FileColumns.DISPLAY_NAME, "abc")
-//                    context.contentResolver.update(
-//                        Uri.parse(it.uri), cv, "${MediaStore.Video.Media._ID}=${it.id}", null
-//                    )
-
-//                    val file = File(it.path)
-//                    val onlyPath = file.parentFile.absolutePath
-//
-//                    var ext = (file.absolutePath)
-//                    ext = ext.substring(ext.lastIndexOf("."))
-//                    val newPath = "$onlyPath/abc${ext}"
-//                    val newFile = File(newPath)
-//                    Log.e("TAG", file.renameTo(newFile).toString() )
                 }
             }
         }.show()
@@ -132,10 +126,6 @@ class PicturesFragment(
                     } else {
                         dismiss()
                         onEdit(picture, edtNameImage.text.toString())
-//                        if (activity is StorageActivity) {
-//                            picture.name = edtNameImage.text.toString()
-//                            (activity as StorageActivity).edit(picture)
-//                        }
                     }
                 }
             }

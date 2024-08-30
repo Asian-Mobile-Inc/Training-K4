@@ -3,6 +3,7 @@ package com.example.asian.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,6 +14,7 @@ import com.example.asian.model.Picture
 
 class PicturesAdapter(
     private val onClick: (Picture) -> Unit,
+    private val onLongClick: (Picture) -> Unit,
 ) : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder>() {
     private val pictures: MutableList<Picture> = mutableListOf()
 
@@ -31,13 +33,18 @@ class PicturesAdapter(
             Glide.with(context).load(picture.path).into(binding.ivPicture)
             with(binding) {
                 tvNamePicture.text = picture.name
-                ivPicture.setOnClickListener { onClick(picture) }
+                root.setOnClickListener { onClick(picture) }
+                ivSelected.isVisible = picture.isSelected
+                root.setOnLongClickListener {
+                    onLongClick(picture)
+                    return@setOnLongClickListener true
+                }
                 if (picture.favorite) {
                     ivFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
                     ivFavorite.setImageResource(R.drawable.ic_un_favorite)
                 }
-                binding.root.isSelected = true
+                root.isSelected = picture.isSelected
             }
         }
     }
