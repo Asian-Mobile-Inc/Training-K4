@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.asian.issuesix.IssueSixActivity;
 import com.example.asian.issuefour.IssueFourActivity;
 import com.example.asian.issuefive.IssueFiveActivity;
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseUpdateInfo;
     private Button mBtnIssuesFour;
     private Button mBtnIssueFive;
+    private Button mBtnViewIssuesSix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnExerciseUpdateInfo = findViewById(R.id.btnExerciseUpdateInfo);
         mBtnIssuesFour = findViewById(R.id.btnIssuesFour);
         mBtnIssueFive = findViewById(R.id.btnIssueFive);
+        mBtnViewIssuesSix = findViewById(R.id.btnViewIssuesSix);
     }
 
     private void initListener() {
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         });
         mBtnIssueFive.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, IssueFiveActivity.class));
+        });
+        mBtnViewIssuesSix.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, IssueSixActivity.class));
         });
     }
 }

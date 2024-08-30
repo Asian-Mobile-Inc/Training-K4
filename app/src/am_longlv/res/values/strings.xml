@@ -56,13 +56,14 @@
     <string name="more_info_invalid">Info is invalid</string>
     <string name="more_info_too_short">Nhập lớn hơn 100 ký tự</string>
     <string name="data_from_login">Login</string>
-    <string name="data_from_update_info">Update infomation</string>
+    <string name="data_from_update_info">Update information</string>
     <string name="data_from_calculate">This is data from calculate</string>
     <string name="email">Email: </string>
     <string name="password">Password: </string>
     <string name="operator">Operator: </string>
     <string name="error">Error: </string>
     <string name="error_empty_input">Vui lòng nhập đủ thông tin: </string>
+    <string name="number_error">Số không hợp lệ</string>
     <!--    Issues 4-->
     <string name="fragment_one">Fragment One</string>
     <string name="fragment_two">Fragment Two</string>
@@ -90,4 +91,18 @@
     <string name="enter_item_name">Nhập tên</string>
     <string name="name_item_int_param">Item %d</string>
     <string name="tab_int_param">Tab %d</string>
+    <!--    Issues 6-->
+    <string name="java_helps">Java Helps</string>
+    <string name="email_helps">admin@javahelps.com</string>
+    <string name="home">Home</string>
+    <string name="setting">Setting</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="communicate">Communicate</string>
+    <string name="view_issue_six">View Issues 6</string>
+    <string name="navigation_drawer">Navigation Drawer</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="replace_with_your_own_action">Replace with your own action</string>
+    <string name="favourite">Favourite</string>
 </resources>

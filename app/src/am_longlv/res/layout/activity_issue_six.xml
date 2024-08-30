@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dlIssueSix"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/ablIssuesSix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tbIssuesSix"
+                style="@style/App.ToolbarMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/red_FF0000"
+                app:menu="@menu/menu_main_drawer_issue_six"
+                app:title="Navigation Drawer"
+                app:titleTextColor="@color/white">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/svIssuesSix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end" />
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/tvShowItemMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ablIssuesSix"
+            android:layout_margin="30dp"
+            android:text="@string/home"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabIssueSix"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="30dp"
+            android:backgroundTint="@color/red_FF0000"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_add"
+            android:tint="@color/green_00FF00" />
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nvIssueSix"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header_issue_six"
+        app:itemIconTint="@color/color_menu_issue_six"
+        app:itemTextColor="@color/color_menu_issue_six"
+        app:menu="@menu/menu_main_drawer_issue_six" />
+</androidx.drawerlayout.widget.DrawerLayout>

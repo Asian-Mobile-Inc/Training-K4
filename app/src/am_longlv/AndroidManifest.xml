@@ -27,6 +27,10 @@
             android:name=".issuefive.IssueFiveActivity"
             android:exported="false" />
         <activity
+            android:name=".issuesix.IssueSixActivity"
+            android:exported="false"
+            android:theme="@style/App.ToolbarMenuItem" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

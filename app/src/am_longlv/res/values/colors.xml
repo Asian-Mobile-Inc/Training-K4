@@ -10,6 +10,8 @@
     <color name="pink_FF5C78">#FF5C78</color>
     <color name="yellow_FFFF00">#FFFF00</color>
     <color name="gray_BDBDBD">#BDBDBD</color>
+    <color name="red_A8FF0000">#A8FF0000</color>
+    <color name="black_A8000000">#A8000000</color>
     <color name="green_00FF00">#00FF00</color>
     <color name="purple_800080">#800080</color>
     <color name="orange_FF4500">#FF4500</color>
