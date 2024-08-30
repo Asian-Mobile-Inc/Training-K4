@@ -41,7 +41,8 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result_float_param, (float) (firstNumber + secondNumber)));
+            mTvResult.setText(
+                    getString(R.string.result_float_param, (float) (firstNumber + secondNumber)));
         });
         mBtnSub.setOnClickListener(v -> {
             if (validate()) {
@@ -49,7 +50,8 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result_float_param, (float) (firstNumber - secondNumber)));
+            mTvResult.setText(
+                    getString(R.string.result_float_param, (float) (firstNumber - secondNumber)));
         });
         mBtnMul.setOnClickListener(v -> {
             if (validate()) {
@@ -57,7 +59,8 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
             }
             int firstNumber = Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
             int secondNumber = Integer.parseInt((mEdtSecondNumber.getText()).toString().trim());
-            mTvResult.setText(getString(R.string.result_float_param, (float) (firstNumber * secondNumber)));
+            mTvResult.setText(
+                    getString(R.string.result_float_param, (float) (firstNumber * secondNumber)));
         });
         mBtnDiv.setOnClickListener(v -> {
             if (validate()) {
@@ -80,6 +83,18 @@ public class ExerciseCalculateActivity extends AppCompatActivity {
         }
         if (mEdtSecondNumber.getText().toString().trim().isEmpty()) {
             mEdtSecondNumber.setError(getString(R.string.error_empty_input));
+        }
+        try {
+            Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
+        } catch (Exception e) {
+            mEdtFirstNumber.setError(getString(R.string.number_error));
+            return true;
+        }
+        try {
+            Integer.parseInt((mEdtFirstNumber.getText()).toString().trim());
+        } catch (Exception e) {
+            mEdtSecondNumber.setError(getString(R.string.number_error));
+            return true;
         }
         return mEdtFirstNumber.getText().toString().trim().isEmpty()
                 || mEdtSecondNumber.getText().toString().trim().isEmpty();
