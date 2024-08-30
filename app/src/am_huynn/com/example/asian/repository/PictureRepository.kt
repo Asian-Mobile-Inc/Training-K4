@@ -9,7 +9,6 @@ import com.example.asian.database.dao.PictureDao
 import com.example.asian.model.Picture
 import com.example.asian.model.PictureDataSource
 
-
 class PictureRepository(private val app: Application) {
     private val pictureDao: PictureDao
 

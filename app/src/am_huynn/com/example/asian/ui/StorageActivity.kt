@@ -102,8 +102,7 @@ class StorageActivity : AppCompatActivity() {
             btnDelete.setOnClickListener {
                 viewModel.listSelected.value?.let { value ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        val pi = MediaStore.createDeleteRequest(
-                            contentResolver,
+                        val pi = MediaStore.createDeleteRequest(contentResolver,
                             value.map { e -> Uri.parse(e.uri) })
                         val senderRequest = IntentSenderRequest.Builder(pi.intentSender).build()
                         deleteResultLauncher.launch(senderRequest)
