@@ -1,7 +1,7 @@
-package com.example.asian;
+package com.example.asian.adapterissue5;
 
-import static com.example.asian.ActionMenu.ACT_ADD;
-import static com.example.asian.ActionMenu.ACT_DEL;
+import static com.example.asian.adapterissue5.ActionMenu.ACT_ADD;
+import static com.example.asian.adapterissue5.ActionMenu.ACT_DEL;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,7 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.asian.adapterissue5.ViewPager2Adapter;
+import com.example.asian.R;
+import com.example.asian.adapterissue5.adapter.ViewPager2Adapter;
+import com.example.asian.adapterissue5.fragment.TabOneActivity;
+import com.example.asian.adapterissue5.fragment.TabThreeActivity;
+import com.example.asian.adapterissue5.fragment.TabTwoActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;

@@ -6,6 +6,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.asian.adapterissue5.MainActivityIssueFive;
+import com.example.asian.fragmentissue4.FragmentActivity;
+import com.example.asian.issue3.CalculateActivity;
+import com.example.asian.issue3.LoginActivity;
+import com.example.asian.issue3.UpdateInfoActivity;
+
 public class MainActivity extends AppCompatActivity {
     private Button mBtnExerciseLogin;
     private Button mBtnExerciseCal;

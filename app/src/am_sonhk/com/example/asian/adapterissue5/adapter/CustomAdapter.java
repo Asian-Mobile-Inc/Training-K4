@@ -1,7 +1,7 @@
-package com.example.asian.adapterissue5;
+package com.example.asian.adapterissue5.adapter;
 
-import static com.example.asian.ActionMenu.ACT_ADD;
-import static com.example.asian.ActionMenu.ACT_EDIT;
+import static com.example.asian.adapterissue5.ActionMenu.ACT_ADD;
+import static com.example.asian.adapterissue5.ActionMenu.ACT_EDIT;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asian.ActionMenu;
+import com.example.asian.adapterissue5.ActionMenu;
 import com.example.asian.R;
 
 import java.util.ArrayList;

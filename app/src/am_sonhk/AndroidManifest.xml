@@ -9,22 +9,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".FragmentActivity"
+            android:name=".fragmentissue4.FragmentActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdateInfoActivity"
+            android:name=".issue3.UpdateInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".issue3.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="CalculateActivity"
+            android:name=".issue3.CalculateActivity"
             android:exported="false" />
         <activity
-            android:name=".SendDataActivity"
+            android:name=".issue3.SendDataActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivityIssueFive"
+            android:name=".adapterissue5.MainActivityIssueFive"
             android:exported="false"/>
         <activity android:name=".MainActivity"
             android:exported="true">

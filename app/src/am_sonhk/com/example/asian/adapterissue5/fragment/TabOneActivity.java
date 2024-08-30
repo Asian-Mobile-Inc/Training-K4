@@ -1,4 +1,4 @@
-package com.example.asian;
+package com.example.asian.adapterissue5.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +10,19 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asian.adapterissue5.CustomAdapter;
+import com.example.asian.R;
+import com.example.asian.adapterissue5.adapter.CustomAdapter;
 
 import java.util.ArrayList;
 
-public class TabTwoActivity extends Fragment {
+public class TabOneActivity extends Fragment {
 
     private RecyclerView mRecyclerView;
     private CustomAdapter mCustomAdapter;
     private final ArrayList<String> mListData;
     private View mRootView;
 
-    public TabTwoActivity(ArrayList<String> mListData) {
+    public TabOneActivity(ArrayList<String> mListData) {
         this.mListData = mListData;
     }
 
@@ -45,7 +46,6 @@ public class TabTwoActivity extends Fragment {
     }
 
     public void addDataToRecyclerView(String newData) {
-
         mCustomAdapter.addItem(newData);
     }
 

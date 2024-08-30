@@ -1,4 +1,4 @@
-package com.example.asian;
+package com.example.asian.adapterissue5.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asian.adapterissue5.CustomAdapter;
+import com.example.asian.R;
+import com.example.asian.adapterissue5.adapter.CustomAdapter;
 
 import java.util.ArrayList;
 
