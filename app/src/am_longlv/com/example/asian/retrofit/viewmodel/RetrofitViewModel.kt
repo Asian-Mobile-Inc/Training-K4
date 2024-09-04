@@ -83,9 +83,9 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                         mStatusRetrofitCallback.postValue(img.code())
                     }
                 } catch (e: HttpException) {
-                    mStatusRetrofitCallback.postValue(-1)
+                    mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
                 } catch (e: Exception) {
-                    mStatusRetrofitCallback.postValue(-2)
+                    mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
                     e.printStackTrace()
                 }
             }
@@ -112,8 +112,10 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                     }
                 }
                 mStatusRetrofitCallback.postValue(im.code())
+            } catch (e: HttpException) {
+                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
             } catch (e: Exception) {
-                mStatusRetrofitCallback.postValue(-1)
+                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
                 e.printStackTrace()
             }
         }
@@ -135,8 +137,9 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                 return it
             }
         } catch (e: HttpException) {
-            mStatusRetrofitCallback.postValue(-1)
+            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
         } catch (e: Exception) {
+            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
             e.printStackTrace()
         }
         return mutableListOf()
@@ -342,7 +345,10 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                     context, arrayOf(path),
                     null, null
                 )
+            } catch (e: HttpException) {
+                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
             } catch (e: Exception) {
+                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
                 e.printStackTrace()
             }
         }
@@ -372,8 +378,9 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                 return it
             }
         } catch (e: HttpException) {
-            mStatusRetrofitCallback.postValue(-1)
+            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
         } catch (e: Exception) {
+            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
             e.printStackTrace()
         }
         return mutableListOf()
