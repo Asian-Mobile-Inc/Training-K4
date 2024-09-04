@@ -8,5 +8,5 @@ import retrofit2.http.Headers
 interface ApiService {
     @Headers("Authorization: Bearer 5FiuqhBFKuWZa8YG516uTRAyoqPTU4KfMMzoNt4jpMQ")
     @GET("images")
-    fun getPhotos(): Call<List<Picture>>
+    fun getPhotos(): Call<MutableList<Picture>>
 }
