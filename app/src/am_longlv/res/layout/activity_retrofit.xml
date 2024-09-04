@@ -14,8 +14,14 @@
         android:id="@+id/vpStorage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/pbLoadMore"
         app:layout_constraintTop_toBottomOf="@id/tlStorage" />
+
+    <ProgressBar
+        android:id="@+id/pbLoadMore"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabUpload"

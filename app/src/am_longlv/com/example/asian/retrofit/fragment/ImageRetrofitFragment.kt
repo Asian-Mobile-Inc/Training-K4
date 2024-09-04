@@ -2,6 +2,7 @@ package com.example.asian.retrofit.fragment
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.asian.databinding.DialogConfirmBinding
 import com.example.asian.databinding.FragmentImageRetrofitBinding
 import com.example.asian.retrofit.adapter.ImageAdapter
 import com.example.asian.retrofit.model.ImageModel
+import com.example.asian.retrofit.utils.Constant
 import com.example.asian.retrofit.viewmodel.RetrofitViewModel
 
 private const val KEY_BUNDLE = "tab"
@@ -73,7 +75,7 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
                 }
                 mViewModel.statusRetrofitCallback.observe(this) {
                     it?.let { sub ->
-                        if (sub == 200) {
+                        if (sub == Constant.STATUS_CODE_OK) {
                             mIsLoading = false
                         }
                     }

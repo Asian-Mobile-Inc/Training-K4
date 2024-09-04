@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -96,14 +97,19 @@ class RetrofitActivity : AppCompatActivity() {
                 ).show()
             }
 
-            0 -> if (!dialogLoadingRetrofit.isShowing) {
+            Constant.STATUS_CODE_SHOW_DIALOG_LOADING -> if (!dialogLoadingRetrofit.isShowing) {
                 dialogLoadingRetrofit.show()
+            }
+
+            Constant.STATUS_CODE_SHOW_DIALOG_LOAD_MORE -> {
+                mBinding.pbLoadMore.visibility = View.VISIBLE
             }
 
             Constant.STATUS_CODE_OK -> {
                 if (dialogLoadingRetrofit.isShowing) {
                     dialogLoadingRetrofit.dismiss()
                 }
+                mBinding.pbLoadMore.visibility = View.GONE
             }
 
             Constant.STATUS_CODE_NO_PICK_IMAGE -> {
@@ -115,6 +121,7 @@ class RetrofitActivity : AppCompatActivity() {
                     getString(R.string.no_pick_image),
                     Toast.LENGTH_SHORT
                 ).show()
+                mBinding.pbLoadMore.visibility = View.GONE
             }
 
             Constant.STATUS_CODE_NO_ITEM_MORE -> {
@@ -126,6 +133,19 @@ class RetrofitActivity : AppCompatActivity() {
                     getString(R.string.no_item_more),
                     Toast.LENGTH_SHORT
                 ).show()
+                mBinding.pbLoadMore.visibility = View.GONE
+            }
+
+            Constant.STATUS_CODE_EXISTS_IMAGE_API -> {
+                if (dialogLoadingRetrofit.isShowing) {
+                    dialogLoadingRetrofit.dismiss()
+                }
+                Toast.makeText(
+                    this,
+                    getString(R.string.image_exists_api),
+                    Toast.LENGTH_SHORT
+                ).show()
+                mBinding.pbLoadMore.visibility = View.GONE
             }
 
             else -> {
@@ -137,6 +157,7 @@ class RetrofitActivity : AppCompatActivity() {
                     getString(R.string.error_status_int_param).format(sub),
                     Toast.LENGTH_SHORT
                 ).show()
+                mBinding.pbLoadMore.visibility = View.GONE
             }
         }
     }

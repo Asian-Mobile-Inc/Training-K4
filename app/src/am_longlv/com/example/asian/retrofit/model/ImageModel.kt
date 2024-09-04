@@ -17,6 +17,9 @@ data class ImageModel(
     @ColumnInfo("type")
     @SerializedName("type")
     var type: String,
+    @ColumnInfo("created_at")
+    @SerializedName("created_at")
+    var createdAt: String,
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("id")

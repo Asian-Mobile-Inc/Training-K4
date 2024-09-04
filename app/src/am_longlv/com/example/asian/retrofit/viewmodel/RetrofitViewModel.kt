@@ -34,6 +34,9 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class RetrofitViewModel(application: Application) : AndroidViewModel(application) {
     private val roomRepository: RetrofitRoomRepository = RetrofitRoomRepository(application)
@@ -58,25 +61,42 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     }
 
     internal fun uploadImage(uri: Uri, context: Context) {
-        mStatusRetrofitCallback.value = 0
+        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
         if (uri != Uri.parse("")) {
+            mItemQuantityChange++
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     val fileRealPath = RealPathUtil.getRealPathFromURI(context, uri) ?: ""
                     val file = File(fileRealPath)
                     if (file.exists()) {
+                        val createdAt = System.currentTimeMillis()
                         val requestFile: RequestBody =
                             file.asRequestBody(Constant.MULTIPART_FORM_DATA.toMediaTypeOrNull())
                         val body = MultipartBody.Part.createFormData(
                             Constant.KEY_IMG_DATA,
-                            System.currentTimeMillis().toString(),
+                            createdAt.toString(),
                             requestFile
                         )
+                        val sdf =
+                            SimpleDateFormat(
+                                Constant.CONVERT_TIME_TO_CREATED_AT,
+                                Locale.ENGLISH
+                            )
+                        sdf.timeZone = TimeZone.getTimeZone(Constant.KEY_GMT_DEFAULT)
+                        val time = sdf.format(createdAt)
                         val img = apiUploadHelper.uploadImage(body)
                         if (img.isSuccessful) {
-                            mItemQuantityChange++
                             mListImage.value?.let {
-                                img.body()?.let { r -> it.add(0, r) }
+                                img.body()?.let { r ->
+                                    if (time <= r.createdAt) {
+                                        it.add(0, r)
+                                    } else {
+                                        mItemQuantityChange--
+                                        withContext(Dispatchers.Main) {
+                                            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_EXISTS_IMAGE_API)
+                                        }
+                                    }
+                                }
                                 mListImage.postValue(it)
                             }
                         }
@@ -95,7 +115,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     }
 
     internal fun deleteImage(imgId: String) {
-        mStatusRetrofitCallback.value = 0
+        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
         viewModelScope.launch {
             try {
                 val im = apiHelper.deleteImage(imgId)
@@ -171,7 +191,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                     .substringBeforeLast(".")
                 val type = cursor.getString(dataColumnIndex).toString().substringAfterLast(".")
                 val uri = Uri.parse(cursor.getString(dataColumnIndex).toString())
-                val storageModel = ImageModel(name, uri.toString(), type)
+                val storageModel = ImageModel(name, uri.toString(), type, "")
                 storageModel.storageId = storageId
                 imageList.add(storageModel)
             }
@@ -184,7 +204,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     }
 
     internal fun fetchAllImages(context: Context) {
-        mStatusRetrofitCallback.value = 0
+        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
         viewModelScope.launch {
             val imgRoom: MutableList<ImageModel> = async {
                 fetchImagesFromRoom()
@@ -214,10 +234,10 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                 sub.imageId == it.imageId
             }
             if (indexFavourite != -1) {
-                it.isFavourite = !it.isFavourite
+                it.isFavourite = true
             }
             if (indexDownloaded != -1) {
-                it.isDownloaded = !it.isDownloaded
+                it.isDownloaded = true
             }
         }
         mListImage.postValue(imgApi)
@@ -226,7 +246,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                 sub.imageId == it.imageId
             }
             if (indexFavourite != -1) {
-                it.isFavourite = !it.isFavourite
+                it.isFavourite = true
             }
         }
         mListLocal.postValue(imgLocal)
@@ -292,7 +312,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun downloadFile(imageModel: ImageModel, context: Context) {
-        mStatusRetrofitCallback.value = 0
+        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val url = URL(imageModel.url)
@@ -387,7 +407,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     }
 
     internal fun loadMore() {
-        mStatusRetrofitCallback.value = 0
+        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOAD_MORE
         viewModelScope.launch(Dispatchers.IO) {
             val imgApi: MutableList<ImageModel> = async {
                 getListLoadMore()
