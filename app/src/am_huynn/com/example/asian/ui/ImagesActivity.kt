@@ -2,16 +2,25 @@ package com.example.asian.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.asian.adapter.PicturesAdapter
 import com.example.asian.databinding.ActivityImagesBinding
+import com.example.asian.model.Picture
 
 class ImagesActivity : AppCompatActivity() {
-    private val activityImagesBinding: ActivityImagesBinding by lazy {
+    private val binding: ActivityImagesBinding by lazy {
         ActivityImagesBinding.inflate(layoutInflater)
     }
 
+    private val picturesAdapter by lazy {
+        PicturesAdapter(onItemClick)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(activityImagesBinding.root)
+        setContentView(binding.root)
+        initControls()
 
 //        val apiService = ApiClient.retrofit.create(ApiService::class.java)
 //        val call = apiService.getPhotos()
@@ -28,5 +37,15 @@ class ImagesActivity : AppCompatActivity() {
 //            }
 //
 //        })
+    }
+
+    private fun initControls() {
+        binding.rvPictures.adapter = picturesAdapter
+        binding.rvPictures.layoutManager = GridLayoutManager(this, 3)
+        binding.rvPictures.itemAnimator = null
+    }
+
+    private val onItemClick: (Picture) -> Unit = {
+
     }
 }
