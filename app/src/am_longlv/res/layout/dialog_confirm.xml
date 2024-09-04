@@ -2,18 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/tvDeleteThisItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="@string/delete_this_item"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,6 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/ok"
+        app:layout_constraintRight_toLeftOf="@id/btnCancelDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDeleteThisItem"
         app:layout_constraintWidth_percent="0.5" />
@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:text="@string/cancel"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btnConfirmDelete"
         app:layout_constraintTop_toBottomOf="@+id/tvDeleteThisItem"
         app:layout_constraintWidth_percent="0.5" />
 </androidx.constraintlayout.widget.ConstraintLayout>
