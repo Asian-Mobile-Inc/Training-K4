@@ -58,7 +58,7 @@ public class MainActivityIssueNine extends AppCompatActivity {
         mBtnAddUser = findViewById(R.id.btnAddUser);
         mBtnDeleteAllUsers = findViewById(R.id.btnDeleteAllUsers);
         mBtnShowAllUsers = findViewById(R.id.btnShowAllUsers);
-        mRecyclerViewUsers = findViewById(R.id.recyclerViewUsers);
+        mRecyclerViewUsers = findViewById(R.id.rvUsers);
     }
 
     private void addUser(View view) {
