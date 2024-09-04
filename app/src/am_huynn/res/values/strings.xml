@@ -66,4 +66,5 @@
 
     <!-- Strings related to exercise Retrofit -->
     <string name="exercise_retrofit">Exercise Retrofit</string>
+    <string name="image">image</string>
 </resources>
