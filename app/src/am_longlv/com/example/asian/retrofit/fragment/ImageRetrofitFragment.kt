@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.asian.R
 import com.example.asian.databinding.DialogConfirmBinding
 import com.example.asian.databinding.FragmentImageRetrofitBinding
@@ -20,19 +21,20 @@ import com.example.asian.retrofit.viewmodel.RetrofitViewModel
 private const val KEY_BUNDLE = "tab"
 
 class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
-    private var tab = 0
+    private var mTab = 0
+    private var mIsLoading = false
     private val mBinding: FragmentImageRetrofitBinding by lazy {
         FragmentImageRetrofitBinding.inflate(layoutInflater)
     }
     private val mImageAdapter: ImageAdapter by lazy {
-        ImageAdapter(this, tab)
+        ImageAdapter(this, mTab)
     }
     private val mViewModel: RetrofitViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            tab = it.getInt(KEY_BUNDLE, 0)
+            mTab = it.getInt(KEY_BUNDLE, 0)
         }
     }
 
@@ -58,13 +60,23 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     private fun setupRecyclerView() {
         mBinding.rvImageRetrofit.layoutManager = GridLayoutManager(context, 3)
         mBinding.rvImageRetrofit.adapter = mImageAdapter
+        if (mTab == 0) {
+            lazyLoad()
+        }
     }
 
     private fun initObserver() {
-        when (tab) {
+        when (mTab) {
             0 -> {
                 mViewModel.listImage.observe(viewLifecycleOwner) {
                     mImageAdapter.submitList(it.toMutableList())
+                }
+                mViewModel.statusRetrofitCallback.observe(this) {
+                    it?.let { sub ->
+                        if (sub == 200) {
+                            mIsLoading = false
+                        }
+                    }
                 }
             }
 
@@ -106,6 +118,23 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
             }
             dialog.show()
         }
+    }
+
+    private fun lazyLoad() {
+        mBinding.rvImageRetrofit.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val gridLayoutManager = recyclerView.layoutManager as GridLayoutManager?
+                if (!mIsLoading) {
+                    if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition()
+                        == (mViewModel.getListItemRetrofit().size - 1)
+                    ) {
+                        mViewModel.loadMore()
+                        mIsLoading = true
+                    }
+                }
+            }
+        })
     }
 
     override fun onItemClick(imageModel: ImageModel) {

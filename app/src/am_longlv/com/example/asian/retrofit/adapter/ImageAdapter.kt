@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.signature.ObjectKey
 import com.example.asian.databinding.ItemListRetrofitBinding
 import com.example.asian.retrofit.model.ImageModel
 
@@ -76,7 +75,6 @@ class ImageAdapter(private var mItemClickListener: ItemClickListener, private va
                 Glide
                     .with(context)
                     .load(imageModel.url)
-                    .signature(ObjectKey(System.currentTimeMillis()))
                     .into(ivStorage)
                 tvNameStorage.text = imageModel.imageId
             }

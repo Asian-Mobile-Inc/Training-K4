@@ -10,13 +10,21 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 private const val HEADER_AUTH = "Authorization: Bearer royvsrhBbaKa5Wr44s_eW6REBfi7W_23PBMvJ-T-pLA"
 
 interface ApiService {
     @Headers(HEADER_AUTH)
     @GET("images")
-    suspend fun getAllImage(): Response<MutableList<ImageModel>>
+    suspend fun getAllImage(@Query("per_page") perPage: Int): Response<MutableList<ImageModel>>
+
+    @Headers(HEADER_AUTH)
+    @GET("images")
+    suspend fun loadMoreImages(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+    ): Response<MutableList<ImageModel>>
 
     @Headers(HEADER_AUTH)
     @Multipart

@@ -5,8 +5,8 @@ import okhttp3.MultipartBody
 import retrofit2.Response
 
 class ApiHelper(private val apiService: ApiService) {
-    suspend fun getAllImages(): Response<MutableList<ImageModel>> {
-        return apiService.getAllImage()
+    suspend fun getAllImages(itemQuantity :Int): Response<MutableList<ImageModel>> {
+        return apiService.getAllImage(itemQuantity)
     }
 
     suspend fun uploadImage(image: MultipartBody.Part): Response<ImageModel> {
@@ -15,5 +15,9 @@ class ApiHelper(private val apiService: ApiService) {
 
     suspend fun deleteImage(imageId: String): Response<ImageModel> {
         return apiService.deleteImage(imageId)
+    }
+
+    suspend fun loadMoreImage(page: Int,itemQuantity :Int): Response<MutableList<ImageModel>> {
+        return apiService.loadMoreImages(page, itemQuantity)
     }
 }

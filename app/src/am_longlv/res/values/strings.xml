@@ -101,4 +101,5 @@
     <string name="error_no_internet">No Internet</string>
     <string name="other_exception">Oops: Something else went wrong</string>
     <string name="image_exists">Ảnh đã tồn tại trong máy</string>
+    <string name="no_item_more">Đã load hết ảnh</string>
 </resources>

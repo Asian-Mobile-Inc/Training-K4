@@ -19,16 +19,12 @@ import com.example.asian.databinding.ActivityRetrofitBinding
 import com.example.asian.databinding.DialogBottomSelectImageBinding
 import com.example.asian.retrofit.adapter.TabName
 import com.example.asian.retrofit.adapter.ViewPagerRetrofitAdapter
+import com.example.asian.retrofit.utils.Constant
 import com.example.asian.retrofit.viewmodel.RetrofitViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.io.FileNotFoundException
-
-private const val REQUEST_PERMISSION_CODE = 123
-private const val STATUS_CODE_OK = 200
-private const val STATUS_CODE_NO_INTERNET = -1
-private const val STATUS_CODE_OTHER_EXCEPTION = -2
 
 class RetrofitActivity : AppCompatActivity() {
     private val mBinding: ActivityRetrofitBinding by lazy {
@@ -78,7 +74,7 @@ class RetrofitActivity : AppCompatActivity() {
 
     private fun handlerCallbackRetrofit(sub: Int) {
         when (sub) {
-            STATUS_CODE_NO_INTERNET -> {
+            Constant.STATUS_CODE_NO_INTERNET -> {
                 if (dialogLoadingRetrofit.isShowing) {
                     dialogLoadingRetrofit.dismiss()
                 }
@@ -89,7 +85,7 @@ class RetrofitActivity : AppCompatActivity() {
                 ).show()
             }
 
-            STATUS_CODE_OTHER_EXCEPTION -> {
+            Constant.STATUS_CODE_OTHER_EXCEPTION -> {
                 if (dialogLoadingRetrofit.isShowing) {
                     dialogLoadingRetrofit.dismiss()
                 }
@@ -104,10 +100,32 @@ class RetrofitActivity : AppCompatActivity() {
                 dialogLoadingRetrofit.show()
             }
 
-            STATUS_CODE_OK -> {
+            Constant.STATUS_CODE_OK -> {
                 if (dialogLoadingRetrofit.isShowing) {
                     dialogLoadingRetrofit.dismiss()
                 }
+            }
+
+            Constant.STATUS_CODE_NO_PICK_IMAGE -> {
+                if (dialogLoadingRetrofit.isShowing) {
+                    dialogLoadingRetrofit.dismiss()
+                }
+                Toast.makeText(
+                    this,
+                    getString(R.string.no_pick_image),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            Constant.STATUS_CODE_NO_ITEM_MORE -> {
+                if (dialogLoadingRetrofit.isShowing) {
+                    dialogLoadingRetrofit.dismiss()
+                }
+                Toast.makeText(
+                    this,
+                    getString(R.string.no_item_more),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
             else -> {
@@ -149,7 +167,7 @@ class RetrofitActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 mPermissionNameList.toTypedArray(),
-                REQUEST_PERMISSION_CODE
+                Constant.REQUEST_PERMISSION_CODE
             )
         }
     }
@@ -178,7 +196,7 @@ class RetrofitActivity : AppCompatActivity() {
         grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_PERMISSION_CODE) {
+        if (requestCode == Constant.REQUEST_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setupTabLayout()
                 mRetrofitViewModel.fetchAllImages(this)

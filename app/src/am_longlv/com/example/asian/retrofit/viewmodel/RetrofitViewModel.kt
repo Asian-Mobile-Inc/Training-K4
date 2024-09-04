@@ -17,6 +17,7 @@ import com.example.asian.retrofit.api.ApiHelper
 import com.example.asian.retrofit.api.RetrofitBuilder
 import com.example.asian.retrofit.database.repository.RetrofitRoomRepository
 import com.example.asian.retrofit.model.ImageModel
+import com.example.asian.retrofit.utils.Constant
 import com.example.asian.retrofit.utils.RealPathUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -34,10 +35,6 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-private const val KEY_IMG_DATA = "imagedata"
-private const val MULTIPART_FORM_DATA = "multipart/form-data"
-private const val STATUS_CODE_OK = 200
-
 class RetrofitViewModel(application: Application) : AndroidViewModel(application) {
     private val roomRepository: RetrofitRoomRepository = RetrofitRoomRepository(application)
     private val apiHelper = ApiHelper(RetrofitBuilder.apiService)
@@ -50,6 +47,8 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     internal var listLocal: LiveData<MutableList<ImageModel>> = mListLocal
     private var mStatusRetrofitCallback = MutableLiveData<Int>()
     internal var statusRetrofitCallback: LiveData<Int> = mStatusRetrofitCallback
+    private var mPage = 1
+    private var mItemQuantityChange = 0
 
     init {
         mListImage.value = mutableListOf()
@@ -60,33 +59,38 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
 
     internal fun uploadImage(uri: Uri, context: Context) {
         mStatusRetrofitCallback.value = 0
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val fileRealPath = RealPathUtil.getRealPathFromURI(context, uri) ?: ""
-                val file = File(fileRealPath)
-                if (file.exists()) {
-                    val requestFile: RequestBody =
-                        file.asRequestBody(MULTIPART_FORM_DATA.toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData(
-                        KEY_IMG_DATA,
-                        System.currentTimeMillis().toString(),
-                        requestFile
-                    )
-                    val img = apiUploadHelper.uploadImage(body)
-                    if (img.isSuccessful) {
-                        mListImage.value?.let {
-                            img.body()?.let { r -> it.add(0, r) }
-                            mListImage.postValue(it)
+        if (uri != Uri.parse("")) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val fileRealPath = RealPathUtil.getRealPathFromURI(context, uri) ?: ""
+                    val file = File(fileRealPath)
+                    if (file.exists()) {
+                        val requestFile: RequestBody =
+                            file.asRequestBody(Constant.MULTIPART_FORM_DATA.toMediaTypeOrNull())
+                        val body = MultipartBody.Part.createFormData(
+                            Constant.KEY_IMG_DATA,
+                            System.currentTimeMillis().toString(),
+                            requestFile
+                        )
+                        val img = apiUploadHelper.uploadImage(body)
+                        if (img.isSuccessful) {
+                            mItemQuantityChange++
+                            mListImage.value?.let {
+                                img.body()?.let { r -> it.add(0, r) }
+                                mListImage.postValue(it)
+                            }
                         }
+                        mStatusRetrofitCallback.postValue(img.code())
                     }
-                    mStatusRetrofitCallback.postValue(img.code())
+                } catch (e: HttpException) {
+                    mStatusRetrofitCallback.postValue(-1)
+                } catch (e: Exception) {
+                    mStatusRetrofitCallback.postValue(-2)
+                    e.printStackTrace()
                 }
-            } catch (e: HttpException) {
-                mStatusRetrofitCallback.postValue(-1)
-            } catch (e: Exception) {
-                mStatusRetrofitCallback.postValue(-2)
-                e.printStackTrace()
             }
+        } else {
+            mStatusRetrofitCallback.value = Constant.STATUS_CODE_NO_PICK_IMAGE
         }
     }
 
@@ -96,9 +100,10 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
             try {
                 val im = apiHelper.deleteImage(imgId)
                 if (im.isSuccessful) {
+                    mItemQuantityChange--
                     mListImage.value?.let {
                         val img = it.firstOrNull { sub ->
-                            im.body()?.id == sub.id
+                            im.body()?.imageId == sub.imageId
                         }
                         if (img != null) {
                             it.remove(img)
@@ -121,7 +126,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
 
     private suspend fun fetchImagesFromApi(): MutableList<ImageModel> {
         try {
-            val rs = apiHelper.getAllImages()
+            val rs = apiHelper.getAllImages(Constant.ITEM_PER_PAGE)
             rs.body()?.let {
                 mListImage.postValue(rs.body())
             }
@@ -247,7 +252,8 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
             }
             mListFavourite.value?.let {
                 val newItem = imageModel.copy()
-                newItem.isFavourite = !newItem.isFavourite
+                newItem.isFavourite = !imageModel.isFavourite
+                newItem.isDownloaded = imageModel.isDownloaded
                 it.add(newItem)
                 mListFavourite.value = it
             }
@@ -320,6 +326,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                         if (index != -1) {
                             val newItem = it[index].copy()
                             newItem.isDownloaded = !it[index].isDownloaded
+                            newItem.isFavourite = it[index].isFavourite
                             it[index] = newItem
                         }
                         mListImage.postValue(it)
@@ -330,13 +337,83 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                     }
                 }
                 inputStream.close()
-                mStatusRetrofitCallback.postValue(STATUS_CODE_OK)
+                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OK)
                 MediaScannerConnection.scanFile(
                     context, arrayOf(path),
                     null, null
                 )
             } catch (e: Exception) {
                 e.printStackTrace()
+            }
+        }
+    }
+
+    internal fun getListItemRetrofit(): MutableList<ImageModel> {
+        mListImage.value?.let {
+            return it
+        }
+        return mutableListOf()
+    }
+
+    private suspend fun getListLoadMore(): MutableList<ImageModel> {
+        try {
+            if (mItemQuantityChange < 0) {
+                mPage += (mItemQuantityChange / Constant.ITEM_PER_PAGE) - 1
+                mItemQuantityChange %= Constant.ITEM_PER_PAGE
+            }
+            if (mItemQuantityChange > 0) {
+                mPage += mItemQuantityChange / Constant.ITEM_PER_PAGE
+                mItemQuantityChange %= Constant.ITEM_PER_PAGE
+            }
+            mPage++
+            val rs = apiHelper.loadMoreImage(mPage, Constant.ITEM_PER_PAGE)
+            mStatusRetrofitCallback.postValue(rs.code())
+            rs.body()?.let {
+                return it
+            }
+        } catch (e: HttpException) {
+            mStatusRetrofitCallback.postValue(-1)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return mutableListOf()
+    }
+
+    internal fun loadMore() {
+        mStatusRetrofitCallback.value = 0
+        viewModelScope.launch(Dispatchers.IO) {
+            val imgApi: MutableList<ImageModel> = async {
+                getListLoadMore()
+            }.await()
+            if (imgApi.isEmpty()) {
+                mPage--
+                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_ITEM_MORE)
+            } else {
+                viewModelScope.launch(Dispatchers.Default) {
+                    mListImage.value?.let {
+                        if (mItemQuantityChange == 0) {
+                            it.addAll(imgApi)
+                        } else {
+                            if (mItemQuantityChange < 0) {
+                                for (i in imgApi.size + mItemQuantityChange until imgApi.size) {
+                                    it.add(imgApi[i])
+                                }
+                                mItemQuantityChange = 0
+                            } else {
+                                for (i in mItemQuantityChange until imgApi.size) {
+                                    it.add(imgApi[i])
+                                }
+                                mItemQuantityChange = 0
+                            }
+                        }
+                        mListImage.postValue(it)
+                        mListFavourite.value?.let { itFav ->
+                            mListLocal.value?.let { itLocal ->
+                                getStatus(it, itFav, itLocal)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
