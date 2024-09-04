@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asian.ui.ExerciseFragmentActivity;
 import com.example.asian.ui.FacebookActivity;
+import com.example.asian.ui.ImagesActivity;
 import com.example.asian.ui.InformationActivity;
 import com.example.asian.ui.MathActivity;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mBtnToMath;
     private Button mBtnToInformation;
     private Button mBtnExerciseFragment;
+    private Button mBtnExerciseRetrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnToMath = findViewById(R.id.btnMath);
         mBtnToInformation = findViewById(R.id.btnInformation);
         mBtnExerciseFragment = findViewById(R.id.btnExerciseFragment);
+        mBtnExerciseRetrofit = findViewById(R.id.btnExerciseRetrofit);
     }
 
     private void initListener() {
@@ -50,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         mBtnExerciseFragment.setOnClickListener(view -> {
             Intent intent = new Intent(this, ExerciseFragmentActivity.class);
+            startActivity(intent);
+        });
+
+        mBtnExerciseRetrofit.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ImagesActivity.class);
             startActivity(intent);
         });
     }
