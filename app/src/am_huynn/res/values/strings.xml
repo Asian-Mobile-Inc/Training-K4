@@ -68,4 +68,5 @@
     <string name="exercise_retrofit">Exercise Retrofit</string>
     <string name="image">image</string>
     <string name="can_not_pick_image">Can not pick any photos</string>
+    <string name="permission_denied">Permission Denied</string>
 </resources>

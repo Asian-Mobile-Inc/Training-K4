@@ -1,6 +1,9 @@
 package com.example.asian.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -8,11 +11,14 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.asian.R
 import com.example.asian.adapter.GridSpacingItemDecoration
 import com.example.asian.adapter.PicturesAdapter
+import com.example.asian.constants.Constants
 import com.example.asian.databinding.ActivityImagesBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.ImagesViewModel
@@ -68,10 +74,54 @@ class ImagesActivity : AppCompatActivity() {
 
     private fun initListener() {
         binding.fbPickImage.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            pickImageResultLauncher.launch(Intent.createChooser(intent, "pick image"))
+            if (checkPermission()) {
+                pickImage()
+            } else {
+                askForPermission()
+            }
+        }
+    }
+
+    private fun pickImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        pickImageResultLauncher.launch(Intent.createChooser(intent, "pick image"))
+    }
+
+    private fun checkPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun askForPermission() {
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+        ActivityCompat.requestPermissions(this, permissions, Constants.REQUEST_CODE)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                pickImage()
+            } else {
+                Toast.makeText(
+                    this, resources.getText(R.string.permission_denied), Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }
