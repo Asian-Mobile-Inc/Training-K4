@@ -18,4 +18,9 @@ public class Constants {
 
     public static final int MIN_LENGTH_PASSWORD = 8;
     public static final int MIN_LENGTH_MORE_INFORMATION = 100;
+
+    public static final String BASE_URL = "https://api.gyazo.com/api/";
+    public static final String BASE_URL_UPLOAD = "https://upload.gyazo.com/api/";
+    public static final String KEY_IMAGE_DATA = "imagedata";
+
 }
