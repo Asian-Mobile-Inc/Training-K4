@@ -69,4 +69,5 @@
     <string name="image">image</string>
     <string name="can_not_pick_image">Can not pick any photos</string>
     <string name="permission_denied">Permission Denied</string>
+    <string name="delete_image">Delete image</string>
 </resources>

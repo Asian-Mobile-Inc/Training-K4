@@ -28,7 +28,7 @@ class ImagesActivity : AppCompatActivity() {
     private val viewModel: ImagesViewModel by viewModels()
 
     private val picturesAdapter by lazy {
-        PicturesAdapter(onItemClick)
+        PicturesAdapter(onItemClick, onItemDelete)
     }
 
     private val pickImageResultLauncher = registerForActivityResult(
@@ -67,6 +67,8 @@ class ImagesActivity : AppCompatActivity() {
     }
 
     private val onItemClick: (Picture) -> Unit = {}
+
+    private val onItemDelete: (Picture) -> Unit = {}
 
     private fun initListener() {
         binding.fbPickImage.setOnClickListener {

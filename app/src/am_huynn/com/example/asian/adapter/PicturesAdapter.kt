@@ -11,7 +11,8 @@ import com.example.asian.diff.PictureDiffCallBack
 import com.example.asian.model.Picture
 
 class PicturesAdapter(
-    private val onClick: (Picture) -> Unit
+    private val onClick: (Picture) -> Unit,
+    private val onDelete: (Picture) -> Unit
 ) : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder>() {
     private val pictures: MutableList<Picture> = mutableListOf()
 
@@ -29,6 +30,7 @@ class PicturesAdapter(
         fun bind(picture: Picture) {
             with(binding) {
                 Glide.with(context).load(picture.url).into(ivPicture)
+                btnDeleteImage.setOnClickListener { onDelete(picture) }
                 root.setOnClickListener { onClick(picture) }
             }
         }
