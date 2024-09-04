@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -60,15 +61,26 @@ class ImagesActivity : AppCompatActivity() {
     }
 
     private fun initControls() {
-        binding.rvPictures.adapter = picturesAdapter
-        binding.rvPictures.layoutManager = GridLayoutManager(this, 3)
-        binding.rvPictures.addItemDecoration(GridSpacingItemDecoration(14))
-        binding.rvPictures.itemAnimator = null
+        binding.rvPictures.apply {
+            adapter = picturesAdapter
+            layoutManager = GridLayoutManager(this@ImagesActivity, 3)
+            addItemDecoration(GridSpacingItemDecoration(14))
+            itemAnimator = null
+        }
     }
 
     private val onItemClick: (Picture) -> Unit = {}
 
-    private val onItemDelete: (Picture) -> Unit = {}
+    private val onItemDelete: (Picture) -> Unit = {
+        val dialogBuilder = AlertDialog.Builder(this)
+        with(dialogBuilder) {
+            setMessage(resources.getText(R.string.do_you_want_delete_image))
+            setPositiveButton(resources.getText(R.string.yes)) { _, _ ->
+                viewModel.deleteImage(it)
+            }
+            setNegativeButton(resources.getText(R.string.no)) { _, _ -> }
+        }.create().show()
+    }
 
     private fun initListener() {
         binding.fbPickImage.setOnClickListener {

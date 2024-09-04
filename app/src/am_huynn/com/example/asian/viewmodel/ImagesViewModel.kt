@@ -3,6 +3,7 @@ package com.example.asian.viewmodel
 import RealPathUtil
 import android.app.Application
 import android.net.Uri
+import android.system.Os.remove
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -77,5 +78,24 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                 }
             })
         }
+    }
+
+    fun deleteImage(picture: Picture) {
+        val call = imageRepository.deleteImage(picture.imageId)
+        call.enqueue(object : Callback<Picture> {
+            override fun onResponse(call: Call<Picture>, response: Response<Picture>) {
+                if (response.isSuccessful) {
+                    val list = _pictures.value
+                    list?.let {
+                        it.remove(picture)
+                        _pictures.value = it
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Picture>, t: Throwable) {
+                Log.e("TAG", t.message.toString())
+            }
+        })
     }
 }

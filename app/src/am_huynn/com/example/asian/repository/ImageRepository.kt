@@ -14,4 +14,6 @@ class ImageRepository(private val app: Application) {
     fun getImages() = apiService.getPhotos()
 
     fun uploadImage(image: MultipartBody.Part) = apiServiceUpload.uploadImage(image)
+
+    fun deleteImage(imageId: String) = apiService.deleteImage(imageId)
 }
