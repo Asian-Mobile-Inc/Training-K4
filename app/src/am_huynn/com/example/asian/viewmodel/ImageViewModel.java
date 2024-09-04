@@ -1,2 +1,7 @@
-package com.example.asian.viewmodel;public class ImageViewModel {
+package com.example.asian.viewmodel;
+
+import androidx.lifecycle.ViewModel;
+
+public class ImageViewModel extends ViewModel {
+
 }
