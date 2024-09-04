@@ -1,4 +1,4 @@
-package com.example.asian.retrofit
+package com.example.asian.services.remote
 
 import com.example.asian.model.Picture
 import retrofit2.Call

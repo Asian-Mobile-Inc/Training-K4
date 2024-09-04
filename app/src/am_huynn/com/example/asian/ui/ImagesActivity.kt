@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.asian.R
 import com.example.asian.model.Picture
-import com.example.asian.retrofit.ApiClient
-import com.example.asian.retrofit.ApiService
+import com.example.asian.services.remote.ApiClient
+import com.example.asian.services.remote.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
