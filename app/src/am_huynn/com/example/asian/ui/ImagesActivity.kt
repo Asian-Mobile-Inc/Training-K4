@@ -1,6 +1,12 @@
 package com.example.asian.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -22,11 +28,23 @@ class ImagesActivity : AppCompatActivity() {
         PicturesAdapter(onItemClick)
     }
 
+    private val pickImageResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
+            ActivityResultCallback<ActivityResult>() {
+                val uri = it.data?.data
+                if (uri != null) {
+                    viewModel.uploadImage(uri)
+                } else {
+                    Log.e("TAG", "no ")
+                }
+            })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         initControls()
         initObserver()
+        initListener()
     }
 
     private fun initObserver() {
@@ -44,4 +62,13 @@ class ImagesActivity : AppCompatActivity() {
     }
 
     private val onItemClick: (Picture) -> Unit = {}
+
+    private fun initListener() {
+        binding.fbPickImage.setOnClickListener {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            pickImageResultLauncher.launch(Intent.createChooser(intent, "pick image"))
+        }
+    }
 }
