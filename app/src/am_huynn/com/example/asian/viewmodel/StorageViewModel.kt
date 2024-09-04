@@ -16,15 +16,18 @@ import kotlinx.coroutines.launch
 
 class StorageViewModel(private val app: Application) : AndroidViewModel(app) {
     private val pictureRepository: PictureRepository = PictureRepository(app)
+
     private var _pictures = MutableLiveData<MutableList<Picture>>().apply {
         value = mutableListOf()
     }
+    val pictures: LiveData<MutableList<Picture>> = _pictures
+
     private var _listSelected = MutableLiveData<MutableList<Picture>>().apply {
         value = mutableListOf()
     }
-    private var _listFavorite = mutableListOf<Picture>()
     val listSelected = _listSelected
-    val pictures: LiveData<MutableList<Picture>> = _pictures
+
+    private var _listFavorite = mutableListOf<Picture>()
     private var pictureEdit: Picture? = null
     private var newName: String? = null
 
