@@ -32,7 +32,7 @@ class PicturesAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(picture: Picture) {
             with(binding) {
-                Glide.with(context).load(picture.url).into(ivPicture)
+                Glide.with(context).load(picture.url).placeholder(R.drawable.progress_animation).into(ivPicture)
                 btnFavorite.setOnClickListener { onFavorite(picture) }
                 if (picture.favorite) {
                     btnFavorite.setImageResource(R.drawable.ic_favorite)

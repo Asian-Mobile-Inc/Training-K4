@@ -15,6 +15,7 @@ import com.example.asian.R
 import com.example.asian.adapter.PagerImageAdapter
 import com.example.asian.constants.Constants
 import com.example.asian.databinding.ActivityImagesBinding
+import com.example.asian.utils.LoadingDialog
 import com.example.asian.viewmodel.ImagesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -30,6 +31,7 @@ class ImagesActivity : AppCompatActivity() {
     ) {
         val uri = it.data?.data
         if (uri != null) {
+            viewModel.dialogLoading.startLoadingDialog(this)
             viewModel.uploadImage(uri)
         } else {
             Toast.makeText(

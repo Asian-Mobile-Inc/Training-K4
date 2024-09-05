@@ -12,6 +12,7 @@ import com.example.asian.R
 import com.example.asian.constants.Constants
 import com.example.asian.model.Picture
 import com.example.asian.repository.ImageRepository
+import com.example.asian.utils.LoadingDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,6 +25,10 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
     private val imageRepository by lazy {
         ImageRepository(app)
     }
+
+    private val _isLoadingNetwork = MutableLiveData<Boolean>()
+
+    val isLoadingNetwork: LiveData<Boolean> = _isLoadingNetwork
 
     private val _pictures = MutableLiveData<MutableList<Picture>>()
 
@@ -41,10 +46,14 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     val localPictures: LiveData<MutableList<Picture>> = _localPictures
 
+    val dialogLoading = LoadingDialog(app)
+
     fun getAllPicture() = viewModelScope.launch(Dispatchers.IO) {
+        _isLoadingNetwork.postValue(true)
         val response = imageRepository.getImages()
         if (response.isSuccessful) {
             val pictures = response.body() ?: mutableListOf()
+            _isLoadingNetwork.postValue(false)
             _favoritePictures.value?.let {
                 _pictures.postValue(pictures.map { pic ->
                     if (it.contains(pic.copy(favorite = true))) {
@@ -185,6 +194,7 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                     ).show()
                 }
             }
+            dialogLoading.dismissDialog()
         }
     }
 

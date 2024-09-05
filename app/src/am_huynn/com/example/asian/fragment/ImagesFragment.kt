@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,7 +26,7 @@ class ImagesFragment(private val position: Int) : Fragment() {
     private val picturesAdapter by lazy {
         when (position) {
             0 -> PicturesAdapter(onItemClick, onFavorite, true)
-            else -> PicturesAdapter(onItemClick, onFavorite,false)
+            else -> PicturesAdapter(onItemClick, onFavorite, false)
         }
     }
 
@@ -50,6 +51,9 @@ class ImagesFragment(private val position: Int) : Fragment() {
         when (position) {
             0 -> {
                 viewModel.getAllPicture()
+                viewModel.isLoadingNetwork.observe(viewLifecycleOwner) {
+                    binding.pbProgressNetwork.isVisible = it
+                }
                 viewModel.pictures.observe(viewLifecycleOwner) {
                     picturesAdapter.setData(it)
                 }
