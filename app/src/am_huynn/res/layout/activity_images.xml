@@ -15,12 +15,18 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPictures"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tlTabImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvExerciseRetrofit" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpImages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvExerciseRetrofit" />
+        app:layout_constraintTop_toBottomOf="@id/tlTabImages" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbPickImage"

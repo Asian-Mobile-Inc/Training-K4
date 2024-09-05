@@ -23,7 +23,9 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
         ImageRepository(app)
     }
 
-    private val _pictures = MutableLiveData<MutableList<Picture>>()
+    private val _pictures = MutableLiveData<MutableList<Picture>>().apply {
+        getAllPicture()
+    }
 
     val pictures: LiveData<MutableList<Picture>> = _pictures
 

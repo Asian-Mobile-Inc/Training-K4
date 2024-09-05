@@ -8,17 +8,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.asian.R
-import com.example.asian.adapter.GridSpacingItemDecoration
-import com.example.asian.adapter.PicturesAdapter
 import com.example.asian.constants.Constants
 import com.example.asian.databinding.ActivityImagesBinding
-import com.example.asian.model.Picture
 import com.example.asian.viewmodel.ImagesViewModel
 
 class ImagesActivity : AppCompatActivity() {
@@ -27,10 +22,6 @@ class ImagesActivity : AppCompatActivity() {
     }
 
     private val viewModel: ImagesViewModel by viewModels()
-
-    private val picturesAdapter by lazy {
-        PicturesAdapter(onItemClick, onItemDelete)
-    }
 
     private val pickImageResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -48,38 +39,7 @@ class ImagesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        initControls()
-        initObserver()
         initListener()
-    }
-
-    private fun initObserver() {
-        viewModel.getAllPicture()
-        viewModel.pictures.observe(this) {
-            picturesAdapter.setData(it)
-        }
-    }
-
-    private fun initControls() {
-        binding.rvPictures.apply {
-            adapter = picturesAdapter
-            layoutManager = GridLayoutManager(this@ImagesActivity, 3)
-            addItemDecoration(GridSpacingItemDecoration(14))
-            itemAnimator = null
-        }
-    }
-
-    private val onItemClick: (Picture) -> Unit = {}
-
-    private val onItemDelete: (Picture) -> Unit = {
-        val dialogBuilder = AlertDialog.Builder(this)
-        with(dialogBuilder) {
-            setMessage(resources.getText(R.string.do_you_want_delete_image))
-            setPositiveButton(resources.getText(R.string.yes)) { _, _ ->
-                viewModel.deleteImage(it)
-            }
-            setNegativeButton(resources.getText(R.string.no)) { _, _ -> }
-        }.create().show()
     }
 
     private fun initListener() {
