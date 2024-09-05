@@ -29,23 +29,31 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     val pictures: LiveData<MutableList<Picture>> = _pictures
 
-    private val _favoritePictures = mutableListOf<Picture>().apply {
-        viewModelScope.launch {
-            addAll(imageRepository.getFavoritePictures())
+    private val _favoritePictures = MutableLiveData<MutableList<Picture>>().apply {
+        viewModelScope.launch(Dispatchers.IO) {
+            postValue(imageRepository.getFavoritePictures())
         }
     }
+
+    val favoritePictures: LiveData<MutableList<Picture>> = _favoritePictures
+
+    private val _localPictures = MutableLiveData<MutableList<Picture>>()
+
+    val localPictures: LiveData<MutableList<Picture>> = _localPictures
 
     fun getAllPicture() = viewModelScope.launch(Dispatchers.IO) {
         val response = imageRepository.getImages()
         if (response.isSuccessful) {
             val pictures = response.body() ?: mutableListOf()
-            _pictures.postValue(pictures.map { pic ->
-                if (_favoritePictures.contains(pic)) {
-                    pic.copy(favorite = true)
-                } else {
-                    pic
-                }
-            }.toMutableList())
+            _favoritePictures.value?.let {
+                _pictures.postValue(pictures.map { pic ->
+                    if (it.contains(pic.copy(favorite = true))) {
+                        pic.copy(favorite = true)
+                    } else {
+                        pic
+                    }
+                }.toMutableList())
+            }
         } else {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
@@ -57,11 +65,85 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun favoritePicture(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
+    fun getLocalPictures() {
+        val pictures = imageRepository.loadLocalPictures()
+        _favoritePictures.value?.let {
+            _localPictures.postValue(pictures.map { pic ->
+                if (it.contains(pic.copy(favorite = true))) {
+                    pic.copy(favorite = true)
+                } else {
+                    pic
+                }
+            }.toMutableList())
+        }
+    }
+
+    fun favoriteNetworkPicture(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
         if (picture.favorite) {
             imageRepository.deleteFavoritePicture(picture)
+            favoritePictures.value?.let {
+                it.remove(picture)
+                _favoritePictures.postValue(it)
+            }
         } else {
-            imageRepository.insertFavoritePicture(picture)
+            imageRepository.insertFavoritePicture(picture.copy(favorite = true))
+            favoritePictures.value?.let {
+                it.add(picture.copy(favorite = true))
+                _favoritePictures.postValue(it)
+            }
+        }
+
+        pictures.value?.let {
+            _pictures.postValue(it.map { pic ->
+                if (pic.imageId == picture.imageId) {
+                    pic.copy(favorite = !(picture.favorite))
+                } else {
+                    pic
+                }
+            }.toMutableList())
+        }
+    }
+
+    fun favoriteLocalPicture(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
+        if (picture.favorite) {
+            imageRepository.deleteFavoritePicture(picture)
+            favoritePictures.value?.let {
+                it.remove(picture)
+                _favoritePictures.postValue(it)
+            }
+        } else {
+            imageRepository.insertFavoritePicture(picture.copy(favorite = true))
+            favoritePictures.value?.let {
+                it.add(picture.copy(favorite = true))
+                _favoritePictures.postValue(it)
+            }
+        }
+
+        localPictures.value?.let {
+            _localPictures.postValue(it.map { pic ->
+                if (pic.imageId == picture.imageId) {
+                    pic.copy(favorite = !(picture.favorite))
+                } else {
+                    pic
+                }
+            }.toMutableList())
+        }
+    }
+
+    fun unFavoritePicture(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
+        imageRepository.deleteFavoritePicture(picture)
+        favoritePictures.value?.let {
+            it.remove(picture)
+            _favoritePictures.postValue(it)
+        }
+        localPictures.value?.let {
+            _localPictures.postValue(it.map { pic ->
+                if (pic.imageId == picture.imageId) {
+                    pic.copy(favorite = !(picture.favorite))
+                } else {
+                    pic
+                }
+            }.toMutableList())
         }
 
         pictures.value?.let {

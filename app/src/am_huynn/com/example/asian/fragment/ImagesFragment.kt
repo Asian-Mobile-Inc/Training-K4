@@ -51,11 +51,15 @@ class ImagesFragment(private val position: Int) : Fragment() {
                     picturesAdapter.setData(it)
                 }
             }
+            1 -> {
+                viewModel.getLocalPictures()
+                viewModel.localPictures.observe(viewLifecycleOwner) {
+                    picturesAdapter.setData(it)
+                }
+            }
             2 -> {
-                viewModel.pictures.observe(viewLifecycleOwner) {
-                    picturesAdapter.setData(it.filter { e ->
-                        e.favorite
-                    }.toMutableList())
+                viewModel.favoritePictures.observe(viewLifecycleOwner) {
+                    picturesAdapter.setData(it)
                 }
             }
         }
@@ -64,7 +68,11 @@ class ImagesFragment(private val position: Int) : Fragment() {
     private val onItemClick: (Picture) -> Unit = {}
 
     private val onFavorite: (Picture) -> Unit = {
-        viewModel.favoritePicture(it)
+        when(position) {
+            0 -> viewModel.favoriteNetworkPicture(it)
+            1 -> viewModel.favoriteLocalPicture(it)
+            2 -> viewModel.unFavoritePicture(it)
+        }
     }
 
     private val onItemDelete: (Picture) -> Unit = {
