@@ -20,6 +20,7 @@ import com.example.asian.databinding.ActivityRetrofitBinding
 import com.example.asian.databinding.DialogBottomSelectImageBinding
 import com.example.asian.retrofit.adapter.TabName
 import com.example.asian.retrofit.adapter.ViewPagerRetrofitAdapter
+import com.example.asian.retrofit.broadcast.NetworkConnection
 import com.example.asian.retrofit.utils.Constant
 import com.example.asian.retrofit.viewmodel.RetrofitViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -69,6 +70,14 @@ class RetrofitActivity : AppCompatActivity() {
         mRetrofitViewModel.statusRetrofitCallback.observe(this) {
             it?.let { sub ->
                 handlerCallbackRetrofit(sub)
+            }
+        }
+        val networkConnection = NetworkConnection(applicationContext)
+        networkConnection.observe(this) {
+            if (it) {
+                Toast.makeText(applicationContext, "True", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(applicationContext, "False", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -193,22 +202,8 @@ class RetrofitActivity : AppCompatActivity() {
         }
     }
 
-    private fun hasPermissions(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_MEDIA_IMAGES
-            ) == PackageManager.PERMISSION_GRANTED
-        } else {
-            (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED)
-        }
+    private fun hasPermissions() = mPermissionNameList.all {
+        ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(
@@ -228,9 +223,10 @@ class RetrofitActivity : AppCompatActivity() {
     }
 
     private fun setupTabLayout() {
-        val viewPagerAdapter = ViewPagerRetrofitAdapter(this)
-        mBinding.vpStorage.offscreenPageLimit = 1
-        mBinding.vpStorage.adapter = viewPagerAdapter
+        mBinding.vpStorage.apply {
+            mBinding.vpStorage.offscreenPageLimit = 1
+            mBinding.vpStorage.adapter = ViewPagerRetrofitAdapter(this@RetrofitActivity)
+        }
         TabLayoutMediator(
             mBinding.tlStorage, mBinding.vpStorage
         ) { tab: TabLayout.Tab, position: Int ->

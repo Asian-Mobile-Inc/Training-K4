@@ -86,7 +86,7 @@ class ImageAdapter(private var mItemClickListener: ItemClickListener, private va
             itemClickListener: ItemClickListener,
         ) {
             with(binding) {
-                if (tab != 0) {
+                if (tab != TabName.RETROFIT.position) {
                     btnDownload.visibility = View.GONE
                 } else {
                     ivStorage.setOnClickListener {

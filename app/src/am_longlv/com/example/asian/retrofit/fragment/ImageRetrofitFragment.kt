@@ -2,7 +2,6 @@ package com.example.asian.retrofit.fragment
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.example.asian.R
 import com.example.asian.databinding.DialogConfirmBinding
 import com.example.asian.databinding.FragmentImageRetrofitBinding
 import com.example.asian.retrofit.adapter.ImageAdapter
+import com.example.asian.retrofit.adapter.TabName
 import com.example.asian.retrofit.model.ImageModel
 import com.example.asian.retrofit.utils.Constant
 import com.example.asian.retrofit.viewmodel.RetrofitViewModel
@@ -23,12 +23,12 @@ import com.example.asian.retrofit.viewmodel.RetrofitViewModel
 private const val KEY_BUNDLE = "tab"
 
 class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
-    private var mTab = 0
+    private var mTab = TabName.RETROFIT.position
     private var mIsLoading = false
     private val mBinding: FragmentImageRetrofitBinding by lazy {
         FragmentImageRetrofitBinding.inflate(layoutInflater)
     }
-    private val mImageAdapter: ImageAdapter by lazy {
+    private val adapter: ImageAdapter by lazy {
         ImageAdapter(this, mTab)
     }
     private val mViewModel: RetrofitViewModel by activityViewModels()
@@ -36,7 +36,7 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            mTab = it.getInt(KEY_BUNDLE, 0)
+            mTab = it.getInt(KEY_BUNDLE, TabName.RETROFIT.position)
         }
     }
 
@@ -60,18 +60,20 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     }
 
     private fun setupRecyclerView() {
-        mBinding.rvImageRetrofit.layoutManager = GridLayoutManager(context, 3)
-        mBinding.rvImageRetrofit.adapter = mImageAdapter
-        if (mTab == 0) {
+        mBinding.rvImageRetrofit.apply {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter = this@ImageRetrofitFragment.adapter
+        }
+        if (mTab == TabName.RETROFIT.position) {
             lazyLoad()
         }
     }
 
     private fun initObserver() {
         when (mTab) {
-            0 -> {
+            TabName.RETROFIT.position -> {
                 mViewModel.listImage.observe(viewLifecycleOwner) {
-                    mImageAdapter.submitList(it.toMutableList())
+                    adapter.submitList(it.toMutableList())
                 }
                 mViewModel.statusRetrofitCallback.observe(this) {
                     it?.let { sub ->
@@ -82,15 +84,15 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
                 }
             }
 
-            1 -> {
+            TabName.FAVOURITE.position -> {
                 mViewModel.listLocal.observe(viewLifecycleOwner) {
-                    mImageAdapter.submitList(it.toMutableList())
+                    adapter.submitList(it.toMutableList())
                 }
             }
 
             else -> {
                 mViewModel.listFavourite.observe(viewLifecycleOwner) {
-                    mImageAdapter.submitList(it.toMutableList())
+                    adapter.submitList(it.toMutableList())
                 }
             }
         }

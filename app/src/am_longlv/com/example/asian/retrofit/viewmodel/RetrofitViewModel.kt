@@ -57,7 +57,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
         mListImage.value = mutableListOf()
         mListFavourite.value = mutableListOf()
         mListLocal.value = mutableListOf()
-        mStatusRetrofitCallback.value = -1
+        mStatusRetrofitCallback.value = Constant.STATUS_CODE_OK
     }
 
     internal fun uploadImage(uri: Uri, context: Context) {

@@ -15,4 +15,7 @@ object Constant {
     internal const val STATUS_CODE_EXISTS_IMAGE_API = -5
     internal const val CONVERT_TIME_TO_CREATED_AT = "yyyy-MM-dd'T'HH:mm:ss'+0000'"
     internal const val KEY_GMT_DEFAULT = "GMT"
+    internal const val KEY_INTERNET_CHANGE = "isInternetChange"
+    internal const val ACTION_INTERNET_CHANGE =
+        "com.example.asian.retrofit.broadcast.InternetBroadcast"
 }
