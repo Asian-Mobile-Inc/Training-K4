@@ -56,6 +56,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     showTextDialog(mContext.getString(R.string.add_item), "", position, ACT_ADD);
                 }
                 return true;
+                //TODO move to Act
             });
             popupMenu.show();
         });
@@ -104,6 +105,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         mListItem.addAll(newList);
         diffResult.dispatchUpdatesTo(this);
     }
+    // TODO move func to Act
 
     @Override
     public int getItemCount() {

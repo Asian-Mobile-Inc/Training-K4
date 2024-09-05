@@ -19,9 +19,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.asian.R;
 import com.example.asian.adapterissue5.adapter.ViewPager2Adapter;
-import com.example.asian.adapterissue5.fragment.TabOneActivity;
-import com.example.asian.adapterissue5.fragment.TabThreeActivity;
-import com.example.asian.adapterissue5.fragment.TabTwoActivity;
+import com.example.asian.adapterissue5.fragment.FragmentOne;
+import com.example.asian.adapterissue5.fragment.FragmentThree;
+import com.example.asian.adapterissue5.fragment.FragmentTwo;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -45,9 +46,9 @@ public class MainActivityIssueFive extends AppCompatActivity {
 
         // Initialize the ViewPager2 adapter and set it to the ViewPager2
         mViewPager2Adapter = new ViewPager2Adapter(getSupportFragmentManager(), getLifecycle());
-        mViewPager2Adapter.addFragment(new TabOneActivity(createData(getString(R.string.st_frg))), getString(R.string.st_tab));
-        mViewPager2Adapter.addFragment(new TabTwoActivity(createData(getString(R.string.nd_frg))), getString(R.string.nd_tab));
-        mViewPager2Adapter.addFragment(new TabThreeActivity(createData(getString(R.string.rd_frg))), getString(R.string.rd_tab));
+        mViewPager2Adapter.addFragment(new FragmentOne(createData(getString(R.string.st_frg))), getString(R.string.st_tab));
+        mViewPager2Adapter.addFragment(new FragmentTwo(createData(getString(R.string.nd_frg))), getString(R.string.nd_tab));
+        mViewPager2Adapter.addFragment(new FragmentThree(createData(getString(R.string.rd_frg))), getString(R.string.rd_tab));
         mViewPager2.setAdapter(mViewPager2Adapter);
 
         // Attach the TabLayout with ViewPager2 using TabLayoutMediator
@@ -66,23 +67,23 @@ public class MainActivityIssueFive extends AppCompatActivity {
 
     private void handleAction(String value, ActionMenu caseAction) {
         Fragment currentFragment = getCurrentFragment();
-        if (currentFragment instanceof TabOneActivity) {
+        if (currentFragment instanceof FragmentOne) {
             if (caseAction == ACT_ADD) {
-                ((TabOneActivity) currentFragment).addDataToRecyclerView(value);
+                ((FragmentOne) currentFragment).addDataToRecyclerView(value);
             } else {
-                ((TabOneActivity) currentFragment).delDataToRecyclerView(value);
+                ((FragmentOne) currentFragment).delDataToRecyclerView(value);
             }
-        } else if (currentFragment instanceof TabTwoActivity) {
+        } else if (currentFragment instanceof FragmentTwo) {
             if (caseAction == ACT_ADD) {
-                ((TabTwoActivity) currentFragment).addDataToRecyclerView(value);
+                ((FragmentTwo) currentFragment).addDataToRecyclerView(value);
             } else {
-                ((TabTwoActivity) currentFragment).delDataToRecyclerView(value);
+                ((FragmentTwo) currentFragment).delDataToRecyclerView(value);
             }
-        } else if (currentFragment instanceof TabThreeActivity) {
+        } else if (currentFragment instanceof FragmentThree) {
             if (caseAction == ACT_ADD) {
-                ((TabThreeActivity) currentFragment).addDataToRecyclerView(value);
+                ((FragmentThree) currentFragment).addDataToRecyclerView(value);
             } else {
-                ((TabThreeActivity) currentFragment).delDataToRecyclerView(value);
+                ((FragmentThree) currentFragment).delDataToRecyclerView(value);
             }
         }
     }

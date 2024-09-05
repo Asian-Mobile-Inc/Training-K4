@@ -15,14 +15,14 @@ import com.example.asian.adapterissue5.adapter.CustomAdapter;
 
 import java.util.ArrayList;
 
-public class TabThreeActivity extends Fragment {
+public class FragmentTwo extends Fragment {
 
     private RecyclerView mRecyclerView;
     private CustomAdapter mCustomAdapter;
     private final ArrayList<String> mListData;
     private View mRootView;
 
-    public TabThreeActivity(ArrayList<String> mListData) {
+    public FragmentTwo(ArrayList<String> mListData) {
         this.mListData = mListData;
     }
 
@@ -46,6 +46,7 @@ public class TabThreeActivity extends Fragment {
     }
 
     public void addDataToRecyclerView(String newData) {
+
         mCustomAdapter.addItem(newData);
     }
 
