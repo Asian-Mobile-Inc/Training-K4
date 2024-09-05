@@ -23,7 +23,10 @@ class ImagesFragment(private val position: Int) : Fragment() {
     private val viewModel: ImagesViewModel by activityViewModels()
 
     private val picturesAdapter by lazy {
-        PicturesAdapter(onItemClick, onFavorite)
+        when (position) {
+            0 -> PicturesAdapter(onItemClick, onFavorite, true)
+            else -> PicturesAdapter(onItemClick, onFavorite,false)
+        }
     }
 
     override fun onCreateView(
@@ -68,7 +71,7 @@ class ImagesFragment(private val position: Int) : Fragment() {
     private val onItemClick: (Picture) -> Unit = {}
 
     private val onFavorite: (Picture) -> Unit = {
-        when(position) {
+        when (position) {
             0 -> viewModel.favoriteNetworkPicture(it)
             1 -> viewModel.favoriteLocalPicture(it)
             2 -> viewModel.unFavoritePicture(it)

@@ -76,5 +76,6 @@
     <string name="all">All</string>
     <string name="local">Local</string>
     <string name="favorite">Favorite</string>
+    <string name="download">Download</string>
     <string name="error_param">Error code %d: %s</string>
 </resources>
