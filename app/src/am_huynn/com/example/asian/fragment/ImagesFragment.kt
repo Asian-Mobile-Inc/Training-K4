@@ -56,6 +56,7 @@ class ImagesFragment(private val position: Int) : Fragment() {
                 }
                 viewModel.pictures.observe(viewLifecycleOwner) {
                     picturesAdapter.setData(it)
+                    binding.rvPictures.scrollToPosition(0)
                 }
             }
             1 -> {
