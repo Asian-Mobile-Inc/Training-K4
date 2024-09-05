@@ -3,7 +3,6 @@ package com.example.asian.viewmodel
 import RealPathUtil
 import android.app.Application
 import android.net.Uri
-import android.system.Os.remove
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
