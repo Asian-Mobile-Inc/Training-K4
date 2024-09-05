@@ -12,9 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.asian.R
+import com.example.asian.adapter.PagerImageAdapter
 import com.example.asian.constants.Constants
 import com.example.asian.databinding.ActivityImagesBinding
 import com.example.asian.viewmodel.ImagesViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 
 class ImagesActivity : AppCompatActivity() {
     private val binding: ActivityImagesBinding by lazy {
@@ -39,7 +41,20 @@ class ImagesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        initControls()
         initListener()
+    }
+
+    private fun initControls() {
+        val pagerImageAdapter = PagerImageAdapter(this)
+        binding.vpImages.adapter = pagerImageAdapter
+        TabLayoutMediator(binding.tlTabImages, binding.vpImages) { tab, position ->
+            when (position) {
+                0 -> tab.text = resources.getString(R.string.all)
+                1 -> tab.text = resources.getString(R.string.local)
+                2 -> tab.text = resources.getString(R.string.favorite)
+            }
+        }.attach()
     }
 
     private fun initListener() {

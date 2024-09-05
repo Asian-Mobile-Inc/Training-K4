@@ -73,4 +73,7 @@
     <string name="do_you_want_delete_image">Do you want delete image</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="all">All</string>
+    <string name="local">Local</string>
+    <string name="favorite">Favorite</string>
 </resources>

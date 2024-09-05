@@ -15,7 +15,7 @@ import com.example.asian.databinding.FragmentImagesBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.ImagesViewModel
 
-class ImagesFragment : Fragment() {
+class ImagesFragment(private val position: Int) : Fragment() {
     private val binding: FragmentImagesBinding by lazy {
         FragmentImagesBinding.inflate(layoutInflater)
     }
@@ -44,8 +44,13 @@ class ImagesFragment : Fragment() {
     }
 
     private fun initObserver() {
-        viewModel.pictures.observe(viewLifecycleOwner) {
-            picturesAdapter.setData(it)
+        when (position) {
+            0 -> {
+                viewModel.getAllPicture()
+                viewModel.pictures.observe(viewLifecycleOwner) {
+                    picturesAdapter.setData(it)
+                }
+            }
         }
     }
 
