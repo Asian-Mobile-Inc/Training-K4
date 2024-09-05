@@ -47,16 +47,20 @@ class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener
                         mBinding.edtAge.text.toString().toInt()
                     )
                 )
-                mBinding.edtAge.text = null
-                mBinding.edtName.text = null
-                mBinding.rvUser.scrollToPosition(mUserViewModel.getListSize() - 1)
+                with(mBinding) {
+                    edtAge.text = null
+                    edtName.text = null
+                    rvUser.scrollToPosition(mUserViewModel.getListSize() - 1)
+                }
             }
         }
-        mBinding.btnDeleteAll.setOnClickListener {
-            showDialogDelete(null)
-        }
-        mBinding.btnShowAll.setOnClickListener {
-            mUserViewModel.getAllData()
+        with(mBinding) {
+            btnDeleteAll.setOnClickListener {
+                showDialogDelete(null)
+            }
+            btnShowAll.setOnClickListener {
+                mUserViewModel.getAllData()
+            }
         }
     }
 
@@ -67,27 +71,31 @@ class IssueEleventhActivity : AppCompatActivity(), UserAdapter.ItemClickListener
     }
 
     private fun setupRecyclerView() {
-        mBinding.rvUser.layoutManager = LinearLayoutManager(this)
         mUserAdapter = UserAdapter(this)
-        mBinding.rvUser.adapter = mUserAdapter
+        mBinding.rvUser.apply {
+            layoutManager = LinearLayoutManager(this@IssueEleventhActivity)
+            adapter = mUserAdapter
+        }
     }
 
     private fun isValidate(): Boolean {
-        if (mBinding.edtName.text.isEmpty()) {
-            mBinding.edtName.error = getString(R.string.name_invalid)
+        with(mBinding) {
+            if (edtName.text.isEmpty()) {
+                edtName.error = getString(R.string.name_invalid)
+            }
+            if (edtAge.text.isEmpty()) {
+                edtAge.error = getString(R.string.age_invalid)
+            }
+            if (edtAge.text.toString().length > MAX_LENGTH_AGE || edtAge.text.toString()
+                    .toInt() > MAX_AGE
+            ) {
+                edtAge.error = getString(R.string.age_invalid)
+            }
+            return !(edtName.text.isEmpty() ||
+                    edtAge.text.isEmpty() ||
+                    edtAge.text.toString().length > MAX_LENGTH_AGE ||
+                    edtAge.text.toString().toInt() > MAX_AGE)
         }
-        if (mBinding.edtAge.text.isEmpty()) {
-            mBinding.edtAge.error = getString(R.string.age_invalid)
-        }
-        if (mBinding.edtAge.text.toString().length > MAX_LENGTH_AGE || mBinding.edtAge.text.toString()
-                .toInt() > MAX_AGE
-        ) {
-            mBinding.edtAge.error = getString(R.string.age_invalid)
-        }
-        return !(mBinding.edtName.text.isEmpty() ||
-                mBinding.edtAge.text.isEmpty() ||
-                mBinding.edtAge.text.toString().length > MAX_LENGTH_AGE ||
-                mBinding.edtAge.text.toString().toInt() > MAX_AGE)
     }
 
     override fun onDeleteClick(user: UserInfo) {

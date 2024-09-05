@@ -13,22 +13,22 @@ import kotlinx.coroutines.launch
 class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val mUserRepository: UserRepository = UserRepository(application)
 
-    private var mAllUsers = MutableLiveData<MutableList<UserInfo>>()
-    internal val allUsers: LiveData<MutableList<UserInfo>> = mAllUsers
+    private var _allUsers = MutableLiveData<MutableList<UserInfo>>()
+    internal val allUsers: LiveData<MutableList<UserInfo>> = _allUsers
 
     internal fun getAllData() {
         viewModelScope.launch(Dispatchers.IO) {
-            mAllUsers.postValue(mUserRepository.getAllUser())
+            _allUsers.postValue(mUserRepository.getAllUser())
         }
     }
 
     fun insertUser(userInfo: UserInfo) {
         viewModelScope.launch(Dispatchers.IO) {
             val newUserInfo = mUserRepository.insertUser(userInfo)
-            mAllUsers.value?.let {
+            _allUsers.value?.let {
                 userInfo.userId = newUserInfo.toString().toInt()
                 it.add(userInfo)
-                mAllUsers.postValue(it)
+                _allUsers.postValue(it)
             }
         }
     }
@@ -36,28 +36,28 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun updateUser(userInfo: UserInfo) {
         viewModelScope.launch(Dispatchers.IO) {
             mUserRepository.updateUser(userInfo)
-            mAllUsers.value?.let {
+            _allUsers.value?.let {
                 val index = it.indexOfFirst { itChild ->
                     itChild.userId == userInfo.userId
                 }
                 if (index != -1) {
                     it[index] = userInfo
                 }
-                mAllUsers.postValue(it)
+                _allUsers.postValue(it)
             }
         }
     }
 
     fun getListSize(): Int {
-        return mAllUsers.value?.size ?: 0
+        return _allUsers.value?.size ?: 0
     }
 
     fun deleteUser(userInfo: UserInfo) {
         viewModelScope.launch(Dispatchers.IO) {
             mUserRepository.deleteUser(userInfo)
-            mAllUsers.value?.let {
+            _allUsers.value?.let {
                 it.remove(userInfo)
-                mAllUsers.postValue(it)
+                _allUsers.postValue(it)
             }
         }
     }
@@ -65,9 +65,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteAllUser() {
         viewModelScope.launch(Dispatchers.IO) {
             mUserRepository.deleteAllUser()
-            mAllUsers.value?.let {
+            _allUsers.value?.let {
                 it.clear()
-                mAllUsers.postValue(it)
+                _allUsers.postValue(it)
             }
         }
     }

@@ -38,14 +38,16 @@ class UserAdapter(private var mItemClickListener: ItemClickListener) :
     class ViewHolder(private var binding: ItemListUserInfoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: UserInfo, itemClickListener: ItemClickListener) {
-            binding.tvTitleUID.text = user.userId.toString()
-            binding.tvTitleUN.text = user.userName
-            binding.tvTitleUA.text = user.userAge.toString()
-            binding.btnDelete.setOnClickListener {
-                itemClickListener.onDeleteClick(user)
-            }
-            binding.btnEdit.setOnClickListener {
-                itemClickListener.onEditClick(user)
+            with(binding) {
+                tvTitleUID.text = user.userId.toString()
+                tvTitleUN.text = user.userName
+                tvTitleUA.text = user.userAge.toString()
+                btnDelete.setOnClickListener {
+                    itemClickListener.onDeleteClick(user)
+                }
+                btnEdit.setOnClickListener {
+                    itemClickListener.onEditClick(user)
+                }
             }
         }
     }
