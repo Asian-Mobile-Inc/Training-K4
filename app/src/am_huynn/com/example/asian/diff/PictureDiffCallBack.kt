@@ -16,6 +16,6 @@ class PictureDiffCallBack(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldUser = oldList[oldItemPosition]
         val newUser = newList[newItemPosition]
-        return oldUser.permalinkUrl == newUser.permalinkUrl && oldUser.url == newUser.url && oldUser.type == newUser.type && oldUser.thumb_url == newUser.thumb_url && oldUser.created_at == newUser.created_at
+        return oldUser.permalinkUrl == newUser.permalinkUrl && oldUser.url == newUser.url && oldUser.type == newUser.type && oldUser.thumb_url == newUser.thumb_url && oldUser.created_at == newUser.created_at && oldUser.favorite == newUser.favorite
     }
 }

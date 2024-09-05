@@ -29,11 +29,23 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     val pictures: LiveData<MutableList<Picture>> = _pictures
 
+    private val _favoritePictures = mutableListOf<Picture>().apply {
+        viewModelScope.launch {
+            addAll(imageRepository.getFavoritePictures())
+        }
+    }
+
     fun getAllPicture() = viewModelScope.launch(Dispatchers.IO) {
         val response = imageRepository.getImages()
         if (response.isSuccessful) {
             val pictures = response.body() ?: mutableListOf()
-            _pictures.postValue(pictures)
+            _pictures.postValue(pictures.map { pic ->
+                if (_favoritePictures.contains(pic)) {
+                    pic.copy(favorite = true)
+                } else {
+                    pic
+                }
+            }.toMutableList())
         } else {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
@@ -42,6 +54,24 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+
+    fun favoritePicture(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
+        if (picture.favorite) {
+            imageRepository.deleteFavoritePicture(picture)
+        } else {
+            imageRepository.insertFavoritePicture(picture)
+        }
+
+        pictures.value?.let {
+            _pictures.postValue(it.map { pic ->
+                if (pic.imageId == picture.imageId) {
+                    pic.copy(favorite = !(picture.favorite))
+                } else {
+                    pic
+                }
+            }.toMutableList())
         }
     }
 

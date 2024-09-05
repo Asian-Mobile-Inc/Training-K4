@@ -23,7 +23,7 @@ class ImagesFragment(private val position: Int) : Fragment() {
     private val viewModel: ImagesViewModel by activityViewModels()
 
     private val picturesAdapter by lazy {
-        PicturesAdapter(onItemClick, onItemDelete)
+        PicturesAdapter(onItemClick, onFavorite)
     }
 
     override fun onCreateView(
@@ -51,10 +51,21 @@ class ImagesFragment(private val position: Int) : Fragment() {
                     picturesAdapter.setData(it)
                 }
             }
+            2 -> {
+                viewModel.pictures.observe(viewLifecycleOwner) {
+                    picturesAdapter.setData(it.filter { e ->
+                        e.favorite
+                    }.toMutableList())
+                }
+            }
         }
     }
 
     private val onItemClick: (Picture) -> Unit = {}
+
+    private val onFavorite: (Picture) -> Unit = {
+        viewModel.favoritePicture(it)
+    }
 
     private val onItemDelete: (Picture) -> Unit = {
         context?.let { context ->

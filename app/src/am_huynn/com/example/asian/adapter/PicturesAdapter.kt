@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.asian.R
 import com.example.asian.databinding.ItemGridImageBinding
 import com.example.asian.diff.PictureDiffCallBack
 import com.example.asian.model.Picture
 
 class PicturesAdapter(
-    private val onClick: (Picture) -> Unit,
-    private val onDelete: (Picture) -> Unit
+    private val onClick: (Picture) -> Unit, private val onFavorite: (Picture) -> Unit
 ) : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder>() {
     private val pictures: MutableList<Picture> = mutableListOf()
 
@@ -30,7 +30,12 @@ class PicturesAdapter(
         fun bind(picture: Picture) {
             with(binding) {
                 Glide.with(context).load(picture.url).into(ivPicture)
-                btnDeleteImage.setOnClickListener { onDelete(picture) }
+                btnFavorite.setOnClickListener { onFavorite(picture) }
+                if (picture.favorite) {
+                    btnFavorite.setImageResource(R.drawable.ic_favorite)
+                } else {
+                    btnFavorite.setImageResource(R.drawable.ic_un_favorite)
+                }
                 root.setOnClickListener { onClick(picture) }
             }
         }
