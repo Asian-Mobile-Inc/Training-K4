@@ -56,39 +56,43 @@ class UserAdapter(private var mItemClickListener: ItemClickListener) :
     class ViewHolder(private var binding: ItemListUserInfoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: UserInfo, itemClickListener: ItemClickListener) {
-            binding.tvTitleUID.text = user.userId.toString()
-            binding.tvTitleUN.text = user.userName
-            binding.tvTitleUA.text = user.userAge.toString()
-            if (user.userFavourite) {
-                binding.btnFavourite.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
-            } else {
-                binding.btnFavourite.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
-            }
-            binding.btnDelete.setOnClickListener {
-                itemClickListener.onDeleteClick(user)
-            }
-            binding.btnEdit.setOnClickListener {
-                itemClickListener.onEditClick(user)
-            }
-            binding.btnFavourite.setOnClickListener {
-                itemClickListener.onFavouriteClick(user)
+            with(binding) {
+                tvTitleUID.text = user.userId.toString()
+                tvTitleUN.text = user.userName
+                tvTitleUA.text = user.userAge.toString()
+                if (user.userFavourite) {
+                    btnFavourite.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+                } else {
+                    btnFavourite.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
+                }
+                btnDelete.setOnClickListener {
+                    itemClickListener.onDeleteClick(user)
+                }
+                btnEdit.setOnClickListener {
+                    itemClickListener.onEditClick(user)
+                }
+                btnFavourite.setOnClickListener {
+                    itemClickListener.onFavouriteClick(user)
+                }
             }
         }
 
         fun bindFavourite(user: UserInfo, itemClickListener: ItemClickListener) {
-            if (user.userFavourite) {
-                binding.btnFavourite.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
-            } else {
-                binding.btnFavourite.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
-            }
-            binding.btnDelete.setOnClickListener {
-                itemClickListener.onDeleteClick(user)
-            }
-            binding.btnEdit.setOnClickListener {
-                itemClickListener.onEditClick(user)
-            }
-            binding.btnFavourite.setOnClickListener {
-                itemClickListener.onFavouriteClick(user)
+            with(binding) {
+                if (user.userFavourite) {
+                    btnFavourite.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+                } else {
+                    btnFavourite.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
+                }
+                btnDelete.setOnClickListener {
+                    itemClickListener.onDeleteClick(user)
+                }
+                btnEdit.setOnClickListener {
+                    itemClickListener.onEditClick(user)
+                }
+                btnFavourite.setOnClickListener {
+                    itemClickListener.onFavouriteClick(user)
+                }
             }
         }
     }

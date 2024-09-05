@@ -57,9 +57,11 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
     }
 
     private fun setupRecyclerView() {
-        mBinding.rvUser.layoutManager = LinearLayoutManager(context)
         mUserAdapter = UserAdapter(this)
-        mBinding.rvUser.adapter = mUserAdapter
+        mBinding.rvUser.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = mUserAdapter
+        }
     }
 
     private fun initData() {
@@ -104,31 +106,34 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
 
     private fun showDialogDelete(user: UserInfo?) {
         activity?.let {
-            val dialog = Dialog(it)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setContentView(R.layout.dialog_confirm)
-            if (dialog.window != null) {
-                dialog.window!!.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+            val dialog = Dialog(it).apply {
+                requestWindowFeature(Window.FEATURE_NO_TITLE)
+                setContentView(R.layout.dialog_confirm)
+                if (window != null) {
+                    window!!.setLayout(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                }
             }
             val dialogBinding: DialogConfirmBinding =
                 DialogConfirmBinding.inflate(dialog.layoutInflater)
             dialog.setContentView(dialogBinding.root)
-            if (user == null) {
-                dialogBinding.tvDeleteThisItem.text = getString(R.string.delete_all_item)
-            }
-            dialogBinding.btnCancelDelete.setOnClickListener {
-                dialog.dismiss()
-            }
-            dialogBinding.btnConfirmDelete.setOnClickListener {
-                if (user != null) {
-                    mUserViewModel.deleteUser(user)
-                } else {
-                    mUserViewModel.deleteAllUser()
+            with(dialogBinding) {
+                if (user == null) {
+                    tvDeleteThisItem.text = getString(R.string.delete_all_item)
                 }
-                dialog.dismiss()
+                btnCancelDelete.setOnClickListener {
+                    dialog.dismiss()
+                }
+                btnConfirmDelete.setOnClickListener {
+                    if (user != null) {
+                        mUserViewModel.deleteUser(user)
+                    } else {
+                        mUserViewModel.deleteAllUser()
+                    }
+                    dialog.dismiss()
+                }
             }
             dialog.show()
         }
@@ -136,45 +141,48 @@ class UserInfoFragment : Fragment(), UserAdapter.ItemClickListener {
 
     private fun showDialogEdit(user: UserInfo) {
         activity?.let {
-            val dialog = Dialog(it)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setContentView(R.layout.dialog_edit_name_age)
-            dialog.window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+            val dialog = Dialog(it).apply {
+                requestWindowFeature(Window.FEATURE_NO_TITLE)
+                setContentView(R.layout.dialog_edit_name_age)
+                window?.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
             val dialogBinding: DialogEditNameAgeBinding =
                 DialogEditNameAgeBinding.inflate(dialog.layoutInflater)
             dialog.setContentView(dialogBinding.root)
-            dialogBinding.edtNewAge.setText(user.userAge.toString().toInt().toString())
-            dialogBinding.edtNewName.setText(user.userName)
-            dialogBinding.btnCancel.setOnClickListener {
-                dialog.dismiss()
-            }
-            dialogBinding.btnConfirm.setOnClickListener {
-                if (dialogBinding.edtNewName.text.isEmpty()) {
-                    dialogBinding.edtNewName.error = getString(R.string.name_invalid)
-                }
-                if (dialogBinding.edtNewAge.text.toString().isEmpty()) {
-                    dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
-                } else if (dialogBinding.edtNewAge.text.toString().length > MAX_LENGTH_AGE || dialogBinding.edtNewAge.text.toString()
-                        .toInt() > MAX_AGE
-                ) {
-                    dialogBinding.edtNewAge.error = getString(R.string.age_invalid)
-                }
-                if (!(dialogBinding.edtNewAge.text.isEmpty() ||
-                            dialogBinding.edtNewAge.text.isEmpty() ||
-                            dialogBinding.edtNewAge.text.toString().length > MAX_LENGTH_AGE ||
-                            dialogBinding.edtNewAge.text.toString().toInt() > MAX_AGE)
-                ) {
-                    val userInfo = UserInfo(
-                        dialogBinding.edtNewName.text.toString(),
-                        dialogBinding.edtNewAge.text.toString().toInt(),
-                        user.userFavourite
-                    )
-                    userInfo.userId = user.userId
-                    mUserViewModel.updateUser(userInfo)
+            with(dialogBinding) {
+                edtNewAge.setText(user.userAge.toString().toInt().toString())
+                edtNewName.setText(user.userName)
+                btnCancel.setOnClickListener {
                     dialog.dismiss()
+                }
+                btnConfirm.setOnClickListener {
+                    if (edtNewName.text.isEmpty()) {
+                        edtNewName.error = getString(R.string.name_invalid)
+                    }
+                    if (edtNewAge.text.toString().isEmpty()) {
+                        edtNewAge.error = getString(R.string.age_invalid)
+                    } else if (edtNewAge.text.toString().length > MAX_LENGTH_AGE || edtNewAge.text.toString()
+                            .toInt() > MAX_AGE
+                    ) {
+                        edtNewAge.error = getString(R.string.age_invalid)
+                    }
+                    if (!(edtNewAge.text.isEmpty() ||
+                                edtNewAge.text.isEmpty() ||
+                                edtNewAge.text.toString().length > MAX_LENGTH_AGE ||
+                                edtNewAge.text.toString().toInt() > MAX_AGE)
+                    ) {
+                        val userInfo = UserInfo(
+                            edtNewName.text.toString(),
+                            edtNewAge.text.toString().toInt(),
+                            user.userFavourite
+                        )
+                        userInfo.userId = user.userId
+                        mUserViewModel.updateUser(userInfo)
+                        dialog.dismiss()
+                    }
                 }
             }
             dialog.show()

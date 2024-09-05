@@ -34,73 +34,83 @@ class IssueEleventhActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
-        mBinding.btnAdd.setOnClickListener {
-            if (isValidate()) {
-                mUserViewModel.insertUser(
-                    UserInfo(
-                        mBinding.edtName.text.toString(),
-                        mBinding.edtAge.text.toString().toInt(),
-                        false
+        with(mBinding) {
+            btnAdd.setOnClickListener {
+                if (isValidate()) {
+                    mUserViewModel.insertUser(
+                        UserInfo(
+                            edtName.text.toString(),
+                            edtAge.text.toString().toInt(),
+                            false
+                        )
                     )
-                )
-                mBinding.edtAge.text = null
-                mBinding.edtName.text = null
+                    edtAge.text = null
+                    edtName.text = null
+                }
             }
-        }
-        mBinding.btnDeleteAll.setOnClickListener {
-            showDialogDeleteAll()
-        }
-        mBinding.btnShowAll.setOnClickListener {
-            mUserViewModel.getAllData()
-            mUserViewModel.getFavouriteUsers()
+            btnDeleteAll.setOnClickListener {
+                showDialogDeleteAll()
+            }
+            btnShowAll.setOnClickListener {
+                mUserViewModel.getAllData()
+                mUserViewModel.getFavouriteUsers()
+            }
         }
     }
 
     private fun isValidate(): Boolean {
-        if (mBinding.edtName.text.isEmpty()) {
-            mBinding.edtName.error = getString(R.string.name_invalid)
+        with(mBinding) {
+            if (edtName.text.isEmpty()) {
+                edtName.error = getString(R.string.name_invalid)
+            }
+            if (edtAge.text.isEmpty()) {
+                edtAge.error = getString(R.string.age_invalid)
+            } else if (edtAge.text.toString().length > MAX_LENGTH_AGE || edtAge.text.toString()
+                    .toInt() > MAX_AGE
+            ) {
+                edtAge.error = getString(R.string.age_invalid)
+            }
+            return !(edtName.text.isEmpty() ||
+                    edtAge.text.isEmpty() ||
+                    edtAge.text.toString().length > MAX_LENGTH_AGE ||
+                    edtAge.text.toString().toInt() > MAX_AGE)
         }
-        if (mBinding.edtAge.text.isEmpty()) {
-            mBinding.edtAge.error = getString(R.string.age_invalid)
-        } else if (mBinding.edtAge.text.toString().length > MAX_LENGTH_AGE || mBinding.edtAge.text.toString()
-                .toInt() > MAX_AGE
-        ) {
-            mBinding.edtAge.error = getString(R.string.age_invalid)
-        }
-        return !(mBinding.edtName.text.isEmpty() ||
-                mBinding.edtAge.text.isEmpty() ||
-                mBinding.edtAge.text.toString().length > MAX_LENGTH_AGE ||
-                mBinding.edtAge.text.toString().toInt() > MAX_AGE)
     }
 
     private fun showDialogDeleteAll() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_confirm)
-        if (dialog.window != null) {
-            dialog.window!!.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+        val dialog = Dialog(this).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.dialog_confirm)
+            if (window != null) {
+                window!!.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
         }
+
         val dialogBinding: DialogConfirmBinding =
             DialogConfirmBinding.inflate(dialog.layoutInflater)
         dialog.setContentView(dialogBinding.root)
-        dialogBinding.tvDeleteThisItem.text = getString(R.string.delete_all_item)
-        dialogBinding.btnCancelDelete.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialogBinding.btnConfirmDelete.setOnClickListener {
-            mUserViewModel.deleteAllUser()
-            dialog.dismiss()
+        with(dialogBinding) {
+            tvDeleteThisItem.text = getString(R.string.delete_all_item)
+            btnCancelDelete.setOnClickListener {
+                dialog.dismiss()
+            }
+            btnConfirmDelete.setOnClickListener {
+                mUserViewModel.deleteAllUser()
+                dialog.dismiss()
+            }
         }
         dialog.show()
     }
 
     private fun setUpTabLayout() {
         val viewPagerAdapter = ViewPagerUserAdapter(this)
-        mBinding.vpUserInfo.offscreenPageLimit = 1
-        mBinding.vpUserInfo.adapter = viewPagerAdapter
+        mBinding.vpUserInfo.apply {
+            offscreenPageLimit = 1
+            adapter = viewPagerAdapter
+        }
         TabLayoutMediator(
             mBinding.tlUser, mBinding.vpUserInfo
         ) { tab: TabLayout.Tab, position: Int ->
