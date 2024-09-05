@@ -62,42 +62,46 @@ class StorageAdapter(private var mItemClickListener: ItemClickListener) :
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(storage: StorageModel, itemClickListener: ItemClickListener) {
-            Glide
-                .with(context)
-                .load(storage.storageUri)
-                .signature(ObjectKey(System.currentTimeMillis()))
-                .into(binding.ivStorage)
-            binding.tvNameStorage.text = storage.storageName
-            if (storage.isSelected) {
-                binding.ivChecked.visibility = View.VISIBLE
-                binding.clItemStorage.setBackgroundResource(R.drawable.bg_item_storage_selected)
-            } else {
-                binding.ivChecked.visibility = View.GONE
-                binding.clItemStorage.setBackgroundResource(0)
-            }
-            binding.clItemStorage.setOnClickListener {
-                itemClickListener.onItemClick(storage)
-            }
-            binding.clItemStorage.setOnLongClickListener {
-                itemClickListener.onItemLongClick(storage)
-                return@setOnLongClickListener true
+            with(binding) {
+                Glide
+                    .with(context)
+                    .load(storage.storageUri)
+                    .signature(ObjectKey(System.currentTimeMillis()))
+                    .into(ivStorage)
+                tvNameStorage.text = storage.storageName
+                if (storage.isSelected) {
+                    ivChecked.visibility = View.VISIBLE
+                    clItemStorage.setBackgroundResource(R.drawable.bg_item_storage_selected)
+                } else {
+                    ivChecked.visibility = View.GONE
+                    clItemStorage.setBackgroundResource(0)
+                }
+                clItemStorage.setOnClickListener {
+                    itemClickListener.onItemClick(storage)
+                }
+                clItemStorage.setOnLongClickListener {
+                    itemClickListener.onItemLongClick(storage)
+                    return@setOnLongClickListener true
+                }
             }
         }
 
         fun bindBackground(storage: StorageModel, itemClickListener: ItemClickListener) {
-            if (storage.isSelected) {
-                binding.ivChecked.visibility = View.VISIBLE
-                binding.clItemStorage.setBackgroundResource(R.drawable.bg_item_storage_selected)
-            } else {
-                binding.ivChecked.visibility = View.GONE
-                binding.clItemStorage.setBackgroundResource(0)
-            }
-            binding.clItemStorage.setOnClickListener {
-                itemClickListener.onItemClick(storage)
-            }
-            binding.clItemStorage.setOnLongClickListener {
-                itemClickListener.onItemLongClick(storage)
-                return@setOnLongClickListener true
+            with(binding) {
+                if (storage.isSelected) {
+                    ivChecked.visibility = View.VISIBLE
+                    clItemStorage.setBackgroundResource(R.drawable.bg_item_storage_selected)
+                } else {
+                    ivChecked.visibility = View.GONE
+                    clItemStorage.setBackgroundResource(0)
+                }
+                clItemStorage.setOnClickListener {
+                    itemClickListener.onItemClick(storage)
+                }
+                clItemStorage.setOnLongClickListener {
+                    itemClickListener.onItemLongClick(storage)
+                    return@setOnLongClickListener true
+                }
             }
         }
     }

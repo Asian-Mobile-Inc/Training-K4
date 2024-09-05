@@ -59,9 +59,11 @@ class StorageFragment : Fragment(), StorageAdapter.ItemClickListener {
     }
 
     private fun setupRecyclerView() {
-        mBinding.rvStorage.layoutManager = GridLayoutManager(context, 3)
         mStorageAdapter = StorageAdapter(this)
-        mBinding.rvStorage.adapter = mStorageAdapter
+        mBinding.rvStorage.apply {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter = mStorageAdapter
+        }
     }
 
     private fun initData() {
