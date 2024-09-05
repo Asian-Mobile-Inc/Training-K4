@@ -50,8 +50,9 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     internal var listLocal: LiveData<MutableList<ImageModel>> = mListLocal
     private var mStatusRetrofitCallback = MutableLiveData<Int>()
     internal var statusRetrofitCallback: LiveData<Int> = mStatusRetrofitCallback
-    private var mPage = 1
+    private var mPage = 2
     private var mItemQuantityChange = 0
+    internal var mIsLoading = false
 
     init {
         mListImage.value = mutableListOf()
@@ -204,19 +205,21 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     }
 
     internal fun fetchAllImages(context: Context) {
-        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
-        viewModelScope.launch {
-            val imgRoom: MutableList<ImageModel> = async {
-                fetchImagesFromRoom()
-            }.await()
-            val imgApi: MutableList<ImageModel> = async {
-                fetchImagesFromApi()
-            }.await()
-            val imgLocal: MutableList<ImageModel> = async {
-                fetchImagesFromLocal(context)
-            }.await()
-            viewModelScope.launch(Dispatchers.Default) {
-                getStatus(imgApi, imgRoom, imgLocal)
+        if (mListImage.value?.size == 0) {
+            mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
+            viewModelScope.launch {
+                val imgRoom: MutableList<ImageModel> = async {
+                    fetchImagesFromRoom()
+                }.await()
+                val imgApi: MutableList<ImageModel> = async {
+                    fetchImagesFromApi()
+                }.await()
+                val imgLocal: MutableList<ImageModel> = async {
+                    fetchImagesFromLocal(context)
+                }.await()
+                viewModelScope.launch(Dispatchers.Default) {
+                    getStatus(imgApi, imgRoom, imgLocal)
+                }
             }
         }
     }
@@ -311,7 +314,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun downloadFile(imageModel: ImageModel, context: Context) {
+    fun downloadImage(imageModel: ImageModel, context: Context) {
         mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -391,10 +394,15 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                 mPage += mItemQuantityChange / Constant.ITEM_PER_PAGE
                 mItemQuantityChange %= Constant.ITEM_PER_PAGE
             }
-            mPage++
             val rs = apiHelper.loadMoreImage(mPage, Constant.ITEM_PER_PAGE)
             mStatusRetrofitCallback.postValue(rs.code())
+            mPage++
             rs.body()?.let {
+                mIsLoading = false
+                if (it.size == 0) {
+                    mPage--
+                    mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_ITEM_MORE)
+                }
                 return it
             }
         } catch (e: HttpException) {
@@ -408,36 +416,33 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
 
     internal fun loadMore() {
         mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOAD_MORE
+        mIsLoading = true
         viewModelScope.launch(Dispatchers.IO) {
             val imgApi: MutableList<ImageModel> = async {
                 getListLoadMore()
             }.await()
-            if (imgApi.isEmpty()) {
-                mPage--
-                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_ITEM_MORE)
-            } else {
-                viewModelScope.launch(Dispatchers.Default) {
-                    mListImage.value?.let {
-                        if (mItemQuantityChange == 0) {
-                            it.addAll(imgApi)
+            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_HIDE_DIALOG_LOAD_MORE)
+            viewModelScope.launch(Dispatchers.Default) {
+                mListImage.value?.let {
+                    if (mItemQuantityChange == 0) {
+                        it.addAll(imgApi)
+                    } else {
+                        if (mItemQuantityChange < 0) {
+                            for (i in imgApi.size + mItemQuantityChange until imgApi.size) {
+                                it.add(imgApi[i])
+                            }
+                            mItemQuantityChange = 0
                         } else {
-                            if (mItemQuantityChange < 0) {
-                                for (i in imgApi.size + mItemQuantityChange until imgApi.size) {
-                                    it.add(imgApi[i])
-                                }
-                                mItemQuantityChange = 0
-                            } else {
-                                for (i in mItemQuantityChange until imgApi.size) {
-                                    it.add(imgApi[i])
-                                }
-                                mItemQuantityChange = 0
+                            for (i in mItemQuantityChange until imgApi.size) {
+                                it.add(imgApi[i])
                             }
+                            mItemQuantityChange = 0
                         }
-                        mListImage.postValue(it)
-                        mListFavourite.value?.let { itFav ->
-                            mListLocal.value?.let { itLocal ->
-                                getStatus(it, itFav, itLocal)
-                            }
+                    }
+                    mListImage.postValue(it)
+                    mListFavourite.value?.let { itFav ->
+                        mListLocal.value?.let { itLocal ->
+                            getStatus(it, itFav, itLocal)
                         }
                     }
                 }

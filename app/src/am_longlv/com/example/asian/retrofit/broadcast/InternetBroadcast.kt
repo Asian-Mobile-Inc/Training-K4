@@ -48,7 +48,6 @@ class InternetBroadcast : BroadcastReceiver() {
                         ConnectivityManager.TYPE_ETHERNET -> true
                         else -> false
                     }
-
                 }
             }
         }

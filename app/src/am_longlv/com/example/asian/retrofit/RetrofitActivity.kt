@@ -3,7 +3,10 @@ package com.example.asian.retrofit
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -20,7 +23,7 @@ import com.example.asian.databinding.ActivityRetrofitBinding
 import com.example.asian.databinding.DialogBottomSelectImageBinding
 import com.example.asian.retrofit.adapter.TabName
 import com.example.asian.retrofit.adapter.ViewPagerRetrofitAdapter
-import com.example.asian.retrofit.broadcast.NetworkConnection
+import com.example.asian.retrofit.broadcast.InternetBroadcast
 import com.example.asian.retrofit.utils.Constant
 import com.example.asian.retrofit.viewmodel.RetrofitViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -57,6 +60,23 @@ class RetrofitActivity : AppCompatActivity() {
         }
     }
     private var imageUri = Uri.parse("")
+    private val mBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action != null
+                && intent.action == Constant.ACTION_INTERNET_CHANGE
+                && intent.getBooleanExtra(Constant.KEY_INTERNET_CHANGE, false)
+            ) {
+                if (mRetrofitViewModel.getListItemRetrofit().size == 0) {
+                    mRetrofitViewModel.fetchAllImages(applicationContext)
+                }
+                if (mRetrofitViewModel.mIsLoading) {
+                    mRetrofitViewModel.loadMore()
+                }
+            }
+        }
+    }
+    private val broadcastInternet = InternetBroadcast()
+    private val vpAdapter = ViewPagerRetrofitAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,20 +84,13 @@ class RetrofitActivity : AppCompatActivity() {
         initObserver()
         askPermissions()
         initListener()
+        registerBroadcast()
     }
 
     private fun initObserver() {
         mRetrofitViewModel.statusRetrofitCallback.observe(this) {
             it?.let { sub ->
                 handlerCallbackRetrofit(sub)
-            }
-        }
-        val networkConnection = NetworkConnection(applicationContext)
-        networkConnection.observe(this) {
-            if (it) {
-                Toast.makeText(applicationContext, "True", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(applicationContext, "False", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -114,11 +127,16 @@ class RetrofitActivity : AppCompatActivity() {
                 mBinding.pbLoadMore.visibility = View.VISIBLE
             }
 
+            Constant.STATUS_CODE_HIDE_DIALOG_LOAD_MORE -> {
+                if (!mRetrofitViewModel.mIsLoading) {
+                    mBinding.pbLoadMore.visibility = View.GONE
+                }
+            }
+
             Constant.STATUS_CODE_OK -> {
                 if (dialogLoadingRetrofit.isShowing) {
                     dialogLoadingRetrofit.dismiss()
                 }
-                mBinding.pbLoadMore.visibility = View.GONE
             }
 
             Constant.STATUS_CODE_NO_PICK_IMAGE -> {
@@ -130,7 +148,6 @@ class RetrofitActivity : AppCompatActivity() {
                     getString(R.string.no_pick_image),
                     Toast.LENGTH_SHORT
                 ).show()
-                mBinding.pbLoadMore.visibility = View.GONE
             }
 
             Constant.STATUS_CODE_NO_ITEM_MORE -> {
@@ -142,7 +159,6 @@ class RetrofitActivity : AppCompatActivity() {
                     getString(R.string.no_item_more),
                     Toast.LENGTH_SHORT
                 ).show()
-                mBinding.pbLoadMore.visibility = View.GONE
             }
 
             Constant.STATUS_CODE_EXISTS_IMAGE_API -> {
@@ -154,7 +170,6 @@ class RetrofitActivity : AppCompatActivity() {
                     getString(R.string.image_exists_api),
                     Toast.LENGTH_SHORT
                 ).show()
-                mBinding.pbLoadMore.visibility = View.GONE
             }
 
             else -> {
@@ -166,7 +181,6 @@ class RetrofitActivity : AppCompatActivity() {
                     getString(R.string.error_status_int_param).format(sub),
                     Toast.LENGTH_SHORT
                 ).show()
-                mBinding.pbLoadMore.visibility = View.GONE
             }
         }
     }
@@ -192,7 +206,7 @@ class RetrofitActivity : AppCompatActivity() {
     private fun askPermissions() {
         if (hasPermissions()) {
             setupTabLayout()
-            mRetrofitViewModel.fetchAllImages(this)
+            mRetrofitViewModel.fetchAllImages(applicationContext)
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -215,7 +229,7 @@ class RetrofitActivity : AppCompatActivity() {
         if (requestCode == Constant.REQUEST_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setupTabLayout()
-                mRetrofitViewModel.fetchAllImages(this)
+                mRetrofitViewModel.fetchAllImages(applicationContext)
             } else {
                 finish()
             }
@@ -225,7 +239,7 @@ class RetrofitActivity : AppCompatActivity() {
     private fun setupTabLayout() {
         mBinding.vpStorage.apply {
             mBinding.vpStorage.offscreenPageLimit = 1
-            mBinding.vpStorage.adapter = ViewPagerRetrofitAdapter(this@RetrofitActivity)
+            mBinding.vpStorage.adapter = vpAdapter
         }
         TabLayoutMediator(
             mBinding.tlStorage, mBinding.vpStorage
@@ -260,4 +274,27 @@ class RetrofitActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.no_pick_image), Toast.LENGTH_SHORT).show()
             }
         }
+
+    private fun registerBroadcast() {
+        val intentFilter = IntentFilter(Constant.ACTION_CONNECTIVITY_CHANGE)
+        val iFActionInternet = IntentFilter(Constant.ACTION_INTERNET_CHANGE)
+        ContextCompat.registerReceiver(
+            applicationContext,
+            broadcastInternet,
+            intentFilter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        ContextCompat.registerReceiver(
+            applicationContext,
+            mBroadcastReceiver,
+            iFActionInternet,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val parcelable = vpAdapter.saveState()
+        outState.putParcelable("Adapter", parcelable)
+    }
 }

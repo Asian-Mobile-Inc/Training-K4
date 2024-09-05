@@ -17,14 +17,12 @@ import com.example.asian.databinding.FragmentImageRetrofitBinding
 import com.example.asian.retrofit.adapter.ImageAdapter
 import com.example.asian.retrofit.adapter.TabName
 import com.example.asian.retrofit.model.ImageModel
-import com.example.asian.retrofit.utils.Constant
 import com.example.asian.retrofit.viewmodel.RetrofitViewModel
 
 private const val KEY_BUNDLE = "tab"
 
 class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     private var mTab = TabName.RETROFIT.position
-    private var mIsLoading = false
     private val mBinding: FragmentImageRetrofitBinding by lazy {
         FragmentImageRetrofitBinding.inflate(layoutInflater)
     }
@@ -75,16 +73,9 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
                 mViewModel.listImage.observe(viewLifecycleOwner) {
                     adapter.submitList(it.toMutableList())
                 }
-                mViewModel.statusRetrofitCallback.observe(this) {
-                    it?.let { sub ->
-                        if (sub == Constant.STATUS_CODE_OK) {
-                            mIsLoading = false
-                        }
-                    }
-                }
             }
 
-            TabName.FAVOURITE.position -> {
+            TabName.LOCAL.position -> {
                 mViewModel.listLocal.observe(viewLifecycleOwner) {
                     adapter.submitList(it.toMutableList())
                 }
@@ -129,12 +120,11 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as GridLayoutManager?
-                if (!mIsLoading) {
+                if (!mViewModel.mIsLoading) {
                     if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition()
                         == (mViewModel.getListItemRetrofit().size - 1)
                     ) {
                         mViewModel.loadMore()
-                        mIsLoading = true
                     }
                 }
             }
@@ -154,7 +144,7 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
 
     override fun onBtnDownloadClick(imageModel: ImageModel) {
         if (!imageModel.isDownloaded) {
-            context?.let { mViewModel.downloadFile(imageModel, it) }
+            context?.let { mViewModel.downloadImage(imageModel, it) }
         } else {
             Toast.makeText(
                 context,
