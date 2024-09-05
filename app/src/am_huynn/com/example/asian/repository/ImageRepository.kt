@@ -11,9 +11,9 @@ class ImageRepository(private val app: Application) {
     private val apiServiceUpload =
         ApiClient.retrofit(Constants.BASE_URL_UPLOAD).create(ApiService::class.java)
 
-    fun getImages() = apiService.getPhotos()
+    suspend fun getImages() = apiService.getImages()
 
-    fun uploadImage(image: MultipartBody.Part) = apiServiceUpload.uploadImage(image)
+    suspend fun uploadImage(image: MultipartBody.Part) = apiServiceUpload.uploadImage(image)
 
-    fun deleteImage(imageId: String) = apiService.deleteImage(imageId)
+    suspend fun deleteImage(imageId: String) = apiService.deleteImage(imageId)
 }

@@ -3,19 +3,21 @@ package com.example.asian.viewmodel
 import RealPathUtil
 import android.app.Application
 import android.net.Uri
-import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.asian.R
 import com.example.asian.constants.Constants
 import com.example.asian.model.Picture
 import com.example.asian.repository.ImageRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.File
 
 class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
@@ -27,27 +29,23 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     val pictures: LiveData<MutableList<Picture>> = _pictures
 
-    fun getAllPicture() {
-        val call = imageRepository.getImages()
-        call.enqueue(object : Callback<MutableList<Picture>> {
-            override fun onResponse(
-                call: Call<MutableList<Picture>>, response: Response<MutableList<Picture>>
-            ) {
-                if (response.isSuccessful) {
-                    val pictures = response.body() ?: mutableListOf()
-                    _pictures.value = pictures
-                } else {
-                    Log.e("TAG", response.code().toString())
-                }
+    fun getAllPicture() = viewModelScope.launch(Dispatchers.IO) {
+        val response = imageRepository.getImages()
+        if (response.isSuccessful) {
+            val pictures = response.body() ?: mutableListOf()
+            _pictures.postValue(pictures)
+        } else {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    app,
+                    app.getString(R.string.error_param, response.code(), response.message()),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-
-            override fun onFailure(call: Call<MutableList<Picture>>, t: Throwable) {
-                Log.e("TAG", "Failure")
-            }
-        })
+        }
     }
 
-    fun uploadImage(uri: Uri) {
+    fun uploadImage(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
         val realPath = RealPathUtil.getRealPath(app, uri)
         realPath?.let {
             val file = File(it)
@@ -56,45 +54,44 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
             )
             val imagePart =
                 MultipartBody.Part.createFormData(Constants.KEY_IMAGE_DATA, file.name, requestBody)
-            val call = imageRepository.uploadImage(imagePart)
-
-            call.enqueue(object : Callback<Picture> {
-                override fun onResponse(call: Call<Picture>, response: Response<Picture>) {
-                    if (response.isSuccessful) {
-                        val picture: Picture? = response.body()
-                        if (picture != null) {
-                            val values = _pictures.value
-                            values?.let { list ->
-                                list.add(0, picture)
-                                _pictures.value = list
-                            }
-                        }
+            val response = imageRepository.uploadImage(imagePart)
+            if (response.isSuccessful) {
+                val picture: Picture? = response.body()
+                if (picture != null) {
+                    val values = _pictures.value
+                    values?.let { list ->
+                        list.add(0, picture)
+                        _pictures.postValue(list)
                     }
                 }
-
-                override fun onFailure(call: Call<Picture>, t: Throwable) {
-                    Log.e("TAG", t.message.toString())
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        app,
+                        app.getString(R.string.error_param, response.code(), response.message()),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-            })
+            }
         }
     }
 
-    fun deleteImage(picture: Picture) {
-        val call = imageRepository.deleteImage(picture.imageId)
-        call.enqueue(object : Callback<Picture> {
-            override fun onResponse(call: Call<Picture>, response: Response<Picture>) {
-                if (response.isSuccessful) {
-                    val list = _pictures.value
-                    list?.let {
-                        it.remove(picture)
-                        _pictures.value = it
-                    }
-                }
+    fun deleteImage(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
+        val response = imageRepository.deleteImage(picture.imageId)
+        if (response.isSuccessful) {
+            val list = _pictures.value
+            list?.let {
+                it.remove(picture)
+                _pictures.postValue(it)
             }
-
-            override fun onFailure(call: Call<Picture>, t: Throwable) {
-                Log.e("TAG", t.message.toString())
+        } else {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    app,
+                    app.getString(R.string.error_param, response.code(), response.message()),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        })
+        }
     }
 }
