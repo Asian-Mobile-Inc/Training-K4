@@ -237,6 +237,7 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                 ).show()
             }
         }
+        dialogLoading.dismissDialog()
     }
 
     fun downloadImage() {

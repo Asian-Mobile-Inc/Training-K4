@@ -76,10 +76,15 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
 
     private val onItemClick: (Picture) -> Unit = {
         val dialogBinding = DialogShowImageBinding.inflate(LayoutInflater.from(context))
-        AlertDialog.Builder(context).apply {
+        AlertDialog.Builder(context).create().apply {
             setView(dialogBinding.root)
             Glide.with(context).load(it.url).into(dialogBinding.ivPictureDialog)
-            dialogBinding.btnDelete.setOnClickListener {}
+            dialogBinding.btnDelete.isVisible = (position == 0)
+            dialogBinding.btnDelete.setOnClickListener { _ ->
+                dismiss()
+                viewModel.dialogLoading.startLoadingDialog(context)
+                viewModel.deleteImage(it)
+            }
         }.show()
     }
 
