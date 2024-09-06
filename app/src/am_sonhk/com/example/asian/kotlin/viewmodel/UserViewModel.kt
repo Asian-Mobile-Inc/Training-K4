@@ -1,39 +1,36 @@
 package com.example.asian.kotlin.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.asian.kotlin.database.repository.UserRepository
+import com.example.asian.kotlin.database.UserDatabase
 import com.example.asian.kotlin.model.User
+import com.example.asian.kotlin.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class UserViewModel(app:Application) : ViewModel() {
-    private val mUserRepository:UserRepository = UserRepository(app)
+class UserViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository: UserRepository
+    val allUsers: LiveData<List<User>>
 
-    fun insertUser(mUser: User) = viewModelScope.launch {
-        mUserRepository.insertUser(mUser)
+    init {
+        val userDao = UserDatabase.getDatabase(application).userDao()
+        repository = UserRepository(userDao)
+        allUsers = repository.allUsers
     }
 
-    fun updateUser(mUser: User) = viewModelScope.launch {
-        mUserRepository.updateUser(mUser)
+    fun addUser(user: User) = viewModelScope.launch {
+        repository.addUser(user)
     }
 
-    fun deleteUser(mUser: User) = viewModelScope.launch {
-        mUserRepository.deleteUser(mUser)
+    fun deleteUser(userId: Int) = viewModelScope.launch {
+        repository.deleteUser(userId)
     }
 
-    fun getAllUser():LiveData<List<User>> = mUserRepository.getAllUser()
-
-    class UserViewModelFactory(private val app: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
-            if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
-                return UserViewModel(app) as T
-            }
-
-            throw IllegalArgumentException("Unnable contrust viewModel")
-        }
+    fun deleteAllUsers() = viewModelScope.launch {
+        repository.deleteAllUsers()
     }
 }
+
+

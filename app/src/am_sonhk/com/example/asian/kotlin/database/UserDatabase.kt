@@ -7,20 +7,25 @@ import androidx.room.RoomDatabase
 import com.example.asian.kotlin.database.dao.UserDao
 import com.example.asian.kotlin.model.User
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class UserDatabase : RoomDatabase() {
-    abstract fun mGetUserDao(): UserDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
-        private var instance: UserDatabase? = null
+        private var INSTANCE: UserDatabase? = null
 
-        fun getInstance(context: Context): UserDatabase {
-            if (instance == null) {
-                instance =
-                    Room.databaseBuilder(context, UserDatabase::class.java, "UserDatabase").build()
+        fun getDatabase(context: Context): UserDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    UserDatabase::class.java,
+                    "user_database"
+                ).build()
+                INSTANCE = instance
+                instance
             }
-            return instance!!
         }
     }
 }
+
