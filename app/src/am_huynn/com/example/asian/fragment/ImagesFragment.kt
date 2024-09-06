@@ -50,7 +50,6 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
     private fun initObserver() {
         when (position) {
             0 -> {
-                viewModel.getAllPicture()
                 viewModel.isLoadingNetwork.observe(viewLifecycleOwner) {
                     binding.pbProgressNetwork.isVisible = it
                 }

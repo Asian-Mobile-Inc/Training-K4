@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -61,11 +60,21 @@ class ImagesActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
-        binding.fbPickImage.setOnClickListener {
-            if (checkPermission()) {
-                pickImage()
-            } else {
-                askForPermission()
+        with(binding) {
+            btnShowAll.setOnClickListener {
+                if (checkPermission()) {
+                    viewModel.getAllPicture()
+                } else {
+                    askForPermission()
+                }
+            }
+
+            fbPickImage.setOnClickListener {
+                if (checkPermission()) {
+                    pickImage()
+                } else {
+                    askForPermission()
+                }
             }
         }
     }
@@ -127,7 +136,7 @@ class ImagesActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                pickImage()
+                viewModel.getAllPicture()
             } else {
                 Toast.makeText(
                     this, resources.getText(R.string.permission_denied), Toast.LENGTH_SHORT
