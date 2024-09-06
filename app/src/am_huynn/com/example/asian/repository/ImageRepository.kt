@@ -2,9 +2,13 @@ package com.example.asian.repository
 
 import android.app.Application
 import android.content.ContentUris
+import android.content.ContentValues
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
+import android.widget.Toast
 import com.example.asian.constants.Constants
 import com.example.asian.model.Picture
 import com.example.asian.services.local.PictureDatabase
@@ -12,6 +16,13 @@ import com.example.asian.services.local.dao.PictureDao
 import com.example.asian.services.remote.ApiClient
 import com.example.asian.services.remote.ApiService
 import okhttp3.MultipartBody
+import java.io.BufferedInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 class ImageRepository(private val app: Application) {
     private val pictureDao: PictureDao
@@ -71,9 +82,54 @@ class ImageRepository(private val app: Application) {
                         pictureName
                     )
                     list.add(pic)
-                }while (it.moveToPrevious())
+                } while (it.moveToPrevious())
             }
         }
         return list
+    }
+
+    fun downImage(string: String): Bitmap? {
+        val url: URL = stringToURL(string)!!
+        val connection: HttpURLConnection?
+        try {
+            connection = url.openConnection() as HttpURLConnection
+            connection.connect()
+            val inputStream: InputStream = connection.inputStream
+            val bufferedInputStream = BufferedInputStream(inputStream)
+            return BitmapFactory.decodeStream(bufferedInputStream)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    private fun stringToURL(string: String): URL? {
+        try {
+            return URL(string)
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    fun saveMediaToStorage(bitmap: Bitmap?, id: String) {
+        val filename = "${id}.jpg"
+        var fos: OutputStream? = null
+        app.contentResolver?.also { resolver ->
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+            }
+            val imageUri: Uri? =
+                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            imageUri?.let {
+                fos = resolver.openOutputStream(it)
+            }
+        }
+        fos?.use {
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            Toast.makeText(app, "Saved to Gallery", Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

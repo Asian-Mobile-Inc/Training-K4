@@ -2,13 +2,10 @@ package com.example.asian.viewmodel
 
 import RealPathUtil
 import android.app.Application
-import android.content.ContentValues
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -25,10 +22,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.*
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
+import java.io.File
 import java.util.concurrent.Executors
 
 class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
@@ -247,68 +241,23 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     fun downloadImage() {
         myExecutor.execute {
-            val mImage: Bitmap? = mLoad(pictureDownload.url)
+            val mImage: Bitmap? = imageRepository.downImage(pictureDownload.url)
             myHandler.post {
                 if (mImage != null) {
-                    mSaveMediaToStorage(mImage, pictureDownload.imageId)
+                    imageRepository.saveMediaToStorage(mImage, pictureDownload.imageId)
+                    pictures.value?.let {
+                        _pictures.postValue(it.map { pic ->
+                            if (pic.imageId == pictureDownload.imageId) {
+                                pic.copy(downloaded = true)
+                            } else {
+                                pic
+                            }
+                        }.toMutableList())
+                    }
+                    getLocalPictures()
                 }
             }
             dialogLoading.dismissDialog()
         }
-    }
-
-    private fun mLoad(string: String): Bitmap? {
-        val url: URL = mStringToURL(string)!!
-        val connection: HttpURLConnection?
-        try {
-            connection = url.openConnection() as HttpURLConnection
-            connection.connect()
-            val inputStream: InputStream = connection.inputStream
-            val bufferedInputStream = BufferedInputStream(inputStream)
-            return BitmapFactory.decodeStream(bufferedInputStream)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Toast.makeText(app, "Error", Toast.LENGTH_LONG).show()
-        }
-        return null
-    }
-
-    private fun mStringToURL(string: String): URL? {
-        try {
-            return URL(string)
-        } catch (e: MalformedURLException) {
-            e.printStackTrace()
-        }
-        return null
-    }
-
-    private fun mSaveMediaToStorage(bitmap: Bitmap?, id: String) {
-        val filename = "${id}.jpg"
-        var fos: OutputStream? = null
-        app.contentResolver?.also { resolver ->
-            val contentValues = ContentValues().apply {
-                put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
-            }
-            val imageUri: Uri? =
-                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-            imageUri?.let {
-                fos = resolver.openOutputStream(it)
-            }
-        }
-        fos?.use {
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, it)
-            Toast.makeText(app, "Saved to Gallery", Toast.LENGTH_SHORT).show()
-        }
-        pictures.value?.let {
-            _pictures.postValue(it.map { pic ->
-                if (pic.imageId == id) {
-                    pic.copy(downloaded = true)
-                } else {
-                    pic
-                }
-            }.toMutableList())
-        }
-        getLocalPictures()
     }
 }
