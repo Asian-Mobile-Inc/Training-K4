@@ -2,7 +2,13 @@ package com.example.asian.viewmodel
 
 import RealPathUtil
 import android.app.Application
+import android.content.ContentValues
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -19,7 +25,11 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.File
+import java.io.*
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
+import java.util.concurrent.Executors
 
 class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
     private val imageRepository by lazy {
@@ -35,9 +45,7 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
     val pictures: LiveData<MutableList<Picture>> = _pictures
 
     private val _favoritePictures = MutableLiveData<MutableList<Picture>>().apply {
-        viewModelScope.launch(Dispatchers.IO) {
-            postValue(imageRepository.getFavoritePictures())
-        }
+        postValue(mutableListOf())
     }
 
     val favoritePictures: LiveData<MutableList<Picture>> = _favoritePictures
@@ -48,21 +56,39 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     val dialogLoading = LoadingDialog(app)
 
+    private lateinit var pictureDownload: Picture
+
+    private val myExecutor = Executors.newSingleThreadExecutor()
+    private val myHandler = Handler(Looper.getMainLooper())
+
+    fun setPictureDownload(pic: Picture) {
+        pictureDownload = pic
+    }
+
     fun getAllPicture() = viewModelScope.launch(Dispatchers.IO) {
         _isLoadingNetwork.postValue(true)
+        getLocalPictures()
         val response = imageRepository.getImages()
         if (response.isSuccessful) {
             val pictures = response.body() ?: mutableListOf()
-            _isLoadingNetwork.postValue(false)
-            _favoritePictures.value?.let {
-                _pictures.postValue(pictures.map { pic ->
-                    if (it.contains(pic.copy(favorite = true))) {
-                        pic.copy(favorite = true)
-                    } else {
-                        pic
-                    }
-                }.toMutableList())
+            pictures.forEach {
+                val indexFavorite = favoritePictures.value?.indexOfFirst { e ->
+                    e.imageId == it.imageId
+                }
+
+                val indexDownloaded = _localPictures.value?.indexOfFirst { e ->
+                    "${it.imageId}.jpg" == e.name
+                }
+
+                if (indexFavorite != -1) {
+                    it.favorite = true
+                }
+
+                if (indexDownloaded != -1) {
+                    it.downloaded = true
+                }
             }
+            _pictures.postValue(pictures)
         } else {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
@@ -72,9 +98,11 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                 ).show()
             }
         }
+        _isLoadingNetwork.postValue(false)
     }
 
-    fun getLocalPictures() {
+    private fun getLocalPictures() = viewModelScope.launch {
+        _favoritePictures.postValue(imageRepository.getFavoritePictures())
         val pictures = imageRepository.loadLocalPictures()
         _favoritePictures.value?.let {
             _localPictures.postValue(pictures.map { pic ->
@@ -215,5 +243,72 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                 ).show()
             }
         }
+    }
+
+    fun downloadImage() {
+        myExecutor.execute {
+            val mImage: Bitmap? = mLoad(pictureDownload.url)
+            myHandler.post {
+                if (mImage != null) {
+                    mSaveMediaToStorage(mImage, pictureDownload.imageId)
+                }
+            }
+            dialogLoading.dismissDialog()
+        }
+    }
+
+    private fun mLoad(string: String): Bitmap? {
+        val url: URL = mStringToURL(string)!!
+        val connection: HttpURLConnection?
+        try {
+            connection = url.openConnection() as HttpURLConnection
+            connection.connect()
+            val inputStream: InputStream = connection.inputStream
+            val bufferedInputStream = BufferedInputStream(inputStream)
+            return BitmapFactory.decodeStream(bufferedInputStream)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(app, "Error", Toast.LENGTH_LONG).show()
+        }
+        return null
+    }
+
+    private fun mStringToURL(string: String): URL? {
+        try {
+            return URL(string)
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    private fun mSaveMediaToStorage(bitmap: Bitmap?, id: String) {
+        val filename = "${id}.jpg"
+        var fos: OutputStream? = null
+        app.contentResolver?.also { resolver ->
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+            }
+            val imageUri: Uri? =
+                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            imageUri?.let {
+                fos = resolver.openOutputStream(it)
+            }
+        }
+        fos?.use {
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            Toast.makeText(app, "Saved to Gallery", Toast.LENGTH_SHORT).show()
+        }
+        pictures.value?.let {
+            _pictures.postValue(it.map { pic ->
+                if (pic.imageId == id) {
+                    pic.copy(downloaded = true)
+                } else {
+                    pic
+                }
+            }.toMutableList())
+        }
+        getLocalPictures()
     }
 }

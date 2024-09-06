@@ -15,6 +15,7 @@ import com.example.asian.model.Picture
 class PicturesAdapter(
     private val onClick: (Picture) -> Unit,
     private val onFavorite: (Picture) -> Unit,
+    private val onDownLoad: (Picture) -> Unit,
     private val canDownload: Boolean
 ) : RecyclerView.Adapter<PicturesAdapter.PictureViewHolder>() {
     private val pictures: MutableList<Picture> = mutableListOf()
@@ -32,14 +33,22 @@ class PicturesAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(picture: Picture) {
             with(binding) {
-                Glide.with(context).load(picture.url).placeholder(R.drawable.progress_animation).into(ivPicture)
+                Glide.with(context).load(picture.url).placeholder(R.drawable.progress_animation)
+                    .into(ivPicture)
                 btnFavorite.setOnClickListener { onFavorite(picture) }
                 if (picture.favorite) {
                     btnFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
                     btnFavorite.setImageResource(R.drawable.ic_un_favorite)
                 }
+                if (picture.downloaded) {
+                    btnDownload.setImageResource(R.drawable.ic_downloaded)
+                } else {
+                    btnDownload.setImageResource(R.drawable.ic_download)
+                }
+                btnDownload.isEnabled = !picture.downloaded
                 btnDownload.isVisible = canDownload
+                btnDownload.setOnClickListener { onDownLoad(picture) }
                 root.setOnClickListener { onClick(picture) }
             }
         }

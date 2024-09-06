@@ -23,5 +23,6 @@ public class Constants {
     public static final String BASE_URL_UPLOAD = "https://upload.gyazo.com/api/";
     public static final String KEY_IMAGE_DATA = "imagedata";
     public static final int REQUEST_CODE = 1000;
+    public static final int REQUEST_CODE_WRITE = 1002;
     public static final String HEADER_AUTH = "Authorization: Bearer 5FiuqhBFKuWZa8YG516uTRAyoqPTU4KfMMzoNt4jpMQ";
 }

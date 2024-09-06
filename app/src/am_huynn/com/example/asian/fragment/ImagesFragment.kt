@@ -16,7 +16,7 @@ import com.example.asian.databinding.FragmentImagesBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.ImagesViewModel
 
-class ImagesFragment(private val position: Int) : Fragment() {
+class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) : Fragment() {
     private val binding: FragmentImagesBinding by lazy {
         FragmentImagesBinding.inflate(layoutInflater)
     }
@@ -25,8 +25,8 @@ class ImagesFragment(private val position: Int) : Fragment() {
 
     private val picturesAdapter by lazy {
         when (position) {
-            0 -> PicturesAdapter(onItemClick, onFavorite, true)
-            else -> PicturesAdapter(onItemClick, onFavorite, false)
+            0 -> PicturesAdapter(onItemClick, onFavorite, onDownLoad, true)
+            else -> PicturesAdapter(onItemClick, onFavorite, onDownLoad, false)
         }
     }
 
@@ -60,9 +60,9 @@ class ImagesFragment(private val position: Int) : Fragment() {
                 }
             }
             1 -> {
-                viewModel.getLocalPictures()
                 viewModel.localPictures.observe(viewLifecycleOwner) {
                     picturesAdapter.setData(it)
+                    binding.rvPictures.scrollToPosition(0)
                 }
             }
             2 -> {

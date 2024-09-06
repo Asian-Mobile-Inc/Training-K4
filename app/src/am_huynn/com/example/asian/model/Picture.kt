@@ -13,5 +13,7 @@ data class Picture(
     @ColumnInfo(name = "column_type") @SerializedName("type") var type: String?,
     @ColumnInfo(name = "column_thumb_url") @SerializedName("thumb_url") var thumbUrl: String?,
     @ColumnInfo(name = "column_created_at") @SerializedName("created_at") var createdAt: String?,
-    @ColumnInfo(name = "column_favorite") var favorite: Boolean = false
+    @ColumnInfo(name = "column_name") var name: String?,
+    @ColumnInfo(name = "column_favorite") var favorite: Boolean = false,
+    @ColumnInfo(name = "column_downloaded") var downloaded: Boolean = false
 )

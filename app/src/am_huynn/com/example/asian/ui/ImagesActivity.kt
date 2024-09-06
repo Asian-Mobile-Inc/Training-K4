@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -15,7 +16,7 @@ import com.example.asian.R
 import com.example.asian.adapter.PagerImageAdapter
 import com.example.asian.constants.Constants
 import com.example.asian.databinding.ActivityImagesBinding
-import com.example.asian.utils.LoadingDialog
+import com.example.asian.model.Picture
 import com.example.asian.viewmodel.ImagesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -48,7 +49,7 @@ class ImagesActivity : AppCompatActivity() {
     }
 
     private fun initControls() {
-        val pagerImageAdapter = PagerImageAdapter(this)
+        val pagerImageAdapter = PagerImageAdapter(this, onDownLoad)
         binding.vpImages.adapter = pagerImageAdapter
         TabLayoutMediator(binding.tlTabImages, binding.vpImages) { tab, position ->
             when (position) {
@@ -76,6 +77,17 @@ class ImagesActivity : AppCompatActivity() {
         pickImageResultLauncher.launch(Intent.createChooser(intent, "pick image"))
     }
 
+    private val onDownLoad: (Picture) -> Unit = {
+        viewModel.setPictureDownload(it)
+        if (checkPermissionWrite()) {
+            viewModel.dialogLoading.startLoadingDialog(this)
+            viewModel.downloadImage()
+        } else {
+            askForPermissionWrite()
+        }
+    }
+
+
     private fun checkPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
@@ -88,6 +100,12 @@ class ImagesActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkPermissionWrite(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
     private fun askForPermission() {
         val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
@@ -97,6 +115,12 @@ class ImagesActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(this, permissions, Constants.REQUEST_CODE)
     }
 
+    private fun askForPermissionWrite() {
+        ActivityCompat.requestPermissions(
+            this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), Constants.REQUEST_CODE_WRITE
+        )
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
@@ -104,6 +128,16 @@ class ImagesActivity : AppCompatActivity() {
         if (requestCode == Constants.REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 pickImage()
+            } else {
+                Toast.makeText(
+                    this, resources.getText(R.string.permission_denied), Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        if (requestCode == Constants.REQUEST_CODE_WRITE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                viewModel.downloadImage()
             } else {
                 Toast.makeText(
                     this, resources.getText(R.string.permission_denied), Toast.LENGTH_SHORT
