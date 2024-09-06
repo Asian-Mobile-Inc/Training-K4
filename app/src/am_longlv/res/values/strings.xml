@@ -103,4 +103,11 @@
     <string name="image_exists">Ảnh đã tồn tại trong máy</string>
     <string name="no_item_more">Đã load hết ảnh</string>
     <string name="image_exists_api">Ảnh đã tồn tại</string>
+    <string name="setting">Cài đặt</string>
+    <string name="message_no_permission">Vui lòng cấp quyền cho ứng dụng</string>
+    <string name="download_finished">Download finish</string>
+    <string name="download_failed">Tải thất bại</string>
+    <string name="download_started">Bắt đầu tải</string>
+    <string name="channel_name_download">Download File</string>
+    <string name="channel_description_download">Download Image</string>
 </resources>

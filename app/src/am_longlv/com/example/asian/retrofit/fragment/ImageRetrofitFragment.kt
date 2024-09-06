@@ -23,13 +23,13 @@ private const val KEY_BUNDLE = "tab"
 
 class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     private var mTab = TabName.RETROFIT.position
-    private val mBinding: FragmentImageRetrofitBinding by lazy {
+    private val binding: FragmentImageRetrofitBinding by lazy {
         FragmentImageRetrofitBinding.inflate(layoutInflater)
     }
     private val adapter: ImageAdapter by lazy {
         ImageAdapter(this, mTab)
     }
-    private val mViewModel: RetrofitViewModel by activityViewModels()
+    private val viewModel: RetrofitViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     ): View {
         initObserver()
         setupRecyclerView()
-        return mBinding.root
+        return binding.root
     }
 
     companion object {
@@ -58,31 +58,31 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     }
 
     private fun setupRecyclerView() {
-        mBinding.rvImageRetrofit.apply {
+        binding.rvImageRetrofit.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = this@ImageRetrofitFragment.adapter
         }
         if (mTab == TabName.RETROFIT.position) {
-            lazyLoad()
+            loadMore()
         }
     }
 
     private fun initObserver() {
         when (mTab) {
             TabName.RETROFIT.position -> {
-                mViewModel.listImage.observe(viewLifecycleOwner) {
+                viewModel.listImage.observe(viewLifecycleOwner) {
                     adapter.submitList(it.toMutableList())
                 }
             }
 
             TabName.LOCAL.position -> {
-                mViewModel.listLocal.observe(viewLifecycleOwner) {
+                viewModel.listLocal.observe(viewLifecycleOwner) {
                     adapter.submitList(it.toMutableList())
                 }
             }
 
             else -> {
-                mViewModel.listFavourite.observe(viewLifecycleOwner) {
+                viewModel.listFavourite.observe(viewLifecycleOwner) {
                     adapter.submitList(it.toMutableList())
                 }
             }
@@ -104,7 +104,7 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
             }
             with(dialogBinding) {
                 btnConfirmDelete.setOnClickListener {
-                    mViewModel.deleteImage(imageModel.imageId)
+                    viewModel.deleteImage(imageModel.imageId)
                     dialog.dismiss()
                 }
                 btnCancelDelete.setOnClickListener {
@@ -115,16 +115,16 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
         }
     }
 
-    private fun lazyLoad() {
-        mBinding.rvImageRetrofit.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    private fun loadMore() {
+        binding.rvImageRetrofit.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as GridLayoutManager?
-                if (!mViewModel.mIsLoading) {
+                if (!viewModel.isLoading) {
                     if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition()
-                        == (mViewModel.getListItemRetrofit().size - 1)
+                        == (viewModel.getListItemRetrofit().size - 1)
                     ) {
-                        mViewModel.loadMore()
+                        viewModel.loadMore()
                     }
                 }
             }
@@ -139,12 +139,12 @@ class ImageRetrofitFragment : Fragment(), ImageAdapter.ItemClickListener {
     }
 
     override fun onBtnFavouriteClick(imageModel: ImageModel) {
-        mViewModel.handlerClickFavourite(imageModel)
+        viewModel.handleClickFavourite(imageModel)
     }
 
     override fun onBtnDownloadClick(imageModel: ImageModel) {
         if (!imageModel.isDownloaded) {
-            context?.let { mViewModel.downloadImage(imageModel, it) }
+            context?.let { viewModel.downloadImage(imageModel, it) }
         } else {
             Toast.makeText(
                 context,

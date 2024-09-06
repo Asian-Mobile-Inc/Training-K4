@@ -15,11 +15,11 @@ abstract class RetrofitRoomDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var mInstance: RetrofitRoomDatabase? = null
+        private var instance: RetrofitRoomDatabase? = null
 
         fun getInstance(application: Application): RetrofitRoomDatabase {
-            if (mInstance == null) {
-                mInstance =
+            if (instance == null) {
+                instance =
                     Room.databaseBuilder(
                         application,
                         RetrofitRoomDatabase::class.java,
@@ -27,7 +27,7 @@ abstract class RetrofitRoomDatabase : RoomDatabase() {
                     )
                         .build()
             }
-            return mInstance!!
+            return instance!!
         }
     }
 }

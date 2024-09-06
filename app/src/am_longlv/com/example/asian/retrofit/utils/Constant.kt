@@ -12,6 +12,7 @@ object Constant {
     internal const val STATUS_CODE_NO_PICK_IMAGE = -3
     internal const val STATUS_CODE_NO_ITEM_MORE = -4
     internal const val STATUS_CODE_EXISTS_IMAGE_API = -5
+    internal const val STATUS_CODE_START_DOWNLOAD = -6
     internal const val STATUS_CODE_SHOW_DIALOG_LOAD_MORE = -10
     internal const val STATUS_CODE_HIDE_DIALOG_LOAD_MORE = -11
     internal const val CONVERT_TIME_TO_CREATED_AT = "yyyy-MM-dd'T'HH:mm:ss'+0000'"
@@ -20,4 +21,7 @@ object Constant {
     internal const val ACTION_INTERNET_CHANGE =
         "com.example.asian.retrofit.broadcast.InternetBroadcast"
     internal const val ACTION_CONNECTIVITY_CHANGE: String = "android.net.conn.CONNECTIVITY_CHANGE"
+    internal const val CHANNEL_DOWNLOAD_ID = "Notification download"
+    internal const val NOTIFICATION_DOWNLOAD_ID = -1
+    internal const val TIME_DELAY_UPLOAD = 2000
 }

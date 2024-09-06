@@ -15,8 +15,8 @@ interface RetrofitRoomDao {
     @Update
     suspend fun updateStorage(imageModel: ImageModel)
 
-    @Query("DELETE FROM image_api WHERE url = :url")
-    suspend fun deleteStorage(url: String)
+    @Query("DELETE FROM image_api WHERE image_id = :imageId")
+    suspend fun deleteStorage(imageId: String)
 
     @Query("SELECT * FROM image_api")
     suspend fun getAllStorage(): MutableList<ImageModel>

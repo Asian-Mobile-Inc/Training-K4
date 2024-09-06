@@ -27,7 +27,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.HttpException
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -42,29 +41,33 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     private val roomRepository: RetrofitRoomRepository = RetrofitRoomRepository(application)
     private val apiHelper = ApiHelper(RetrofitBuilder.apiService)
     private val apiUploadHelper = ApiHelper(RetrofitBuilder.apiServiceUpload)
-    private val mListImage = MutableLiveData<MutableList<ImageModel>>()
-    internal val listImage: LiveData<MutableList<ImageModel>> = mListImage
-    private var mListFavourite = MutableLiveData<MutableList<ImageModel>>()
-    internal var listFavourite: LiveData<MutableList<ImageModel>> = mListFavourite
-    private var mListLocal = MutableLiveData<MutableList<ImageModel>>()
-    internal var listLocal: LiveData<MutableList<ImageModel>> = mListLocal
-    private var mStatusRetrofitCallback = MutableLiveData<Int>()
-    internal var statusRetrofitCallback: LiveData<Int> = mStatusRetrofitCallback
-    private var mPage = 2
-    private var mItemQuantityChange = 0
-    internal var mIsLoading = false
+    private val _listImage = MutableLiveData<MutableList<ImageModel>>()
+    internal val listImage: LiveData<MutableList<ImageModel>> = _listImage
+    private var _listFavourite = MutableLiveData<MutableList<ImageModel>>()
+    internal var listFavourite: LiveData<MutableList<ImageModel>> = _listFavourite
+    private var _listLocal = MutableLiveData<MutableList<ImageModel>>()
+    internal var listLocal: LiveData<MutableList<ImageModel>> = _listLocal
+    private var _statusRetrofitCallback = MutableLiveData<Int>()
+    internal var statusRetrofitCallback: LiveData<Int> = _statusRetrofitCallback
+    private var _progressDownload = MutableLiveData<Int>()
+    internal var progressDownload: LiveData<Int> = _progressDownload
+    private var page = 2
+    private var itemQuantityChange = 0
+    internal var isLoading = false
+    private var listDownload: MutableList<ImageModel> = mutableListOf()
 
     init {
-        mListImage.value = mutableListOf()
-        mListFavourite.value = mutableListOf()
-        mListLocal.value = mutableListOf()
-        mStatusRetrofitCallback.value = Constant.STATUS_CODE_OK
+        _listImage.value = mutableListOf()
+        _listFavourite.value = mutableListOf()
+        _listLocal.value = mutableListOf()
+        _statusRetrofitCallback.value = Constant.STATUS_CODE_OK
+        _progressDownload.value = 0
     }
 
     internal fun uploadImage(uri: Uri, context: Context) {
-        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
+        _statusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
         if (uri != Uri.parse("")) {
-            mItemQuantityChange++
+            itemQuantityChange++
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     val fileRealPath = RealPathUtil.getRealPathFromURI(context, uri) ?: ""
@@ -84,66 +87,60 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                                 Locale.ENGLISH
                             )
                         sdf.timeZone = TimeZone.getTimeZone(Constant.KEY_GMT_DEFAULT)
-                        val time = sdf.format(createdAt)
+                        val time = sdf.format((createdAt - Constant.TIME_DELAY_UPLOAD))
                         val img = apiUploadHelper.uploadImage(body)
                         if (img.isSuccessful) {
-                            mListImage.value?.let {
+                            _listImage.value?.let {
                                 img.body()?.let { r ->
                                     if (time <= r.createdAt) {
                                         it.add(0, r)
                                     } else {
-                                        mItemQuantityChange--
+                                        itemQuantityChange--
                                         withContext(Dispatchers.Main) {
-                                            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_EXISTS_IMAGE_API)
+                                            _statusRetrofitCallback.postValue(Constant.STATUS_CODE_EXISTS_IMAGE_API)
                                         }
                                     }
                                 }
-                                mListImage.postValue(it)
+                                _listImage.postValue(it)
                             }
                         }
-                        mStatusRetrofitCallback.postValue(img.code())
+                        _statusRetrofitCallback.postValue(img.code())
                     }
-                } catch (e: HttpException) {
-                    mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
                 } catch (e: Exception) {
-                    mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
-                    e.printStackTrace()
+                    _statusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
                 }
             }
         } else {
-            mStatusRetrofitCallback.value = Constant.STATUS_CODE_NO_PICK_IMAGE
+            _statusRetrofitCallback.value = Constant.STATUS_CODE_NO_PICK_IMAGE
         }
     }
 
     internal fun deleteImage(imgId: String) {
-        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
-        viewModelScope.launch {
+        _statusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val im = apiHelper.deleteImage(imgId)
                 if (im.isSuccessful) {
-                    mItemQuantityChange--
-                    mListImage.value?.let {
+                    itemQuantityChange--
+                    _listImage.value?.let {
                         val img = it.firstOrNull { sub ->
                             im.body()?.imageId == sub.imageId
                         }
                         if (img != null) {
                             it.remove(img)
                         }
-                        mListImage.postValue(it)
+                        _listImage.postValue(it)
                     }
                 }
-                mStatusRetrofitCallback.postValue(im.code())
-            } catch (e: HttpException) {
-                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
+                _statusRetrofitCallback.postValue(im.code())
             } catch (e: Exception) {
-                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
-                e.printStackTrace()
+                _statusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
             }
         }
     }
 
     private suspend fun fetchImagesFromRoom(): MutableList<ImageModel> {
-        mListFavourite.postValue(roomRepository.getAllStorage())
+        _listFavourite.postValue(roomRepository.getAllStorage())
         return roomRepository.getAllStorage()
     }
 
@@ -151,22 +148,19 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
         try {
             val rs = apiHelper.getAllImages(Constant.ITEM_PER_PAGE)
             rs.body()?.let {
-                mListImage.postValue(rs.body())
+                _listImage.postValue(rs.body())
             }
-            mStatusRetrofitCallback.postValue(rs.code())
+            _statusRetrofitCallback.postValue(rs.code())
             rs.body()?.let {
                 return it
             }
-        } catch (e: HttpException) {
-            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
         } catch (e: Exception) {
-            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
-            e.printStackTrace()
+            _statusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
         }
         return mutableListOf()
     }
 
-    private fun fetchImagesFromLocal(context: Context): MutableList<ImageModel> {
+    internal fun fetchImagesFromLocal(context: Context): MutableList<ImageModel> {
         val imageList: MutableList<ImageModel> = mutableListOf()
         val columns = arrayOf(
             MediaStore.Images.Media.DATA,
@@ -197,7 +191,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                 imageList.add(storageModel)
             }
             imageList.let {
-                mListLocal.postValue(it)
+                _listLocal.postValue(it)
             }
         }
         cursor?.close()
@@ -205,8 +199,8 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
     }
 
     internal fun fetchAllImages(context: Context) {
-        if (mListImage.value?.size == 0) {
-            mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
+        if (_listImage.value?.size == 0) {
+            _statusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
             viewModelScope.launch {
                 val imgRoom: MutableList<ImageModel> = async {
                     fetchImagesFromRoom()
@@ -243,7 +237,7 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                 it.isDownloaded = true
             }
         }
-        mListImage.postValue(imgApi)
+        _listImage.postValue(imgApi)
         imgLocal.forEach {
             val indexFavourite = imgRoom.indexOfFirst { sub ->
                 sub.imageId == it.imageId
@@ -252,80 +246,90 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                 it.isFavourite = true
             }
         }
-        mListLocal.postValue(imgLocal)
+        _listLocal.postValue(imgLocal)
         imgRoom.forEach {
             it.isFavourite = true
         }
-        mListFavourite.postValue(imgRoom)
+        _listFavourite.postValue(imgRoom)
     }
 
-    internal fun handlerClickFavourite(imageModel: ImageModel) {
+    internal fun handleClickFavourite(imageModel: ImageModel) {
         if (imageModel.isFavourite) {
             viewModelScope.launch(Dispatchers.IO) {
                 roomRepository.deleteStorage(imageModel)
             }
-            handlerFavouriteList(imageModel)
-            mListFavourite.value?.let {
+            handleFavouriteList(imageModel)
+            _listFavourite.value?.let {
                 val item = it.firstOrNull { sub ->
                     sub.imageId == imageModel.imageId
                 }
                 it.remove(item)
-                mListFavourite.postValue(it)
+                _listFavourite.postValue(it)
             }
         } else {
             viewModelScope.launch(Dispatchers.IO) {
                 roomRepository.insertStorage(imageModel)
             }
-            mListFavourite.value?.let {
+            _listFavourite.value?.let {
                 val newItem = imageModel.copy()
                 newItem.isFavourite = !imageModel.isFavourite
                 newItem.isDownloaded = imageModel.isDownloaded
                 it.add(newItem)
-                mListFavourite.value = it
+                _listFavourite.value = it
             }
-            handlerFavouriteList(imageModel)
+            handleFavouriteList(imageModel)
         }
     }
 
-    private fun handlerFavouriteList(imageModel: ImageModel) {
-        mListImage.value?.let {
+    private fun handleFavouriteList(imageModel: ImageModel) {
+        _listImage.value?.let {
             val index = it.indexOfFirst { sub ->
                 sub.imageId == imageModel.imageId
             }
             if (index != -1) {
                 val newItem = it[index].copy()
-                newItem.isFavourite = !it[index].isFavourite
-                newItem.isDownloaded = it[index].isDownloaded
+                newItem.isFavourite = !imageModel.isFavourite
+                newItem.isDownloaded = imageModel.isDownloaded
                 it[index] = newItem
             }
-            mListImage.postValue(it)
+            _listImage.postValue(it)
         }
-        mListLocal.value?.let {
+        _listLocal.value?.let {
             val index = it.indexOfFirst { sub ->
                 sub.imageId == imageModel.imageId
             }
             if (index != -1) {
                 val newItem = it[index].copy()
-                newItem.isFavourite = !it[index].isFavourite
-                newItem.isDownloaded = it[index].isDownloaded
+                newItem.isFavourite = !imageModel.isFavourite
+                newItem.isDownloaded = imageModel.isDownloaded
                 it[index] = newItem
             }
-            mListLocal.postValue(it)
+            _listLocal.postValue(it)
         }
     }
 
-    fun downloadImage(imageModel: ImageModel, context: Context) {
-        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOADING
+    internal fun reDownloadImage(context: Context) {
+        listDownload.forEach {
+            downloadImage(it, context)
+        }
+        listDownload.clear()
+    }
+
+    internal fun downloadImage(imageModel: ImageModel, context: Context) {
+        _statusRetrofitCallback.value = Constant.STATUS_CODE_START_DOWNLOAD
+        lateinit var file: File
+        var progress = 0
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val url = URL(imageModel.url)
-                val mHttpURLConnection = url.openConnection() as HttpURLConnection
-                mHttpURLConnection.connect()
-                val inputStream: InputStream = BufferedInputStream(url.openStream())
                 val path =
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                         .absolutePath + File.separator + imageModel.imageId + "." + imageModel.type
-                val file = File(path)
+                file = File(path)
+                val url = URL(imageModel.url)
+                val mHttpURLConnection = url.openConnection() as HttpURLConnection
+                mHttpURLConnection.connect()
+                val fileLength = mHttpURLConnection.getContentLength()
+                val inputStream: InputStream = BufferedInputStream(url.openStream())
                 if (file.exists()) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
@@ -342,10 +346,14 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                     while ((inputStream.read(data).also { count = it }) != -1) {
                         total += count.toLong()
                         outputStream.write(data, 0, count)
+                        if (progress != ((total * 100 / fileLength).toInt())) {
+                            progress = ((total * 100 / fileLength).toInt())
+                            _progressDownload.postValue(progress)
+                        }
                     }
                     outputStream.flush()
                     outputStream.close()
-                    mListImage.value?.let {
+                    _listImage.value?.let {
                         val index = it.indexOfFirst { sub ->
                             sub.imageId == imageModel.imageId
                         }
@@ -355,30 +363,31 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
                             newItem.isFavourite = it[index].isFavourite
                             it[index] = newItem
                         }
-                        mListImage.postValue(it)
+                        _listImage.postValue(it)
                     }
-                    mListLocal.value?.let {
+                    _listLocal.value?.let {
                         it.add(imageModel)
-                        mListLocal.postValue(it)
+                        _listLocal.postValue(it)
                     }
                 }
                 inputStream.close()
-                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OK)
+                _statusRetrofitCallback.postValue(Constant.STATUS_CODE_OK)
                 MediaScannerConnection.scanFile(
                     context, arrayOf(path),
                     null, null
                 )
-            } catch (e: HttpException) {
-                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
             } catch (e: Exception) {
-                mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
-                e.printStackTrace()
+                listDownload.add(imageModel)
+                if (file.exists()) {
+                    file.delete()
+                }
+                _statusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
             }
         }
     }
 
     internal fun getListItemRetrofit(): MutableList<ImageModel> {
-        mListImage.value?.let {
+        _listImage.value?.let {
             return it
         }
         return mutableListOf()
@@ -386,62 +395,59 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
 
     private suspend fun getListLoadMore(): MutableList<ImageModel> {
         try {
-            if (mItemQuantityChange < 0) {
-                mPage += (mItemQuantityChange / Constant.ITEM_PER_PAGE) - 1
-                mItemQuantityChange %= Constant.ITEM_PER_PAGE
+            if (itemQuantityChange < 0) {
+                page += (itemQuantityChange / Constant.ITEM_PER_PAGE) - 1
+                itemQuantityChange %= Constant.ITEM_PER_PAGE
             }
-            if (mItemQuantityChange > 0) {
-                mPage += mItemQuantityChange / Constant.ITEM_PER_PAGE
-                mItemQuantityChange %= Constant.ITEM_PER_PAGE
+            if (itemQuantityChange > 0) {
+                page += itemQuantityChange / Constant.ITEM_PER_PAGE
+                itemQuantityChange %= Constant.ITEM_PER_PAGE
             }
-            val rs = apiHelper.loadMoreImage(mPage, Constant.ITEM_PER_PAGE)
-            mStatusRetrofitCallback.postValue(rs.code())
-            mPage++
+            val rs = apiHelper.loadMoreImage(page, Constant.ITEM_PER_PAGE)
+            _statusRetrofitCallback.postValue(rs.code())
+            page++
             rs.body()?.let {
-                mIsLoading = false
+                isLoading = false
                 if (it.size == 0) {
-                    mPage--
-                    mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_ITEM_MORE)
+                    page--
+                    _statusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_ITEM_MORE)
                 }
                 return it
             }
-        } catch (e: HttpException) {
-            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_NO_INTERNET)
         } catch (e: Exception) {
-            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
-            e.printStackTrace()
+            _statusRetrofitCallback.postValue(Constant.STATUS_CODE_OTHER_EXCEPTION)
         }
         return mutableListOf()
     }
 
     internal fun loadMore() {
-        mStatusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOAD_MORE
-        mIsLoading = true
+        isLoading = true
+        _statusRetrofitCallback.value = Constant.STATUS_CODE_SHOW_DIALOG_LOAD_MORE
         viewModelScope.launch(Dispatchers.IO) {
             val imgApi: MutableList<ImageModel> = async {
                 getListLoadMore()
             }.await()
-            mStatusRetrofitCallback.postValue(Constant.STATUS_CODE_HIDE_DIALOG_LOAD_MORE)
+            _statusRetrofitCallback.postValue(Constant.STATUS_CODE_HIDE_DIALOG_LOAD_MORE)
             viewModelScope.launch(Dispatchers.Default) {
-                mListImage.value?.let {
-                    if (mItemQuantityChange == 0) {
+                _listImage.value?.let {
+                    if (itemQuantityChange == 0) {
                         it.addAll(imgApi)
                     } else {
-                        if (mItemQuantityChange < 0) {
-                            for (i in imgApi.size + mItemQuantityChange until imgApi.size) {
+                        if (itemQuantityChange < 0) {
+                            for (i in imgApi.size + itemQuantityChange until imgApi.size) {
                                 it.add(imgApi[i])
                             }
-                            mItemQuantityChange = 0
+                            itemQuantityChange = 0
                         } else {
-                            for (i in mItemQuantityChange until imgApi.size) {
+                            for (i in itemQuantityChange until imgApi.size) {
                                 it.add(imgApi[i])
                             }
-                            mItemQuantityChange = 0
+                            itemQuantityChange = 0
                         }
                     }
-                    mListImage.postValue(it)
-                    mListFavourite.value?.let { itFav ->
-                        mListLocal.value?.let { itLocal ->
+                    _listImage.postValue(it)
+                    _listFavourite.value?.let { itFav ->
+                        _listLocal.value?.let { itLocal ->
                             getStatus(it, itFav, itLocal)
                         }
                     }

@@ -6,16 +6,15 @@ import com.example.asian.retrofit.database.dao.RetrofitRoomDao
 import com.example.asian.retrofit.model.ImageModel
 
 class RetrofitRoomRepository(application: Application) {
-    private val mStorageDao: RetrofitRoomDao
+    private val storageDao: RetrofitRoomDao
 
     init {
         val storageDatabase: RetrofitRoomDatabase = RetrofitRoomDatabase.getInstance(application)
-        mStorageDao = storageDatabase.getStorageDao()
+        storageDao = storageDatabase.getStorageDao()
     }
 
-    suspend fun insertStorage(imageModel: ImageModel) = mStorageDao.insertStorage(imageModel)
+    suspend fun insertStorage(imageModel: ImageModel) = storageDao.insertStorage(imageModel)
+    suspend fun getAllStorage(): MutableList<ImageModel> = storageDao.getAllStorage()
     suspend fun deleteStorage(imageModel: ImageModel) =
-        mStorageDao.deleteStorage(imageModel.url)
-
-    suspend fun getAllStorage(): MutableList<ImageModel> = mStorageDao.getAllStorage()
+        storageDao.deleteStorage(imageModel.imageId)
 }

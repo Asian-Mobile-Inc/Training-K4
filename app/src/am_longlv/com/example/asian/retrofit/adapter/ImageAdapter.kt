@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.asian.databinding.ItemListRetrofitBinding
 import com.example.asian.retrofit.model.ImageModel
 
-class ImageAdapter(private var mItemClickListener: ItemClickListener, private var tab: Int) :
+class ImageAdapter(private var itemClickListener: ItemClickListener, private var tab: Int) :
     ListAdapter<ImageModel, ImageAdapter.ViewHolder>(ImageDiffCallback()) {
     class ImageDiffCallback : DiffUtil.ItemCallback<ImageModel>() {
         override fun areItemsTheSame(oldItem: ImageModel, newItem: ImageModel): Boolean {
@@ -53,14 +53,14 @@ class ImageAdapter(private var mItemClickListener: ItemClickListener, private va
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        return holder.bind(getItem(position), mItemClickListener)
+        return holder.bind(getItem(position), itemClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
-            return holder.initListener(getItem(position), mItemClickListener)
+            return holder.initListener(getItem(position), itemClickListener)
         }
     }
 
