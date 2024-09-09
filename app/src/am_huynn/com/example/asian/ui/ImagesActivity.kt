@@ -52,7 +52,7 @@ class ImagesActivity : AppCompatActivity() {
         binding.vpImages.adapter = pagerImageAdapter
         TabLayoutMediator(binding.tlTabImages, binding.vpImages) { tab, position ->
             when (position) {
-                0 -> tab.text = resources.getString(R.string.all)
+                0 -> tab.text = resources.getString(R.string.network)
                 1 -> tab.text = resources.getString(R.string.local)
                 2 -> tab.text = resources.getString(R.string.favorite)
             }
