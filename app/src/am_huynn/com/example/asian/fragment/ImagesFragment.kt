@@ -38,6 +38,7 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
     ): View {
         initControls()
         initObserver()
+        initRefreshListener()
         return binding.root
     }
 
@@ -58,6 +59,19 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
                 override val isLastPage: Boolean
                     get() = viewModel.isLastPage
             })
+        }
+    }
+
+    private fun initRefreshListener() {
+        binding.srlRefreshPictures.apply {
+            when (position) {
+                0 -> setOnRefreshListener {
+                    viewModel.getAllPicture()
+                    isRefreshing = false
+                }
+                1 -> isEnabled = false
+                2 -> isEnabled = false
+            }
         }
     }
 
