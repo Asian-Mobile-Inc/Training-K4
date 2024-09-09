@@ -15,6 +15,7 @@ import com.example.asian.adapter.GridSpacingItemDecoration
 import com.example.asian.adapter.PicturesAdapter
 import com.example.asian.databinding.DialogShowImageBinding
 import com.example.asian.databinding.FragmentImagesBinding
+import com.example.asian.listeners.ScrollLoadMoreListener
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.ImagesViewModel
 
@@ -43,9 +44,20 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
     private fun initControls() {
         binding.rvPictures.apply {
             adapter = picturesAdapter
-            layoutManager = GridLayoutManager(context, 3)
+            val gridLayoutManager = GridLayoutManager(context, 3)
+            layoutManager = gridLayoutManager
             addItemDecoration(GridSpacingItemDecoration(14))
             itemAnimator = null
+            addOnScrollListener(object : ScrollLoadMoreListener(gridLayoutManager) {
+                override fun loadMoreItem() {
+                    viewModel.onLoadMore()
+                }
+
+                override val isLoading: Boolean
+                    get() = viewModel.isLoadMore.value ?: false
+                override val isLastPage: Boolean
+                    get() = viewModel.isLastPage
+            })
         }
     }
 
@@ -54,22 +66,28 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
             0 -> {
                 viewModel.isLoadingNetwork.observe(viewLifecycleOwner) {
                     binding.pbProgressNetwork.isVisible = it
+                    binding.rvPictures.isVisible = !it
                 }
                 viewModel.pictures.observe(viewLifecycleOwner) {
                     picturesAdapter.setData(it)
-                    binding.rvPictures.scrollToPosition(0)
                 }
             }
             1 -> {
                 viewModel.localPictures.observe(viewLifecycleOwner) {
                     picturesAdapter.setData(it)
-                    binding.rvPictures.scrollToPosition(0)
                 }
             }
             2 -> {
                 viewModel.favoritePictures.observe(viewLifecycleOwner) {
                     picturesAdapter.setData(it)
                 }
+            }
+        }
+
+        viewModel.isLoadMore.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> binding.pbLoadMore.visibility = View.VISIBLE
+                false -> binding.pbLoadMore.visibility = View.GONE
             }
         }
     }

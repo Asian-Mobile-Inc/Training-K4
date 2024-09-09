@@ -36,7 +36,7 @@ class ImageRepository(private val app: Application) {
     private val apiServiceUpload =
         ApiClient.retrofit(Constants.BASE_URL_UPLOAD).create(ApiService::class.java)
 
-    suspend fun getImages() = apiService.getImages()
+    suspend fun getImages(page: Int, per_page: Int) = apiService.getImages(page, per_page)
 
     suspend fun uploadImage(image: MultipartBody.Part) = apiServiceUpload.uploadImage(image)
 

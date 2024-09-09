@@ -9,7 +9,10 @@ import retrofit2.http.*
 interface ApiService {
     @Headers(Constants.HEADER_AUTH)
     @GET("images")
-    suspend fun getImages(): Response<MutableList<Picture>>
+    suspend fun getImages(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int?,
+    ): Response<MutableList<Picture>>
 
     @Multipart
     @Headers(Constants.HEADER_AUTH)

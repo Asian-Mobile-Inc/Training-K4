@@ -34,7 +34,13 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     val isLoadingNetwork: LiveData<Boolean> = _isLoadingNetwork
 
-    private val _pictures = MutableLiveData<MutableList<Picture>>()
+    private val _isLoadMore = MutableLiveData<Boolean>()
+
+    val isLoadMore: LiveData<Boolean> = _isLoadMore
+
+    private val _pictures = MutableLiveData<MutableList<Picture>>().apply {
+        postValue(mutableListOf())
+    }
 
     val pictures: LiveData<MutableList<Picture>> = _pictures
 
@@ -52,6 +58,10 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private lateinit var pictureDownload: Picture
 
+    private var page = 1
+    private val perPage = 18
+    var isLastPage = false
+
     private val myExecutor = Executors.newSingleThreadExecutor()
     private val myHandler = Handler(Looper.getMainLooper())
 
@@ -61,11 +71,19 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     fun getAllPicture() = viewModelScope.launch(Dispatchers.IO) {
         _isLoadingNetwork.postValue(true)
+        _pictures.postValue(mutableListOf())
+        isLastPage = false
+        page = 1
         getLocalPictures()
-        val response = imageRepository.getImages()
+        getPicturesNetwork()
+    }
+
+    private fun getPicturesNetwork() = viewModelScope.launch(Dispatchers.IO) {
+        val response = imageRepository.getImages(page, perPage)
+
         if (response.isSuccessful) {
-            val pictures = response.body() ?: mutableListOf()
-            pictures.forEach {
+            val picturesResponse = response.body() ?: mutableListOf()
+            picturesResponse.forEach {
                 val indexFavorite = favoritePictures.value?.indexOfFirst { e ->
                     e.imageId == it.imageId
                 }
@@ -82,7 +100,15 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                     it.downloaded = true
                 }
             }
-            _pictures.postValue(pictures)
+            if (picturesResponse.size == 0) {
+                isLastPage = true
+            } else {
+                pictures.value?.let {
+                    it.addAll(picturesResponse)
+                    _pictures.postValue(it)
+                }
+            }
+            page++
         } else {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
@@ -93,6 +119,7 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
             }
         }
         _isLoadingNetwork.postValue(false)
+        _isLoadMore.postValue(false)
     }
 
     private fun getLocalPictures() = viewModelScope.launch {
@@ -107,6 +134,11 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                 }
             }.toMutableList())
         }
+    }
+
+    fun onLoadMore() = viewModelScope.launch(Dispatchers.IO) {
+        _isLoadMore.postValue(true)
+        getPicturesNetwork()
     }
 
     fun favoriteNetworkPicture(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
