@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -23,6 +24,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.io.IOException
 import java.util.concurrent.Executors
 
 class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
@@ -79,44 +81,49 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     private fun getPicturesNetwork() = viewModelScope.launch(Dispatchers.IO) {
-        val response = imageRepository.getImages(page, perPage)
+        try {
+            val response = imageRepository.getImages(page, perPage)
+            if (response.isSuccessful) {
+                val picturesResponse = response.body() ?: mutableListOf()
+                picturesResponse.forEach {
+                    val indexFavorite = favoritePictures.value?.indexOfFirst { e ->
+                        e.imageId == it.imageId
+                    }
 
-        if (response.isSuccessful) {
-            val picturesResponse = response.body() ?: mutableListOf()
-            picturesResponse.forEach {
-                val indexFavorite = favoritePictures.value?.indexOfFirst { e ->
-                    e.imageId == it.imageId
-                }
+                    val indexDownloaded = _localPictures.value?.indexOfFirst { e ->
+                        "${it.imageId}.jpg" == e.name
+                    }
 
-                val indexDownloaded = _localPictures.value?.indexOfFirst { e ->
-                    "${it.imageId}.jpg" == e.name
-                }
+                    if (indexFavorite != -1) {
+                        it.favorite = true
+                    }
 
-                if (indexFavorite != -1) {
-                    it.favorite = true
+                    if (indexDownloaded != -1) {
+                        it.downloaded = true
+                    }
                 }
-
-                if (indexDownloaded != -1) {
-                    it.downloaded = true
+                if (picturesResponse.size == 0) {
+                    isLastPage = true
+                } else {
+                    pictures.value?.let {
+                        it.addAll(picturesResponse)
+                        _pictures.postValue(it)
+                    }
                 }
-            }
-            if (picturesResponse.size == 0) {
-                isLastPage = true
+                page++
             } else {
-                pictures.value?.let {
-                    it.addAll(picturesResponse)
-                    _pictures.postValue(it)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        app,
+                        app.getString(R.string.error_param, response.code(), response.message()),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-            page++
-        } else {
-            withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    app,
-                    app.getString(R.string.error_param, response.code(), response.message()),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        } catch (e: IOException) {
+            Log.e("TAG", app.resources.getString(R.string.please_check_your_network))
+        } catch (e: Exception) {
+            Log.e("TAG", e.message.toString())
         }
         _isLoadingNetwork.postValue(false)
         _isLoadMore.postValue(false)
@@ -221,23 +228,52 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     fun uploadImage(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
-        val realPath = RealPathUtil.getRealPath(app, uri)
-        realPath?.let {
-            val file = File(it)
-            val requestBody = RequestBody.create(
-                app.contentResolver.getType(uri)?.let { it1 -> MediaType.parse(it1) }, file
-            )
-            val imagePart =
-                MultipartBody.Part.createFormData(Constants.KEY_IMAGE_DATA, file.name, requestBody)
-            val response = imageRepository.uploadImage(imagePart)
-            if (response.isSuccessful) {
-                val picture: Picture? = response.body()
-                if (picture != null) {
-                    val values = _pictures.value
-                    values?.let { list ->
-                        list.add(0, picture)
-                        _pictures.postValue(list)
+        try {
+            val realPath = RealPathUtil.getRealPath(app, uri)
+            realPath?.let {
+                val file = File(it)
+                val requestBody = RequestBody.create(
+                    app.contentResolver.getType(uri)?.let { it1 -> MediaType.parse(it1) }, file
+                )
+                val imagePart = MultipartBody.Part.createFormData(
+                    Constants.KEY_IMAGE_DATA, file.name, requestBody
+                )
+                val response = imageRepository.uploadImage(imagePart)
+                if (response.isSuccessful) {
+                    val picture: Picture? = response.body()
+                    if (picture != null) {
+                        val values = _pictures.value
+                        values?.let { list ->
+                            list.add(0, picture)
+                            _pictures.postValue(list)
+                        }
                     }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            app, app.getString(
+                                R.string.error_param, response.code(), response.message()
+                            ), Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            Log.e("TAG", app.resources.getString(R.string.please_check_your_network))
+        } catch (e: Exception) {
+            Log.e("TAG", e.message.toString())
+        }
+        dialogLoading.dismissDialog()
+    }
+
+    fun deleteImage(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            val response = imageRepository.deleteImage(picture.imageId)
+            if (response.isSuccessful) {
+                val list = _pictures.value
+                list?.let {
+                    it.remove(picture)
+                    _pictures.postValue(it)
                 }
             } else {
                 withContext(Dispatchers.Main) {
@@ -248,26 +284,10 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                     ).show()
                 }
             }
-            dialogLoading.dismissDialog()
-        }
-    }
-
-    fun deleteImage(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
-        val response = imageRepository.deleteImage(picture.imageId)
-        if (response.isSuccessful) {
-            val list = _pictures.value
-            list?.let {
-                it.remove(picture)
-                _pictures.postValue(it)
-            }
-        } else {
-            withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    app,
-                    app.getString(R.string.error_param, response.code(), response.message()),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        } catch (e: IOException) {
+            Log.e("TAG", app.resources.getString(R.string.please_check_your_network))
+        } catch (e: Exception) {
+            Log.e("TAG", e.message.toString())
         }
         dialogLoading.dismissDialog()
     }
