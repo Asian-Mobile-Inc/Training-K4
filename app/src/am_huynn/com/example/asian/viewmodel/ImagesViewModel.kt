@@ -294,9 +294,10 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
         pictures.value?.let {
             _pictures.postValue(it.map { pic ->
                 if (pic.imageId == pictureId) {
-                    favorite?.let { value -> return@map pic.copy(favorite = value) }
-                    downloaded?.let { value -> return@map pic.copy(downloaded = value) }
-                    pic
+                    pic.copy(
+                        favorite = favorite ?: pic.favorite,
+                        downloaded = downloaded ?: pic.downloaded
+                    )
                 } else {
                     pic
                 }
