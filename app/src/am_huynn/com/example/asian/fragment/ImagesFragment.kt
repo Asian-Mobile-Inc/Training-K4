@@ -127,17 +127,4 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
             2 -> viewModel.unFavoritePictures(it)
         }
     }
-
-    private val onItemDelete: (Picture) -> Unit = {
-        context?.let { context ->
-            val dialogBuilder = AlertDialog.Builder(context)
-            with(dialogBuilder) {
-                setMessage(resources.getText(R.string.do_you_want_delete_image))
-                setPositiveButton(resources.getText(R.string.yes)) { _, _ ->
-                    viewModel.deleteImage(it)
-                }
-                setNegativeButton(resources.getText(R.string.no)) { _, _ -> }
-            }.create().show()
-        }
-    }
 }

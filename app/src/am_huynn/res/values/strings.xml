@@ -85,4 +85,5 @@
     <string name="pick_image">Pick image</string>
     <string name="camera">Camera</string>
     <string name="library">Library</string>
+    <string name="go_to_app_setting_grant_permission">Go to app settings to grant permission to this application</string>
 </resources>

@@ -3,13 +3,15 @@ package com.example.asian.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,10 +19,8 @@ import com.example.asian.R
 import com.example.asian.adapter.PagerImageAdapter
 import com.example.asian.constants.Constants
 import com.example.asian.databinding.ActivityImagesBinding
-import com.example.asian.databinding.BottomSheetSelectImageBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.ImagesViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ImagesActivity : AppCompatActivity() {
@@ -72,34 +72,58 @@ class ImagesActivity : AppCompatActivity() {
     private fun initListener() {
         with(binding) {
             btnShowAll.setOnClickListener {
-                if (checkPermission()) {
-                    viewModel.getAllPicture()
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                ) {
+                    AlertDialog.Builder(this@ImagesActivity).apply {
+                        setMessage(resources.getText(R.string.go_to_app_setting_grant_permission))
+                        setPositiveButton(resources.getText(R.string.yes)) { _, _ ->
+                            startActivity(
+                                Intent(
+                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                    Uri.fromParts("package", packageName, null)
+                                )
+                            )
+                        }
+                        setNegativeButton(resources.getText(R.string.no)) { _, _ -> }
+                    }.create().show()
                 } else {
-                    askForPermission()
+                    if (checkPermission()) {
+                        viewModel.getAllPicture()
+                    } else {
+                        askForPermission()
+                    }
                 }
             }
 
             fbPickImage.setOnClickListener {
-                val binding =
-                    BottomSheetSelectImageBinding.inflate(LayoutInflater.from(this@ImagesActivity))
-                BottomSheetDialog(this@ImagesActivity).apply {
-                    with(binding) {
-                        setContentView(binding.root)
-                        tvCamera.setOnClickListener {
-                            pickCamera()
-
-                            dismiss()
-                        }
-                        tvLibrary.setOnClickListener {
-                            if (checkPermission()) {
-                                pickImage()
-                            } else {
-                                askForPermission()
-                            }
-                            dismiss()
-                        }
-                    }
-                }.show()
+                if (checkPermission()) {
+                    pickImage()
+                } else {
+                    askForPermission()
+                }
+//                val binding =
+//                    BottomSheetSelectImageBinding.inflate(LayoutInflater.from(this@ImagesActivity))
+//                BottomSheetDialog(this@ImagesActivity).apply {
+//                    with(binding) {
+//                        setContentView(binding.root)
+//                        tvCamera.setOnClickListener {
+//                            pickCamera()
+//
+//                            dismiss()
+//                        }
+//                        tvLibrary.setOnClickListener {
+//                            if (checkPermission()) {
+//                                pickImage()
+//                            } else {
+//                                askForPermission()
+//                            }
+//                            dismiss()
+//                        }
+//                    }
+//                }.show()
             }
         }
     }
