@@ -9,8 +9,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.asian.R
 import com.example.asian.adapter.GridSpacingItemDecoration
 import com.example.asian.adapter.PicturesAdapter
 import com.example.asian.databinding.DialogShowImageBinding
@@ -44,7 +44,11 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
 
     private fun initControls() {
         binding.rvPictures.apply {
-            adapter = picturesAdapter
+            adapter = picturesAdapter.apply {
+                registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {}
+                })
+            }
             val gridLayoutManager = GridLayoutManager(context, 3)
             layoutManager = gridLayoutManager
             addItemDecoration(GridSpacingItemDecoration(14))
