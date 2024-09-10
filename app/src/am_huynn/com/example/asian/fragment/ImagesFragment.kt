@@ -124,7 +124,7 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
         when (position) {
             0 -> viewModel.favoriteNetworkPicture(it)
             1 -> viewModel.favoriteLocalPicture(it)
-            2 -> viewModel.unFavoritePicture(it)
+            2 -> viewModel.unFavoritePictures(it)
         }
     }
 

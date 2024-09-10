@@ -163,15 +163,7 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
             }
         }
 
-        pictures.value?.let {
-            _pictures.postValue(it.map { pic ->
-                if (pic.imageId == picture.imageId) {
-                    pic.copy(favorite = !(picture.favorite))
-                } else {
-                    pic
-                }
-            }.toMutableList())
-        }
+        changeUiPictures(picture.imageId, !(picture.favorite), null)
     }
 
     fun favoriteLocalPicture(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
@@ -200,7 +192,7 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun unFavoritePicture(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
+    fun unFavoritePictures(picture: Picture) = viewModelScope.launch(Dispatchers.IO) {
         imageRepository.deleteFavoritePicture(picture)
         favoritePictures.value?.let {
             it.remove(picture)
@@ -216,15 +208,7 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
             }.toMutableList())
         }
 
-        pictures.value?.let {
-            _pictures.postValue(it.map { pic ->
-                if (pic.imageId == picture.imageId) {
-                    pic.copy(favorite = !(picture.favorite))
-                } else {
-                    pic
-                }
-            }.toMutableList())
-        }
+        changeUiPictures(picture.imageId,!(picture.favorite),null)
     }
 
     fun uploadImage(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
@@ -298,19 +282,25 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
             myHandler.post {
                 if (mImage != null) {
                     imageRepository.saveMediaToStorage(mImage, pictureDownload.imageId)
-                    pictures.value?.let {
-                        _pictures.postValue(it.map { pic ->
-                            if (pic.imageId == pictureDownload.imageId) {
-                                pic.copy(downloaded = true)
-                            } else {
-                                pic
-                            }
-                        }.toMutableList())
-                    }
+                    changeUiPictures(pictureDownload.imageId, null, true)
                     getLocalPictures()
                 }
             }
             dialogLoading.dismissDialog()
+        }
+    }
+
+    private fun changeUiPictures(pictureId: String, favorite: Boolean?, downloaded: Boolean?) {
+        pictures.value?.let {
+            _pictures.postValue(it.map { pic ->
+                if (pic.imageId == pictureId) {
+                    favorite?.let { return@map pic.copy(favorite = favorite) }
+                    downloaded?.let { return@map pic.copy(downloaded = downloaded) }
+                    pic
+                } else {
+                    pic
+                }
+            }.toMutableList())
         }
     }
 }
