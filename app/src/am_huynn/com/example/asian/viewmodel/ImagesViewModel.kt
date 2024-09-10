@@ -208,7 +208,7 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
             }.toMutableList())
         }
 
-        changeUiPictures(picture.imageId,!(picture.favorite),null)
+        changeUiPictures(picture.imageId, !(picture.favorite), null)
     }
 
     fun uploadImage(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
@@ -294,8 +294,8 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
         pictures.value?.let {
             _pictures.postValue(it.map { pic ->
                 if (pic.imageId == pictureId) {
-                    favorite?.let { return@map pic.copy(favorite = favorite) }
-                    downloaded?.let { return@map pic.copy(downloaded = downloaded) }
+                    favorite?.let { value -> return@map pic.copy(favorite = value) }
+                    downloaded?.let { value -> return@map pic.copy(downloaded = value) }
                     pic
                 } else {
                     pic
