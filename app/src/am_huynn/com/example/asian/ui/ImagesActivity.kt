@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.example.asian.R
 import com.example.asian.adapter.PagerImageAdapter
 import com.example.asian.constants.Constants
@@ -55,6 +56,12 @@ class ImagesActivity : AppCompatActivity() {
         setContentView(binding.root)
         initControls()
         initListener()
+        showAllPictures()
+        initView()
+    }
+
+    private fun initView() {
+        binding.btnShowAll.isVisible = !checkPermissionReadStorage()
     }
 
     private fun initControls() {
@@ -72,34 +79,11 @@ class ImagesActivity : AppCompatActivity() {
     private fun initListener() {
         with(binding) {
             btnShowAll.setOnClickListener {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    )
-                ) {
-                    AlertDialog.Builder(this@ImagesActivity).apply {
-                        setMessage(resources.getText(R.string.go_to_app_setting_grant_permission))
-                        setPositiveButton(resources.getText(R.string.yes)) { _, _ ->
-                            startActivity(
-                                Intent(
-                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                    Uri.fromParts("package", packageName, null)
-                                )
-                            )
-                        }
-                        setNegativeButton(resources.getText(R.string.no)) { _, _ -> }
-                    }.create().show()
-                } else {
-                    if (checkPermission()) {
-                        viewModel.getAllPicture()
-                    } else {
-                        askForPermission()
-                    }
-                }
+                showAllPictures()
             }
 
             fbPickImage.setOnClickListener {
-                if (checkPermission()) {
+                if (checkPermissionReadStorage()) {
                     pickImage()
                 } else {
                     askForPermission()
@@ -128,6 +112,32 @@ class ImagesActivity : AppCompatActivity() {
         }
     }
 
+    private fun showAllPictures() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        ) {
+            AlertDialog.Builder(this@ImagesActivity).apply {
+                setMessage(resources.getText(R.string.go_to_app_setting_grant_permission))
+                setPositiveButton(resources.getText(R.string.yes)) { _, _ ->
+                    startActivity(
+                        Intent(
+                            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.fromParts("package", packageName, null)
+                        )
+                    )
+                }
+                setNegativeButton(resources.getText(R.string.no)) { _, _ -> }
+            }.create().show()
+        } else {
+            if (checkPermissionReadStorage()) {
+                viewModel.getAllPicture()
+            } else {
+                askForPermission()
+            }
+        }
+    }
+
     private fun pickImage() {
         val intent = Intent()
         intent.type = "image/*"
@@ -143,7 +153,7 @@ class ImagesActivity : AppCompatActivity() {
 
     private val onDownLoad: (Picture) -> Unit = {
         viewModel.setPictureDownload(it)
-        if (checkPermissionWrite()) {
+        if (checkPermissionWriteStorage()) {
             viewModel.dialogLoading.startLoadingDialog(this)
             viewModel.downloadImage()
         } else {
@@ -152,7 +162,7 @@ class ImagesActivity : AppCompatActivity() {
     }
 
 
-    private fun checkPermission(): Boolean {
+    private fun checkPermissionReadStorage(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 this, Manifest.permission.READ_MEDIA_IMAGES
@@ -164,7 +174,7 @@ class ImagesActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkPermissionWrite(): Boolean {
+    private fun checkPermissionWriteStorage(): Boolean {
         return ContextCompat.checkSelfPermission(
             this, Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
