@@ -82,4 +82,7 @@
     <string name="show_all">Show all</string>
     <string name="network">Network</string>
     <string name="please_check_your_network">Please check your network connection</string>
+    <string name="pick_image">Pick image</string>
+    <string name="camera">Camera</string>
+    <string name="library">Library</string>
 </resources>

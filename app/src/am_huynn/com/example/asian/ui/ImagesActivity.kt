@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -15,8 +17,10 @@ import com.example.asian.R
 import com.example.asian.adapter.PagerImageAdapter
 import com.example.asian.constants.Constants
 import com.example.asian.databinding.ActivityImagesBinding
+import com.example.asian.databinding.BottomSheetSelectImageBinding
 import com.example.asian.model.Picture
 import com.example.asian.viewmodel.ImagesViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ImagesActivity : AppCompatActivity() {
@@ -38,6 +42,12 @@ class ImagesActivity : AppCompatActivity() {
                 this, resources.getText(R.string.can_not_pick_image), Toast.LENGTH_SHORT
             )
         }
+    }
+
+    private val takeImageResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,11 +80,26 @@ class ImagesActivity : AppCompatActivity() {
             }
 
             fbPickImage.setOnClickListener {
-                if (checkPermission()) {
-                    pickImage()
-                } else {
-                    askForPermission()
-                }
+                val binding =
+                    BottomSheetSelectImageBinding.inflate(LayoutInflater.from(this@ImagesActivity))
+                BottomSheetDialog(this@ImagesActivity).apply {
+                    with(binding) {
+                        setContentView(binding.root)
+                        tvCamera.setOnClickListener {
+                            pickCamera()
+
+                            dismiss()
+                        }
+                        tvLibrary.setOnClickListener {
+                            if (checkPermission()) {
+                                pickImage()
+                            } else {
+                                askForPermission()
+                            }
+                            dismiss()
+                        }
+                    }
+                }.show()
             }
         }
     }
@@ -84,6 +109,12 @@ class ImagesActivity : AppCompatActivity() {
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         pickImageResultLauncher.launch(Intent.createChooser(intent, "pick image"))
+    }
+
+    private fun pickCamera() {
+        val intent = Intent()
+        intent.action = MediaStore.ACTION_IMAGE_CAPTURE
+        takeImageResultLauncher.launch(Intent.createChooser(intent, "pick image"))
     }
 
     private val onDownLoad: (Picture) -> Unit = {
