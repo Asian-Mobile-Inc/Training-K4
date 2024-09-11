@@ -44,15 +44,13 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
 
     private fun initControls() {
         binding.rvPictures.apply {
-            adapter = picturesAdapter.apply {
-                registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                        binding.rvPictures.scrollToPosition(positionStart)
-                    }
-                })
-            }
             val gridLayoutManager = GridLayoutManager(context, 3)
             layoutManager = gridLayoutManager
+            adapter = picturesAdapter.apply {
+                registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {}
+                })
+            }
             addItemDecoration(GridSpacingItemDecoration(14))
             itemAnimator = null
             addOnScrollListener(object : ScrollLoadMoreListener(gridLayoutManager) {
