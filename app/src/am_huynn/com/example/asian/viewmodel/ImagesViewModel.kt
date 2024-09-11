@@ -225,10 +225,10 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
                 val response = imageRepository.uploadImage(imagePart)
                 if (response.isSuccessful) {
                     val picture: Picture? = response.body()
-                    if (picture != null) {
+                    picture?.let { e ->
                         val values = _pictures.value
                         values?.let { list ->
-                            list.add(0, picture)
+                            list.add(0, e)
                             _pictures.postValue(list)
                         }
                     }
