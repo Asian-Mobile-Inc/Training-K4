@@ -46,7 +46,9 @@ class ImagesFragment(private val position: Int, onDownLoad: (Picture) -> Unit) :
         binding.rvPictures.apply {
             adapter = picturesAdapter.apply {
                 registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {}
+                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                        binding.rvPictures.scrollToPosition(positionStart)
+                    }
                 })
             }
             val gridLayoutManager = GridLayoutManager(context, 3)
