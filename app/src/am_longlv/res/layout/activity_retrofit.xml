@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/pbLoadMore"
-        app:layout_constraintTop_toBottomOf="@id/tlStorage" />
+        app:layout_constraintTop_toBottomOf="@id/pbRefresh" />
 
     <ProgressBar
         android:id="@+id/pbLoadMore"
@@ -23,6 +23,12 @@
         android:layout_height="30dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent" />
+    <ProgressBar
+        android:id="@+id/pbRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tlStorage" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabUpload"

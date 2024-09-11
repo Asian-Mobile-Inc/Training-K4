@@ -65,7 +65,7 @@ class ImageAdapter(private var itemClickListener: ItemClickListener, private var
     }
 
     class ViewHolder(
-        private var binding: ItemListRetrofitBinding,
+        private val binding: ItemListRetrofitBinding,
         private val context: Context,
         private val tab: Int,
     ) :
@@ -89,9 +89,13 @@ class ImageAdapter(private var itemClickListener: ItemClickListener, private var
                 if (tab != TabName.RETROFIT.position) {
                     btnDownload.visibility = View.GONE
                 } else {
-                    ivStorage.setOnClickListener {
-                        itemClickListener.onItemClick(imageModel)
+                    ivStorage.setOnLongClickListener {
+                        itemClickListener.onItemLongClick(imageModel)
+                        return@setOnLongClickListener true
                     }
+                }
+                ivStorage.setOnClickListener {
+                    itemClickListener.onItemClick(imageModel)
                 }
                 if (imageModel.isFavourite) {
                     btnFavourite.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)

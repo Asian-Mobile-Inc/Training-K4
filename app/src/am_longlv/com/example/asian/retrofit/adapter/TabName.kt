@@ -1,6 +1,6 @@
 package com.example.asian.retrofit.adapter
 
-private const val NAME_RETROFIT = "RETROFIT"
+private const val NAME_RETROFIT = "API"
 private const val NAME_LOCAL = "LOCAL"
 private const val NAME_FAVOURITE = "FAVOURITE"
 

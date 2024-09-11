@@ -43,12 +43,11 @@ class RetrofitActivity : AppCompatActivity() {
         ActivityRetrofitBinding.inflate(layoutInflater)
     }
     private val retrofitViewModel: RetrofitViewModel by viewModels()
-    private val permissionNameList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    private val listPermissionsName = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         mutableListOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.POST_NOTIFICATIONS)
     } else {
         mutableListOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
     }
     private val dialogSelectImageBinding: DialogBottomSelectImageBinding by lazy {
@@ -66,12 +65,10 @@ class RetrofitActivity : AppCompatActivity() {
             setCancelable(false)
         }
     }
-    private var imageUri = Uri.parse("")
+    private var imageUri = Uri.parse(Constant.STRING_EMPTY)
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action != null
-                && intent.action == Constant.ACTION_INTERNET_CHANGE
-            ) {
+            if (intent.action != null && intent.action == Constant.ACTION_INTERNET_CHANGE) {
                 if (intent.getBooleanExtra(Constant.KEY_INTERNET_CHANGE, false)) {
                     if (retrofitViewModel.getListItemRetrofit().size == 0) {
                         retrofitViewModel.fetchAllImages(applicationContext)
@@ -101,11 +98,11 @@ class RetrofitActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setupTabLayout()
         initObserver()
         askPermissions()
         initListener()
         registerBroadcast()
-        setupTabLayout()
         createNotificationChannel()
     }
 
@@ -124,9 +121,7 @@ class RetrofitActivity : AppCompatActivity() {
         when (sub) {
             Constant.STATUS_CODE_NO_INTERNET -> {
                 Toast.makeText(
-                    this,
-                    getString(R.string.error_no_internet),
-                    Toast.LENGTH_SHORT
+                    this, getString(R.string.error_no_internet), Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -138,9 +133,7 @@ class RetrofitActivity : AppCompatActivity() {
 
             Constant.STATUS_CODE_OTHER_EXCEPTION -> {
                 Toast.makeText(
-                    this,
-                    getString(R.string.other_exception),
-                    Toast.LENGTH_SHORT
+                    this, getString(R.string.other_exception), Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -158,38 +151,41 @@ class RetrofitActivity : AppCompatActivity() {
                 }
             }
 
+            Constant.STATUS_CODE_SHOW_DIALOG_REFRESH -> {
+                binding.pbRefresh.visibility = View.VISIBLE
+            }
+
+            Constant.STATUS_CODE_HIDE_DIALOG_REFRESH -> {
+                binding.pbRefresh.visibility = View.GONE
+            }
+
             Constant.STATUS_CODE_OK -> {
+            }
+
+            Constant.STATUS_CODE_UPLOAD_SUCCESS -> {
             }
 
             Constant.STATUS_CODE_NO_PICK_IMAGE -> {
                 Toast.makeText(
-                    this,
-                    getString(R.string.no_pick_image),
-                    Toast.LENGTH_SHORT
+                    this, getString(R.string.no_pick_image), Toast.LENGTH_SHORT
                 ).show()
             }
 
             Constant.STATUS_CODE_NO_ITEM_MORE -> {
                 Toast.makeText(
-                    this,
-                    getString(R.string.no_item_more),
-                    Toast.LENGTH_SHORT
+                    this, getString(R.string.no_item_more), Toast.LENGTH_SHORT
                 ).show()
             }
 
             Constant.STATUS_CODE_EXISTS_IMAGE_API -> {
                 Toast.makeText(
-                    this,
-                    getString(R.string.image_exists_api),
-                    Toast.LENGTH_SHORT
+                    this, getString(R.string.image_exists_api), Toast.LENGTH_SHORT
                 ).show()
             }
 
             else -> {
                 Toast.makeText(
-                    this,
-                    getString(R.string.error_status_int_param).format(sub),
-                    Toast.LENGTH_SHORT
+                    this, getString(R.string.error_status_int_param).format(sub), Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -201,23 +197,21 @@ class RetrofitActivity : AppCompatActivity() {
     }
 
     private fun setupProgressNotification(pr: Int) {
-        if (pr > 99) {
+        if (pr == Constant.PROGRESS_MAX) {
             downloadNotification.setContentText(getString(R.string.download_finished))
-                .setProgress(0, 0, false)
+                .setProgress(Constant.PROGRESS_MIN, Constant.PROGRESS_MIN, false)
             if (ActivityCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.POST_NOTIFICATIONS
+                    applicationContext, Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 NotificationManagerCompat.from(this)
                     .notify(Constant.NOTIFICATION_DOWNLOAD_ID, downloadNotification.build())
             }
-        } else if (pr > 0) {
+        } else if (pr > Constant.PROGRESS_MIN) {
             downloadNotification.setContentText(getString(R.string.channel_description_download))
-            downloadNotification.setProgress(100, pr, false)
+            downloadNotification.setProgress(Constant.PROGRESS_MAX, pr, false)
             if (ActivityCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.POST_NOTIFICATIONS
+                    applicationContext, Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 NotificationManagerCompat.from(this)
@@ -247,14 +241,12 @@ class RetrofitActivity : AppCompatActivity() {
     private fun askPermissions() {
         if (!hasPermissions()) {
             ActivityCompat.requestPermissions(
-                this,
-                permissionNameList.toTypedArray(),
-                Constant.REQUEST_PERMISSION_CODE
+                this, listPermissionsName.toTypedArray(), Constant.REQUEST_PERMISSION_CODE
             )
         }
     }
 
-    private fun hasPermissions() = permissionNameList.all {
+    private fun hasPermissions() = listPermissionsName.all {
         ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -264,7 +256,7 @@ class RetrofitActivity : AppCompatActivity() {
         grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        val canShowPermissions = permissionNameList.all {
+        val canShowPermissions = listPermissionsName.all {
             ActivityCompat.shouldShowRequestPermissionRationale(this, it)
         }
         if (!canShowPermissions) {
@@ -291,8 +283,7 @@ class RetrofitActivity : AppCompatActivity() {
 
     private fun selectImage() {
         val intent = Intent(
-            Intent.ACTION_PICK,
-            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         )
         resultSelectImageLauncher.launch(intent)
     }
@@ -304,11 +295,8 @@ class RetrofitActivity : AppCompatActivity() {
                     imageUri = result.data?.data
                     dialogSelectImageBinding.ivUpload.setImageURI(imageUri)
                 } catch (e: FileNotFoundException) {
-                    e.printStackTrace()
                     Toast.makeText(
-                        this,
-                        getString(R.string.something_went_wrong),
-                        Toast.LENGTH_LONG
+                        this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG
                     ).show()
                 }
             } else {
@@ -320,10 +308,7 @@ class RetrofitActivity : AppCompatActivity() {
         val intentFilter = IntentFilter(Constant.ACTION_CONNECTIVITY_CHANGE)
         val iFActionInternet = IntentFilter(Constant.ACTION_INTERNET_CHANGE)
         ContextCompat.registerReceiver(
-            applicationContext,
-            broadcastInternet,
-            intentFilter,
-            ContextCompat.RECEIVER_NOT_EXPORTED
+            applicationContext, broadcastInternet, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED
         )
         ContextCompat.registerReceiver(
             applicationContext,
@@ -335,19 +320,14 @@ class RetrofitActivity : AppCompatActivity() {
 
     private fun showSnakeBarAskPermission() {
         val snackBar = Snackbar.make(
-            binding.root,
-            resources.getString(
+            binding.root, resources.getString(
                 R.string.message_no_permission
-            ),
-            Snackbar.LENGTH_LONG
+            ), Snackbar.LENGTH_LONG
         )
         snackBar.setAction(resources.getString(R.string.setting)) {
             val intent = Intent()
             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts(
-                "package",
-                this.packageName, null
-            )
+            val uri = Uri.fromParts("package", this.packageName, null)
             intent.setData(uri)
             permissionActivityResultLauncher.launch(intent)
         }

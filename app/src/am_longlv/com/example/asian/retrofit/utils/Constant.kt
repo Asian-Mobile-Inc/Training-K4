@@ -3,6 +3,7 @@ package com.example.asian.retrofit.utils
 object Constant {
     internal const val KEY_IMG_DATA = "imagedata"
     internal const val MULTIPART_FORM_DATA = "multipart/form-data"
+    internal const val STRING_EMPTY = ""
     internal const val ITEM_PER_PAGE = 18
     internal const val REQUEST_PERMISSION_CODE = 123
     internal const val STATUS_CODE_OK = 200
@@ -13,8 +14,11 @@ object Constant {
     internal const val STATUS_CODE_NO_ITEM_MORE = -4
     internal const val STATUS_CODE_EXISTS_IMAGE_API = -5
     internal const val STATUS_CODE_START_DOWNLOAD = -6
+    internal const val STATUS_CODE_UPLOAD_SUCCESS = -7
     internal const val STATUS_CODE_SHOW_DIALOG_LOAD_MORE = -10
     internal const val STATUS_CODE_HIDE_DIALOG_LOAD_MORE = -11
+    internal const val STATUS_CODE_SHOW_DIALOG_REFRESH = -12
+    internal const val STATUS_CODE_HIDE_DIALOG_REFRESH = -13
     internal const val CONVERT_TIME_TO_CREATED_AT = "yyyy-MM-dd'T'HH:mm:ss'+0000'"
     internal const val KEY_GMT_DEFAULT = "GMT"
     internal const val KEY_INTERNET_CHANGE = "isInternetChange"
@@ -23,5 +27,7 @@ object Constant {
     internal const val ACTION_CONNECTIVITY_CHANGE: String = "android.net.conn.CONNECTIVITY_CHANGE"
     internal const val CHANNEL_DOWNLOAD_ID = "Notification download"
     internal const val NOTIFICATION_DOWNLOAD_ID = -1
-    internal const val TIME_DELAY_UPLOAD = 2000
+    internal const val TIME_DELAY_UPLOAD = 5000
+    internal const val PROGRESS_MAX = 100
+    internal const val PROGRESS_MIN = 0
 }
