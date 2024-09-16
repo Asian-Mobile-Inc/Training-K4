@@ -6,6 +6,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.asian.kotlin.activities.MainKotlinActivity;
+
 
 public class MainActivity extends AppCompatActivity {
     private Button mBtnDatabase;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mBtnDatabase.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, MainActivityIssueNine.class)));
-//        mBtnKotlin.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MainActivityKotlin.class)));
+//        mBtnDatabase.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, MainActivityIssueNine.class)));
+        mBtnKotlin.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MainKotlinActivity.class)));
     }
 }

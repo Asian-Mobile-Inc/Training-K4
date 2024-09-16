@@ -1,11 +1,12 @@
 package com.example.asian.kotlin.database.dao
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.asian.kotlin.model.User
 
 @Dao
@@ -19,8 +20,11 @@ interface UserDao {
     @Query("DELETE FROM user_table")
     suspend fun deleteAllUsers()
 
-    @Query("SELECT * FROM user_table ORDER BY userName ASC")
-    fun getAllUsers(): LiveData<List<User>>
+    @Query("SELECT * FROM user_table ORDER BY userId ASC")
+    fun getAllUsers(): MutableList<User>
+
+    @Update
+     fun updateUser(user: User)
 }
 
 

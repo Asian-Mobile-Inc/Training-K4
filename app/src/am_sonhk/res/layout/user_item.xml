@@ -81,10 +81,18 @@
 
         <Button
             android:id="@+id/btnDeleteUser"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/item"
+            android:layout_weight="1"
             android:text="@string/delete" />
+        <Button
+            android:id="@+id/btnEditUser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item"
+            android:layout_weight="1"
+            android:text="@string/edit"/>
     </TableRow>
 
 </LinearLayout>

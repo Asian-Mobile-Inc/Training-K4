@@ -18,7 +18,7 @@
         <activity
             android:name=".MainActivityIssueNine"
             android:exported="false" />
-        <activity android:name=".kotlin.activities.MainActivityKotlin"
+        <activity android:name=".kotlin.activities.MainKotlinActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
