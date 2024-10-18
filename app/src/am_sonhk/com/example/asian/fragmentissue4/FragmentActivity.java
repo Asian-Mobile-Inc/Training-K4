@@ -1,7 +1,6 @@
-package com.example.asian;
+package com.example.asian.fragmentissue4;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,8 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.asian.fragment.FragmentOne;
-import com.example.asian.fragment.FragmentTwo;
+import com.example.asian.R;
 
 public class FragmentActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.asian;
+package com.example.asian.issue3;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.asian.R;
 
 public class CalculateActivity extends AppCompatActivity {
 

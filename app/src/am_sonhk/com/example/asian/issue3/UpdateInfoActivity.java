@@ -1,4 +1,4 @@
-package com.example.asian;
+package com.example.asian.issue3;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.asian.R;
 
 public class UpdateInfoActivity extends AppCompatActivity {
 

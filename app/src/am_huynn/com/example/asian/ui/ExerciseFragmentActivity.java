@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.asian.R;
 import com.example.asian.constants.Constants;
-import com.example.asian.fragment.OneFragment;
-import com.example.asian.fragment.TwoFragment;
+import com.example.asian.fragmentissue4.OneFragment;
+import com.example.asian.fragmentissue4.TwoFragment;
 
 public class ExerciseFragmentActivity extends AppCompatActivity implements OneFragment.FragmentOneListener, TwoFragment.FragmentTwoListener {
     private Button mBtnFragmentOne;
